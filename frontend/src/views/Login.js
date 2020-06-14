@@ -49,8 +49,7 @@ export default function Login(props) {
             <Container className={classes.root}>
                 <Container className={classes.containerLogin}>
                     <Grid container spacing={1}>
-                        <Grid item lg={4} md={12} xs={12} justify="center">
-                        </Grid>
+                        <Grid item lg={4} md={12} xs={12} justify="center"/>
                         <Grid item lg={4} md={12} xs={12} justify="center">
                             <Paper className={classes.paper}>
                                 <Box className={classes.box}>
