@@ -2,14 +2,12 @@ import React from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 import {
-    Typography, Paper, Grid, Container, Button, Box, TextField, 
+    Typography, Paper, Grid, Container, Button, Box, TextField,
     FormControl, AppBar, Toolbar
 } from '@material-ui/core'
 
-import Logo from '../components/Logo'
-
+import Logo from '../other/Logo'
 import logoSource from '../assets/images/logos/MathParadiseLogo.svg'
-
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -39,9 +37,9 @@ export default function Login(props) {
 
     return (
         <React.Fragment>
-            <AppBar position="static" color="primary">
+            <AppBar position="static" color="white">
                 <Toolbar>
-                    <Typography variant="h5" className={classes.title}>Math Paradise</Typography>
+                    <Typography variant="h5" color="primary" className={classes.title}>Math Paradise</Typography>
                     <Button color="inherit">Registrarse</Button>
                     <Button color="inherit">Información</Button>
                 </Toolbar>
@@ -49,7 +47,7 @@ export default function Login(props) {
             <Container className={classes.root}>
                 <Container className={classes.containerLogin}>
                     <Grid container spacing={1}>
-                        <Grid item lg={4} md={12} xs={12} justify="center"/>
+                        <Grid item lg={4} md={12} xs={12} justify="center" />
                         <Grid item lg={4} md={12} xs={12} justify="center">
                             <Paper className={classes.paper}>
                                 <Box className={classes.box}>
@@ -72,7 +70,7 @@ export default function Login(props) {
                                 </FormControl>
                             </Paper>
                         </Grid>
-                        <Grid item lg={4} md={12} xs={12} justify="center"/>
+                        <Grid item lg={4} md={12} xs={12} justify="center" />
                     </Grid>
                 </Container>
             </Container>

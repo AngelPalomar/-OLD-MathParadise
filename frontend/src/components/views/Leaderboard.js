@@ -1,11 +1,10 @@
 import React from 'react'
 
-function Dashboard() {
+export default function Leaderboard() {
     return (
         <div>
-            Dashboard
+            Leaderboard
         </div>
     )
 }
 
-export default Dashboard

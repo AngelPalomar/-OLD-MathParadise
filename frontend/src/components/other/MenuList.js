@@ -18,32 +18,32 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function MenuList() {
+function MenuList(props) {
     const classes = useStyles()
     return (
         <div className={classes.root}>
             <List component="nav">
-                <ListItem button>
+                <ListItem button onClick={() => props.showSection('dashboard')}>
                     <ListItemIcon>
                         <DashboardIcon />
                     </ListItemIcon>
                     <ListItemText primary="Tablero" />
                 </ListItem>
-                <ListItem button>
+                <ListItem button onClick={() => props.showSection('play')}>
                     <ListItemIcon>
-                        <GamesIcon />                        
+                        <GamesIcon />
                     </ListItemIcon>
                     <ListItemText primary="Jugar" />
                 </ListItem>
-                <ListItem button>
+                <ListItem button onClick={() => props.showSection('leaderboard')}>
                     <ListItemIcon>
-                        <EmojiEventsIcon />                       
+                        <EmojiEventsIcon />
                     </ListItemIcon>
                     <ListItemText primary="Clasificación" />
                 </ListItem>
-                <ListItem button>
+                <ListItem button onClick={() => props.showSection('groups')}>
                     <ListItemIcon>
-                        <PeopleAltIcon />                       
+                        <PeopleAltIcon />
                     </ListItemIcon>
                     <ListItemText primary="Grupos" />
                 </ListItem>
@@ -56,7 +56,7 @@ function MenuList() {
 
                 <Divider />
 
-                <ListItem button>
+                <ListItem button onClick={() => props.showSection('profile')}>
                     <ListItemIcon>
                         <AccountBoxIcon />
                     </ListItemIcon>

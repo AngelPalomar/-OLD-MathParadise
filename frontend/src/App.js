@@ -4,8 +4,8 @@ import { ThemeProvider } from '@material-ui/core/styles'
 
 import theme from './styles/MathThemes'
 
-import Login from './views/Login';
-import Home from './views/Home';
+import Login from './components/views/Login'
+import Home from './components/views/Home'
 
 function App() {
   return (
