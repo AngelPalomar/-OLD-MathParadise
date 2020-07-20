@@ -2,21 +2,30 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { ThemeProvider } from '@material-ui/core/styles'
 
+import routes from './config/Routes'
 import theme from './styles/MathThemes'
-
-import Login from './components/views/Login'
-import Home from './components/views/Home'
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <Router>
         <Switch>
-          <Route path="/" exact component={Login} />
-          <Route path="/home" exact component={Home} />
+          {routes.map((route, index) => (
+            <RouteWithSubRoutes key={index} {...route} />
+          ))}
         </Switch>
       </Router>
     </ThemeProvider>
+  )
+}
+
+function RouteWithSubRoutes(route) {
+  console.log(route)
+  return (
+    <Route
+      path={route.path}
+      exact={route.exact}
+      render={props => <route.component routes={route.routes} {...props} />} />
   )
 }
 

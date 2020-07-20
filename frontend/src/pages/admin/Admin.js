@@ -1,10 +1,11 @@
 import React from 'react'
 
-export default function AdminPanel() {
+function Admin() {
     return (
         <div>
-            
+            Admin Home
         </div>
     )
 }
 
+export default Admin

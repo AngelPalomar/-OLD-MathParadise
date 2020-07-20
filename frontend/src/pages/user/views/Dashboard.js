@@ -1,21 +1,18 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import {
-  Typography,
-  Paper,
+  //Typography,
+  //Paper,
   Grid,
-  Container,
-  Button,
-  Box,
-  TextField,
-  FormControl,
-  AppBar,
-  Toolbar,
+  //Container,
+  //Button,
+  //Box,
+  //TextField,
+  //FormControl,
+  //AppBar,
+  //Toolbar,
 } from "@material-ui/core";
 
-import Avatar from "../other/Avatar";
-
-//import { makeStyles, Hidden } from '@material-ui/core'
+import Avatar from '../components/Avatar'
 
 function Dashboard() {
   return (

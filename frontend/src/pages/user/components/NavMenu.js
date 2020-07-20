@@ -2,8 +2,7 @@ import React from "react";
 
 import { makeStyles, Drawer } from "@material-ui/core";
 import MenuList from "./MenuList"
-import Logo from "./Logo"
-import logoSource from '../assets/images/logos/MathParadiseLogo.svg'
+import Logo from "../../Logo"
 
 const drawerWidth = 240;
 const useStyle = makeStyles((theme) => ({
@@ -35,10 +34,10 @@ function NavMenu(props) {
     >
       <div className={classes.toolbar}>
         <div className={classes.logo}>
-          <Logo src={logoSource} width="75%" />
+          <Logo width="75%" />
         </div>
       </div>
-      <MenuList showSection={props.section}/>
+      <MenuList showSection={props.section} />
     </Drawer>
   );
 }

@@ -6,7 +6,7 @@ import {
     FormControl, AppBar, Toolbar
 } from '@material-ui/core'
 
-import Logo from '../other/Logo'
+import Logo from './Logo'
 import logoSource from '../assets/images/logos/MathParadiseLogo.svg'
 
 const useStyles = makeStyles((theme) => ({
@@ -39,7 +39,7 @@ export default function Login(props) {
         <React.Fragment>
             <AppBar position="static" color="white">
                 <Toolbar>
-                    <Typography variant="h5" color="primary" className={classes.title}>Math Paradise</Typography>
+                    <Typography variant="h5" color="primary" className={classes.title}>Iniciar sesión</Typography>
                     <Button color="inherit">Registrarse</Button>
                     <Button color="inherit">Información</Button>
                 </Toolbar>

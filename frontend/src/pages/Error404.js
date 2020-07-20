@@ -1,10 +1,11 @@
 import React from 'react'
 
-export default function LoginAdmin() {
+function Error404() {
     return (
         <div>
-            
+            Error404
         </div>
     )
 }
 
+export default Error404

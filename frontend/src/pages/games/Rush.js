@@ -1,10 +1,11 @@
 import React from 'react'
 
-export default function GroupsCve() {
+function Rush() {
     return (
         <div>
-            GropsCve
+            Modo Rush
         </div>
     )
 }
 
+export default Rush
