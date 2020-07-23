@@ -21,13 +21,13 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         padding: theme.spacing(2),
     },
-}));
+}))
 
 function User() {
-    const [Section, setSection] = useState(<Dashboard />);
-    const [open, setOpen] = React.useState(false);
+    const [Section, setSection] = useState(<Dashboard />)
+    const [open, setOpen] = React.useState(false)
 
-    const classes = useStyles();
+    const classes = useStyles()
 
     const OpenAction = () => {
         setOpen(!open)
