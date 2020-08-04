@@ -6,7 +6,7 @@ import {
     Grid,
 } from "@material-ui/core"
 
-import ClassicSrc from '../assets/classic_icon_1.svg'
+import ClassicSrc from '../../../assets/images/icons/classic_icon_1.svg'
 
 const useStyles = makeStyles((theme) => ({
     statsPaper: {

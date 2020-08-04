@@ -6,7 +6,7 @@ import {
     Grid,
 } from "@material-ui/core"
 
-import RushSrc from '../assets/rush_icon_1.svg'
+import RushSrc from '../../../assets/images/icons/rush_icon_1.svg'
 
 const useStyles = makeStyles((theme) => ({
     statsPaper: {

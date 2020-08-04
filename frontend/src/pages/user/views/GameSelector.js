@@ -16,10 +16,10 @@ import BookmarkIcon from '@material-ui/icons/Bookmark'
 import HelpIcon from '@material-ui/icons/Help'
 
 /**Imagenes */
-import classicIconWhite from '../assets/classic_icon_white.svg'
-import arcadeIconWhite from '../assets/arcade_icon_white.svg'
-import rushIconWhite from '../assets/rush_icon_white.svg'
-import playIconWhite from '../assets/play2_icon_white.svg'
+import classicIconWhite from '../../../assets/images/icons/classic_icon_white.svg'
+import arcadeIconWhite from '../../../assets/images/icons/arcade_icon_white.svg'
+import rushIconWhite from '../../../assets/images/icons/rush_icon_white.svg'
+import playIconWhite from '../../../assets/images/icons/play2_icon_white.svg'
 
 const useStyles = makeStyles((theme) => ({
     root: {

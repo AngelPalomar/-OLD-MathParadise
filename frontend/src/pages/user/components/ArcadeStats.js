@@ -6,7 +6,7 @@ import {
     Grid,
 } from "@material-ui/core";
 
-import ArcadeSrc from '../assets/arcade_icon_1.svg'
+import ArcadeSrc from '../../../assets/images/icons/arcade_icon_1.svg'
 
 const useStyles = makeStyles((theme) => ({
     statsPaper: {
