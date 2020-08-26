@@ -1,7 +1,7 @@
 import React from 'react'
 import LogoSource from '../assets/images/logos/MathParadiseLogo.svg'
 
-export default function Logo(props) {
+function Logo(props) {
     return (
         <img
             src={LogoSource}
@@ -12,3 +12,5 @@ export default function Logo(props) {
         </img>
     )
 }
+
+export default Logo

@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 import {
     Typography, Paper, Grid, Container, Button, Box, TextField,
-    FormControl, AppBar, Toolbar
+    FormControl
 } from '@material-ui/core'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
-import Logo from './Logo'
+import Logo from '../components/Logo'
+import PublicHeader from '../components/PublicHeader'
+
 import logoSource from '../assets/images/logos/MathParadiseLogo.svg'
 
 const useStyles = makeStyles((theme) => ({
@@ -17,64 +20,90 @@ const useStyles = makeStyles((theme) => ({
     paper: {
         textAlign: 'center',
     },
-
     box: {
-        padding: theme.spacing(2)
+        padding: theme.spacing(2),
     },
-
     containerLogin: {
         marginTop: theme.spacing(4),
     },
-
     title: {
         flexGrow: 1,
     },
+    logo: {
+        width: "60%"
+    },
+    button: {
+        display: "flex",
+        margin: "auto",
+        padding: theme.spacing(2),
+        paddingLeft: theme.spacing(3),
+        paddingRight: theme.spacing(3),
+        color: "#FFFFFF",
+        background: "linear-gradient(45deg, #2A55FF, #15FFD4)",
+        textAlign: "center",
+    },
 }));
 
-export default function Login(props) {
-
+function Login(props) {
     const classes = useStyles();
+    const [inputs, setInputs] = useState({
+        email: '',
+        password: ''
+    })
+
+    const changeForm = (e) => {
+        setInputs({
+            ...inputs,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const login = async e => {
+        e.preventDefault()
+    }
+    
 
     return (
-        <React.Fragment>
-            <AppBar position="static" color="white">
-                <Toolbar>
-                    <Typography variant="h5" color="primary" className={classes.title}>Iniciar sesión</Typography>
-                    <Button color="inherit">Registrarse</Button>
-                    <Button color="inherit">Información</Button>
-                </Toolbar>
-            </AppBar>
+        <>
+            <PublicHeader />
             <Container className={classes.root}>
                 <Container className={classes.containerLogin}>
                     <Grid container spacing={1}>
-                        <Grid item lg={4} md={12} xs={12} justify="center" />
-                        <Grid item lg={4} md={12} xs={12} justify="center">
-                            <Paper className={classes.paper}>
-                                <Box className={classes.box}>
-                                    <Logo src={logoSource} width="60%" />
-                                </Box>
-                                <Box className={classes.box}>
-                                    <Typography variant="h4" color="primary">Acceder</Typography>
-                                    <Typography variant="span">Todos los campos son requeridos</Typography>
-                                </Box>
-                                <FormControl fullWidth>
+                        <Grid item lg={4} md={12} xs={12} />
+                        <Grid item lg={4} md={12} xs={12} >
+                            <form onChange={changeForm} onSubmit={login}>
+                                <Paper className={classes.paper}>
                                     <Box className={classes.box}>
-                                        <TextField name="email" label="Correo electrónico" variant="outlined" fullWidth required />
+                                        <Logo src={logoSource} className={classes.logo} />
                                     </Box>
                                     <Box className={classes.box}>
-                                        <TextField name="password" type="password" label="Contraseña" variant="outlined" fullWidth required />
+                                        <Typography variant="h4" color="primary">Iniciar sesión</Typography>
+                                        <Typography >Todos los campos son requeridos</Typography>
                                     </Box>
-                                    <Box className={classes.box}>
-                                        <Button type="submit" variant="contained" color="primary">Iniciar sesión</Button>
-                                    </Box>
-                                </FormControl>
-                            </Paper>
+                                    <FormControl fullWidth>
+                                        <Box className={classes.box}>
+                                            <TextField name="email" value={inputs.email} label="Correo electrónico" variant="outlined" fullWidth required />
+                                        </Box>
+                                    </FormControl>
+                                    <FormControl fullWidth>
+                                        <Box className={classes.box}>
+                                            <TextField name="password" value={inputs.password} type="password" label="Contraseña" variant="outlined" fullWidth required />
+                                        </Box>
+                                    </FormControl>
+                                    <FormControl fullWidth>
+                                        <Box className={classes.box}>
+                                            <Button type="submit" variant="contained" className={classes.button} startIcon={<ExitToAppIcon />}>Iniciar sesión</Button>
+                                        </Box>
+                                    </FormControl>
+                                </Paper>
+                            </form>
                         </Grid>
-                        <Grid item lg={4} md={12} xs={12} justify="center" />
+                        <Grid item lg={4} md={12} xs={12} />
                     </Grid>
                 </Container>
             </Container>
-        </React.Fragment>
+        </>
     )
 }
 
+export default Login

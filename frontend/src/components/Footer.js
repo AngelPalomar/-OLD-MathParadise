@@ -1,10 +1,11 @@
 import React from 'react'
 
-export default function Register() {
+function Footer() {
     return (
         <div>
-            Register
+
         </div>
     )
 }
 
+export default Footer

@@ -6,10 +6,10 @@ import {
 } from "@material-ui/core"
 
 /**Componentes */
-import Avatar from "../components/Avatar"
-import ClassicStats from "../components/ClassicStats"
-import ArcadeStats from "../components/ArcadeStats"
-import RushStats from "../components/RushStats"
+import Avatar from "../../components/Avatar"
+import ClassicStats from "../../components/ClassicStats"
+import ArcadeStats from "../../components/ArcadeStats"
+import RushStats from "../../components/RushStats"
 
 const useStyles = makeStyles((theme) => ({
     subtitle: {

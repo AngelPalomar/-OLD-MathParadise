@@ -1,8 +1,15 @@
+/**Layouts */
+import LayoutUser from '../layouts/LayoutUser'
+
 /**Admin Pages */
 import AdminHome from '../pages/admin/Admin'
 
 /** User Pages */
-import UserHome from '../pages/user/User'
+import Dashboard from '../pages/user/Dashboard'
+import PlayMenu from '../pages/user/PlayMenu'
+import Groups from '../pages/user/Groups'
+import Leaderboard from '../pages/user/Leaderboard'
+import Profile from '../pages/user/Profile'
 
 /**Gamemode pages */
 import RushMode from '../pages/games/Rush'
@@ -10,10 +17,22 @@ import RushMode from '../pages/games/Rush'
 /**General pages */
 import Home from '../pages/Home'
 import Login from '../pages/Login'
-import Register from '../pages/Register'
+import SignUp from '../pages/SignUp'
 import Error from '../pages/Error404'
 
 const routes = [
+    /**Página principal */
+    {
+        path: '/',
+        component: Home,
+        exact: true,
+        routes: [
+            {
+                component: Error
+            }
+        ]
+    },
+
     /**Rutas de administrador */
     {
         path: '/admin',
@@ -33,12 +52,27 @@ const routes = [
     /**Rutas de usuario (Tutor y estudiante) */
     {
         path: '/home',
-        component: UserHome,
+        component: LayoutUser,
         exact: false,
         routes: [
             {
                 path: '/home',
-                component: UserHome,
+                component: Dashboard,
+                exact: true,
+            },
+            {
+                path: '/home/play',
+                component: PlayMenu,
+                exact: true,
+            },
+            {
+                path: '/home/groups',
+                component: Groups,
+                exact: true,
+            },
+            {
+                path: '/home/leaderboard',
+                component: Leaderboard,
                 exact: true,
             },
             {
@@ -46,6 +80,23 @@ const routes = [
             }
         ]
     },
+    /**Perfil */
+    {
+        path: '/profile',
+        component: Profile,
+        exact: false,
+        routes: [
+            {
+                path: '/profile',
+                component: Profile,
+                exact: true,
+            },
+            {
+                component: Error
+            }
+        ]
+    },
+    /**Modos de juego */
     {
         path: '/rush',
         component: RushMode,
@@ -69,8 +120,8 @@ const routes = [
     },
     /**Ruta de registro */
     {
-        path: '/register',
-        component: Register,
+        path: '/sign-up',
+        component: SignUp,
         exact: true,
         routes: [
             {
@@ -78,17 +129,6 @@ const routes = [
             }
         ]
     },
-    /**Página principal */
-    {
-        path: '/',
-        component: Home,
-        exact: true,
-        routes: [
-            {
-                component: Error
-            }
-        ]
-    }
 ]
 
 export default routes

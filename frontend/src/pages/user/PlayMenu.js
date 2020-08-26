@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from "react-router-dom"
 import { makeStyles } from "@material-ui/core/styles"
 import {
     Typography,
@@ -16,10 +17,10 @@ import BookmarkIcon from '@material-ui/icons/Bookmark'
 import HelpIcon from '@material-ui/icons/Help'
 
 /**Imagenes */
-import classicIconWhite from '../../../assets/images/icons/classic_icon_white.svg'
-import arcadeIconWhite from '../../../assets/images/icons/arcade_icon_white.svg'
-import rushIconWhite from '../../../assets/images/icons/rush_icon_white.svg'
-import playIconWhite from '../../../assets/images/icons/play2_icon_white.svg'
+import classicIconWhite from '../../assets/images/icons/classic_icon_white.svg'
+import arcadeIconWhite from '../../assets/images/icons/arcade_icon_white.svg'
+import rushIconWhite from '../../assets/images/icons/rush_icon_white.svg'
+import playIconWhite from '../../assets/images/icons/play2_icon_white.svg'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -72,11 +73,20 @@ const useStyles = makeStyles((theme) => ({
     playButton: {
         padding: theme.spacing(2),
         color: "#FFFFFF",
-        background: "linear-gradient(45deg, #2A55FF, #15FFD4)"
+        background: "linear-gradient(45deg, #2A55FF, #15FFD4)",
+        textAlign: "center"
+    },
+    link: {
+        textDecoration: 'none',
+        color: theme.palette.text.primary,
+        '&:hover': {
+            textDecoration: 'none',
+            color: theme.palette.text.primary
+        }
     }
 }))
 
-function GameSelector() {
+function PlayMenu() {
     const [game, setgame] = useState(<ClassicPaper />)
     const classes = useStyles()
 
@@ -427,24 +437,6 @@ function ArcadePaper() {
 function RushPaper() {
     const classes = useStyles()
 
-    const [materia, setmateria] = React.useState("algebra")
-    const [dificultad, setDificultad] = useState("normal")
-    const [tiempo, setTiempo] = useState(7)
-    const [modo, setModo] = useState("multijugador")
-
-    const handleChangeMateria = (event) => {
-        setmateria(event.target.value)
-    }
-    const handleChangeDificultad = (event) => {
-        setDificultad(event.target.value)
-    }
-    const handleChangeTiempo = (event) => {
-        setTiempo(event.target.value)
-    }
-    const handleChangeModo = (event) => {
-        setModo(event.target.value)
-    }
-
     return (
         <Paper className={classes.RushPaper} color="primary" elevation={2}>
             <Grid container spacing={2}>
@@ -483,14 +475,16 @@ function RushPaper() {
                     <Paper className={classes.paperConfig} elevation={0}>
                         <Typography>Presione JUGAR para empezar la partida</Typography>
                         <Box className={classes.box}>
-                            <Button className={classes.playButton} size="large" variant="contained" fullWidth>
-                                <Grid item lg={1} md={1} sm={2} xs={2}>
-                                    <img src={playIconWhite} alt="classic.svg"></img>
-                                </Grid>
-                                <Grid item lg={11} md={11} sm={10} xs={10}>
-                                    <Typography variant="h5">Jugar</Typography>
-                                </Grid>
-                            </Button>
+                            <Link to="/rush" className={classes.link}>
+                                <Button className={classes.playButton} size="large" variant="contained" fullWidth>
+                                    <Grid item lg={1} md={1} sm={2} xs={2}>
+                                        <img src={playIconWhite} alt="classic.svg"></img>
+                                    </Grid>
+                                    <Grid item lg={11} md={11} sm={10} xs={10}>
+                                        <Typography variant="h5">Jugar</Typography>
+                                    </Grid>
+                                </Button>
+                            </Link>
                         </Box>
                     </Paper>
                 </Grid>
@@ -499,4 +493,4 @@ function RushPaper() {
     )
 }
 
-export default GameSelector
+export default PlayMenu

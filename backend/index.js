@@ -5,7 +5,8 @@ const { API_VERSION, IP_SERVER, PORT_DB } = require('./config')
 
 mongoose.set("useFindAndModify", false)
 
-mongoose.connect(`mongodb://${IP_SERVER}:${PORT_DB}/mathparadise`,
+mongoose.connect(
+    `mongodb://${IP_SERVER}:${PORT_DB}/mathparadise`,
     { useNewUrlParser: true, useUnifiedTopology: true }, (err, res) => {
         if (err) {
             throw err

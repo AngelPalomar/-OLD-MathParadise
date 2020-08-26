@@ -1,8 +1,10 @@
 import React from 'react'
-
+import { Link } from 'react-router-dom'
 import { makeStyles } from "@material-ui/core/styles"
 import { AppBar, Toolbar, IconButton, Button, Typography } from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu'
+import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew'
+import AccountBoxIcon from '@material-ui/icons/AccountBox'
 
 const drawerWidth = 240
 const useStyles = makeStyles((theme) => ({
@@ -15,14 +17,25 @@ const useStyles = makeStyles((theme) => ({
     title: {
         flexGrow: 2,
     },
+    link: {
+        textDecoration: 'none',
+        color: theme.palette.text.primary,
+        '&:hover': {
+            textDecoration: 'none',
+            color: theme.palette.text.primary,
+        }
+    },
     appBar: {
         [theme.breakpoints.up('sm')]: {
             width: `calc(100% - ${drawerWidth}px)`,
             marginLeft: drawerWidth,
         },
     },
+    colorLabels: {
+        color: '#616161'
+    }
 }));
-function Navigation(props) {
+function Header(props) {
     const classes = useStyles()
 
     return (
@@ -33,10 +46,17 @@ function Navigation(props) {
                     <MenuIcon color="primary" />
                 </IconButton>
                 <Typography variant="h5" color="primary" className={classes.title}>Inicio</Typography>
-                <Button color="inherit">Cerrar sesión</Button>
+                <Link to="/profile" className={classes.link}>
+                    <Button color="inherit" startIcon={<AccountBoxIcon />} className={classes.colorLabels}>
+                        <Typography>Mi perfil</Typography>
+                    </Button>
+                </Link>
+                <Button color="inherit" startIcon={<PowerSettingsNewIcon />} className={classes.colorLabels}>
+                    <Typography>Salir</Typography>
+                </Button>
             </Toolbar>
         </AppBar>
     )
 }
 
-export default Navigation
+export default Header
