@@ -45,15 +45,15 @@ const useStyles = makeStyles((theme) => ({
 function SignUp() {
     const classes = useStyles()
 
-    const [alert, setAlert] = React.useState(false);
+    const [alert, setAlert] = React.useState(false)
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
             return;
         }
 
-        setAlert(false);
-    };
+        setAlert(false)
+    }
 
     //Mensaje de alertas
     const [message, setMessage] = useState('')

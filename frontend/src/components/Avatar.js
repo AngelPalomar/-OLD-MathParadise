@@ -23,11 +23,11 @@ function Avatar(props) {
   const classes = useStyles();
   return (
     <Paper elevation={2} className={classes.root}>
-      <Grid container spacing={5}>
-        <Grid container item xs={3}>
+      <Grid container spacing={1}>
+        <Grid container item lg={2} md={3} sm={4} xs={3}>
           <AvatarImage className={classes.large} />
         </Grid>
-        <Grid container item xs={9}>
+        <Grid container item lg={10} ms={9} sm={8} xs={9}>
           <Typography component="div">
             <Box fontSize="h6.fontSize">
               Nombre completo

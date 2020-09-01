@@ -1,10 +1,13 @@
 import React from 'react'
 import { makeStyles, Hidden } from "@material-ui/core"
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 
 /**Elementos de navegación */
 import Header from "../components/Header"
 import NavMenu from "../components/NavMenu"
+
+/**Hook para autenticación */
+import useAuth from '../hooks/useAuth'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -22,30 +25,47 @@ function LayoutUser(props) {
     const { routes } = props
     const classes = useStyles()
 
+    /**Menu lateral */
     const OpenAction = () => {
         setOpen(!open)
     }
-    return (
-        <React.Fragment>
-            <div className={classes.root}>
-                <Header position="fixed" OpenAction={OpenAction} />
-                <Hidden xsDown>
-                    <NavMenu variant="permanent" open={true} />
-                </Hidden>
-                <Hidden smUp>
-                    <NavMenu
-                        variant="temporary"
-                        open={open}
-                        onClose={OpenAction}
-                    />
-                </Hidden>
-                <div className={classes.content}>
-                    <div className={classes.toolbar}></div>
-                    <LoadRoute routes={routes} />
+
+    /**Si el usuario está logueado */
+    const { user, isLoading } = useAuth()
+
+    if (!user && !isLoading) {
+        return (
+            <>
+                <Redirect to="/login"/>
+            </>
+        )
+    }
+
+    if (user && !isLoading) {
+        return (
+            <>
+                <div className={classes.root}>
+                    <Header position="fixed" OpenAction={OpenAction} />
+                    <Hidden xsDown>
+                        <NavMenu variant="permanent" open={true} />
+                    </Hidden>
+                    <Hidden smUp>
+                        <NavMenu
+                            variant="temporary"
+                            open={open}
+                            onClose={OpenAction}
+                        />
+                    </Hidden>
+                    <div className={classes.content}>
+                        <div className={classes.toolbar}></div>
+                        <LoadRoute routes={routes} />
+                    </div>
                 </div>
-            </div>
-        </React.Fragment>
-    )
+            </>
+        )   
+    }
+
+    return null
 }
 
 function LoadRoute({ routes }) {

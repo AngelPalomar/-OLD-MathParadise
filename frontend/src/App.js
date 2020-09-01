@@ -5,22 +5,25 @@ import { ThemeProvider } from '@material-ui/core/styles'
 import routes from './config/Routes'
 import theme from './styles/MathThemes'
 
+import AuthProvider from "./providers/AuthProvider"
+
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <Router>
-        <Switch>
-          {routes.map((route, index) => (
-            <RouteWithSubRoutes key={index} {...route} />
-          ))}
-        </Switch>
-      </Router>
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider theme={theme}>
+        <Router>
+          <Switch>
+            {routes.map((route, index) => (
+              <RouteWithSubRoutes key={index} {...route} />
+            ))}
+          </Switch>
+        </Router>
+      </ThemeProvider>
+    </AuthProvider>
   )
 }
 
 function RouteWithSubRoutes(route) {
-  console.log(route)
   return (
     <Route
       path={route.path}

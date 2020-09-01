@@ -3,6 +3,7 @@ const moment = require('moment')
 
 const SECRET_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX"
 
+/**Función que crea el access token */
 exports.createAccessToken = function (user) {
     const payload = {
         id: user._id,
@@ -18,6 +19,7 @@ exports.createAccessToken = function (user) {
     return jwt.encode(payload, SECRET_KEY)
 }
 
+/**Función que crea el refresh token */
 exports.createRefreshToken = function (user) { 
     const payload = {
         id: user._id,
@@ -27,4 +29,7 @@ exports.createRefreshToken = function (user) {
     return jwt.encode(payload, SECRET_KEY)
 }
 
-exports.decodeToken = function (token) { return jwt.decode(token, SECRET_KEY, true) }
+/**Función que descodifica el token */
+exports.decodedToken = function (token) { 
+    return jwt.decode(token, SECRET_KEY, true) 
+}

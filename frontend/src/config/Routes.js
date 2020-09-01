@@ -12,7 +12,7 @@ import Leaderboard from '../pages/user/Leaderboard'
 import Profile from '../pages/user/Profile'
 
 /**Gamemode pages */
-import RushMode from '../pages/games/Rush'
+import RushMode from '../pages/games/rush/Rush'
 
 /**General pages */
 import Home from '../pages/Home'

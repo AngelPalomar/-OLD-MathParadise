@@ -59,7 +59,7 @@ function login(req, res) {
                     if (err) {
                         res.status(500).send({ message: "Error del servidor." })
                     } else if (!check) {
-                        res.status(404).send({ message: "El correo o la contraseña es incorrecto." })
+                        res.status(404).send({ message: "El correo o la contraseña son incorrectos." })
                     } else {
                         if (!userStored.active) {
                             res.status(200).send({ code: 200, message: "El usuario no está activo." })

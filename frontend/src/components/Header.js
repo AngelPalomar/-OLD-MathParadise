@@ -5,6 +5,7 @@ import { AppBar, Toolbar, IconButton, Button, Typography } from "@material-ui/co
 import MenuIcon from '@material-ui/icons/Menu'
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew'
 import AccountBoxIcon from '@material-ui/icons/AccountBox'
+import { logout } from "../api/auth";
 
 const drawerWidth = 240
 const useStyles = makeStyles((theme) => ({
@@ -51,7 +52,8 @@ function Header(props) {
                         <Typography>Mi perfil</Typography>
                     </Button>
                 </Link>
-                <Button color="inherit" startIcon={<PowerSettingsNewIcon />} className={classes.colorLabels}>
+                <Button color="inherit" startIcon={<PowerSettingsNewIcon />} className={classes.colorLabels}
+                    onClick={() => {logout(); window.location.href = '/';}}> 
                     <Typography>Salir</Typography>
                 </Button>
             </Toolbar>
