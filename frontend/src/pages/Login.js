@@ -105,7 +105,7 @@ function Login(props) {
             /**Redireccionar al home */
             window.location.href = '/home'
         }
-    }   
+    }
 
     /**Si el usuario está logueado */
     if (getAccessTokenApi()) {

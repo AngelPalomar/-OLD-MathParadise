@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { Howler } from 'howler'
 import { makeStyles, Hidden } from "@material-ui/core"
 import { Route, Switch, Redirect } from 'react-router-dom'
 
@@ -25,6 +26,11 @@ function LayoutUser(props) {
     const { routes } = props
     const classes = useStyles()
 
+    //Descargar sonidos
+    useEffect(() => {
+        Howler.stop()
+    }, [])
+
     /**Menu lateral */
     const OpenAction = () => {
         setOpen(!open)
@@ -36,7 +42,7 @@ function LayoutUser(props) {
     if (!user && !isLoading) {
         return (
             <>
-                <Redirect to="/login"/>
+                <Redirect to="/login" />
             </>
         )
     }
@@ -62,7 +68,7 @@ function LayoutUser(props) {
                     </div>
                 </div>
             </>
-        )   
+        )
     }
 
     return null

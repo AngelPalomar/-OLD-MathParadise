@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { makeStyles } from "@material-ui/core/styles"
+import { Howler } from 'howler'
 import {
     Typography,
     Box,
@@ -9,8 +9,14 @@ import {
     Button,
     LinearProgress,
     Backdrop,
-    Container
+    Grow,
+    Slide
 } from "@material-ui/core"
+import { useStyles } from "./RushStyles"
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ReplayIcon from '@material-ui/icons/Replay'
+import PlayArrowIcon from '@material-ui/icons/PlayArrow'
+import PauseIcon from '@material-ui/icons/Pause'
 
 /**Componentes */
 import RushDialogSlide from './RushDialogSlide'
@@ -34,93 +40,16 @@ import ok_icon from '../../../assets/images/icons/ok_icon.svg'
 import x_icon from '../../../assets/images/icons/x_icon.svg'
 import question_icon from '../../../assets/images/icons/question_icon.svg'
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        display: "flex",
-    },
-    main: {
-        paddingLeft: theme.spacing(5),
-        paddingRight: theme.spacing(5),
-        background: "linear-gradient(90deg, #00487C, #2A8EFF)",
-        color: "#FFF",
-        overflow: "auto",
-        position: "bottom",
-        height: "100vh"
-    },
-    content: {
-        marginTop: theme.spacing(2),
-        overflow: "auto",
-        position: "top",
-        height: "90vh"
-    },
-    topicCard: {
-        width: "43%",
-        margin: theme.spacing(1),
-        marginBottom: theme.spacing(1.2)
-    },
-    selectedTopicCard: {
-        width: "50%",
-        margin: theme.spacing(1),
-        marginBottom: theme.spacing(1.2)
-    },
-    stats: {
-        color: "#F4F10F"
-    },
-    excercise: {
-        color: "#00487C"
-    },
-    paper: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        height: "100%",
-        padding: theme.spacing(2),
-        border: 0
-    },
-    form: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-    input: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        marginTop: theme.spacing(2),
-        marginBottom: theme.spacing(2)
-    },
-    button: {
-        padding: theme.spacing(2),
-        color: "#FFFFFF",
-        background: "linear-gradient(45deg, #2A55FF, #15FFD4)",
-        textAlign: "center",
-        width: "300px",
-        marginTop: theme.spacing(2),
-        marginBottom: theme.spacing(2)
-    },
-    backdrop: {
-        zIndex: theme.zIndex.drawer + 1,
-        color: '#FFF',
-    },
-    streakSeconds: {
-        backgroundColor: '#FFF'
-    },
-    userAnswer: {
-        fontSize: '25px'
-    },
-    resultIcon: {
-        width: '10%',
-        marginLeft: theme.spacing(2)
-    },
-}))
-
 function Rush() {
     const classes = useStyles()
     //Estilos
     const [backdropOpen, setBackdropOpen] = React.useState(false)
     const [resultsOpen, setResultsOpen] = useState(false)
+    const [pauseOpen, setpauseOpen] = useState(false)
     const [isErrorInput, setisErrorInput] = useState(false)
     const [srcResult, setSrcResult] = useState(question_icon)
+    const [zoomPoints, setZoomPoints] = useState(false)
+    const [comboSlide, setComboSlide] = useState(false)
     const [topicCard, setTopicCard] = useState({
         suma: classes.selectedTopicCard,
         resta: classes.topicCard,
@@ -140,13 +69,14 @@ function Rush() {
     const [isActiveStreak, setIsActiveStreak] = useState(false)
     const [excerciseCount, setExcerciseCount] = useState(0)
     const [points, setPoints] = useState(0)
+    const [combo, setCombo] = useState(0)
     const [multiplier, setMultiplier] = useState(1)
     const [excersice, setExcersice] = useState('Ejercicio')
     const [userAnswer, setUserAnswer] = useState(0)
     const [answer, setAnswer] = useState(0)
 
+    //Carga de sonidos y título del documento
     useEffect(() => {
-        //Carga de sonidos
         rushTheme.load()
         comboSound.load()
         boomSound.load()
@@ -156,9 +86,13 @@ function Rush() {
         incorrectSound.load()
         ticktockSound.load()
 
+        rushTheme.play()
         startSound.play()
+
+        document.title = 'Modo Rush - Math Paradise'
     }, [])
 
+    //Sonido de cuenta regresiva
     useEffect(() => {
         if (regressiveCount >= 0 && regressiveCount !== 3) {
             boomSound.play()
@@ -173,6 +107,7 @@ function Rush() {
 
     }, [topic, level])
 
+    //Empieza partida
     const start = () => {
         setBackdropOpen(true)
         setIsActiveRegressive(true)
@@ -184,7 +119,7 @@ function Rush() {
         if (isActiveRegressive) {
             t = setInterval(() => {
                 setRegressiveCount(regressiveCount - 1)
-            }, 600);
+            }, 400);
         } else if (!isActiveRegressive && regressiveCount !== 0) {
             clearInterval(t)
         }
@@ -195,7 +130,7 @@ function Rush() {
                 setIsActiveRegressive(false)
                 setBackdropOpen(false)
                 setIsActiveTimer(true)
-            }, 1000);
+            }, 600);
         }
 
         return () => {
@@ -241,12 +176,17 @@ function Rush() {
         if (isActiveStreak && streakSeconds === 0) {
             setIsActiveStreak(false)
             setStreak(0)
+
+            setComboSlide(false)
+            setTimeout(() => {
+                setCombo(0)
+            }, 2000);
         }
 
         return () => {
             clearInterval(t)
         }
-    }, [isActiveStreak, streakSeconds])
+    }, [isActiveStreak, streakSeconds, combo, comboSlide])
 
     //Si quedan menos de 10 segundos, suena el tick tock
     useEffect(() => {
@@ -273,6 +213,12 @@ function Rush() {
                 setStreakSeconds(streakSeconds - 1)
             }
         } else {
+            //mostrar puntos
+            handleZoomPoints()
+
+            setTimeout(() => {
+                handleZoomPoints()
+            }, 2000);
             //correct
             setSrcResult(ok_icon)
             setisErrorInput(false)
@@ -306,6 +252,10 @@ function Rush() {
             if (streak >= 80) {
                 setStreak(100)
                 setMultiplier(multiplier + 1)
+                //Combo
+                setCombo(combo + 1)
+                setComboSlide(true)
+
                 comboSound.play()
             } else {
                 //de lo contrario, aumenta 20
@@ -319,24 +269,24 @@ function Rush() {
                     setTopic('RESTA')
                     setTopicCard({
                         ...topicCard,
-                        ['suma']: classes.topicCard,
-                        ['resta']: classes.selectedTopicCard
+                        suma: classes.topicCard,
+                        resta: classes.selectedTopicCard
                     })
                 } else {
                     if (topic === 'RESTA') {
                         setTopic('MULTIPLICACIÓN')
                         setTopicCard({
                             ...topicCard,
-                            ['resta']: classes.topicCard,
-                            ['mult']: classes.selectedTopicCard
+                            resta: classes.topicCard,
+                            mult: classes.selectedTopicCard
                         })
                     } else {
                         if (topic === 'MULTIPLICACIÓN') {
                             setTopic('DIVISIÓN')
                             setTopicCard({
                                 ...topicCard,
-                                ['mult']: classes.topicCard,
-                                ['div']: classes.selectedTopicCard
+                                mult: classes.topicCard,
+                                div: classes.selectedTopicCard
                             })
                         }
                     }
@@ -346,8 +296,8 @@ function Rush() {
                 setTopic('SUMA')
                 setTopicCard({
                     ...topicCard,
-                    ['div']: classes.topicCard,
-                    ['suma']: classes.selectedTopicCard
+                    div: classes.topicCard,
+                    suma: classes.selectedTopicCard
                 })
                 setLevel(level + 1)
             }
@@ -356,6 +306,38 @@ function Rush() {
         }
     }
 
+    //Bajar volumen en pause
+    useEffect(() => {
+        if (pauseOpen === true) {
+            rushTheme.volume(0.4)
+        } else {
+            rushTheme.volume(1)
+        }
+    }, [pauseOpen])
+
+    //Zoom de los puntos
+    const handleZoomPoints = () => {
+        setZoomPoints((prev) => !prev)
+    }
+
+    //Para pausar la partida
+    const pause = () => {
+        setpauseOpen(!pauseOpen)
+        setIsActiveTimer(!isActiveTimer)
+    }
+
+    //Reiniciar la partida
+    const restart = () => {
+        window.location.reload()
+    }
+
+    //Volver al menu
+    const backToHome = () => {
+        Howler.stop()
+        window.location.href = '/home/play'
+    }
+
+    //Cambio del formulario
     const handleChange = (e) => {
         e.preventDefault()
         setUserAnswer(parseInt(e.target.value))
@@ -376,7 +358,28 @@ function Rush() {
                 level={level}
                 exCount={excerciseCount}
                 points={points}
+                multiplier={multiplier}
                 button1="Aceptar" />
+
+            <Backdrop className={classes.backdrop} open={pauseOpen}>
+                <Paper className={classes.paperPause}>
+                    <Box className={classes.menuPause}>
+                        <Typography variant="h2" className={classes.excercise}>Menú principal</Typography>
+                        <Typography>Opciones</Typography>
+                        <Box className={classes.menuPauseOptions}>
+                            <Button onClick={backToHome} className={classes.buttonBack}>
+                                <ArrowBackIcon style={{ fontSize: 50 }} />
+                            </Button>
+                            <Button onClick={pause} className={classes.buttonResume} >
+                                <PlayArrowIcon style={{ fontSize: 50 }} />
+                            </Button>
+                            <Button onClick={restart} className={classes.buttonRestart}>
+                                <ReplayIcon style={{ fontSize: 50 }} />
+                            </Button>
+                        </Box>
+                    </Box>
+                </Paper>
+            </Backdrop>
 
             <Backdrop className={classes.backdrop} open={backdropOpen}>
                 <Typography variant="h1">{regressiveCount <= 0 ? '¡A jugar!' : regressiveCount}</Typography>
@@ -386,22 +389,16 @@ function Rush() {
                 <Box>
                     <Grid container spacing={1} className={classes.content}>
                         {/**Indicador de temas */}
-                        <Grid item lg={2}>
-                            <Box display="flex" justifyContent="left">
+                        <Grid item xl={2} lg={2} md={2} sm={2}>
+                            <Box className={classes.topicCardContainer}>
                                 <img src={divSrc} alt="suma_card.svg" className={topicCard.div} />
-                            </Box>
-                            <Box display="flex" justifyContent="left">
                                 <img src={mulSrc} alt="suma_card.svg" className={topicCard.mult} />
-                            </Box>
-                            <Box display="flex" justifyContent="left">
                                 <img src={resSrc} alt="suma_card.svg" className={topicCard.resta} />
-                            </Box>
-                            <Box display="flex" justifyContent="left">
                                 <img src={sumSrc} alt="suma_card.svg" className={topicCard.suma} />
                             </Box>
                         </Grid>
                         {/**Estadísticas */}
-                        <Grid item lg={4}>
+                        <Grid item xl={4} lg={4} md={4} sm={4}>
                             <Box mb={5} >
                                 <Grid container spacing={2} >
                                     <Grid item>
@@ -417,13 +414,19 @@ function Rush() {
                             </Box>
                             <Box mb={5}>
                                 <Typography variant="h5">Ejercicios contestados: <span className={classes.stats}>{excerciseCount}</span></Typography>
-                                <Typography variant="h5">Puntos: <span className={classes.stats}>{points}</span> pts</Typography>
+                                <Typography variant="h5">
+                                    Puntos: <span className={classes.stats}>{points}</span> pts
+                                    <Grow in={zoomPoints} timeout={800}>
+                                        <span className={classes.pointPlus}> + {5 * multiplier} puntos!</span>
+                                    </Grow>
+                                </Typography>
                             </Box>
 
-                            <Grid container spacing={5} direction="row" justify="center" alignItems="center">
-                                <Grid item lg={2}>
+                            <Grid container spacing={3} direction="row" justify="center" alignItems="center">
+                                <Grid item lg={2} md={3} sm={4}>
+
                                     <Box position="relative" display="inline-flex">
-                                        <CircularMultiplier value={streak} size={70} />
+                                        <CircularMultiplier value={streak} size={65} />
                                         <Box
                                             top={0}
                                             left={0}
@@ -434,18 +437,30 @@ function Rush() {
                                             alignItems="center"
                                             justifyContent="center"
                                         >
-                                            <Typography variant="h5">×{multiplier}</Typography>
+                                            <Typography variant="h5">&times;{multiplier}</Typography>
                                         </Box>
                                     </Box>
                                 </Grid>
-                                <Grid item lg={10}>
-                                    <Typography variant="h5">MULTIPLICADOR</Typography>
+                                <Grid item lg={10} md={9} sm={8}>
+                                    <Typography variant="h5" className={streakSeconds <= 3 ? streakSeconds % 2 !== 0 ? classes.stats : null : null}>Multiplicador</Typography>
                                 </Grid>
                             </Grid>
+
+                            <Box mt={4}>
+                                <Button variant="contained" onClick={pause} className={classes.buttonPause} startIcon={<PauseIcon />}>
+                                    Pausa
+                                </Button>
+                            </Box>
+
+                            <Box mt={3} className={classes.comboBox}>
+                                <Slide direction="up" in={comboSlide} mountOnEnter unmountOnExit>
+                                    <Typography variant="h3" className={classes.comboPlus}>Combo &times;{combo}</Typography>
+                                </Slide>
+                            </Box>
                         </Grid>
 
                         {/**Panel donde se muestran las operaciones */}
-                        <Grid item lg={6}>
+                        <Grid item xl={6} lg={6} md={6} sm={6}>
                             <Paper className={classes.paper}>
                                 <Typography variant="h3">{topic}</Typography>
                                 <Typography>Resuelve el siguiente ejercicio</Typography>
@@ -462,11 +477,17 @@ function Rush() {
                                         </Button>
                                     </Box>
                                 </form>
-                                <Typography variant="h6">Tiempo: 0{seconds === 60 ? minutes : '0'}:{seconds === 60 ? '00' : seconds === 0 ? '00' : seconds < 10 ? '0' + seconds : seconds}</Typography>
+                                <Typography variant="h5">
+
+                                </Typography>
+                                <Typography variant="h6" color={seconds <= 9 ? 'secondary' : 'inherit'} >
+                                    Tiempo: 0{seconds === 60 ? minutes : '0'}:{seconds === 60 ? '00' : seconds === 0 ? '00' : seconds < 10 ? '0' + seconds : seconds}
+                                    <Grow in={zoomPoints} timeout={800}>
+                                        <span className={classes.segsPlus}> + 10 segundos</span>
+                                    </Grow>
+                                </Typography>
                                 <LinearProgress variant="determinate" value={seconds / .60} />
-
                             </Paper>
-
                         </Grid>
                     </Grid>
                 </Box>
@@ -490,7 +511,47 @@ function generateExcercise(topic, level) {
                 b = Math.floor(Math.random() * 16) + 7
 
                 exc = a + ' + ' + b
+            } else if (level <= 15) {
+                a = Math.floor(Math.random() * 10) + 2
+                b = Math.floor(Math.random() * 15) + 1
+                c = Math.floor(Math.random() * 19) + 11
+
+                exc = a + ' + ' + b + ' + ' + c
+            } else if (level <= 20) {
+                a = Math.floor(Math.random() * 30) + 12
+                b = Math.floor(Math.random() * 40) + 14
+                c = Math.floor(Math.random() * 32) + 9
+
+                exc = a + ' + ' + b + ' + ' + c
+            } else if (level <= 25) {
+                a = Math.floor(Math.random() * 132) + 101
+                b = Math.floor(Math.random() * 117) + 53
+                c = Math.floor(Math.random() * 101) + 83
+
+                exc = a + ' + ' + b + ' + ' + c
+            } else if (level <= 30) {
+                a = Math.floor(Math.random() * 132) + 101
+                b = Math.floor(Math.random() * 117) + 53
+                c = Math.floor(Math.random() * 101) + 83
+                d = Math.floor(Math.random() * 172) + 120
+
+                exc = a + ' + ' + b + ' + ' + c + ' + ' + d
+            } else if (level <= 40) {
+                a = Math.floor(Math.random() * 1100) + 300
+                b = Math.floor(Math.random() * 900) + 200
+                c = Math.floor(Math.random() * 1200) + 400
+                d = Math.floor(Math.random() * 400) + 200
+
+                exc = a + ' + ' + b + ' + ' + c + ' + ' + d
+            } else {
+                a = Math.floor(Math.random() * 5000) + 1000
+                b = Math.floor(Math.random() * 2000) + 800
+                c = Math.floor(Math.random() * 1300) + 700
+                d = Math.floor(Math.random() * 1000) + 500
+
+                exc = a + ' + ' + b + ' + ' + c + ' + ' + d
             }
+
             ans = a + b + c + d
 
             break;
@@ -506,7 +567,46 @@ function generateExcercise(topic, level) {
                 b = Math.floor(Math.random() * 15) + 2
 
                 exc = a + ' - ' + b
+            } else if (level <= 15) {
+                a = Math.floor(Math.random() * 35) + 10
+                b = Math.floor(Math.random() * 15) + 5
+
+                exc = a + ' - ' + b
+            } else if (level <= 20) {
+                a = Math.floor(Math.random() * 25) + 15
+                b = Math.floor(Math.random() * 35) + 14
+                c = Math.floor(Math.random() * 32) + 9
+
+                exc = a + ' - ' + b + ' - ' + c
+            } else if (level <= 25) {
+                a = Math.floor(Math.random() * 95) + 50
+                b = Math.floor(Math.random() * 40) + 20
+                c = Math.floor(Math.random() * 30) + 14
+
+                exc = a + ' - ' + b + ' - ' + c
+            } else if (level <= 30) {
+                a = Math.floor(Math.random() * 95) + 50
+                b = Math.floor(Math.random() * 40) + 20
+                c = Math.floor(Math.random() * 30) + 14
+                c = Math.floor(Math.random() * 20) + 10
+
+                exc = a + ' - ' + b + ' - ' + c + ' - ' + d
+            } else if (level <= 40) {
+                a = Math.floor(Math.random() * 500) + 200
+                b = Math.floor(Math.random() * 100) + 30
+                c = Math.floor(Math.random() * 60) + 20
+                c = Math.floor(Math.random() * 30) + 10
+
+                exc = a + ' - ' + b + ' - ' + c + ' - ' + d
+            } else {
+                a = Math.floor(Math.random() * 1000) + 600
+                b = Math.floor(Math.random() * 200) + 30
+                c = Math.floor(Math.random() * 100) + 20
+                c = Math.floor(Math.random() * 50) + 10
+
+                exc = a + ' - ' + b + ' - ' + c + ' - ' + d
             }
+
             ans = a - b - c - d
 
             break;
@@ -518,6 +618,52 @@ function generateExcercise(topic, level) {
 
                 exc = a + ' × ' + b
                 ans = a * b
+            } else if (level <= 10) {
+                a = Math.floor(Math.random() * 12) + 3
+                b = Math.floor(Math.random() * 9) + 4
+
+                exc = a + ' × ' + b
+                ans = a * b
+            } else if (level <= 15) {
+                a = Math.floor(Math.random() * 13) + 6
+                b = Math.floor(Math.random() * 9) + 2
+
+                exc = a + ' × ' + b
+                ans = a * b
+            } else if (level <= 20) {
+                a = Math.floor(Math.random() * 16) + 8
+                b = Math.floor(Math.random() * 15) + 4
+
+                exc = a + ' × ' + b
+                ans = a * b
+            } else if (level <= 25) {
+                a = Math.floor(Math.random() * 10) + 2
+                b = Math.floor(Math.random() * 12) + 2
+                c = Math.floor(Math.random() * 9) + 3
+
+                exc = a + ' × ' + b + ' × ' + c
+                ans = a * b * c
+            } else if (level <= 30) {
+                a = Math.floor(Math.random() * 14) + 6
+                b = Math.floor(Math.random() * 10) + 2
+                c = Math.floor(Math.random() * 12) + 5
+
+                exc = a + ' × ' + b + ' × ' + c
+                ans = a * b * c
+            } else if (level <= 40) {
+                a = Math.floor(Math.random() * 22) + 15
+                b = Math.floor(Math.random() * 15) + 6
+                c = Math.floor(Math.random() * 12) + 5
+
+                exc = a + ' × ' + b + ' × ' + c
+                ans = a * b * c
+            } else {
+                a = Math.floor(Math.random() * 60) + 30
+                b = Math.floor(Math.random() * 32) + 15
+                c = Math.floor(Math.random() * 56) + 40
+
+                exc = a + ' × ' + b + ' × ' + c
+                ans = a * b * c
             }
 
             break;
@@ -526,10 +672,40 @@ function generateExcercise(topic, level) {
             if (level <= 5) {
                 a = Math.floor(Math.random() * 16) + 8
                 b = Math.floor(Math.random() * 9) + 1
+            } else if (level <= 10) {
+                a = Math.floor(Math.random() * 24) + 8
+                b = Math.floor(Math.random() * 9) + 4
+            } else if (level <= 15) {
+                a = Math.floor(Math.random() * 40) + 9
+                b = Math.floor(Math.random() * 16) + 4
+            } else if (level <= 20) {
+                a = Math.floor(Math.random() * 55) + 40
+                b = Math.floor(Math.random() * 20) + 4
+            } else if (level <= 25) {
+                a = Math.floor(Math.random() * 100) + 60
+                b = Math.floor(Math.random() * 40) + 20
+            } else if (level <= 30) {
+                a = Math.floor(Math.random() * 168) + 101
+                b = Math.floor(Math.random() * 44) + 20
+            } else if (level <= 40) {
+                a = Math.floor(Math.random() * 220) + 170
+                b = Math.floor(Math.random() * 60) + 24
+            } else {
+                a = Math.floor(Math.random() * 300) + 226
+                b = Math.floor(Math.random() * 80) + 56
+            }
 
+            if (a > b) {
                 exc = a + ' ÷ ' + b
                 ans = a / b
+            } else {
+                exc = b + ' ÷ ' + a
+                ans = b / a
             }
+            break;
+        default:
+            exc = null
+            ans = null
             break;
     }
 

@@ -47,13 +47,13 @@ function Header(props) {
                     <MenuIcon color="primary" />
                 </IconButton>
                 <Typography variant="h5" color="primary" className={classes.title}>Inicio</Typography>
-                <Link to="/profile" className={classes.link}>
+                <Link to="/home/profile" className={classes.link}>
                     <Button color="inherit" startIcon={<AccountBoxIcon />} className={classes.colorLabels}>
                         <Typography>Mi perfil</Typography>
                     </Button>
                 </Link>
                 <Button color="inherit" startIcon={<PowerSettingsNewIcon />} className={classes.colorLabels}
-                    onClick={() => {logout(); window.location.href = '/';}}> 
+                    onClick={() => { logout(); window.location.href = '/'; }}>
                     <Typography>Salir</Typography>
                 </Button>
             </Toolbar>

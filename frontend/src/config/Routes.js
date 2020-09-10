@@ -76,18 +76,7 @@ const routes = [
                 exact: true,
             },
             {
-                component: Error
-            }
-        ]
-    },
-    /**Perfil */
-    {
-        path: '/profile',
-        component: Profile,
-        exact: false,
-        routes: [
-            {
-                path: '/profile',
+                path: '/home/profile',
                 component: Profile,
                 exact: true,
             },

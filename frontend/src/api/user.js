@@ -21,7 +21,7 @@ export function signUpApi(data) {
                 ok: true,
                 message: 'Cuenta creada correctamente'
             }
-        } 
+        }
         return {
             ok: false,
             message: result.message
@@ -49,11 +49,32 @@ export function loginApi(data) {
     return fetch(url, params).then(response => {
         return response.json()
     })
-    .then(result => {
+        .then(result => {
+            return result
+        })
+        .catch(err => {
+            return err.message
+        })
+
+}
+
+/**Obtener datos de un usuario */
+export function getUserApi(data) {
+    const url = `${basePath}/${apiVersion}/get-user`
+    const params = {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }
+
+    /**Petición fetch */
+    return fetch(url, params).then(response => {
+        return response.json()
+    }).then(result => {
         return result
-    })
-    .catch(err => {
+    }, (err) => {
         return err.message
     })
-
 }

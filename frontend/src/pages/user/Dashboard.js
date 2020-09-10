@@ -1,15 +1,19 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
+import jwtDecode from 'jwt-decode'
 import { makeStyles } from "@material-ui/core/styles"
 import {
     Typography,
     Grid
 } from "@material-ui/core"
 
+/**APIs */
+import { getAccessTokenApi } from '../../api/auth'
+
 /**Componentes */
 import Avatar from "../../components/Avatar"
-import ClassicStats from "../../components/ClassicStats"
-import ArcadeStats from "../../components/ArcadeStats"
-import RushStats from "../../components/RushStats"
+import ClassicStats from "../../components/game_stats/ClassicStats"
+import ArcadeStats from "../../components/game_stats/ArcadeStats"
+import RushStats from "../../components/game_stats/RushStats"
 
 const useStyles = makeStyles((theme) => ({
     subtitle: {
@@ -23,12 +27,17 @@ const useStyles = makeStyles((theme) => ({
 
 function Dashboard() {
     const classes = useStyles()
+    const [userData, setUserData] = useState([])
+
+    useEffect(() => {
+        setUserData(jwtDecode(getAccessTokenApi()))
+    }, [])
 
     return (
         <>
             <Grid container spacing={1}>
-                <Grid item xs={9} sm={6} md={5} lg={5}>
-                    <Avatar />
+                <Grid item xs={12} sm={6} md={5} lg={5}>
+                    <Avatar name={userData.name} lastname={userData.lastname} nickname={userData.nickname} />
                 </Grid>
             </Grid>
 
@@ -36,13 +45,13 @@ function Dashboard() {
 
             <Grid container spacing={1} className={classes.stats}>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
-                    <ClassicStats />
+                    <ClassicStats userData={userData} />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
-                    <ArcadeStats />
+                    <ArcadeStats userData={userData} />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
-                    <RushStats />
+                    <RushStats userData={userData} />
                 </Grid>
             </Grid>
         </>

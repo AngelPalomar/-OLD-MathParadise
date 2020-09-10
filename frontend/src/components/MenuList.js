@@ -79,7 +79,7 @@ function MenuList(props) {
                     </ListItem>
                 </Link>
 
-                <Link to="/profile" className={classes.link}>
+                <Link to="/home/profile" className={classes.link}>
                     <ListItem button >
                         <ListItemIcon>
                             <AccountBoxIcon />

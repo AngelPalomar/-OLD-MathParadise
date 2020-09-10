@@ -1,7 +1,6 @@
 const bcrypt = require("bcrypt-nodejs")
 const jwt = require("../services/jwt")
 const User = require("../models/User")
-const { use } = require("../routers/User")
 
 function signUp(req, res) {
     const user = new User()
@@ -13,6 +12,22 @@ function signUp(req, res) {
     user.email = email
     user.role = role
     user.active = true
+    user.stats.classic.points = 0
+    user.stats.classic.excercices = 0
+    user.stats.classic.right_excercises = 0
+    user.stats.classic.mistakes = 0
+    user.stats.classic.victories = 0
+    user.stats.classic.defeats = 0
+    user.stats.arcade.points = 0
+    user.stats.arcade.excercices = 0
+    user.stats.arcade.right_excercises = 0
+    user.stats.arcade.mistakes = 0
+    user.stats.arcade.victories = 0
+    user.stats.arcade.defeats = 0
+    user.stats.rush.points = 0
+    user.stats.rush.excercises = 0
+    user.stats.rush.level = 0
+    user.stats.rush.multiplier = 0
 
     if (!password || !repeatPassword) {
         res.status(404).send({ message: "Las contraseñas son obligatorias." })
@@ -76,7 +91,29 @@ function login(req, res) {
     })
 }
 
+function getUser(req, res) {
+    const params = req.body
+    const email = params.email
+
+    User.findOne({ email }, (err, user) => {
+        if (err) {
+            res.status(500).send({ message: "Error del servidor" })
+        } else {
+            if (!user) {
+                res.status(404).send({ message: "No se ha encontrado a ningun usuario." })
+            } else {
+                if (!user.active) {
+                    res.status(200).send({ code: 200, message: "El usuario no está activo." })
+                } else {
+                    res.status(200).send({ user })
+                }
+            }
+        }
+    })
+}
+
 module.exports = {
     signUp,
-    login
+    login,
+    getUser
 }
