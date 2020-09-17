@@ -15,29 +15,27 @@ const UserSchema = Schema({
     password: String,
     role: String,
     active: Boolean,
-    stats: {
-        classic: {
-            points: Number,
-            excercises: Number,
-            right_excercises: Number,
-            mistakes: Number,
-            victories: Number,
-            defeats: Number
-        },
-        arcade: {
-            points: Number,
-            excercises: Number,
-            right_excercises: Number,
-            mistakes: Number,
-            victories: Number,
-            defeats: Number
-        },
-        rush: {
-            points: Number,
-            excercises: Number,
-            level: Number,
-            multiplier: Number
-        }
+    classic: {
+        points: Number,
+        excercises: Number,
+        right_excercises: Number,
+        mistakes: Number,
+        victories: Number,
+        defeats: Number
+    },
+    arcade: {
+        points: Number,
+        excercises: Number,
+        right_excercises: Number,
+        mistakes: Number,
+        victories: Number,
+        defeats: Number
+    },
+    rush: {
+        points: Number,
+        excercises: Number,
+        level: Number,
+        multiplier: Number
     }
 })
 

@@ -12,19 +12,20 @@ import ArcadeSrc from '../../assets/images/icons/arcade_icon_1.svg'
 import { getUserApi } from "../../api/user"
 
 function ArcadeStats(props) {
-    const { userData } = props
+    const { userData, token } = props
     const classes = useStyles()
 
     const [stats, setStats] = useState([])
 
     useEffect(() => {
         const fetchGetUser = async () => {
-            const result = await getUserApi({ email: userData.email })
+            const result = await getUserApi(token, { email: userData.email })
 
             if (!result.message) {
-                setStats(result.user.stats.arcade)
+                setStats(result.user.arcade)
             }
         }
+        
         fetchGetUser()
     })
 

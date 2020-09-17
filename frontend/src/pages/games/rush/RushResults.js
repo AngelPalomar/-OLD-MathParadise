@@ -32,13 +32,18 @@ const useStyles = makeStyles((theme) => ({
     },
     image: {
         width: '12vh'
-    }
+    },
+    recordLabel: {
+        color: '#F75C5C',
+        fontWeight: 'bold',
+        marginTop: theme.spacing(2)
+    },
 }))
 
 function RushResults(props) {
     const classes = useStyles()
     /**Props */
-    let { isOpen, title, level, exCount, points, multiplier, button1 } = props
+    let { isOpen, isNewRecord, title, level, exCount, points, multiplier, button1 } = props
 
     const backToHome = () => {
         Howler.stop()
@@ -61,6 +66,7 @@ function RushResults(props) {
                 <Box className={classes.dialog}>
                     <Typography variant="h4" className={classes.title}>{title}</Typography>
                     <span className={classes.subtitle}>Resultados de juego</span>
+                    {isNewRecord ? <Typography variant="h5" className={classes.recordLabel}>¡Nuevo Récord!</Typography> : null}
                 </Box>
 
                 <DialogContent>

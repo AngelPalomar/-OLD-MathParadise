@@ -59,13 +59,14 @@ export function loginApi(data) {
 }
 
 /**Obtener datos de un usuario */
-export function getUserApi(data) {
+export function getUserApi(token, email) {
     const url = `${basePath}/${apiVersion}/get-user`
     const params = {
         method: 'POST',
-        body: JSON.stringify(data),
+        body: JSON.stringify(email),
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            Authorization: token
         }
     }
 
@@ -75,6 +76,27 @@ export function getUserApi(data) {
     }).then(result => {
         return result
     }, (err) => {
+        return err.message
+    })
+}
+
+/**Modificar datos de un usuario */
+export function updateUserApi(token, userData, userId) {
+    const url = `${basePath}/${apiVersion}/update-user/${userId}`
+    const params = {
+        method: 'PUT',
+        body: JSON.stringify(userData),
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: token
+        }
+    }
+
+    return fetch(url, params).then(response => {
+        return response.json()
+    }).then(result => {
+        return result
+    }).catch(err => {
         return err.message
     })
 }

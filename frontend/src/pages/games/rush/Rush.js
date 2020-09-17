@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Howler } from 'howler'
+import jwtDecode from "jwt-decode"
 import {
     Typography,
     Box,
@@ -17,6 +18,10 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ReplayIcon from '@material-ui/icons/Replay'
 import PlayArrowIcon from '@material-ui/icons/PlayArrow'
 import PauseIcon from '@material-ui/icons/Pause'
+
+/**APIs */
+import { getAccessTokenApi } from "../../../api/auth"
+import { getUserApi, updateUserApi } from "../../../api/user"
 
 /**Componentes */
 import RushDialogSlide from './RushDialogSlide'
@@ -42,6 +47,11 @@ import question_icon from '../../../assets/images/icons/question_icon.svg'
 
 function Rush() {
     const classes = useStyles()
+    //Datos usuario
+    const [userData] = useState(jwtDecode(getAccessTokenApi()))
+    const [prevStats, setPrevStats] = useState(null)
+    const [isNewRecord, setisNewRecord] = useState(false)
+
     //Estilos
     const [backdropOpen, setBackdropOpen] = React.useState(false)
     const [resultsOpen, setResultsOpen] = useState(false)
@@ -57,6 +67,7 @@ function Rush() {
         div: classes.topicCard
     })
 
+    //Elementos del juego
     const [seconds, setSeconds] = useState(60)
     const [minutes] = useState(1)
     const [isActiveTimer, setIsActiveTimer] = useState(false)
@@ -86,7 +97,7 @@ function Rush() {
         incorrectSound.load()
         ticktockSound.load()
 
-        rushTheme.play()
+        //rushTheme.play()
         startSound.play()
 
         document.title = 'Modo Rush - Math Paradise'
@@ -155,12 +166,72 @@ function Rush() {
             setResultsOpen(true)
             rushTheme.volume(0.3)
             gameoverSound.play()
+
+            //Obtener estadísticas previas del usuario
+            const fetchGetUser = async () => {
+                const result = await getUserApi(getAccessTokenApi(), { email: userData.email })
+
+                if (!result.message) {
+                    setPrevStats(result.user.rush)
+                }
+            }
+            fetchGetUser()
         }
 
         return () => {
             clearInterval(t)
         }
-    }, [isActiveTimer, seconds])
+    }, [isActiveTimer, seconds, userData.email, prevStats, excerciseCount, level, multiplier, points,])
+
+    //Comparar estadísticas cuando acabe el juego
+    useEffect(() => {
+        if (prevStats) {
+            const compareStats = () => {
+                let p, e, l, m
+
+                if (points > prevStats.points) {
+                    p = points
+                    setisNewRecord(true)
+                } else {
+                    p = prevStats.points
+                }
+
+                if (excerciseCount > prevStats.excercises) {
+                    e = excerciseCount
+                    setisNewRecord(true)
+                } else {
+                    e = prevStats.excercises
+                }
+
+                if (level > prevStats.level) {
+                    l = level
+                    setisNewRecord(true)
+                } else {
+                    l = prevStats.level
+                }
+
+                if (multiplier > prevStats.multiplier) {
+                    m = multiplier
+                    setisNewRecord(true)
+                } else {
+                    m = prevStats.multiplier
+                }
+
+                const rushData = {
+                    rush: {
+                        points: p,
+                        excercises: e,
+                        level: l,
+                        multiplier: m
+                    }
+                }
+
+                updateUserApi(getAccessTokenApi(), rushData, userData.id)
+            }
+
+            compareStats()
+        }
+    }, [prevStats])
 
     //temporizador del streak
     useEffect(() => {
@@ -225,8 +296,8 @@ function Rush() {
             //resetea la respuesta introducida
 
             correctSound.play()
-            //Aumenta 10 segundos al cronómetro y 5 segundos al streak
-            setSeconds(seconds + 10)
+            //Aumenta 5 segundos al cronómetro y 5 segundos al streak
+            setSeconds(seconds + 5)
             setStreakSeconds(5)
             if (seconds > 50) {
                 setSeconds(60)
@@ -359,7 +430,9 @@ function Rush() {
                 exCount={excerciseCount}
                 points={points}
                 multiplier={multiplier}
-                button1="Aceptar" />
+                button1="Aceptar"
+                user={userData}
+                isNewRecord={isNewRecord} />
 
             <Backdrop className={classes.backdrop} open={pauseOpen}>
                 <Paper className={classes.paperPause}>
@@ -483,7 +556,7 @@ function Rush() {
                                 <Typography variant="h6" color={seconds <= 9 ? 'secondary' : 'inherit'} >
                                     Tiempo: 0{seconds === 60 ? minutes : '0'}:{seconds === 60 ? '00' : seconds === 0 ? '00' : seconds < 10 ? '0' + seconds : seconds}
                                     <Grow in={zoomPoints} timeout={800}>
-                                        <span className={classes.segsPlus}> + 10 segundos</span>
+                                        <span className={classes.segsPlus}> + 5 segundos</span>
                                     </Grow>
                                 </Typography>
                                 <LinearProgress variant="determinate" value={seconds / .60} />

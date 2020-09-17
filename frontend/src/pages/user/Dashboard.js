@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import jwtDecode from 'jwt-decode'
 import { makeStyles } from "@material-ui/core/styles"
 import {
@@ -27,11 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Dashboard() {
     const classes = useStyles()
-    const [userData, setUserData] = useState([])
-
-    useEffect(() => {
-        setUserData(jwtDecode(getAccessTokenApi()))
-    }, [])
+    const [userData] = useState(jwtDecode(getAccessTokenApi()))
 
     return (
         <>
@@ -45,13 +41,13 @@ function Dashboard() {
 
             <Grid container spacing={1} className={classes.stats}>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
-                    <ClassicStats userData={userData} />
+                    <ClassicStats userData={userData} token={getAccessTokenApi()} />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
-                    <ArcadeStats userData={userData} />
+                    <ArcadeStats userData={userData} token={getAccessTokenApi()} />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
-                    <RushStats userData={userData} />
+                    <RushStats userData={userData} token={getAccessTokenApi()} />
                 </Grid>
             </Grid>
         </>

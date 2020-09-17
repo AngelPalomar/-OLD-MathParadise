@@ -70,21 +70,21 @@ function MenuList(props) {
 
                 <Divider />
 
-                <Link to="/courses" className={classes.link}>
-                    <ListItem button>
-                        <ListItemIcon>
-                            <FunctionsIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Cursos de ayuda" />
-                    </ListItem>
-                </Link>
-
                 <Link to="/home/profile" className={classes.link}>
                     <ListItem button >
                         <ListItemIcon>
                             <AccountBoxIcon />
                         </ListItemIcon>
                         <ListItemText primary="Mi perfil" />
+                    </ListItem>
+                </Link>
+
+                <Link to="/courses" className={classes.link}>
+                    <ListItem button>
+                        <ListItemIcon>
+                            <FunctionsIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Cursos de ayuda" />
                     </ListItem>
                 </Link>
 

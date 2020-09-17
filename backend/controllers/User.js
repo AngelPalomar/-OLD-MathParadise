@@ -12,22 +12,22 @@ function signUp(req, res) {
     user.email = email
     user.role = role
     user.active = true
-    user.stats.classic.points = 0
-    user.stats.classic.excercices = 0
-    user.stats.classic.right_excercises = 0
-    user.stats.classic.mistakes = 0
-    user.stats.classic.victories = 0
-    user.stats.classic.defeats = 0
-    user.stats.arcade.points = 0
-    user.stats.arcade.excercices = 0
-    user.stats.arcade.right_excercises = 0
-    user.stats.arcade.mistakes = 0
-    user.stats.arcade.victories = 0
-    user.stats.arcade.defeats = 0
-    user.stats.rush.points = 0
-    user.stats.rush.excercises = 0
-    user.stats.rush.level = 0
-    user.stats.rush.multiplier = 0
+    user.classic.points = 0
+    user.classic.excercices = 0
+    user.classic.right_excercises = 0
+    user.classic.mistakes = 0
+    user.classic.victories = 0
+    user.classic.defeats = 0
+    user.arcade.points = 0
+    user.arcade.excercices = 0
+    user.arcade.right_excercises = 0
+    user.arcade.mistakes = 0
+    user.arcade.victories = 0
+    user.arcade.defeats = 0
+    user.rush.points = 0
+    user.rush.excercises = 0
+    user.rush.level = 1
+    user.rush.multiplier = 1
 
     if (!password || !repeatPassword) {
         res.status(404).send({ message: "Las contraseñas son obligatorias." })
@@ -112,8 +112,26 @@ function getUser(req, res) {
     })
 }
 
+function updateUser(req, res) {
+    const userData = req.body
+    const params = req.params
+
+    User.findByIdAndUpdate({ _id: params.id }, userData, (err, userUpdated) => {
+        if (err) {
+            res.status(500).send({ message: "Error del servidor." })
+        } else {
+            if (!userUpdated) {
+                res.status(404).send({ message: "El usuario no existe." })
+            } else {
+                res.status(200).send({ message: "Los datos del usuario se han actualizado correctamente." })
+            }
+        }
+    })
+}
+
 module.exports = {
     signUp,
     login,
-    getUser
+    getUser,
+    updateUser
 }
