@@ -13,9 +13,9 @@ mongoose.connect(
         } else {
             console.log('Conexión exitosa.')
             app.listen(port, () => {
-                console.log('##############################')
-                console.log('########## API REST ##########')
-                console.log('##############################')
+                console.log('############################################')
+                console.log('########## MATH PARADISE API REST ##########')
+                console.log('############################################')
                 console.log(`http://${IP_SERVER}:${port}/api/${API_VERSION}/`)
             })
         }

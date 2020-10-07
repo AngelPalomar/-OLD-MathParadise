@@ -6,10 +6,10 @@ function signUp(req, res) {
     const user = new User()
 
     const { name, lastname, nickname, email, password, role, repeatPassword } = req.body
-    user.name = name
-    user.lastname = lastname
-    user.nickname = nickname
-    user.email = email
+    user.name = name.trim()
+    user.lastname = lastname.trim()
+    user.nickname = nickname.trim()
+    user.email = email.trim()
     user.role = role
     user.active = true
     user.classic.points = 0
@@ -93,9 +93,9 @@ function login(req, res) {
 
 function getUser(req, res) {
     const params = req.body
-    const email = params.email
+    const id = params.id
 
-    User.findOne({ email }, (err, user) => {
+    User.findOne({ _id: id }, (err, user) => {
         if (err) {
             res.status(500).send({ message: "Error del servidor" })
         } else {

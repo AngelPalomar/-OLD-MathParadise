@@ -19,14 +19,14 @@ function ClassicStats(props) {
 
     useEffect(() => {
         const fetchGetUser = async () => {
-            const result = await getUserApi(token, { email: userData.email })
+            const result = await getUserApi(token, { id: userData.id })
 
             if (!result.message) {
                 setStats(result.user.classic)
             }
         }
         fetchGetUser()
-    })
+    }, [])
 
     return (
         <Paper className={classes.statsPaper} elevation={2}>

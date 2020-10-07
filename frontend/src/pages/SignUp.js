@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import {
     Typography, Paper, Grid, Container, Button, Box, TextField,
-    FormControl, FormControlLabel, Radio, RadioGroup, Snackbar, IconButton 
+    FormControl, FormControlLabel, Radio, RadioGroup, Snackbar, IconButton
 } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
 import CreateIcon from '@material-ui/icons/Create'
@@ -46,6 +46,10 @@ function SignUp() {
     const classes = useStyles()
 
     const [alert, setAlert] = React.useState(false)
+
+    useEffect(() => {
+        document.title = 'Registrarse - Math Paradise'
+    }, [])
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {

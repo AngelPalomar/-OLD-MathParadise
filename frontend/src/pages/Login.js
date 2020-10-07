@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import {
@@ -64,6 +64,10 @@ function Login(props) {
         email: '',
         password: ''
     })
+
+    useEffect(() => {
+        document.title = 'Iniciar sesión - Math Paradise'
+    }, [])
 
     /**Mensajes y alertas */
     const [alertMessage, setAlertMessage] = useState('')

@@ -45,6 +45,21 @@ const routes = [
                 exact: true,
             },
             {
+                path: '/admin/users',
+                component: AdminHome,
+                exact: true,
+            },
+            {
+                path: '/admin/groups',
+                component: AdminHome,
+                exact: true,
+            },
+            {
+                path: '/admin/excercises',
+                component: AdminHome,
+                exact: true,
+            },
+            {
                 component: Error
             }
         ]

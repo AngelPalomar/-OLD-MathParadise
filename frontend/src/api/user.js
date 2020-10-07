@@ -59,11 +59,11 @@ export function loginApi(data) {
 }
 
 /**Obtener datos de un usuario */
-export function getUserApi(token, email) {
+export function getUserApi(token, id) {
     const url = `${basePath}/${apiVersion}/get-user`
     const params = {
         method: 'POST',
-        body: JSON.stringify(email),
+        body: JSON.stringify(id),
         headers: {
             "Content-Type": "application/json",
             Authorization: token

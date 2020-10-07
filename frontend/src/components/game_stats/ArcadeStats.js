@@ -19,15 +19,15 @@ function ArcadeStats(props) {
 
     useEffect(() => {
         const fetchGetUser = async () => {
-            const result = await getUserApi(token, { email: userData.email })
+            const result = await getUserApi(token, { id: userData.id })
 
             if (!result.message) {
                 setStats(result.user.arcade)
             }
         }
-        
+
         fetchGetUser()
-    })
+    }, [])
 
     return (
         <Paper className={classes.statsPaper} elevation={2}>

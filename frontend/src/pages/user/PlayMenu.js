@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from "react-router-dom"
 import { makeStyles } from "@material-ui/core/styles"
 import {
@@ -89,6 +89,10 @@ const useStyles = makeStyles((theme) => ({
 function PlayMenu() {
     const [game, setgame] = useState(<ClassicPaper />)
     const classes = useStyles()
+
+    useEffect(() => {
+        document.title = 'Modos de juego - Math Paradise'
+    }, [])
 
     const changeGame = (game) => {
         switch (game) {

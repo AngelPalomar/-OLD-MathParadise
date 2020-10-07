@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import jwtDecode from 'jwt-decode'
 import { makeStyles } from "@material-ui/core/styles"
 import {
@@ -28,6 +28,10 @@ const useStyles = makeStyles((theme) => ({
 function Dashboard() {
     const classes = useStyles()
     const [userData] = useState(jwtDecode(getAccessTokenApi()))
+
+    useEffect(() => {
+        document.title = 'Menú principal - Math Paradise'
+    }, [])
 
     return (
         <>

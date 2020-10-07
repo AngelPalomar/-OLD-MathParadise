@@ -97,7 +97,7 @@ function Rush() {
         incorrectSound.load()
         ticktockSound.load()
 
-        //rushTheme.play()
+        rushTheme.play()
         startSound.play()
 
         document.title = 'Modo Rush - Math Paradise'
@@ -169,7 +169,7 @@ function Rush() {
 
             //Obtener estadísticas previas del usuario
             const fetchGetUser = async () => {
-                const result = await getUserApi(getAccessTokenApi(), { email: userData.email })
+                const result = await getUserApi(getAccessTokenApi(), { id: userData.id })
 
                 if (!result.message) {
                     setPrevStats(result.user.rush)
@@ -181,7 +181,7 @@ function Rush() {
         return () => {
             clearInterval(t)
         }
-    }, [isActiveTimer, seconds, userData.email, prevStats, excerciseCount, level, multiplier, points,])
+    }, [isActiveTimer, seconds, userData.id, prevStats, excerciseCount, level, multiplier, points,])
 
     //Comparar estadísticas cuando acabe el juego
     useEffect(() => {
