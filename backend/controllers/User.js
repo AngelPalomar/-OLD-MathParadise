@@ -8,7 +8,7 @@ function signUp(req, res) {
     const { name, lastname, nickname, email, password, role, repeatPassword } = req.body
     user.name = name.trim()
     user.lastname = lastname.trim()
-    user.nickname = nickname.trim()
+    user.nickname = '@' + nickname.trim()
     user.email = email.trim()
     user.role = role
     user.active = true
@@ -95,21 +95,45 @@ function getUser(req, res) {
     const params = req.body
     const id = params.id
 
-    User.findOne({ _id: id }, (err, user) => {
-        if (err) {
-            res.status(500).send({ message: "Error del servidor" })
-        } else {
-            if (!user) {
-                res.status(404).send({ message: "No se ha encontrado a ningun usuario." })
+    User.findOne({ _id: id },
+        { password: 0 },
+        (err, user) => {
+            if (err) {
+                res.status(500).send({ message: "Error del servidor" })
             } else {
-                if (!user.active) {
-                    res.status(200).send({ code: 200, message: "El usuario no está activo." })
+                if (!user) {
+                    res.status(404).send({ message: "No se ha encontrado a ningun usuario." })
                 } else {
-                    res.status(200).send({ user })
+                    if (!user.active) {
+                        res.status(200).send({ code: 200, message: "El usuario no está activo." })
+                    } else {
+                        res.status(200).send({ user })
+                    }
                 }
             }
-        }
-    })
+        })
+}
+
+function getUserByNickname(req, res) {
+    const params = req.params
+
+    User.findOne({ nickname: params.nickname },
+        { password: 0 },
+        (err, user) => {
+            if (err) {
+                res.status(500).send({ message: "Error del servidor" })
+            } else {
+                if (!user) {
+                    res.status(404).send({ message: "No se ha encontrado a ningun usuario." })
+                } else {
+                    if (!user.active) {
+                        res.status(200).send({ code: 200, message: "El usuario no está activo." })
+                    } else {
+                        res.status(200).send({ user })
+                    }
+                }
+            }
+        })
 }
 
 function updateUser(req, res) {
@@ -133,5 +157,6 @@ module.exports = {
     signUp,
     login,
     getUser,
+    getUserByNickname,
     updateUser
 }

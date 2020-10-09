@@ -9,17 +9,17 @@ import { useStyles } from './useStyles'
 import RushSrc from '../../assets/images/icons/rush_icon_1.svg'
 
 /**APIs */
-import { getUserApi } from "../../api/user"
+import { getUserByNicknameApi } from "../../api/user"
 
 function RushStats(props) {
-    const { userData, token } = props
+    const { nickname } = props
     const classes = useStyles()
 
-    const [stats, setStats] = useState([])
+    const [stats, setStats] = useState(null)
 
     useEffect(() => {
         const fetchGetUser = async () => {
-            const result = await getUserApi(token, { id: userData.id })
+            const result = await getUserByNicknameApi(nickname)
 
             if (!result.message) {
                 setStats(result.user.rush)
@@ -40,19 +40,19 @@ function RushStats(props) {
             <Box className={classes.statsInfo}>
                 <Box className={classes.statsElement}>
                     <Typography variant="h6">Puntuación máxima</Typography>
-                    <Typography>{stats.points} pts</Typography>
+                    <Typography>{stats ? stats.points : "0"} pts</Typography>
                 </Box>
                 <Box className={classes.statsElement}>
                     <Typography>Máximo de ejercicios</Typography>
-                    <Typography>{stats.excercises}</Typography>
+                    <Typography>{stats ? stats.excercises : "0"}</Typography>
                 </Box>
                 <Box className={classes.statsElement}>
                     <Typography>Nivel máximo</Typography>
-                    <Typography>{stats.level}</Typography>
+                    <Typography>{stats ? stats.level : "0"}</Typography>
                 </Box>
                 <Box className={classes.statsElement}>
                     <Typography>Multiplicador máximo</Typography>
-                    <Typography>&times;{stats.multiplier}</Typography>
+                    <Typography>&times;{stats ? stats.multiplier : "0"}</Typography>
                 </Box>
             </Box>
 

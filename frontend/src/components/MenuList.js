@@ -1,6 +1,10 @@
 import React from 'react'
 import { Link } from "react-router-dom";
+import jwtDecode from 'jwt-decode';
 import { makeStyles, List, ListItem, ListItemIcon, ListItemText, Divider } from "@material-ui/core"
+
+/**APIS */
+import { getAccessTokenApi } from "../api/auth"
 
 import DashboardIcon from '@material-ui/icons/Dashboard'
 import GamesIcon from '@material-ui/icons/Games'
@@ -70,7 +74,7 @@ function MenuList(props) {
 
                 <Divider />
 
-                <Link to="/home/profile" className={classes.link}>
+                <Link to={"/home/profile/" + jwtDecode(getAccessTokenApi()).nickname} className={classes.link}>
                     <ListItem button >
                         <ListItemIcon>
                             <AccountBoxIcon />

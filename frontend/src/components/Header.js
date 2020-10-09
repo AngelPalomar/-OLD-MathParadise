@@ -1,10 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import jwtDecode from 'jwt-decode';
 import { makeStyles } from "@material-ui/core/styles"
 import { AppBar, Toolbar, IconButton, Button, Typography } from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu'
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew'
 import AccountBoxIcon from '@material-ui/icons/AccountBox'
+
+/**APIS */
+import { getAccessTokenApi } from "../api/auth"
 import { logout } from "../api/auth";
 
 const drawerWidth = 240
@@ -47,7 +51,7 @@ function Header(props) {
                     <MenuIcon color="primary" />
                 </IconButton>
                 <Typography variant="h5" color="primary" className={classes.title}>Inicio</Typography>
-                <Link to="/home/profile" className={classes.link}>
+                <Link to={"/home/profile/" + jwtDecode(getAccessTokenApi()).nickname} className={classes.link}>
                     <Button color="inherit" startIcon={<AccountBoxIcon />} className={classes.colorLabels}>
                         <Typography>Mi perfil</Typography>
                     </Button>

@@ -9,17 +9,17 @@ import { useStyles } from './useStyles'
 import ArcadeSrc from '../../assets/images/icons/arcade_icon_1.svg'
 
 /**APIs */
-import { getUserApi } from "../../api/user"
+import { getUserByNicknameApi } from "../../api/user"
 
 function ArcadeStats(props) {
-    const { userData, token } = props
+    const { nickname } = props
     const classes = useStyles()
 
-    const [stats, setStats] = useState([])
+    const [stats, setStats] = useState(null)
 
     useEffect(() => {
         const fetchGetUser = async () => {
-            const result = await getUserApi(token, { id: userData.id })
+            const result = await getUserByNicknameApi(nickname)
 
             if (!result.message) {
                 setStats(result.user.arcade)
@@ -41,23 +41,23 @@ function ArcadeStats(props) {
             <Box className={classes.statsInfo}>
                 <Box className={classes.statsElement}>
                     <Typography variant="h6">Puntuación máxima</Typography>
-                    <Typography>{stats.points} pts</Typography>
+                    <Typography>{stats ? stats.points : "0"} pts</Typography>
                 </Box>
                 <Box className={classes.statsElement}>
                     <Typography>Aciertos</Typography>
-                    <Typography>{stats.right_excercises}</Typography>
+                    <Typography>{stats ? stats.right_excercises : "0"}</Typography>
                 </Box>
                 <Box className={classes.statsElement}>
                     <Typography>Errores</Typography>
-                    <Typography>{stats.mistakes}</Typography>
+                    <Typography>{stats ? stats.mistakes : "0"}</Typography>
                 </Box>
                 <Box className={classes.statsElement}>
                     <Typography>No. de victorias</Typography>
-                    <Typography>{stats.victories}</Typography>
+                    <Typography>{stats ? stats.victories : "0"}</Typography>
                 </Box>
                 <Box className={classes.statsElement}>
                     <Typography>No. de derrotas</Typography>
-                    <Typography>{stats.defeats}</Typography>
+                    <Typography>{stats ? stats.defeats : "0"}</Typography>
                 </Box>
             </Box>
 

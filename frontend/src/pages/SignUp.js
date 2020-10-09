@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Redirect } from "react-router-dom"
 import { makeStyles } from '@material-ui/core/styles'
 import {
     Typography, Paper, Grid, Container, Button, Box, TextField,
@@ -9,7 +10,10 @@ import CreateIcon from '@material-ui/icons/Create'
 
 import PublicHeader from '../components/PublicHeader'
 import { emailValidation, minLenghtValidation } from '../utils/FormValidation'
+
+/**APIs */
 import { signUpApi } from '../api/user'
+import { getAccessTokenApi } from '../api/auth'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -148,6 +152,11 @@ function SignUp() {
                 }
             }
         }
+    }
+
+    /**Si el usuario está logueado */
+    if (getAccessTokenApi()) {
+        return <Redirect to="/home" />
     }
 
     return (

@@ -91,9 +91,9 @@ const routes = [
                 exact: true,
             },
             {
-                path: '/home/profile',
+                path: '/home/profile/:nickname',
                 component: Profile,
-                exact: true,
+                exact: true
             },
             {
                 component: Error
@@ -127,6 +127,18 @@ const routes = [
         path: '/sign-up',
         component: SignUp,
         exact: true,
+        routes: [
+            {
+                component: Error
+            }
+        ]
+    },
+
+    /**Ruta de perfil público */
+    {
+        path: '/profile/:nickname',
+        component: Profile,
+        exact: false,
         routes: [
             {
                 component: Error

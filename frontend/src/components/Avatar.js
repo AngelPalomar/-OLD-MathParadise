@@ -34,7 +34,7 @@ function Avatar(props) {
               {name + ' ' + lastname}
             </Box>
             <Box className={classes.username}>
-              @{nickname}
+              {nickname}
             </Box>
           </Typography>
         </Grid>

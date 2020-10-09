@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import PublicHeader from '../components/PublicHeader'
 
 function Home() {
+
+    useEffect(() => {
+        document.title = 'Math Paradise'
+    }, [])
+
     return (
         <>
             <PublicHeader />

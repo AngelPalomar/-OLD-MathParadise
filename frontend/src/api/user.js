@@ -80,6 +80,25 @@ export function getUserApi(token, id) {
     })
 }
 
+/**Buscar usuario por nickname */
+export function getUserByNicknameApi(nickname) {
+    const url = `${basePath}/${apiVersion}/get-user-nickname/${nickname}`
+    const params = {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+        }
+    }
+
+    return fetch(url, params).then(response => {
+        return response.json()
+    }).then(result => {
+        return result
+    }).catch(err => {
+        return err.message
+    })
+}
+
 /**Modificar datos de un usuario */
 export function updateUserApi(token, userData, userId) {
     const url = `${basePath}/${apiVersion}/update-user/${userId}`

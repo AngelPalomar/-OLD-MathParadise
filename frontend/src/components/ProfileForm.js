@@ -14,7 +14,7 @@ function ProfileForm(props) {
                 <TextField type="text" name="lastname" label="*Apellidos" variant="outlined" fullWidth defaultValue={userData.lastname}></TextField>
             </Grid>
             <Grid item lg={4} md={4} sm={12} xs={12}>
-                <TextField type="text" name="nickname" label="*Alias" variant="outlined" fullWidth defaultValue={userData.nickname}></TextField>
+                <TextField type="text" name="nickname" label="*Alias" variant="outlined" fullWidth disabled defaultValue={userData.nickname}></TextField>
             </Grid>
             <Grid item lg={6} md={6} sm={12} xs={12}>
                 <TextField type="email" name="email" label="*Correo electrónico" variant="outlined" fullWidth defaultValue={userData.email}></TextField>

@@ -45,13 +45,13 @@ function Dashboard() {
 
             <Grid container spacing={1} className={classes.stats}>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
-                    <ClassicStats userData={userData} token={getAccessTokenApi()} />
+                    <ClassicStats nickname={userData.nickname} />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
-                    <ArcadeStats userData={userData} token={getAccessTokenApi()} />
+                    <ArcadeStats nickname={userData.nickname} />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
-                    <RushStats userData={userData} token={getAccessTokenApi()} />
+                    <RushStats nickname={userData.nickname} />
                 </Grid>
             </Grid>
         </>
