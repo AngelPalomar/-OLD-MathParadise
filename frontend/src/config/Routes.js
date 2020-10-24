@@ -1,8 +1,18 @@
 /**Layouts */
 import LayoutUser from '../layouts/LayoutUser'
+import LayoutAdmin from '../layouts/LayoutAdmin'
 
 /**Admin Pages */
-import AdminHome from '../pages/admin/Admin'
+import AdminDashboard from '../pages/admin/Dashboard'
+import AdminUsers from '../pages/admin/Users'
+import AdminGroups from '../pages/admin/Groups'
+
+//Instituciones
+import AdminInstitutionsMenu from '../pages/admin/institutions/Menu'
+
+//Ejercicios
+import AdminExcercisesMenu from '../pages/admin/excercises/Menu'
+import AdminExcercisesCreate from '../pages/admin/excercises/Create'
 
 /** User Pages */
 import Dashboard from '../pages/user/Dashboard'
@@ -36,27 +46,37 @@ const routes = [
     /**Rutas de administrador */
     {
         path: '/admin',
-        component: AdminHome,
+        component: LayoutAdmin,
         exact: false,
         routes: [
             {
                 path: '/admin',
-                component: AdminHome,
+                component: AdminDashboard,
                 exact: true,
             },
             {
                 path: '/admin/users',
-                component: AdminHome,
+                component: AdminUsers,
                 exact: true,
             },
             {
                 path: '/admin/groups',
-                component: AdminHome,
+                component: AdminGroups,
                 exact: true,
             },
             {
+                path: '/admin/institutions',
+                component: AdminInstitutionsMenu,
+                exact: true
+            },
+            {
                 path: '/admin/excercises',
-                component: AdminHome,
+                component: AdminExcercisesMenu,
+                exact: true
+            },
+            {
+                path: '/admin/excercises/create',
+                component: AdminExcercisesCreate,
                 exact: true,
             },
             {

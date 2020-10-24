@@ -1,11 +1,14 @@
-import React, { useEffect } from 'react'
-import { Howler } from 'howler'
-import { makeStyles, Hidden } from "@material-ui/core"
+import React from 'react'
+import JwtDecode from 'jwt-decode'
 import { Route, Switch, Redirect } from 'react-router-dom'
+import { makeStyles, Hidden } from "@material-ui/core"
 
-/**Elementos de navegación */
-import Header from "../components/Header"
-import NavMenu from "../components/NavMenu"
+/**Componentes */
+import Header from '../components/Header'
+import NavMenu from '../components/admin_navigation/NavMenu'
+
+/**APIs */
+import { getAccessTokenApi } from '../api/auth'
 
 /**Hook para autenticación */
 import useAuth from '../hooks/useAuth'
@@ -21,23 +24,18 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-function LayoutUser(props) {
+function LayoutAdmin(props) {
     const [open, setOpen] = React.useState(false)
     const { routes, match: { path } } = props
     const classes = useStyles()
 
-    //Descargar sonidos
-    useEffect(() => {
-        Howler.stop()
-    }, [])
-
-    /**Menu lateral */
     const OpenAction = () => {
         setOpen(!open)
     }
 
     /**Si el usuario está logueado */
     const { user, isLoading } = useAuth()
+    const { role } = JwtDecode(getAccessTokenApi())
 
     if (!user && !isLoading) {
         return (
@@ -47,12 +45,12 @@ function LayoutUser(props) {
         )
     }
 
-    if (user && !isLoading) {
+    if (user && !isLoading && (role === 'admin' || role === 'moderator')) {
         return (
             <div className={classes.root}>
-                <Header position="fixed" OpenAction={OpenAction} />
+                <Header position="fixed" OpenAction={OpenAction} title={path} />
                 <Hidden xsDown>
-                    <NavMenu variant="permanent" open={true} title={path} />
+                    <NavMenu variant="permanent" open={true} />
                 </Hidden>
                 <Hidden smUp>
                     <NavMenu
@@ -89,4 +87,4 @@ function LoadRoute({ routes }) {
     )
 }
 
-export default LayoutUser
+export default LayoutAdmin

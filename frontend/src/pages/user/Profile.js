@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import moduleName from 'jwt-decode'
 import { makeStyles } from '@material-ui/core/styles'
 import {
     Typography, Paper, Grid, Box, CircularProgress, Button
@@ -7,6 +6,10 @@ import {
 
 /**Iconos */
 import EditIcon from '@material-ui/icons/Edit';
+import AvTimerIcon from '@material-ui/icons/AvTimer'; //admin
+import PolicyIcon from '@material-ui/icons/Policy'; //mod
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd'; //tutor
+import SchoolIcon from '@material-ui/icons/School'; //student
 
 /**Componentes */
 import Error404 from '../Error404'
@@ -23,11 +26,11 @@ import JwtDecode from 'jwt-decode';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        padding: theme.spacing(2)
+        padding: theme.spacing(2),
+        width: '100%'
     },
     paperStats: {
         padding: theme.spacing(2),
-        margin: theme.spacing(1),
         height: '100%'
     },
     paperProfile: {
@@ -35,7 +38,6 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         flexDirection: 'column',
         padding: theme.spacing(2),
-        margin: theme.spacing(1)
     },
     boxInfo: {
         marginTop: theme.spacing(2)
@@ -50,6 +52,16 @@ const useStyles = makeStyles((theme) => ({
     },
     title: {
         marginBottom: theme.spacing(2)
+    },
+    role: {
+        display: 'flex',
+        justifyContent: 'center',
+        color: '#3A3D3A',
+        margin: theme.spacing(1)
+    },
+    alignIconRole: {
+        display: 'flex',
+        alignItems: 'center'
     }
 }))
 
@@ -61,6 +73,11 @@ function Profile(props) {
     const [isFound, setIsFound] = useState(true)
 
     useEffect(() => {
+        document.title = nickname + ' - Math Paradise'
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    useEffect(() => {
         const fetchGetUserByNickname = async () => {
             const result = await getUserByNicknameApi(nickname)
 
@@ -68,7 +85,7 @@ function Profile(props) {
                 const { user } = result
                 setUserData(user)
             } else {
-                if (result.message == "No se ha encontrado a ningun usuario.") {
+                if (result.message === "No se ha encontrado a ningun usuario.") {
                     setIsFound(false)
                 }
             }
@@ -76,7 +93,45 @@ function Profile(props) {
         }
 
         fetchGetUserByNickname()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    //Mostrar rol de usuario
+    const renderRole = (key) => {
+        switch (key) {
+            case 'admin':
+                return (
+                    <span className={classes.alignIconRole}>
+                        <AvTimerIcon />&nbsp;Administrador
+                    </span>
+                )
+
+            case 'moderator':
+                return (
+                    <span className={classes.alignIconRole}>
+                        <PolicyIcon />&nbsp;Moderador
+                    </span>
+                )
+
+            case 'tutor':
+                return (
+                    <span className={classes.alignIconRole}>
+                        <AssignmentIndIcon />&nbsp;Tutor
+                    </span>
+                )
+
+            case 'student':
+                return (
+                    <span className={classes.alignIconRole}>
+                        <SchoolIcon />&nbsp;Estudiante
+                    </span>
+                )
+
+            default:
+                return 'Tipo de usuario'
+        }
+    }
+
 
     if (!isFound && !userData) {
         return (
@@ -86,7 +141,7 @@ function Profile(props) {
         return (
             <>
                 {!getAccessTokenApi() ? <PublicHeader /> : null}
-                <Grid container spacing={0} className={!getAccessTokenApi() ? classes.root : null}>
+                <Grid container spacing={2} className={!getAccessTokenApi() ? classes.root : null}>
                     <Grid item lg={4} md={3} sm={12} xs={12}>
                         <Paper className={classes.paperProfile}>
                             <Box>
@@ -96,19 +151,26 @@ function Profile(props) {
                                 <Typography variant="h5">
                                     {userData ? userData.name + " " + userData.lastname : <CircularProgress color="primary" />}
                                 </Typography>
-                                <Typography className={classes.nicknameLabel}>
+                                <Typography variant="subtitle1" className={classes.nicknameLabel}>
                                     {userData ? userData.nickname : <CircularProgress color="primary" />}
                                 </Typography>
-                                {getAccessTokenApi() && userData ?
-                                    JwtDecode(getAccessTokenApi()).nickname === userData.nickname ?
-                                        <Box className={classes.editProfileBtn}>
-                                            <Button
-                                                variant="contained"
-                                                color="default"
-                                                startIcon={<EditIcon />}>
-                                                Editar Perfil
-                                        </Button>
-                                        </Box> : null : null}
+                                {
+                                    getAccessTokenApi() && userData ?
+                                        <Typography className={classes.role}>{renderRole(userData.role)}</Typography>
+                                        : null
+                                }
+                                {
+                                    getAccessTokenApi() && userData ?
+                                        JwtDecode(getAccessTokenApi()).nickname === userData.nickname ?
+                                            <Box className={classes.editProfileBtn}>
+                                                <Button
+                                                    variant="contained"
+                                                    color="default"
+                                                    startIcon={<EditIcon />}>
+                                                    Editar Perfil
+                                                </Button>
+                                            </Box> : null : null
+                                }
                             </Box>
                         </Paper>
                     </Grid>
@@ -116,13 +178,13 @@ function Profile(props) {
                         <Paper className={classes.paperStats}>
                             <Typography variant="h5" className={classes.title}>Estadísticas de juego</Typography>
                             <Grid container spacing={1}>
-                                <Grid item lg={6} md={6}>
+                                <Grid item lg={6} md={6} sm={12} xs={12}>
                                     <ClassicStats nickname={nickname} />
                                 </Grid>
-                                <Grid item lg={6} md={6}>
+                                <Grid item lg={6} md={6} sm={12} xs={12}>
                                     <ArcadeStats nickname={nickname} />
                                 </Grid>
-                                <Grid item lg={6} md={6}>
+                                <Grid item lg={6} md={6} sm={12} xs={12}>
                                     <RushStats nickname={nickname} />
                                 </Grid>
                             </Grid>

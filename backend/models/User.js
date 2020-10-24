@@ -13,6 +13,8 @@ const UserSchema = Schema({
         unique: true
     },
     password: String,
+    school_grade: String,
+    institution: String,
     role: String,
     active: Boolean,
     classic: {

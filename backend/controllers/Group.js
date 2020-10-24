@@ -1,6 +1,6 @@
 var randomToken = require('random-token')
     .create('abcdefghijklmnopqrstuvwxzyABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
-const { updateOne } = require('../models/Group');
+//const { updateOne } = require('../models/Group');
 const Group = require('../models/Group')
 
 function createGroup(req, res) {

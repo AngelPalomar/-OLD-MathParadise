@@ -3,7 +3,8 @@ import { Redirect } from "react-router-dom"
 import { makeStyles } from '@material-ui/core/styles'
 import {
     Typography, Paper, Grid, Container, Button, Box, TextField,
-    FormControl, FormControlLabel, Radio, RadioGroup, Snackbar, IconButton
+    FormControl, FormControlLabel, Radio, RadioGroup, Snackbar, IconButton,
+    InputLabel, Select, MenuItem
 } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
 import CreateIcon from '@material-ui/icons/Create'
@@ -14,6 +15,7 @@ import { emailValidation, minLenghtValidation } from '../utils/FormValidation'
 /**APIs */
 import { signUpApi } from '../api/user'
 import { getAccessTokenApi } from '../api/auth'
+import { getInstitutionsApi } from '../api/institution'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -43,29 +45,17 @@ const useStyles = makeStyles((theme) => ({
     container: {
         display: 'flex',
         justifyContent: 'center'
+    },
+    select: {
+        width: '100%'
     }
 }))
 
 function SignUp() {
     const classes = useStyles()
-
-    const [alert, setAlert] = React.useState(false)
-
-    useEffect(() => {
-        document.title = 'Registrarse - Math Paradise'
-    }, [])
-
-    const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-
-        setAlert(false)
-    }
-
-    //Mensaje de alertas
-    const [message, setMessage] = useState('')
-
+    const [alert, setAlert] = React.useState(false) //Alerta superior
+    const [message, setMessage] = useState('') //Mensaje de alertas
+    const [instData, setInstData] = useState([]) //Traer nombre de instituciones
     //Valoresd de los campos
     const [inputs, setInputs] = useState({
         name: '',
@@ -73,6 +63,8 @@ function SignUp() {
         nickname: '',
         email: '',
         password: '',
+        institution: '',
+        school_grade: '',
         repeatPassword: '',
         role: ''
     })
@@ -93,16 +85,51 @@ function SignUp() {
         lastname: false,
         nickname: false,
         email: false,
+        institution: false,
+        school_grade: false,
         password: false,
         repeatPassword: false,
         role: false
     })
+    //Grados escolares
+    const grades = [
+        { val: 1, name: '1er' },
+        { val: 2, name: '2do' },
+        { val: 3, name: '3ro' },
+        { val: 4, name: '4to' },
+        { val: 5, name: '5to' },
+        { val: 6, name: '6to' },
+        { val: 7, name: '7mo' },
+        { val: 8, name: '8vo' },
+        { val: 9, name: '9no' },
+        { val: 10, name: '10mo' },
+        { val: 11, name: '11vo' }
+    ]
+
+    useEffect(() => {
+        document.title = 'Registrarse - Math Paradise'
+    }, [])
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setAlert(false)
+    }
+
+    useEffect(() => {
+        getInstitutionsApi().then(response => {
+            setInstData(response.institution)
+        })
+    }, [])
 
     const changeForm = (e) => {
         setInputs({
             ...inputs,
             [e.target.name]: e.target.value
         })
+        console.log(inputs.institution)
     }
 
     const inputValidation = (e) => {
@@ -129,11 +156,12 @@ function SignUp() {
     const signUp = async e => {
         e.preventDefault()
         const { name, lastname, nickname, email, password, repeatPassword, role } = formValid
+        const { institution, school_grade } = inputs
         const passwordValue = inputs.password
         const repeatPasswordValue = inputs.repeatPassword
 
         //Si los campos devuelve -false-
-        if (!name || !lastname || !nickname || !email || !password || !repeatPassword || !role) {
+        if (!name || !lastname || !nickname || !email || !password || !repeatPassword || !role || institution === '' || school_grade === '') {
             setMessage('Todos los campos son requeridos.')
             setAlert(true)
         } else {
@@ -149,6 +177,10 @@ function SignUp() {
                 } else {
                     setMessage(result.message)
                     setAlert(true)
+
+                    setTimeout(() => {
+                        window.location.href = '/login'
+                    }, 2000);
                 }
             }
         }
@@ -186,13 +218,13 @@ function SignUp() {
                             <Typography variant="h6" className={classes.formTitle}>Datos personales</Typography>
                             <Grid container spacing={2}>
                                 <Grid item lg={4} md={4} sm={12} xs={12}>
-                                    <TextField type="text" name="name" label="*Nombres" variant="outlined" error={isError.name} fullWidth onChange={inputValidation}></TextField>
+                                    <TextField type="text" name="name" label="*Nombres(s)" variant="outlined" error={isError.name} fullWidth onChange={inputValidation}></TextField>
                                 </Grid>
                                 <Grid item lg={4} md={4} sm={12} xs={12}>
-                                    <TextField type="text" name="lastname" label="*Apellidos" variant="outlined" error={isError.lastname} fullWidth onChange={inputValidation}></TextField>
+                                    <TextField type="text" name="lastname" label="*Apellido(s)" variant="outlined" error={isError.lastname} fullWidth onChange={inputValidation}></TextField>
                                 </Grid>
                                 <Grid item lg={4} md={4} sm={12} xs={12}>
-                                    <TextField type="text" name="nickname" label="*Alias" variant="outlined" error={isError.nickname} fullWidth onChange={inputValidation}></TextField>
+                                    <TextField type="text" name="nickname" label="*Alias (Ejemplo: axe_123)" variant="outlined" error={isError.nickname} fullWidth onChange={inputValidation}></TextField>
                                 </Grid>
                                 <Grid item lg={6} md={6} sm={12} xs={12}>
                                     <TextField type="email" name="email" label="*Correo electrónico" variant="outlined" error={isError.email} fullWidth onChange={inputValidation}></TextField>
@@ -203,6 +235,42 @@ function SignUp() {
                                 <Grid item lg={3} md={3} sm={12} xs={12}>
                                     <TextField type="password" name="repeatPassword" label="*Confirmar contraseña" variant="outlined" error={isError.repeatPassword} fullWidth onChange={inputValidation}></TextField>
                                 </Grid>
+                                <Grid item lg={6} md={6} sm={12} xs={12}>
+                                    <FormControl variant="outlined" className={classes.select}>
+                                        <InputLabel id="lbl_institution">Seleccione una institución</InputLabel>
+                                        <Select
+                                            name="institution"
+                                            value={inputs.institution}
+                                            labelId="lbl_institution"
+                                            label="Seleccione una institución"
+                                            onChange={changeForm}>
+
+                                            {instData.map(values =>
+                                                <MenuItem key="" value={values.name}>{values.name}</MenuItem>
+                                            )}
+
+                                        </Select>
+
+                                    </FormControl>
+                                </Grid>
+                                <Grid item lg={6} md={6} sm={12} xs={12}>
+                                    <FormControl variant="outlined" className={classes.select}>
+                                        <InputLabel id="lbl_school_grade">Año / Semestre / Cuatrimestre</InputLabel>
+                                        <Select
+                                            name="school_grade"
+                                            value={inputs.school_grade}
+                                            labelId="lbl_school_grade"
+                                            label="Año / Semestre / Cuatrimestre"
+                                            onChange={changeForm}>
+
+                                            {grades.map(values =>
+                                                <MenuItem key="" value={values.val}>{values.name}</MenuItem>
+                                            )}
+
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+
                             </Grid>
                         </Box>
                         <Box className={classes.boxForm}>

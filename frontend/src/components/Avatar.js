@@ -1,6 +1,6 @@
 import React from "react"
 import { makeStyles } from "@material-ui/core/styles"
-import { Typography, Paper, Grid, Box, Avatar as AvatarImage } from "@material-ui/core"
+import { Typography, Paper, Grid, Box } from "@material-ui/core"
 
 import DefaultAvatar from "./DefaultAvatar";
 

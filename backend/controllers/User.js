@@ -5,11 +5,13 @@ const User = require("../models/User")
 function signUp(req, res) {
     const user = new User()
 
-    const { name, lastname, nickname, email, password, role, repeatPassword } = req.body
+    const { name, lastname, nickname, email, password, role, institution, school_grade, repeatPassword } = req.body
     user.name = name.trim()
     user.lastname = lastname.trim()
     user.nickname = '@' + nickname.trim()
     user.email = email.trim()
+    user.institution = institution
+    user.school_grade = school_grade
     user.role = role
     user.active = true
     user.classic.points = 0

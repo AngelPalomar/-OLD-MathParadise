@@ -9,6 +9,8 @@ const { API_VERSION } = require('./config')
 const AuthRoutes = require('./routers/auth')
 const UserRoutes = require('./routers/User')
 const GroupRoutes = require('./routers/Group')
+const ExcerciseRoutes = require('./routers/Excercise')
+const InstitutionRoutes = require('./routers/Institution')
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -29,5 +31,7 @@ app.use((req, res, next) => {
 app.use(`/api/${API_VERSION}`, AuthRoutes)
 app.use(`/api/${API_VERSION}`, UserRoutes)
 app.use(`/api/${API_VERSION}`, GroupRoutes)
+app.use(`/api/${API_VERSION}`, ExcerciseRoutes)
+app.use(`/api/${API_VERSION}`, InstitutionRoutes)
 
 module.exports = app;

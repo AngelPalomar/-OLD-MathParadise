@@ -231,6 +231,7 @@ function Rush() {
 
             compareStats()
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [prevStats])
 
     //temporizador del streak

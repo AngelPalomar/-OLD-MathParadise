@@ -6,13 +6,15 @@ import { makeStyles, List, ListItem, ListItemIcon, ListItemText, Divider } from 
 /**APIS */
 import { getAccessTokenApi } from "../api/auth"
 
+/**Iconos */
 import DashboardIcon from '@material-ui/icons/Dashboard'
 import GamesIcon from '@material-ui/icons/Games'
 import EmojiEventsIcon from '@material-ui/icons/EmojiEvents'
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt'
 import FunctionsIcon from '@material-ui/icons/Functions'
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import SettingsIcon from '@material-ui/icons/Settings';
+import AccountBoxIcon from '@material-ui/icons/AccountBox'
+import SettingsIcon from '@material-ui/icons/Settings'
+import AvTimerIcon from '@material-ui/icons/AvTimer'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -100,6 +102,20 @@ function MenuList(props) {
                         <ListItemText primary="Configuración" />
                     </ListItem>
                 </Link>
+
+                {jwtDecode(getAccessTokenApi()).role === 'admin' || jwtDecode(getAccessTokenApi()).role === 'moderator' ?
+                    <div>
+                        <Divider />
+                        <Link to="/admin" className={classes.link}>
+                            <ListItem button>
+                                <ListItemIcon>
+                                    <AvTimerIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Panel de adminstración" />
+                            </ListItem>
+                        </Link>
+                    </div> : null
+                }
             </List>
         </div>
     )
