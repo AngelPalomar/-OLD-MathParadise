@@ -94,10 +94,9 @@ function login(req, res) {
 }
 
 function getUser(req, res) {
-    const params = req.body
-    const id = params.id
+    const params = req.params
 
-    User.findOne({ _id: id },
+    User.findOne({ _id: params.id },
         { password: 0 },
         (err, user) => {
             if (err) {
@@ -138,6 +137,20 @@ function getUserByNickname(req, res) {
         })
 }
 
+function getAllUsers(req, res) {
+    User.find((err, users) => {
+        if (err) {
+            res.status(500).send({ status: 0, message: "Error del servidor." })
+        } else {
+            if (!users) {
+                res.status(404).send({ message: "No hay usuarios." })
+            } else {
+                res.status(200).send({ users })
+            }
+        }
+    }).select('-password -arcade -classic -rush -__v')
+}
+
 function updateUser(req, res) {
     const userData = req.body
     const params = req.params
@@ -160,5 +173,6 @@ module.exports = {
     login,
     getUser,
     getUserByNickname,
+    getAllUsers,
     updateUser
 }

@@ -2,15 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Howler } from 'howler'
 import jwtDecode from "jwt-decode"
 import {
-    Typography,
-    Box,
-    Grid,
-    Paper,
-    TextField,
-    Button,
-    LinearProgress,
-    Backdrop,
-    Grow,
+    Typography, Box, Grid, Paper, TextField, Button, LinearProgress, Backdrop, Grow,
     Slide
 } from "@material-ui/core"
 import { useStyles } from "./RushStyles"
@@ -45,8 +37,13 @@ import ok_icon from '../../../assets/images/icons/ok_icon.svg'
 import x_icon from '../../../assets/images/icons/x_icon.svg'
 import question_icon from '../../../assets/images/icons/question_icon.svg'
 
-function Rush() {
+function Rush(props) {
+    if (!getAccessTokenApi()) {
+        window.location.href = '/login'
+    }
+
     const classes = useStyles()
+
     //Datos usuario
     const [userData] = useState(jwtDecode(getAccessTokenApi()))
     const [prevStats, setPrevStats] = useState(null)
@@ -168,14 +165,9 @@ function Rush() {
             gameoverSound.play()
 
             //Obtener estadísticas previas del usuario
-            const fetchGetUser = async () => {
-                const result = await getUserApi(getAccessTokenApi(), { id: userData.id })
-
-                if (!result.message) {
-                    setPrevStats(result.user.rush)
-                }
-            }
-            fetchGetUser()
+            getUserApi(getAccessTokenApi(), userData.id).then(response => {
+                setPrevStats(response.user.rush)
+            })
         }
 
         return () => {

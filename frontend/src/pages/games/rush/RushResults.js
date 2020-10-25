@@ -50,6 +50,11 @@ function RushResults(props) {
         window.location.href = '/home/play'
     }
 
+    const playAgain = () => {
+        Howler.stop()
+        window.location.reload();
+    }
+
     return (
         <>
             <Dialog
@@ -85,6 +90,9 @@ function RushResults(props) {
                 </DialogContent>
 
                 <DialogActions>
+                    <Button onClick={playAgain} color="primary">
+                        Volver a jugar
+                    </Button>
                     <Button onClick={backToHome} color="primary">
                         {button1}
                     </Button>

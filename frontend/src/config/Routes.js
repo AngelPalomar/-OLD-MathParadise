@@ -4,8 +4,10 @@ import LayoutAdmin from '../layouts/LayoutAdmin'
 
 /**Admin Pages */
 import AdminDashboard from '../pages/admin/Dashboard'
-import AdminUsers from '../pages/admin/Users'
 import AdminGroups from '../pages/admin/Groups'
+
+//Usuarios
+import AdminUsersMenu from '../pages/admin/users/Menu'
 
 //Instituciones
 import AdminInstitutionsMenu from '../pages/admin/institutions/Menu'
@@ -56,7 +58,7 @@ const routes = [
             },
             {
                 path: '/admin/users',
-                component: AdminUsers,
+                component: AdminUsersMenu,
                 exact: true,
             },
             {

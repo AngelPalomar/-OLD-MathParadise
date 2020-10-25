@@ -60,10 +60,9 @@ export function loginApi(data) {
 
 /**Obtener datos de un usuario */
 export function getUserApi(token, id) {
-    const url = `${basePath}/${apiVersion}/get-user`
+    const url = `${basePath}/${apiVersion}/get-user/${id}`
     const params = {
         method: 'POST',
-        body: JSON.stringify(id),
         headers: {
             "Content-Type": "application/json",
             Authorization: token
@@ -85,6 +84,24 @@ export function getUserByNicknameApi(nickname) {
     const url = `${basePath}/${apiVersion}/get-user-nickname/${nickname}`
     const params = {
         method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+        }
+    }
+
+    return fetch(url, params).then(response => {
+        return response.json()
+    }).then(result => {
+        return result
+    }).catch(err => {
+        return err.message
+    })
+}
+
+export function getAllUsersApi() {
+    const url = `${basePath}/${apiVersion}/get-all-users`
+    const params = {
+        method: 'GET',
         headers: {
             "Content-Type": "application/json",
         }

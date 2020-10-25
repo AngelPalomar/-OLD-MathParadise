@@ -9,11 +9,11 @@ import { getAccessTokenApi } from "../api/auth"
 /**Iconos */
 import DashboardIcon from '@material-ui/icons/Dashboard'
 import GamesIcon from '@material-ui/icons/Games'
-import EmojiEventsIcon from '@material-ui/icons/EmojiEvents'
-import PeopleAltIcon from '@material-ui/icons/PeopleAlt'
-import FunctionsIcon from '@material-ui/icons/Functions'
-import AccountBoxIcon from '@material-ui/icons/AccountBox'
-import SettingsIcon from '@material-ui/icons/Settings'
+//import EmojiEventsIcon from '@material-ui/icons/EmojiEvents'
+//import PeopleAltIcon from '@material-ui/icons/PeopleAlt'
+//import FunctionsIcon from '@material-ui/icons/Functions'
+//import AccountBoxIcon from '@material-ui/icons/AccountBox'
+//import SettingsIcon from '@material-ui/icons/Settings'
 import AvTimerIcon from '@material-ui/icons/AvTimer'
 
 const useStyles = makeStyles((theme) => ({
@@ -56,52 +56,41 @@ function MenuList(props) {
                     </ListItem>
                 </Link>
 
-                <Link to="/home/leaderboard" className={classes.link}>
+                {/**<Link to="/home/leaderboard" className={classes.link}>
                     <ListItem button >
                         <ListItemIcon>
                             <EmojiEventsIcon />
                         </ListItemIcon>
                         <ListItemText primary="Clasificación" />
                     </ListItem>
-                </Link>
+                </Link> */}
 
-                <Link to="/home/groups" className={classes.link}>
+                {/**<Link to="/home/groups" className={classes.link}>
                     <ListItem button >
                         <ListItemIcon>
                             <PeopleAltIcon />
                         </ListItemIcon>
                         <ListItemText primary="Grupos" />
                     </ListItem>
-                </Link>
+                </Link> */}
 
-                <Divider />
-
-                <Link to={"/home/profile/" + jwtDecode(getAccessTokenApi()).nickname} className={classes.link}>
-                    <ListItem button >
-                        <ListItemIcon>
-                            <AccountBoxIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Mi perfil" />
-                    </ListItem>
-                </Link>
-
-                <Link to="/courses" className={classes.link}>
+                {/**<Link to="/courses" className={classes.link}>
                     <ListItem button>
                         <ListItemIcon>
                             <FunctionsIcon />
                         </ListItemIcon>
                         <ListItemText primary="Cursos de ayuda" />
                     </ListItem>
-                </Link>
+                </Link>*/}
 
-                <Link to="/config" className={classes.link}>
+                {/**<Link to="/config" className={classes.link}>
                     <ListItem button>
                         <ListItemIcon>
                             <SettingsIcon />
                         </ListItemIcon>
                         <ListItemText primary="Configuración" />
                     </ListItem>
-                </Link>
+                </Link>*/}
 
                 {jwtDecode(getAccessTokenApi()).role === 'admin' || jwtDecode(getAccessTokenApi()).role === 'moderator' ?
                     <div>
