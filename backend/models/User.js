@@ -15,6 +15,7 @@ const UserSchema = Schema({
     password: String,
     school_grade: String,
     institution: String,
+    sign_up_date: Date,
     role: String,
     active: Boolean,
     classic: {

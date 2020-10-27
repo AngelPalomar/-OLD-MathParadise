@@ -12,6 +12,7 @@ function signUp(req, res) {
     user.email = email.trim()
     user.institution = institution
     user.school_grade = school_grade
+    user.sign_up_date = new Date()
     user.role = role
     user.active = true
     user.classic.points = 0

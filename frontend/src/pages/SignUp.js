@@ -245,7 +245,7 @@ function SignUp() {
                                             label="Seleccione una institución"
                                             onChange={changeForm}>
 
-                                            <MenuItem key="" value="Ninguna">Ninguna</MenuItem>
+                                            <MenuItem key="" value="None">Ninguna</MenuItem>
 
                                             {instData.map(values =>
                                                 <MenuItem key="" value={values.name}>{values.name}</MenuItem>
@@ -264,6 +264,8 @@ function SignUp() {
                                             labelId="lbl_school_grade"
                                             label="Año / Semestre / Cuatrimestre"
                                             onChange={changeForm}>
+
+                                            <MenuItem key="" value="None">Ninguno</MenuItem>
 
                                             {grades.map(values =>
                                                 <MenuItem key="" value={values.val}>{values.name}</MenuItem>
