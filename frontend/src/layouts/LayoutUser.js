@@ -3,6 +3,9 @@ import { Howler } from 'howler'
 import { makeStyles, Hidden } from "@material-ui/core"
 import { Route, Switch, Redirect } from 'react-router-dom'
 
+/**Componentes */
+import Login from '../pages/Login'
+
 /**Elementos de navegación */
 import Header from "../components/Header"
 import NavMenu from "../components/NavMenu"
@@ -42,6 +45,7 @@ function LayoutUser(props) {
     if (!user && !isLoading) {
         return (
             <>
+                <Route path="/login" component={Login} />
                 <Redirect to="/login" />
             </>
         )

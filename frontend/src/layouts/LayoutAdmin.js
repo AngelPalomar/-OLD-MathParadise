@@ -4,6 +4,9 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 import { makeStyles, Hidden } from "@material-ui/core"
 
 /**Componentes */
+import Login from '../pages/Login'
+
+/**Navegación */
 import Header from '../components/Header'
 import NavMenu from '../components/admin_navigation/NavMenu'
 
@@ -27,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
 function LayoutAdmin(props) {
     const [open, setOpen] = React.useState(false)
     const { routes, match: { path } } = props
+    const { role } = JwtDecode(getAccessTokenApi())
     const classes = useStyles()
 
     const OpenAction = () => {
@@ -35,11 +39,11 @@ function LayoutAdmin(props) {
 
     /**Si el usuario está logueado */
     const { user, isLoading } = useAuth()
-    const { role } = JwtDecode(getAccessTokenApi())
 
-    if (!user && !isLoading) {
+    if ((!user && !isLoading) || !getAccessTokenApi()) {
         return (
             <>
+                <Route path="/login" component={Login} />
                 <Redirect to="/login" />
             </>
         )

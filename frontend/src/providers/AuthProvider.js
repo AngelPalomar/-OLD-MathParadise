@@ -10,7 +10,7 @@ export default function AuthProvider(props) {
         user: null,
         isLoading: true
     })
-    
+
     useEffect(() => {
         checkUserLogin(setUser)
     }, [])
@@ -19,11 +19,11 @@ export default function AuthProvider(props) {
 }
 
 function checkUserLogin(setUser) {
-    const accessToken = getAccessTokenApi() 
+    const accessToken = getAccessTokenApi()
 
     if (!accessToken) {
         const refreshToken = getRefreshTokenApi()
-        
+
         if (!refreshToken) {
             logout()
             setUser({
@@ -35,8 +35,8 @@ function checkUserLogin(setUser) {
         }
     } else {
         setUser({
-            user: jwtDecode(accessToken),
-            isLoading: false
+            isLoading: false,
+            user: jwtDecode(accessToken)
         })
     }
 }

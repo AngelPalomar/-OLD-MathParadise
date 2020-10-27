@@ -17,16 +17,59 @@ export const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(2),
         overflow: "auto",
         position: "top",
-        height: "90vh"
+        [theme.breakpoints.down('sm')]: {
+            height: "80vh"
+        },
+        [theme.breakpoints.down('md')]: {
+            height: "90vh"
+        },
+        [theme.breakpoints.down('lg')]: {
+            height: "90vh"
+        }
+    },
+    topicCardContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        [theme.breakpoints.down('sm')]: {
+            height: "80%"
+        },
+        [theme.breakpoints.down('md')]: {
+            height: "90%"
+        },
+        [theme.breakpoints.down('lg')]: {
+            height: "95%"
+        },
+        border: 0
+    },
+    paper: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        [theme.breakpoints.down('sm')]: {
+            height: "80%"
+        },
+        [theme.breakpoints.down('md')]: {
+            height: "90%"
+        },
+        [theme.breakpoints.down('lg')]: {
+            height: "95%"
+        },
+        [theme.breakpoints.down('xl')]: {
+            height: "97%"
+        },
+        padding: theme.spacing(2),
+        border: 0
     },
     topicCard: {
         width: "43%",
-        margin: theme.spacing(1),
+        margin: theme.spacing(0),
         marginBottom: theme.spacing(1.2)
     },
     selectedTopicCard: {
         width: "50%",
-        margin: theme.spacing(1),
+        margin: theme.spacing(0),
         marginBottom: theme.spacing(1.2)
     },
     multiplierContainer: {
@@ -55,14 +98,6 @@ export const useStyles = makeStyles((theme) => ({
     },
     comboBox: {
         transform: 'rotate(-20deg)'
-    },
-    paper: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        height: "100%",
-        padding: theme.spacing(2),
-        border: 0
     },
     form: {
         display: 'flex',

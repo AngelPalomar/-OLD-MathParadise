@@ -245,6 +245,8 @@ function SignUp() {
                                             label="Seleccione una institución"
                                             onChange={changeForm}>
 
+                                            <MenuItem key="" value="Ninguna">Ninguna</MenuItem>
+
                                             {instData.map(values =>
                                                 <MenuItem key="" value={values.name}>{values.name}</MenuItem>
                                             )}
