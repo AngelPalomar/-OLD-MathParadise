@@ -10,6 +10,7 @@ import CloseIcon from '@material-ui/icons/Close'
 import CreateIcon from '@material-ui/icons/Create'
 
 import PublicHeader from '../components/PublicHeader'
+import Footer from '../components/Footer'
 import { emailValidation, minLenghtValidation } from '../utils/FormValidation'
 
 /**APIs */
@@ -294,6 +295,7 @@ function SignUp() {
                     </Paper>
                 </form>
             </Container>
+            <Footer />
         </>
     )
 }

@@ -11,6 +11,7 @@ import CloseIcon from '@material-ui/icons/Close'
 /**Componentes */
 import Logo from '../components/Logo'
 import PublicHeader from '../components/PublicHeader'
+import Footer from '../components/Footer'
 
 /**APIs */
 import { loginApi } from "../api/user"
@@ -172,6 +173,7 @@ function Login(props) {
                     </Grid>
                 </Container>
             </Container>
+            <Footer />
         </>
     )
 }
