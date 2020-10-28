@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
     },
     containerLogin: {
         marginTop: theme.spacing(4),
+        marginBottom: theme.spacing(2),
     },
     title: {
         flexGrow: 1,
