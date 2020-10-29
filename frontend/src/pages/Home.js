@@ -44,7 +44,21 @@ const useStyles = makeStyles((theme) => ({
     },
     banners: {
         [theme.breakpoints.up('xs')]: {
-            width: '95%'
+            width: '100%'
+        },
+        [theme.breakpoints.up('sm')]: {
+            width: '90%'
+        },
+        [theme.breakpoints.up('md')]: {
+            width: '85%'
+        },
+        [theme.breakpoints.up('lg')]: {
+            width: '100%'
+        },
+    },
+    bannersOne: {
+        [theme.breakpoints.up('xs')]: {
+            width: '100%'
         },
         [theme.breakpoints.up('sm')]: {
             width: '90%'
@@ -76,7 +90,7 @@ function Home() {
     return (
         <>
             <PublicHeader />
-            <Grid container>
+            <Grid container className={classes.root}>
                 <Grid item lg={6} md={6} sm={12} xs={12}>
                     <Box className={classes.root}>
                         <Box className={classes.bannerContainer}>
@@ -102,13 +116,13 @@ function Home() {
 
             <Box className={classes.root}>
                 <Box className={classes.bannerContainer}>
-                    <img src={banner2} alt="banner2" className={classes.banners} />
+                    <img src={banner2} alt="banner2" className={classes.bannersOne} />
                 </Box>
             </Box>
 
             <Box className={classes.root}>
                 <Box className={classes.bannerContainer}>
-                    <img src={banner3} alt="banner3" className={classes.banners} />
+                    <img src={banner3} alt="banner3" className={classes.bannersOne} />
                 </Box>
             </Box>
 
