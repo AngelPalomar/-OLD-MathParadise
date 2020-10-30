@@ -6,7 +6,7 @@ const { API_VERSION, IP_SERVER, PORT_DB } = require('./config')
 mongoose.set("useFindAndModify", false)
 
 mongoose.connect(
-    `mongodb://${IP_SERVER}:${PORT_DB}/mathparadise`,
+    `mongodb+srv://math_admin:math_sedrftg892020-@cluster0.po59i.mongodb.net/<dbname>?retryWrites=true&w=majority`,
     { useNewUrlParser: true, useUnifiedTopology: true }, (err, res) => {
         if (err) {
             throw err
