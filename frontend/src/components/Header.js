@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import jwtDecode from 'jwt-decode';
 import { makeStyles } from "@material-ui/core/styles"
 import { AppBar, Toolbar, IconButton, Typography, Menu, MenuItem, Button } from "@material-ui/core";
@@ -83,13 +82,13 @@ function Header(props) {
                     {title === '/admin' ? 'Panel de administración' : 'Inicio'}
                 </Typography>
 
-                <Link to={"/home/profile/" + jwtDecode(getAccessTokenApi()).nickname} className={classes.link}>
+                <a href={"/home/profile/@" + jwtDecode(getAccessTokenApi()).nickname} className={classes.link}>
                     <Button>
                         <UserAvatar large="xs" nickname={jwtDecode(getAccessTokenApi()).nickname} />
                     &nbsp;
                     {jwtDecode(getAccessTokenApi()).nickname}
                     </Button>
-                </Link>
+                </a>
 
                 <IconButton onClick={handleMenu}>
                     <MoreVertIcon />
@@ -108,11 +107,11 @@ function Header(props) {
                     open={open}
                     onClose={handleClose}>
 
-                    <Link to={"/home/profile/" + jwtDecode(getAccessTokenApi()).nickname} className={classes.link}>
+                    <a href={"/home/profile/@" + jwtDecode(getAccessTokenApi()).nickname} className={classes.link}>
                         <MenuItem onClick={handleClose} className={clsx(classes.alignIcon, classes.basicLabel)}>
                             <AccountBoxIcon /> &nbsp; Mi perfil
                         </MenuItem>
-                    </Link>
+                    </a>
 
                     <MenuItem
                         onClick={() => { logout(); window.location.href = '/'; }}>

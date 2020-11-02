@@ -18,6 +18,9 @@ const useStyle = makeStyles((theme) => ({
         textAlign: "center",
         marginTop: theme.spacing(1.3),
     },
+    logoSize: {
+        width: '75%'
+    }
 }));
 
 function NavMenu(props) {
@@ -35,11 +38,11 @@ function NavMenu(props) {
             <div className={classes.toolbar}>
                 <div className={classes.logo}>
                     <Link to="/home">
-                        <Logo width="75%" />
+                        <Logo className={classes.logoSize} />
                     </Link>
                 </div>
             </div>
-            <MenuList />
+            <MenuList close={props.onClose} />
         </Drawer>
     );
 }

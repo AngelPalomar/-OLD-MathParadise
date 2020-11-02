@@ -3,7 +3,7 @@ import { Howler } from 'howler'
 import jwtDecode from "jwt-decode"
 import {
     Typography, Box, Grid, Paper, TextField, Button, LinearProgress, Backdrop, Grow,
-    Slide
+    Slide, Hidden
 } from "@material-ui/core"
 import { useStyles } from "./RushStyles"
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -47,7 +47,10 @@ function Rush(props) {
     //Datos usuario
     const [userData] = useState(jwtDecode(getAccessTokenApi()))
     const [prevStats, setPrevStats] = useState(null)
-    const [isNewRecord, setisNewRecord] = useState(false)
+    const [isNewRecordPoints, setisNewRecordPoints] = useState(false)
+    const [isNewRecordLevel, setisNewRecordLevel] = useState(false)
+    const [isNewRecordMultiplier, setisNewRecordMultiplier] = useState(false)
+    const [isNewRecordExcercises, setisNewRecordExcercises] = useState(false)
 
     //Estilos
     const [backdropOpen, setBackdropOpen] = React.useState(false)
@@ -56,6 +59,7 @@ function Rush(props) {
     const [isErrorInput, setisErrorInput] = useState(false)
     const [srcResult, setSrcResult] = useState(question_icon)
     const [zoomPoints, setZoomPoints] = useState(false)
+    const [plusZoomMultiplier, setZoomPlusMultiplier] = useState(false)
     const [comboSlide, setComboSlide] = useState(false)
     const [topicCard, setTopicCard] = useState({
         suma: classes.selectedTopicCard,
@@ -95,6 +99,7 @@ function Rush(props) {
         ticktockSound.load()
 
         rushTheme.play()
+        rushTheme.rate(1)
         startSound.play()
 
         document.title = 'Modo Rush - Math Paradise'
@@ -183,28 +188,28 @@ function Rush(props) {
 
                 if (points > prevStats.points) {
                     p = points
-                    setisNewRecord(true)
+                    setisNewRecordPoints(true)
                 } else {
                     p = prevStats.points
                 }
 
                 if (excerciseCount > prevStats.excercises) {
                     e = excerciseCount
-                    setisNewRecord(true)
+                    setisNewRecordExcercises(true)
                 } else {
                     e = prevStats.excercises
                 }
 
                 if (level > prevStats.level) {
                     l = level
-                    setisNewRecord(true)
+                    setisNewRecordLevel(true)
                 } else {
                     l = prevStats.level
                 }
 
                 if (multiplier > prevStats.multiplier) {
                     m = multiplier
-                    setisNewRecord(true)
+                    setisNewRecordMultiplier(true)
                 } else {
                     m = prevStats.multiplier
                 }
@@ -239,6 +244,7 @@ function Rush(props) {
         //cuando se acaba el tiempo (cuando el jugador no contesta en 4 segs)
         if (isActiveStreak && streakSeconds === 0) {
             setIsActiveStreak(false)
+            setZoomPlusMultiplier(false)
             setStreak(0)
 
             setComboSlide(false)
@@ -255,6 +261,7 @@ function Rush(props) {
     //Si quedan menos de 10 segundos, suena el tick tock
     useEffect(() => {
         if (seconds === 9) {
+            ticktockSound.pause()
             ticktockSound.play()
         } else if (seconds >= 10) {
             ticktockSound.stop()
@@ -283,10 +290,13 @@ function Rush(props) {
             setTimeout(() => {
                 handleZoomPoints()
             }, 2000);
+
             //correct
             setSrcResult(ok_icon)
             setisErrorInput(false)
+
             //resetea la respuesta introducida
+            resetForm()
 
             correctSound.play()
             //Aumenta 5 segundos al cronómetro y 5 segundos al streak
@@ -300,14 +310,14 @@ function Rush(props) {
             setIsActiveStreak(true)
             //volumen del sonido del combo
             if (streak === 60) {
-                comboSound.volume(0.3)
+                comboSound.rate(0.8)
                 comboSound.play()
             } else {
                 if (streak === 80) {
-                    comboSound.volume(0.6)
+                    comboSound.rate(0.9)
                 } else {
                     if (streak === 100) {
-                        comboSound.volume(1)
+                        comboSound.rate(1.05)
                     }
                 }
             }
@@ -316,6 +326,11 @@ function Rush(props) {
             if (streak >= 80) {
                 setStreak(100)
                 setMultiplier(multiplier + 1)
+                setZoomPlusMultiplier(true)
+                setTimeout(() => {
+                    setZoomPlusMultiplier(false)
+                }, 1000)
+
                 //Combo
                 setCombo(combo + 1)
                 setComboSlide(true)
@@ -370,6 +385,23 @@ function Rush(props) {
         }
     }
 
+    //Velocidad del tema principal
+    useEffect(() => {
+        if (level <= 10) {
+            rushTheme.rate(1)
+        } else {
+            if (level <= 20) {
+                rushTheme.rate(1.05)
+            } else {
+                if (level <= 30) {
+                    rushTheme.rate(1.1)
+                } else {
+                    rushTheme.rate(1.2)
+                }
+            }
+        }
+    }, [level])
+
     //Bajar volumen en pause
     useEffect(() => {
         if (pauseOpen === true) {
@@ -407,14 +439,20 @@ function Rush(props) {
         setUserAnswer(parseInt(e.target.value))
     }
 
+    //Limpiar formulario
+    const resetForm = (params) => {
+        document.getElementById("answer-form").reset()
+    }
+
     return (
         <>
             <RushDialogSlide
                 title="Bienvenido al modo Rush"
-                description="En este modo de juego deberás de acumular cuantos puntos puedas
-                en un minuto; ganarás más puntos si contestas rápido."
                 button1="Empezar"
-                start={start} />
+                start={start} >
+                En este modo de juego deberás de acumular cuantos puntos puedas
+                en un minuto; ganarás más puntos si contestas rápido.
+            </RushDialogSlide>
 
             <RushResults
                 isOpen={resultsOpen}
@@ -425,7 +463,10 @@ function Rush(props) {
                 multiplier={multiplier}
                 button1="Aceptar"
                 user={userData}
-                isNewRecord={isNewRecord} />
+                isNewRecordPoints={isNewRecordPoints}
+                isNewRecordExcercises={isNewRecordExcercises}
+                isNewRecordLevel={isNewRecordLevel}
+                isNewRecordMultiplier={isNewRecordMultiplier} />
 
             <Backdrop className={classes.backdrop} open={pauseOpen}>
                 <Paper className={classes.paperPause}>
@@ -455,84 +496,92 @@ function Rush(props) {
                 <Box>
                     <Grid container spacing={1} className={classes.content}>
                         {/**Indicador de temas */}
-                        <Grid item xl={2} lg={2} md={2} sm={2}>
-                            <Box className={classes.topicCardContainer}>
-                                <img src={divSrc} alt="suma_card.svg" className={topicCard.div} />
-                                <img src={mulSrc} alt="suma_card.svg" className={topicCard.mult} />
-                                <img src={resSrc} alt="suma_card.svg" className={topicCard.resta} />
-                                <img src={sumSrc} alt="suma_card.svg" className={topicCard.suma} />
-                            </Box>
-                        </Grid>
-                        {/**Estadísticas */}
-                        <Grid item xl={4} lg={4} md={4} sm={4}>
-                            <Box mb={5} >
-                                <Grid container spacing={2} >
-                                    <Grid item>
-                                        <img src={rushIcon} alt="rush_icon_white.svg" width="33px" />
-                                    </Grid>
-                                    <Grid item>
-                                        <Typography variant="h4">Modo Rush</Typography>
-                                    </Grid>
-                                </Grid>
-                            </Box>
-                            <Box mb={2}>
-                                <Typography variant="h3">Nivel: <span className={classes.stats}>{level}</span> </Typography>
-                            </Box>
-                            <Box mb={5}>
-                                <Typography variant="h5">Ejercicios contestados: <span className={classes.stats}>{excerciseCount}</span></Typography>
-                                <Typography variant="h5">
-                                    Puntos: <span className={classes.stats}>{points}</span> pts
-                                    <Grow in={zoomPoints} timeout={800}>
-                                        <span className={classes.pointPlus}> + {5 * multiplier} puntos!</span>
-                                    </Grow>
-                                </Typography>
-                            </Box>
-
-                            <Grid container spacing={3} direction="row" justify="center" alignItems="center">
-                                <Grid item lg={2} md={3} sm={4}>
-
-                                    <Box position="relative" display="inline-flex">
-                                        <CircularMultiplier value={streak} size={65} />
-                                        <Box
-                                            top={0}
-                                            left={0}
-                                            bottom={0}
-                                            right={0}
-                                            position="absolute"
-                                            display="flex"
-                                            alignItems="center"
-                                            justifyContent="center"
-                                        >
-                                            <Typography variant="h5">&times;{multiplier}</Typography>
-                                        </Box>
-                                    </Box>
-                                </Grid>
-                                <Grid item lg={10} md={9} sm={8}>
-                                    <Typography variant="h5" className={streakSeconds <= 3 ? streakSeconds % 2 !== 0 ? classes.stats : null : null}>Multiplicador</Typography>
-                                </Grid>
+                        <Hidden mdDown>
+                            <Grid item xl={2} lg={2} md={2} sm={2}>
+                                <Box className={classes.topicCardContainer}>
+                                    <img src={divSrc} alt="suma_card.svg" className={topicCard.div} />
+                                    <img src={mulSrc} alt="suma_card.svg" className={topicCard.mult} />
+                                    <img src={resSrc} alt="suma_card.svg" className={topicCard.resta} />
+                                    <img src={sumSrc} alt="suma_card.svg" className={topicCard.suma} />
+                                </Box>
                             </Grid>
+                        </Hidden>
+                        {/**Estadísticas */}
+                        <Hidden smDown>
+                            <Grid item xl={4} lg={4} md={6} sm={6}>
+                                <Box mb={5} >
+                                    <Grid container spacing={2} >
+                                        <Grid item>
+                                            <img src={rushIcon} alt="rush_icon_white.svg" width="33px" />
+                                        </Grid>
+                                        <Grid item>
+                                            <Typography variant="h4">Modo Rush</Typography>
+                                        </Grid>
+                                    </Grid>
+                                </Box>
+                                <Box mb={2}>
+                                    <Typography variant="h3">Nivel: <span className={classes.stats}>{level}</span> </Typography>
+                                </Box>
+                                <Box mb={5}>
+                                    <Typography variant="h5">Ejercicios contestados: <span className={classes.stats}>{excerciseCount}</span></Typography>
+                                    <Typography variant="h5">
+                                        Puntos: <span className={classes.stats}>{points}</span> pts
+                                        <Grow in={zoomPoints} timeout={800}>
+                                            <span className={classes.pointPlus}> + {5 * multiplier} puntos!</span>
+                                        </Grow>
+                                    </Typography>
+                                </Box>
+                                <Grid container spacing={3} direction="row" justify="center" alignItems="center">
+                                    <Grid item lg={2} md={3} sm={4}>
 
-                            <Box mt={4}>
-                                <Button variant="contained" onClick={pause} className={classes.buttonPause} startIcon={<PauseIcon />}>
-                                    Pausa
+                                        <Box position="relative" display="inline-flex">
+                                            <CircularMultiplier value={streak} size={65} />
+                                            <Box
+                                                top={0}
+                                                left={0}
+                                                bottom={0}
+                                                right={0}
+                                                position="absolute"
+                                                display="flex"
+                                                alignItems="center"
+                                                justifyContent="center"
+                                            >
+                                                <Typography variant="h5">&times;{multiplier}</Typography>
+                                            </Box>
+                                        </Box>
+                                    </Grid>
+                                    <Grid item lg={10} md={9} sm={8}>
+                                        <Typography variant="h5" className={streakSeconds <= 3 ? streakSeconds % 2 !== 0 ? classes.stats : null : null}>
+                                            Multiplicador
+                                            <Grow in={plusZoomMultiplier} timeout={800}>
+                                                <span className={classes.pointPlus}> + 1 </span>
+                                            </Grow>
+                                        </Typography>
+                                    </Grid>
+                                </Grid>
+
+                                <Box mt={4}>
+                                    <Button variant="contained" onClick={pause} className={classes.buttonPause} startIcon={<PauseIcon />}>
+                                        Pausa
                                 </Button>
-                            </Box>
+                                </Box>
 
-                            <Box mt={3} className={classes.comboBox}>
-                                <Slide direction="up" in={comboSlide} mountOnEnter unmountOnExit>
-                                    <Typography variant="h3" className={classes.comboPlus}>Combo &times;{combo}</Typography>
-                                </Slide>
-                            </Box>
-                        </Grid>
+                                <Box mt={3} className={classes.comboBox}>
+                                    <Slide direction="up" in={comboSlide} mountOnEnter unmountOnExit>
+                                        <Typography variant="h3" className={classes.comboPlus}>Combo &times;{combo}</Typography>
+                                    </Slide>
+                                </Box>
+                            </Grid>
+                        </Hidden>
 
                         {/**Panel donde se muestran las operaciones */}
-                        <Grid item xl={6} lg={6} md={6} sm={6}>
+                        <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
                             <Paper className={classes.paper}>
-                                <Typography variant="h3">{topic}</Typography>
+                                <Typography className={classes.titleAndExcerciseSize}>{topic}</Typography>
                                 <Typography>Resuelve el siguiente ejercicio</Typography>
-                                <Typography variant="h3"><span className={classes.excercise}>{excersice}</span></Typography>
+                                <Typography className={classes.titleAndExcerciseSize}><span className={classes.excercise}>{excersice}</span></Typography>
                                 <Typography>Ingrese la respuesta</Typography>
-                                <form onChange={handleChange} onSubmit={checkAnswer}>
+                                <form id="answer-form" onChange={handleChange} onSubmit={checkAnswer}>
                                     <Box className={classes.form}>
                                         <Box className={classes.input}>
                                             <TextField type="number" name="userAnswer" label="Respuesta" variant="outlined" error={isErrorInput} fullWidth />
@@ -543,16 +592,50 @@ function Rush(props) {
                                         </Button>
                                     </Box>
                                 </form>
-                                <Typography variant="h5">
-
-                                </Typography>
-                                <Typography variant="h6" color={seconds <= 9 ? 'secondary' : 'inherit'} >
-                                    Tiempo: 0{seconds === 60 ? minutes : '0'}:{seconds === 60 ? '00' : seconds === 0 ? '00' : seconds < 10 ? '0' + seconds : seconds}
-                                    <Grow in={zoomPoints} timeout={800}>
-                                        <span className={classes.segsPlus}> + 5 segundos</span>
-                                    </Grow>
-                                </Typography>
-                                <LinearProgress variant="determinate" value={seconds / .60} />
+                                {/**Estadísticas en breakpoint MD hacia arriba */}
+                                <Hidden mdUp>
+                                    <Grid container>
+                                        <Grid item md={3} sm={3} xs={6}>
+                                            <Typography className={classes.statsMedium}>Nivel: <span className={classes.statsMediumLabels}>{level}</span></Typography>
+                                        </Grid>
+                                        <Grid item md={3} sm={3} xs={6}>
+                                            <Typography className={classes.statsMedium}>Ejercicios: <span className={classes.statsMediumLabels}>{excerciseCount}</span> </Typography>
+                                        </Grid>
+                                        <Grid item md={3} sm={3} xs={6}>
+                                            <Typography className={classes.statsMedium}>
+                                                Puntos: <span className={classes.statsMediumLabels}>{points}</span>
+                                                <Grow in={zoomPoints} timeout={800}>
+                                                    <span className={classes.segsPlus}> + {5 * multiplier}</span>
+                                                </Grow>
+                                            </Typography>
+                                        </Grid>
+                                        <Grid item md={3} sm={3} xs={6}>
+                                            <Typography className={classes.statsMedium}>
+                                                Multiplicador: <span className={classes.statsMediumLabels}>&times;{multiplier}</span>
+                                                <Grow in={plusZoomMultiplier} timeout={800}>
+                                                    <span className={classes.segsPlus}> + 1 </span>
+                                                </Grow>
+                                            </Typography>
+                                        </Grid>
+                                        <Grid item md={12} sm={12} xs={12}>
+                                            <Typography className={classes.statsMedium}>Combo: <span className={classes.statsComboMediumLabels}>&times;{combo}</span></Typography>
+                                        </Grid>
+                                    </Grid>
+                                </Hidden>
+                                <Box>
+                                    <Typography variant="h6" color={seconds <= 9 ? 'secondary' : 'inherit'} >
+                                        Tiempo: 0{seconds === 60 ? minutes : '0'}:{seconds === 60 ? '00' : seconds === 0 ? '00' : seconds < 10 ? '0' + seconds : seconds}
+                                        <Grow in={zoomPoints} timeout={800}>
+                                            <span className={classes.segsPlus}> + 5 segundos</span>
+                                        </Grow>
+                                    </Typography>
+                                    <LinearProgress variant="determinate" value={seconds / .60} />
+                                </Box>
+                                <Hidden mdUp>
+                                    <Button variant="contained" onClick={pause} className={classes.buttonPause} startIcon={<PauseIcon />}>
+                                        Pausa
+                                    </Button>
+                                </Hidden>
                             </Paper>
                         </Grid>
                     </Grid>

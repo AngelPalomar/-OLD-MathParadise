@@ -39,7 +39,7 @@ function MenuList(props) {
             <List component="nav">
 
                 <Link to="/home" className={classes.link}>
-                    <ListItem button>
+                    <ListItem button onClick={props.close}>
                         <ListItemIcon>
                             <DashboardIcon />
                         </ListItemIcon>
@@ -48,7 +48,7 @@ function MenuList(props) {
                 </Link>
 
                 <Link to="/home/play" className={classes.link}>
-                    <ListItem button >
+                    <ListItem button onClick={props.close}>
                         <ListItemIcon>
                             <GamesIcon />
                         </ListItemIcon>

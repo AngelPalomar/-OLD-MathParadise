@@ -23,6 +23,7 @@ import RushStats from '../../components/game_stats/RushStats'
 import { getAccessTokenApi } from "../../api/auth"
 import { getUserByNicknameApi } from "../../api/user"
 import JwtDecode from 'jwt-decode';
+import ProfileForm from '../../components/forms/ProfileForm';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -42,8 +43,12 @@ const useStyles = makeStyles((theme) => ({
     boxInfo: {
         marginTop: theme.spacing(2)
     },
+    fullnameLabel: {
+        textAlign: 'center'
+    },
     nicknameLabel: {
-        color: '#5F5F5F'
+        color: '#5F5F5F',
+        textAlign: 'center'
     },
     editProfileBtn: {
         display: 'flex',
@@ -71,6 +76,7 @@ function Profile(props) {
 
     const [userData, setUserData] = useState(null)
     const [isFound, setIsFound] = useState(true)
+    const [openProfileForm, setOpenProflieForm] = useState(false)
 
     useEffect(() => {
         document.title = nickname + ' - Math Paradise'
@@ -132,6 +138,9 @@ function Profile(props) {
         }
     }
 
+    const handleCloseProfileForm = (params) => {
+        setOpenProflieForm(false)
+    }
 
     if (!isFound && !userData) {
         return (
@@ -148,11 +157,11 @@ function Profile(props) {
                                 {userData ? <DefaultAvatar nickname={userData.nickname} /> : <CircularProgress color="primary" />}
                             </Box>
                             <Box className={classes.boxInfo}>
-                                <Typography variant="h5">
+                                <Typography variant="h5" className={classes.fullnameLabel}>
                                     {userData ? userData.name + " " + userData.lastname : <CircularProgress color="primary" />}
                                 </Typography>
                                 <Typography variant="subtitle1" className={classes.nicknameLabel}>
-                                    {userData ? userData.nickname : <CircularProgress color="primary" />}
+                                    @{userData ? userData.nickname : <CircularProgress color="primary" />}
                                 </Typography>
                                 {
                                     getAccessTokenApi() && userData ?
@@ -162,14 +171,17 @@ function Profile(props) {
                                 {
                                     getAccessTokenApi() && userData ?
                                         JwtDecode(getAccessTokenApi()).nickname === userData.nickname ?
-                                            <Box className={classes.editProfileBtn}>
-                                                <Button
-                                                    variant="contained"
-                                                    color="default"
-                                                    startIcon={<EditIcon />}>
-                                                    Editar Perfil
+                                            <>
+                                                <ProfileForm userData={userData} open={openProfileForm} close={handleCloseProfileForm} />
+                                                <Box className={classes.editProfileBtn}>
+                                                    <Button
+                                                        onClick={() => { setOpenProflieForm(true) }}
+                                                        variant="contained"
+                                                        color="default"
+                                                        startIcon={<EditIcon />}>
+                                                        Editar Perfil
                                                 </Button>
-                                            </Box> : null : null
+                                                </Box> </> : null : null
                                 }
                             </Box>
                         </Paper>

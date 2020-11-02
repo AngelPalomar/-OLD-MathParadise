@@ -2,6 +2,9 @@ import React from 'react'
 import { Box, Grid, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core'
 
+/**Utils */
+import { getVersionNumber } from '../utils/Version'
+
 /**Imagenes */
 import math_logo from '../assets/images/logos/MathParadiseLogo.svg'
 import uteq_logo from '../assets/images/logos/uteq_logo.svg'
@@ -84,6 +87,10 @@ function Footer() {
                     <a href="/" className={classes.link}>
                         Créditos
                     </a>
+                    <br />
+                    <a href="/privacy-policies" className={classes.link}>
+                        Políticas de privacidad
+                    </a>
                 </Grid>
                 <Grid item lg={7} md={7} sm={12} xs={12} className={classes.contactContainer}>
                     <Typography variant="h6" className={classes.title}>Contacto</Typography>
@@ -98,8 +105,8 @@ function Footer() {
             </Grid>
 
             <Box className={classes.rights}>
-                <Typography>Math Paradise&reg; - Todos los derechos reservados - 2020</Typography>
-                <Typography>Versión 1.0.0</Typography>
+                <Typography>Math Paradise&reg; {getVersionNumber()} - Todos los derechos reservados</Typography>
+                <Typography>2020</Typography>
             </Box>
         </Box>
     )

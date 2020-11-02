@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import { Box, Grid, Typography, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core'
 
@@ -16,6 +15,9 @@ const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
         padding: theme.spacing(5),
+    },
+    welcome: {
+        flexGrow: 1,
     },
     bannerContainer: {
         display: 'flex',
@@ -43,17 +45,11 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center'
     },
     banners: {
-        [theme.breakpoints.up('xs')]: {
-            width: '100%'
-        },
-        [theme.breakpoints.up('sm')]: {
-            width: '90%'
+        [theme.breakpoints.down('sm')]: {
+            width: '51vh'
         },
         [theme.breakpoints.up('md')]: {
             width: '85%'
-        },
-        [theme.breakpoints.up('lg')]: {
-            width: '100%'
         },
     },
     bannersOne: {
@@ -90,7 +86,7 @@ function Home() {
     return (
         <>
             <PublicHeader />
-            <Grid container className={classes.root}>
+            <Grid container className={classes.welcome}>
                 <Grid item lg={6} md={6} sm={12} xs={12}>
                     <Box className={classes.root}>
                         <Box className={classes.bannerContainer}>
@@ -103,12 +99,12 @@ function Home() {
                         <Typography variant="h4" className={classes.titles}>¡Empieza a jugar!</Typography>
 
                         <Box className={classes.forms}>
-                            <Link to="/login" className={classes.link}>
+                            <a href="/login" className={classes.link}>
                                 <Button className={classes.button} variant="contained">Iniciar sesión</Button>
-                            </Link>
-                            <Link to="/sign-up" className={classes.link}>
+                            </a>
+                            <a href="/sign-up" className={classes.link}>
                                 <Button className={classes.button} variant="contained">Crear una cuenta</Button>
-                            </Link>
+                            </a>
                         </Box>
                     </Box>
                 </Grid>

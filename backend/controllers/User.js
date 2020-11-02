@@ -8,7 +8,7 @@ function signUp(req, res) {
     const { name, lastname, nickname, email, password, role, institution, school_grade, repeatPassword } = req.body
     user.name = name.trim()
     user.lastname = lastname.trim()
-    user.nickname = '@' + nickname.trim()
+    user.nickname = nickname.trim()
     user.email = email.trim()
     user.institution = institution
     user.school_grade = school_grade
@@ -158,12 +158,12 @@ function updateUser(req, res) {
 
     User.findByIdAndUpdate({ _id: params.id }, userData, (err, userUpdated) => {
         if (err) {
-            res.status(500).send({ message: "Error del servidor." })
+            res.status(500).send({ status: 0, message: "El correo o el alias ya existen, pruebe uno diferente." })
         } else {
             if (!userUpdated) {
-                res.status(404).send({ message: "El usuario no existe." })
+                res.status(404).send({ status: 0, message: "Error al modificar el usuario." })
             } else {
-                res.status(200).send({ message: "Los datos del usuario se han actualizado correctamente." })
+                res.status(200).send({ status: 1, message: "Los datos se han actualizado correctamente." })
             }
         }
     })

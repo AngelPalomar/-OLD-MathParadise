@@ -31,9 +31,7 @@ function CompetenciesRushMode(props) {
 
             <DialogContent>
                 <DialogContentText className={classes.textContent}>
-                    <Box className={classes.titleContent}>
-                        <span>Aritmética</span>
-                    </Box>
+                    <span className={classes.titleContent}>Aritmética</span>
                     <br />
                     Suma
                     <br />

@@ -5,8 +5,14 @@ export const useStyles = makeStyles((theme) => ({
         display: "flex",
     },
     main: {
-        paddingLeft: theme.spacing(5),
-        paddingRight: theme.spacing(5),
+        [theme.breakpoints.up('sm')]: {
+            paddingLeft: theme.spacing(5),
+            paddingRight: theme.spacing(5),
+        },
+        [theme.breakpoints.down('sm')]: {
+            paddingLeft: theme.spacing(1),
+            paddingRight: theme.spacing(1),
+        },
         background: "linear-gradient(90deg, #00487C, #2A8EFF)",
         color: "#FFF",
         overflow: "auto",
@@ -18,14 +24,26 @@ export const useStyles = makeStyles((theme) => ({
         overflow: "auto",
         position: "top",
         [theme.breakpoints.down('sm')]: {
-            height: "80vh"
+            height: "95vh"
+        },
+        [theme.breakpoints.up('md')]: {
+            height: "97vh"
+        },
+    },
+    paper: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        [theme.breakpoints.down('sm')]: {
+            height: "93vh"
         },
         [theme.breakpoints.down('md')]: {
-            height: "90vh"
+            height: "100%"
         },
-        [theme.breakpoints.down('lg')]: {
-            height: "90vh"
-        }
+        [theme.breakpoints.up('md')]: {
+            height: "86vh"
+        },
+        padding: theme.spacing(2),
     },
     topicCardContainer: {
         display: 'flex',
@@ -33,42 +51,27 @@ export const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-between',
         alignItems: 'center',
         [theme.breakpoints.down('sm')]: {
-            height: "80%"
+            height: "93vh"
         },
-        [theme.breakpoints.down('md')]: {
-            height: "90%"
+        [theme.breakpoints.up('md')]: {
+            height: "86vh"
         },
-        [theme.breakpoints.down('lg')]: {
-            height: "95%"
-        },
-        border: 0
-    },
-    paper: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        [theme.breakpoints.down('sm')]: {
-            height: "80%"
-        },
-        [theme.breakpoints.down('md')]: {
-            height: "90%"
-        },
-        [theme.breakpoints.down('lg')]: {
-            height: "95%"
-        },
-        [theme.breakpoints.down('xl')]: {
-            height: "97%"
-        },
-        padding: theme.spacing(2),
         border: 0
     },
     topicCard: {
-        width: "43%",
+        [theme.breakpoints.up('md')]: {
+            width: "43%",
+        },
+        [theme.breakpoints.up('lg')]: {
+            width: "46%",
+        },
         margin: theme.spacing(0),
         marginBottom: theme.spacing(1.2)
     },
     selectedTopicCard: {
-        width: "50%",
+        [theme.breakpoints.up('lg')]: {
+            width: "55%",
+        },
         margin: theme.spacing(0),
         marginBottom: theme.spacing(1.2)
     },
@@ -117,6 +120,15 @@ export const useStyles = makeStyles((theme) => ({
         background: "linear-gradient(45deg, #2A55FF, #15FFD4)",
         textAlign: "center",
         width: "300px",
+        [theme.breakpoints.down('sm')]: {
+            width: "150px"
+        },
+        [theme.breakpoints.up('md')]: {
+            width: "200px"
+        },
+        [theme.breakpoints.up('lg')]: {
+            width: "300px"
+        },
         marginTop: theme.spacing(2),
         marginBottom: theme.spacing(2)
     },
@@ -174,5 +186,23 @@ export const useStyles = makeStyles((theme) => ({
     },
     paperPause: {
         padding: theme.spacing(5)
-    }
+    },
+    titleAndExcerciseSize: {
+        [theme.breakpoints.down('xs')]: {
+            fontSize: "34px"
+        },
+        [theme.breakpoints.up('sm')]: {
+            fontSize: "44px"
+        },
+    },
+    statsMedium: {
+        textAlign: 'center',
+        fontWeight: 'bold'
+    },
+    statsMediumLabels: {
+        color: "#00487C"
+    },
+    statsComboMediumLabels: {
+        color: "#f53f60"
+    },
 }))

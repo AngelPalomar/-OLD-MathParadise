@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { makeStyles } from "@material-ui/core/styles"
+import { useStyles } from '../useStyles'
 import { BlockMath, InlineMath } from "react-katex"
 import 'katex/dist/katex.min.css'
 import {
@@ -9,84 +9,6 @@ import {
 
 /**Icons */
 import AddIcon from '@material-ui/icons/Add'
-
-const useStyles = makeStyles((theme) => ({
-    paper: {
-        marginLeft: theme.spacing(5),
-        marginRight: theme.spacing(5),
-        padding: theme.spacing(2)
-    },
-    title: {
-        display: 'flex',
-        justifyContent: 'left',
-        alignItems: 'center',
-        color: '#2A55FF',
-        marginBottom: theme.spacing(2)
-    },
-    textCenter: {
-        display: 'flex',
-        justifyContent: 'center',
-        textAlign: 'center'
-    },
-    excerPreviewBox: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        textAlign: 'center',
-        color: '#616161',
-        fontSize: '26px',
-        marginTop: theme.spacing(3),
-        marginBottom: theme.spacing(3)
-    },
-    optionsPreviewBox: {
-        color: '#818181',
-        fontSize: '18px',
-        marginTop: theme.spacing(3),
-        marginBottom: theme.spacing(3)
-    },
-    previewLabel: {
-        color: '#00487C'
-    },
-    labelError: {
-        color: '#FF0008'
-    },
-    formBox: {
-        marginTop: theme.spacing(2),
-        marginBottom: theme.spacing(2)
-    },
-    formButtons: {
-        display: 'flex',
-        justifyContent: 'center',
-        marginTop: theme.spacing(3),
-        marginBottom: theme.spacing(3)
-    },
-    okButton: {
-        display: "flex",
-        margin: "auto",
-        padding: theme.spacing(2),
-        paddingLeft: theme.spacing(5),
-        paddingRight: theme.spacing(5),
-        color: "#FFFFFF",
-        background: "linear-gradient(45deg, #2A55FF, #15FFD4)",
-        textAlign: "center",
-    },
-    cancelButton: {
-        display: "flex",
-        margin: "auto",
-        padding: theme.spacing(2),
-        paddingLeft: theme.spacing(5),
-        paddingRight: theme.spacing(5),
-        color: "#FFFFFF",
-        background: "linear-gradient(45deg, #73000D, #FF0008)",
-        textAlign: "center",
-    },
-    textField: {
-        width: '100%'
-    },
-    form: {
-        marginTop: theme.spacing(2)
-    }
-}))
 
 function Create() {
     const classes = useStyles()
@@ -131,7 +53,7 @@ function Create() {
                             <BlockMath math={inputs.label} renderError={(error) => { return <span className={classes.labelError}>Error: función desconocida o incompleta.</span> }} />
                             <Typography className={classes.previewLabel}>Ejercicio principal</Typography>
                         </Box> :
-                        <span>
+                        <span className={classes.previewLabel}>
                             Escriba el ejercicio en funciones KaTex en el campo inferior
                         </span>
                     }
@@ -330,11 +252,11 @@ function Create() {
                         </Grid>
 
                         <Box className={classes.formButtons}>
-                            <Button type="submit" className={classes.okButton}>
-                                Guardar ejercicio
-                            </Button>
                             <Button onClick={() => { window.location.href = '/admin/excercises' }} className={classes.cancelButton}>
                                 Cancelar
+                            </Button>
+                            <Button type="submit" className={classes.okButton}>
+                                Guardar ejercicio
                             </Button>
                         </Box>
                     </form>

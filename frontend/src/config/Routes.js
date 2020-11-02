@@ -4,17 +4,21 @@ import LayoutAdmin from '../layouts/LayoutAdmin'
 
 /**Admin Pages */
 import AdminDashboard from '../pages/admin/Dashboard'
-import AdminGroups from '../pages/admin/Groups'
+
+//Grupos
+import AdminGroupsMenu from '../pages/admin/groups/MenuGroups'
+import AdminGroupsCreate from '../pages/admin/groups/CreateGroup'
 
 //Usuarios
-import AdminUsersMenu from '../pages/admin/users/Menu'
+import AdminUsersMenu from '../pages/admin/users/MenuUsers'
 
 //Instituciones
-import AdminInstitutionsMenu from '../pages/admin/institutions/Menu'
+import AdminInstitutionsMenu from '../pages/admin/institutions/MenuInstitutions'
+import AdminInstitutionsCreate from '../pages/admin/institutions/CreateIInstitution'
 
 //Ejercicios
-import AdminExcercisesMenu from '../pages/admin/excercises/Menu'
-import AdminExcercisesCreate from '../pages/admin/excercises/Create'
+import AdminExcercisesMenu from '../pages/admin/excercises/MenuExcercises'
+import AdminExcercisesCreate from '../pages/admin/excercises/CreateExcercise'
 
 /** User Pages */
 import Dashboard from '../pages/user/Dashboard'
@@ -31,6 +35,7 @@ import Home from '../pages/Home'
 import Login from '../pages/Login'
 import SignUp from '../pages/SignUp'
 import Error from '../pages/Error404'
+import PrivacyPolicies from '../pages/PrivacyPolicies'
 
 const routes = [
     /**Página principal */
@@ -63,12 +68,22 @@ const routes = [
             },
             {
                 path: '/admin/groups',
-                component: AdminGroups,
+                component: AdminGroupsMenu,
+                exact: true,
+            },
+            {
+                path: '/admin/groups/create',
+                component: AdminGroupsCreate,
                 exact: true,
             },
             {
                 path: '/admin/institutions',
                 component: AdminInstitutionsMenu,
+                exact: true
+            },
+            {
+                path: '/admin/institutions/create',
+                component: AdminInstitutionsCreate,
                 exact: true
             },
             {
@@ -113,7 +128,7 @@ const routes = [
                 exact: true,
             },
             {
-                path: '/home/profile/:nickname',
+                path: '/home/profile/@:nickname',
                 component: Profile,
                 exact: true
             },
@@ -155,10 +170,20 @@ const routes = [
             }
         ]
     },
-
+    /**Ruta de políticas de privacidad */
+    {
+        path: '/privacy-policies',
+        component: PrivacyPolicies,
+        exact: true,
+        routes: [
+            {
+                component: Error
+            }
+        ]
+    },
     /**Ruta de perfil público */
     {
-        path: '/profile/:nickname',
+        path: '/profile/@:nickname',
         component: Profile,
         exact: false,
         routes: [

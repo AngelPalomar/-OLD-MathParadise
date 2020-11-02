@@ -5,8 +5,6 @@ function Logo(props) {
     return (
         <img
             src={LogoSource}
-            width={props.width}
-            height={props.height}
             className={props.className}
             alt={props.alt}>
         </img>

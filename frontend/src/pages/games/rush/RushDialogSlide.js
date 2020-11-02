@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 function RushDialogSlide(props) {
     const classes = useStyles()
     /**Props */
-    const { title, description, button1, start } = props
+    const { title, button1, start, children } = props
 
     const [open, setOpen] = React.useState(true)
 
@@ -67,7 +67,7 @@ function RushDialogSlide(props) {
                 </Box>
 
                 <DialogContent>
-                    {description}
+                    {children}
                 </DialogContent>
 
                 <DialogActions>

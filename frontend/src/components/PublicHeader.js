@@ -4,8 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import {
     Button, AppBar, Toolbar, Container, Menu, MenuItem
 } from '@material-ui/core'
-
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { MATH_COLORS } from '../styles/MathColors'
 
 //import HomeIcon from '@material-ui/icons/Home';
 
@@ -18,10 +17,18 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(0)
     },
     logo: {
-        width: '28vh'
+        [theme.breakpoints.down('sm')]: {
+            width: '40%'
+        },
+        [theme.breakpoints.down('md')]: {
+            width: '42%'
+        },
+        [theme.breakpoints.up('md')]: {
+            width: '15%'
+        }
     },
     colorLabels: {
-        color: '#616161'
+        color: MATH_COLORS().math_blue
     },
     link: {
         textDecoration: 'none',
@@ -57,7 +64,7 @@ function PublicHeader() {
                         <Logo src={logoSource} className={classes.logo} />
                     </Link>
                 </Container>
-                <Button startIcon={<ExitToAppIcon />} onClick={handleMenu}>
+                <Button onClick={handleMenu} className={classes.colorLabels}>
                     Acceder
                 </Button>
 
@@ -74,12 +81,12 @@ function PublicHeader() {
                     open={open}
                     onClose={handleClose}>
 
-                    <Link to="/login" className={classes.link}>
+                    <a href="/login" className={classes.link}>
                         <MenuItem>Iniciar sesión</MenuItem>
-                    </Link>
-                    <Link to="/sign-up" className={classes.link}>
+                    </a>
+                    <a href="/sign-up" className={classes.link}>
                         <MenuItem>Registrarse</MenuItem>
-                    </Link>
+                    </a>
 
                 </Menu>
 

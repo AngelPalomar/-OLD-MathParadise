@@ -43,7 +43,8 @@ const useStyles = makeStyles((theme) => ({
 function RushResults(props) {
     const classes = useStyles()
     /**Props */
-    let { isOpen, isNewRecord, title, level, exCount, points, multiplier, button1 } = props
+    let { isOpen, title, level, exCount, points, multiplier, button1,
+        isNewRecordPoints, isNewRecordLevel, isNewRecordExcercises, isNewRecordMultiplier } = props
 
     const backToHome = () => {
         Howler.stop()
@@ -71,21 +72,24 @@ function RushResults(props) {
                 <Box className={classes.dialog}>
                     <Typography variant="h4" className={classes.title}>{title}</Typography>
                     <span className={classes.subtitle}>Resultados de juego</span>
-                    {isNewRecord ? <Typography variant="h5" className={classes.recordLabel}>¡Nuevo Récord!</Typography> : null}
                 </Box>
 
                 <DialogContent>
                     <Typography className={classes.stats}>
                         Puntos:<span className={classes.title}> {points}</span>
+                        {isNewRecordPoints ? <span className={classes.recordLabel}> ¡Nuevo Récord!</span> : null}
                     </Typography>
                     <Typography className={classes.stats}>
-                        Ejercicios contestados:<span className={classes.title}> {exCount}</span>
+                        No. de ejercicios:<span className={classes.title}> {exCount}</span>
+                        {isNewRecordExcercises ? <span className={classes.recordLabel}> ¡Nuevo Récord!</span> : null}
                     </Typography>
                     <Typography className={classes.stats}>
                         Nivel alcanzado: <span className={classes.title}> {level}</span>
+                        {isNewRecordLevel ? <span className={classes.recordLabel}> ¡Nuevo Récord!</span> : null}
                     </Typography>
                     <Typography className={classes.stats}>
-                        Multiplicador alcanzado: <span className={classes.title}> &times;{multiplier}</span>
+                        Multiplicador: <span className={classes.title}> &times;{multiplier}</span>
+                        {isNewRecordMultiplier ? <span className={classes.recordLabel}> ¡Nuevo Récord!</span> : null}
                     </Typography>
                 </DialogContent>
 

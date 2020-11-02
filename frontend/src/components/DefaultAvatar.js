@@ -32,7 +32,7 @@ function DefaultAvatar(props) {
     const [initialAvatar, setInitialAvatar] = useState('')
     useEffect(() => {
         let nick = String(nickname).toUpperCase()
-        setInitialAvatar(nick.charAt(1))
+        setInitialAvatar(nick.charAt(0))
     }, [nickname])
 
     return (

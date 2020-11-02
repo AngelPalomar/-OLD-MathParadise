@@ -11,7 +11,10 @@ import CreateIcon from '@material-ui/icons/Create'
 
 import PublicHeader from '../components/PublicHeader'
 import Footer from '../components/Footer'
-import { emailValidation, minLenghtValidation } from '../utils/FormValidation'
+import { emailValidation, minLenghtValidation, nicknameValidation } from '../utils/FormValidation'
+
+/**Utils */
+import { grades } from '../utils/SelectArrays'
 
 /**APIs */
 import { signUpApi } from '../api/user'
@@ -92,20 +95,6 @@ function SignUp() {
         repeatPassword: false,
         role: false
     })
-    //Grados escolares
-    const grades = [
-        { val: 1, name: '1er' },
-        { val: 2, name: '2do' },
-        { val: 3, name: '3ro' },
-        { val: 4, name: '4to' },
-        { val: 5, name: '5to' },
-        { val: 6, name: '6to' },
-        { val: 7, name: '7mo' },
-        { val: 8, name: '8vo' },
-        { val: 9, name: '9no' },
-        { val: 10, name: '10mo' },
-        { val: 11, name: '11vo' }
-    ]
 
     useEffect(() => {
         document.title = 'Registrarse - Math Paradise'
@@ -130,15 +119,18 @@ function SignUp() {
             ...inputs,
             [e.target.name]: e.target.value
         })
-        console.log(inputs.institution)
     }
 
     const inputValidation = (e) => {
         const { type, name, value } = e.target
 
         /**Validaciones */
-        if (type === "text") {
+        if (type === "text" && name !== "nickname") {
             setformValid({ ...formValid, [name]: minLenghtValidation(value, 1) })
+        }
+        if (name === "nickname") {
+            setformValid({ ...formValid, nickname: nicknameValidation(e.target) })
+            setIsError({ ...isError, nickname: !nicknameValidation(e.target) })
         }
         if (type === "email") {
             setformValid({ ...formValid, [name]: emailValidation(e.target) })
@@ -181,7 +173,7 @@ function SignUp() {
 
                     setTimeout(() => {
                         window.location.href = '/login'
-                    }, 2000);
+                    }, 1000);
                 }
             }
         }
@@ -246,10 +238,10 @@ function SignUp() {
                                             label="Seleccione una institución"
                                             onChange={changeForm}>
 
-                                            <MenuItem key="" value="None">Ninguna</MenuItem>
+                                            <MenuItem key="" value="Ninguna">Ninguna</MenuItem>
 
-                                            {instData.map(values =>
-                                                <MenuItem key="" value={values.name}>{values.name}</MenuItem>
+                                            {instData.map((values, index) =>
+                                                <MenuItem key={index} value={values.name}>{values.name}</MenuItem>
                                             )}
 
                                         </Select>
@@ -266,16 +258,15 @@ function SignUp() {
                                             label="Año / Semestre / Cuatrimestre"
                                             onChange={changeForm}>
 
-                                            <MenuItem key="" value="None">Ninguno</MenuItem>
+                                            <MenuItem key="" value="Ninguno">Ninguno</MenuItem>
 
-                                            {grades.map(values =>
-                                                <MenuItem key="" value={values.val}>{values.name}</MenuItem>
+                                            {grades.map((values, index) =>
+                                                <MenuItem key={index} value={values.val}>{values.name}</MenuItem>
                                             )}
 
                                         </Select>
                                     </FormControl>
                                 </Grid>
-
                             </Grid>
                         </Box>
                         <Box className={classes.boxForm}>
