@@ -3,15 +3,15 @@ import { Redirect } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import {
     Typography, Paper, Grid, Container, Button, Box, TextField,
-    FormControl, Snackbar, IconButton
+    FormControl
 } from '@material-ui/core'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
-import CloseIcon from '@material-ui/icons/Close'
 
 /**Componentes */
 import Logo from '../components/Logo'
 import PublicHeader from '../components/PublicHeader'
 import Footer from '../components/Footer'
+import DefaultSnackbar from '../components/snackbars/DefaultSnackbar'
 
 /**APIs */
 import { loginApi } from "../api/user"
@@ -57,11 +57,13 @@ const useStyles = makeStyles((theme) => ({
         background: "linear-gradient(45deg, #2A55FF, #15FFD4)",
         textAlign: "center",
     },
+    footer: {
+        position: 'relative'
+    }
 }));
 
 function Login(props) {
     const classes = useStyles();
-
     const [inputs, setInputs] = useState({
         email: '',
         password: ''
@@ -96,20 +98,25 @@ function Login(props) {
      */
     const login = async e => {
         e.preventDefault()
-        const result = await loginApi(inputs)
-
-        if (result.message) {
+        if (inputs.email === '' || inputs.password === '') {
             setAlertOpen(true)
-            setAlertMessage(result.message)
+            setAlertMessage('Todos los campos son requeridos')
         } else {
-            const { accessToken, refreshToken } = result
+            const result = await loginApi(inputs)
 
-            /**Guardar datos encriptados del usuario en el localStorage*/
-            localStorage.setItem(ACCESS_TOKEN, accessToken)
-            localStorage.setItem(REFRESH_TOKEN, refreshToken)
+            if (result.message) {
+                setAlertOpen(true)
+                setAlertMessage(result.message)
+            } else {
+                const { accessToken, refreshToken } = result
 
-            /**Redireccionar al home */
-            window.location.href = '/home'
+                /**Guardar datos encriptados del usuario en el localStorage*/
+                localStorage.setItem(ACCESS_TOKEN, accessToken)
+                localStorage.setItem(REFRESH_TOKEN, refreshToken)
+
+                /**Redireccionar al home */
+                window.location.href = '/home'
+            }
         }
     }
 
@@ -120,22 +127,11 @@ function Login(props) {
 
     return (
         <>
-            <PublicHeader />
-            <Snackbar
-                anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                }}
+            <DefaultSnackbar
                 open={alertOpen}
-                autoHideDuration={6000}
-                onClose={handleClose}
-                message={alertMessage}
-                action={
-                    <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
-                        <CloseIcon fontSize="small" />
-                    </IconButton>
-                }
-            />
+                handleClose={handleClose}
+                message={alertMessage} />
+            <PublicHeader />
             <Container className={classes.root}>
                 <Container className={classes.containerLogin}>
                     <Grid container spacing={1}>
@@ -152,12 +148,12 @@ function Login(props) {
                                     </Box>
                                     <FormControl fullWidth>
                                         <Box className={classes.boxInputs}>
-                                            <TextField name="email" value={inputs.email} label="Correo electrónico" variant="outlined" fullWidth required />
+                                            <TextField name="email" value={inputs.email} label="Correo electrónico" variant="outlined" fullWidth />
                                         </Box>
                                     </FormControl>
                                     <FormControl fullWidth>
                                         <Box className={classes.box}>
-                                            <TextField name="password" value={inputs.password} type="password" label="Contraseña" variant="outlined" fullWidth required />
+                                            <TextField name="password" value={inputs.password} type="password" label="Contraseña" variant="outlined" fullWidth />
                                         </Box>
                                     </FormControl>
                                     <FormControl fullWidth>
@@ -174,7 +170,9 @@ function Login(props) {
                     </Grid>
                 </Container>
             </Container>
-            <Footer />
+            <div className={classes.footer}>
+                <Footer />
+            </div>
         </>
     )
 }

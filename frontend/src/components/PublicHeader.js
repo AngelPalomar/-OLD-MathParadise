@@ -17,15 +17,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(0)
     },
     logo: {
-        [theme.breakpoints.down('sm')]: {
-            width: '40%'
-        },
-        [theme.breakpoints.down('md')]: {
-            width: '42%'
-        },
-        [theme.breakpoints.up('md')]: {
-            width: '15%'
-        }
+        width: '185px',
     },
     colorLabels: {
         color: MATH_COLORS().math_blue

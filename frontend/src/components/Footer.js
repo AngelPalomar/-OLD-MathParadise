@@ -46,13 +46,20 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
         flexDirection: 'column',
         alignItems: 'center',
+        textAlign: 'center',
         marginTop: theme.spacing(3),
     },
     title: {
         marginBottom: theme.spacing(1)
     },
     contactContainer: {
-        textAlign: 'right'
+        [theme.breakpoints.down('sm')]: {
+            textAlign: 'center',
+            marginTop: theme.spacing(2)
+        },
+        [theme.breakpoints.up('md')]: {
+            textAlign: 'right',
+        }
     },
     link: {
         textDecoration: 'none',
@@ -106,7 +113,7 @@ function Footer() {
 
             <Box className={classes.rights}>
                 <Typography>Math Paradise&reg; {getVersionNumber()} - Todos los derechos reservados</Typography>
-                <Typography>2020</Typography>
+                <Typography>Machionextia Software Labs S.A. de C.V. - 2020</Typography>
             </Box>
         </Box>
     )

@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import {
     Typography, Paper, Grid, Container, Button, Box, TextField,
     FormControl, FormControlLabel, Radio, RadioGroup, Snackbar, IconButton,
-    InputLabel, Select, MenuItem
+    InputLabel, Select, MenuItem, Checkbox
 } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
 import CreateIcon from '@material-ui/icons/Create'
@@ -52,6 +52,14 @@ const useStyles = makeStyles((theme) => ({
     },
     select: {
         width: '100%'
+    },
+    centerControl: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    footer: {
+        position: 'relative'
     }
 }))
 
@@ -60,6 +68,7 @@ function SignUp() {
     const [alert, setAlert] = React.useState(false) //Alerta superior
     const [message, setMessage] = useState('') //Mensaje de alertas
     const [instData, setInstData] = useState([]) //Traer nombre de instituciones
+    const [privacyPolicies, setprivacyPolicies] = useState(false) //Aceptación de las porlitcas
     //Valoresd de los campos
     const [inputs, setInputs] = useState({
         name: '',
@@ -154,7 +163,8 @@ function SignUp() {
         const repeatPasswordValue = inputs.repeatPassword
 
         //Si los campos devuelve -false-
-        if (!name || !lastname || !nickname || !email || !password || !repeatPassword || !role || institution === '' || school_grade === '') {
+        if (!name || !lastname || !nickname || !email || !password || !repeatPassword ||
+            !role || institution === '' || school_grade === '' || !privacyPolicies) {
             setMessage('Todos los campos son requeridos.')
             setAlert(true)
         } else {
@@ -173,7 +183,7 @@ function SignUp() {
 
                     setTimeout(() => {
                         window.location.href = '/login'
-                    }, 1000);
+                    }, 500);
                 }
             }
         }
@@ -276,7 +286,15 @@ function SignUp() {
                                 <FormControlLabel value="tutor" control={<Radio color="primary" checked={inputs.role === 'tutor'} onChange={inputValidation} />} label="Tutor/Profesor" />
                             </RadioGroup>
                         </Box>
-                        <Container className={classes.container}>
+                        <Box className={classes.centerControl}>
+                            <FormControlLabel
+                                control={<Checkbox
+                                    checked={privacyPolicies}
+                                    onChange={() => { setprivacyPolicies(!privacyPolicies) }}
+                                    color="primary" />}
+                                label="Acepto las políticas de privacidad" />
+                        </Box>
+                        <Container className={classes.centerControl}>
                             <FormControl>
                                 <Button type="submit" className={classes.button} startIcon={<CreateIcon />}>
                                     <Typography variant="h5">Crear cuenta</Typography>
@@ -286,7 +304,9 @@ function SignUp() {
                     </Paper>
                 </form>
             </Container>
-            <Footer />
+            <div className={classes.footer}>
+                <Footer />
+            </div>
         </>
     )
 }
