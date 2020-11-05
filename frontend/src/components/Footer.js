@@ -113,7 +113,7 @@ function Footer() {
 
             <Box className={classes.rights}>
                 <Typography>Math Paradise&reg; {getVersionNumber()} - Todos los derechos reservados</Typography>
-                <Typography>Machionextia Software Labs S.A. de C.V. - 2020</Typography>
+                <Typography>2020</Typography>
             </Box>
         </Box>
     )

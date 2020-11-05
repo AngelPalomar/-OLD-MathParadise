@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import {
     Typography, Paper, Grid, Container, Button, Box, TextField,
-    FormControl
+    FormControl, CircularProgress
 } from '@material-ui/core'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 
@@ -68,6 +68,7 @@ function Login(props) {
         email: '',
         password: ''
     })
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         document.title = 'Iniciar sesión - Math Paradise'
@@ -105,17 +106,28 @@ function Login(props) {
             const result = await loginApi(inputs)
 
             if (result.message) {
+                setIsLoading(true)
                 setAlertOpen(true)
                 setAlertMessage(result.message)
+                setIsLoading(false)
             } else {
                 const { accessToken, refreshToken } = result
 
-                /**Guardar datos encriptados del usuario en el localStorage*/
-                localStorage.setItem(ACCESS_TOKEN, accessToken)
-                localStorage.setItem(REFRESH_TOKEN, refreshToken)
+                /**Si el access token viene indefinifo o nulo, no se redirige al home */
+                if (!accessToken || !refreshToken) {
+                    setIsLoading(true)
+                    setAlertOpen(true)
+                    setAlertMessage("Error del servidor, vuelva a intentarlo.")
+                    setIsLoading(false)
+                } else {
+                    setIsLoading(true)
+                    /**Guardar datos encriptados del usuario en el localStorage*/
+                    localStorage.setItem(ACCESS_TOKEN, accessToken)
+                    localStorage.setItem(REFRESH_TOKEN, refreshToken)
 
-                /**Redireccionar al home */
-                window.location.href = '/home'
+                    /**Redireccionar al home */
+                    window.location.href = '/home'
+                }
             }
         }
     }
@@ -158,9 +170,13 @@ function Login(props) {
                                     </FormControl>
                                     <FormControl fullWidth>
                                         <Box className={classes.box}>
-                                            <Button type="submit" variant="contained" className={classes.button} startIcon={<ExitToAppIcon />}>
-                                                <Typography variant="h6">Iniciar sesión</Typography>
-                                            </Button>
+                                            {
+                                                !isLoading ?
+                                                    <Button type="submit" variant="contained" className={classes.button} startIcon={<ExitToAppIcon />}>
+                                                        <Typography variant="h6">Iniciar sesión</Typography>
+                                                    </Button> :
+                                                    <CircularProgress />
+                                            }
                                         </Box>
                                     </FormControl>
                                 </Paper>
