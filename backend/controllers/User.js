@@ -169,11 +169,52 @@ function updateUser(req, res) {
     })
 }
 
+/**
+ * [
+        { $limit: 10 },
+        {
+            $project: {
+                name: 1,
+                lastname: 1,
+                nickname: 1,
+                rush: {
+                    points: 1
+                },
+                institution: 1
+            }
+        },
+        {
+            $sort: { "rush.points": -1 }
+        }]
+ */
+
+function getRushLeaderboard(req, res) {
+    User.find({}).sort({ "rush.points": -1 })
+        .select("-email -role -active -sign_up_date -school_grade -password -arcade -classic -__v")
+        .limit(10)
+        .exec((err, result) => {
+            if (err) {
+                res.status(500).send({ status: 0, message: "Error al obtener la clasificación.", error: err })
+            } else {
+                if (!result) {
+                    res.status(404).send({ status: 0, message: "Sin clasificaciones" })
+                } else {
+                    res.status(200).send({
+                        status: 1,
+                        message: "Mostrando clasificación.",
+                        rush_board: result
+                    })
+                }
+            }
+        })
+}
+
 module.exports = {
     signUp,
     login,
     getUser,
     getUserByNickname,
     getAllUsers,
-    updateUser
+    updateUser,
+    getRushLeaderboard
 }

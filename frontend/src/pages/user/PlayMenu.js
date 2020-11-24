@@ -7,6 +7,9 @@ import ArcadePaper from '../../components/gamemode_papers/ArcadePaper'
 import ClassicPaper from '../../components/gamemode_papers/ClassicPaper'
 import RushPaper from '../../components/gamemode_papers/RushPaper'
 
+/**Colors */
+import { MATH_GRADIENTS } from '../../styles/MathColors'
+
 /**Imagenes */
 import classicIconWhite from '../../assets/images/icons/classic_icon_white.svg'
 import arcadeIconWhite from '../../assets/images/icons/arcade_icon_white.svg'
@@ -22,28 +25,28 @@ const useStyles = makeStyles((theme) => ({
     classicPaper: {
         padding: theme.spacing(2),
         color: "#FFFFFF",
-        background: "linear-gradient(45deg, #388659, #98CE00)"
+        background: MATH_GRADIENTS().classic
     },
     ArcadePaper: {
         padding: theme.spacing(2),
         color: "#FFFFFF",
-        background: "linear-gradient(45deg, #6A041D, #FF006E)"
+        background: MATH_GRADIENTS().arcade
     },
     RushPaper: {
         padding: theme.spacing(2),
         color: "#FFFFFF",
-        background: "linear-gradient(45deg, #00487C, #2A8EFF)"
+        background: MATH_GRADIENTS().rush
     },
     disabled: {
         padding: theme.spacing(2),
         color: "#FFFFFF",
-        background: "linear-gradient(45deg, #515151, #A1A1A1)"
+        background: MATH_GRADIENTS().disabled
     }
 }))
 
 function PlayMenu() {
     const classes = useStyles()
-    const [game, setgame] = useState(<RushPaper />)
+    const [game, setgame] = useState(<ClassicPaper />)
 
     useEffect(() => {
         document.title = 'Modos de juego - Math Paradise'
@@ -74,7 +77,7 @@ function PlayMenu() {
                     <br />
                     <Grid container spacing={2}>
                         <Grid item lg={12} md={12} sm={6} xs={6}>
-                            <Button onClick={() => changeGame('classic')} className={classes.disabled} size="large" variant="contained" fullWidth disabled>
+                            <Button onClick={() => changeGame('classic')} className={classes.classicPaper} size="large" variant="contained" fullWidth>
                                 <Grid item lg={1} md={1} sm={2} xs={2}>
                                     <img src={classicIconWhite} alt="classic.svg"></img>
                                 </Grid>

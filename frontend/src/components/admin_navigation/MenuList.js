@@ -72,16 +72,7 @@ function MenuList(props) {
                     </ListItem>
                 </Link>
 
-                <Link to="/admin/excercises" className={classes.link}>
-                    <ListItem button >
-                        <ListItemIcon>
-                            <FunctionsIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Ejercicios" />
-                    </ListItem>
-                </Link>
-
-                <Link to="/admin" className={classes.link}>
+                <Link to="/admin/areas" className={classes.link}>
                     <ListItem button >
                         <ListItemIcon>
                             <MenuBookIcon />
@@ -90,7 +81,7 @@ function MenuList(props) {
                     </ListItem>
                 </Link>
 
-                <Link to="/admin" className={classes.link}>
+                <Link to="/admin/topics" className={classes.link}>
                     <ListItem button >
                         <ListItemIcon>
                             <BookmarkIcon />
@@ -99,12 +90,21 @@ function MenuList(props) {
                     </ListItem>
                 </Link>
 
-                <Link to="/admin" className={classes.link}>
+                <Link to="/admin/subtopics" className={classes.link}>
                     <ListItem button >
                         <ListItemIcon>
                             <BookmarksIcon />
                         </ListItemIcon>
                         <ListItemText primary="Subtemas" />
+                    </ListItem>
+                </Link>
+
+                <Link to="/admin/excercises" className={classes.link}>
+                    <ListItem button >
+                        <ListItemIcon>
+                            <FunctionsIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Ejercicios" />
                     </ListItem>
                 </Link>
 

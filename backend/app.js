@@ -11,6 +11,9 @@ const UserRoutes = require('./routers/User')
 const GroupRoutes = require('./routers/Group')
 const ExcerciseRoutes = require('./routers/Excercise')
 const InstitutionRoutes = require('./routers/Institution')
+const AreaRoutes = require('./routers/Area')
+const TopicRoutes = require('./routers/Topic')
+const SubtopicRoutes = require('./routers/Subtopic')
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -33,5 +36,8 @@ app.use(`/api/${API_VERSION}`, UserRoutes)
 app.use(`/api/${API_VERSION}`, GroupRoutes)
 app.use(`/api/${API_VERSION}`, ExcerciseRoutes)
 app.use(`/api/${API_VERSION}`, InstitutionRoutes)
+app.use(`/api/${API_VERSION}`, AreaRoutes)
+app.use(`/api/${API_VERSION}`, TopicRoutes)
+app.use(`/api/${API_VERSION}`, SubtopicRoutes)
 
 module.exports = app;

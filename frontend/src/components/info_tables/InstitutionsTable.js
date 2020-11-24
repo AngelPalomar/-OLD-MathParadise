@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
+import { useStyles } from './useStyles'
 import {
     Table, TableBody, TableCell, TableContainer, TableHead,
     TableRow, Paper
@@ -7,12 +7,6 @@ import {
 
 /**APIs */
 import { getInstitutionsApi } from "../../api/institution"
-
-const useStyles = makeStyles({
-    tableHead: {
-        fontWeight: 'bold'
-    }
-});
 
 function InstitutionsTable() {
     const classes = useStyles()

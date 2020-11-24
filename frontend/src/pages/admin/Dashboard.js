@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 function Dashboard() {
 
-    useEffect(() => {
+    React.useEffect(() => {
         document.title = 'Resumen - Panel de administración | Math Paradise'
     }, [])
 

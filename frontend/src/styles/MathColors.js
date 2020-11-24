@@ -28,8 +28,11 @@ export function MATH_COLORS() {
         math_rush: '#00487C',
 
         math_classic_base: '#2A9134',
+        math_classic_base_dark: '#278831',
         math_arcade_base: '#C80057',
-        math_rush_base: '#0063D3'
+        math_arcade_base_dark: '#B90050',
+        math_rush_base: '#0063D3',
+        math_rush_base_dark: '#005BC2'
     }
 }
 

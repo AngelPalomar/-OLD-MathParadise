@@ -9,6 +9,12 @@ const useStyles = makeStyles((theme) => ({
         width: theme.spacing(4),
         height: theme.spacing(4),
     },
+    small: {
+        color: '#FFF',
+        background: "linear-gradient(45deg, #2A55FF, #15FFD4)",
+        width: theme.spacing(5),
+        height: theme.spacing(5),
+    },
     large: {
         color: '#FFF',
         background: "linear-gradient(45deg, #2A55FF, #15FFD4)",
@@ -36,8 +42,8 @@ function DefaultAvatar(props) {
     }, [nickname])
 
     return (
-        <Avatar className={large === 'lg' ? classes.large : large === 'xs' ? classes.xsmall : classes.xlarge}>
-            <Typography variant={large === 'lg' ? 'h5' : large === 'xs' ? 'subtitle2' : 'h3'}>
+        <Avatar className={large === 'lg' ? classes.large : large === 'xs' ? classes.xsmall : large === 'sm' ? classes.small : classes.xlarge}>
+            <Typography variant={large === 'lg' ? 'h5' : large === 'xs' ? 'subtitle2' : large === 'sm' ? 'h5' : 'h3'}>
                 {initialAvatar}
             </Typography>
         </ Avatar>

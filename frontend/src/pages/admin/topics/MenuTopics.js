@@ -1,12 +1,9 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles"
 import {
     Button, Grid, Typography, Box
 } from "@material-ui/core"
-
-/**Components */
-import InstitutionsTable from '../../../components/info_tables/InstitutionsTable'
 
 /**Icons */
 import AddIcon from '@material-ui/icons/Add'
@@ -36,11 +33,11 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-function Menu() {
+function MenuTopics() {
     const classes = useStyles()
 
-    useEffect(() => {
-        document.title = 'Instituciones - Panel de administración | Math Paradise'
+    React.useEffect(() => {
+        document.title = 'Temas - Panel de administración | Math Paradise'
     }, [])
 
     return (
@@ -48,17 +45,17 @@ function Menu() {
             <Grid container spacing={2}>
                 <Grid item lg={12}>
                     <Typography variant="h4" className={classes.title}>
-                        Gestión de Instituciones
+                        Gestión de Temas
                     </Typography>
                     <Grid container spacing={2}>
                         <Grid item lg={3}>
-                            <Link to="/admin/institutions/create" className={classes.link}>
+                            <Link to="/admin/topics/create" className={classes.link}>
                                 <Button
                                     variant="contained"
                                     startIcon={<AddIcon />}
                                     className={classes.button}
                                 >
-                                    Agregar Institución
+                                    Crear Tema
                                     </Button>
                             </Link>
                         </Grid>
@@ -66,7 +63,7 @@ function Menu() {
                 </Grid>
                 <Grid item lg={12}>
                     <Box>
-                        <InstitutionsTable />
+                        Lista
                     </Box>
                 </Grid>
             </Grid>
@@ -74,4 +71,4 @@ function Menu() {
     )
 }
 
-export default Menu
+export default MenuTopics

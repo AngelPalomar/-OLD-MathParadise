@@ -1,4 +1,5 @@
 import { basePath, apiVersion } from './config'
+import { getAccessTokenApi } from './auth'
 //import { message } from 'antd'
 
 /**Dar de alta a usuario */
@@ -125,6 +126,25 @@ export function updateUserApi(token, userData, userId) {
         headers: {
             "Content-Type": "application/json",
             Authorization: token
+        }
+    }
+
+    return fetch(url, params).then(response => {
+        return response.json()
+    }).then(result => {
+        return result
+    }).catch(err => {
+        return err.message
+    })
+}
+
+export function getRushLeaderboardApi() {
+    const url = `${basePath}/${apiVersion}/get-rush-leaderboard`
+    const params = {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: getAccessTokenApi()
         }
     }
 

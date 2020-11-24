@@ -81,9 +81,9 @@ function Footer() {
             <Grid container>
                 <Grid item lg={2} md={2} sm={6} xs={6}>
                     <Typography variant="h6" className={classes.title}>Social</Typography>
-                    <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" className={classes.link}>Facebook</a>
+                    <a href="https://www.facebook.com/Math-Paradise-2132810540284835" target="_blank" rel="noopener noreferrer" className={classes.link}>Facebook</a>
                     <br />
-                    <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" className={classes.link}>Instagram</a>
+                    <a href="https://www.instagram.com/mathparadise.juega/" target="_blank" rel="noopener noreferrer" className={classes.link}>Instagram</a>
                 </Grid>
                 <Grid item lg={3} md={3} sm={6} xs={6}>
                     <Typography variant="h6" className={classes.title}>Más información</Typography>
@@ -101,11 +101,7 @@ function Footer() {
                 </Grid>
                 <Grid item lg={7} md={7} sm={12} xs={12} className={classes.contactContainer}>
                     <Typography variant="h6" className={classes.title}>Contacto</Typography>
-                    <a href="mailto:cruzangelp@gmail.com" rel="noopener noreferrer" className={classes.link}>
-                        Equipo de desarrollo
-                    </a>
-                    <br />
-                    <a href="mailto:mathparadise@gmail.com" rel="noopener noreferrer" className={classes.link}>
+                    <a href="mailto:mathparadise.juega@gmail.com" rel="noopener noreferrer" className={classes.link}>
                         Feedback
                     </a>
                 </Grid>

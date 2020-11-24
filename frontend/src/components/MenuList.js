@@ -9,7 +9,7 @@ import { getAccessTokenApi } from "../api/auth"
 /**Iconos */
 import DashboardIcon from '@material-ui/icons/Dashboard'
 import GamesIcon from '@material-ui/icons/Games'
-//import EmojiEventsIcon from '@material-ui/icons/EmojiEvents'
+import EmojiEventsIcon from '@material-ui/icons/EmojiEvents'
 //import PeopleAltIcon from '@material-ui/icons/PeopleAlt'
 //import FunctionsIcon from '@material-ui/icons/Functions'
 //import AccountBoxIcon from '@material-ui/icons/AccountBox'
@@ -56,14 +56,14 @@ function MenuList(props) {
                     </ListItem>
                 </Link>
 
-                {/**<Link to="/home/leaderboard" className={classes.link}>
+                <Link to="/home/leaderboard" className={classes.link}>
                     <ListItem button >
                         <ListItemIcon>
                             <EmojiEventsIcon />
                         </ListItemIcon>
                         <ListItemText primary="Clasificación" />
                     </ListItem>
-                </Link> */}
+                </Link>
 
                 {/**<Link to="/home/groups" className={classes.link}>
                     <ListItem button >

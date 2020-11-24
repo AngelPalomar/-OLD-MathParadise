@@ -124,10 +124,10 @@ function ClassicPaper() {
                         </Grid>
                         <Typography variant="h6">Información</Typography>
                         <Grid container spacing={2} className={classes.grid}>
-                            <Grid item lg={6} md={12} sm={12}>
+                            <Grid item lg={6} md={12} sm={12} xs={12}>
                                 <Button className={classes.classicInfo} variant="contained" startIcon={<HelpIcon />} fullWidth>¿Cómo jugar?</Button>
                             </Grid>
-                            <Grid item lg={6} md={12} sm={12}>
+                            <Grid item lg={6} md={12} sm={12} xs={12}>
                                 <Button className={classes.classicInfo} variant="contained" startIcon={<BookmarkIcon />} fullWidth>Competencias</Button>
                             </Grid>
                         </Grid>

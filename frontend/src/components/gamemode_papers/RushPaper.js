@@ -56,23 +56,21 @@ function RushPaper() {
                             <br />
                             <Typography variant="h6">Información</Typography>
                             <Grid container spacing={2} className={classes.grid}>
-                                <Grid item lg={6} md={12} sm={12}>
+                                <Grid item lg={6} md={12} sm={12} xs={12}>
                                     <Button
                                         onClick={() => { setOpenHowTo(true) }}
                                         className={classes.rushInfo}
                                         variant="contained"
-                                        startIcon={<HelpIcon />}
-                                        fullWidth>
+                                        startIcon={<HelpIcon />}>
                                         ¿Cómo jugar?
                                     </Button>
                                 </Grid>
-                                <Grid item lg={6} md={12} sm={12}>
+                                <Grid item lg={6} md={12} sm={12} xs={12}>
                                     <Button
                                         onClick={() => { setOpenCompetencies(true) }}
                                         className={classes.rushInfo}
                                         variant="contained"
-                                        startIcon={<BookmarkIcon />}
-                                        fullWidth>
+                                        startIcon={<BookmarkIcon />}>
                                         Competencias
                                     </Button>
                                 </Grid>

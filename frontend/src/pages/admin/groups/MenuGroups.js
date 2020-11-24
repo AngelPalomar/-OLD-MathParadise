@@ -35,6 +35,11 @@ const useStyles = makeStyles((theme) => ({
 
 function MenuGroups() {
     const classes = useStyles()
+
+    React.useEffect(() => {
+        document.title = 'Grupos - Panel de administración | Math Paradise'
+    }, [])
+
     return (
         <>
             <Grid container spacing={2}>

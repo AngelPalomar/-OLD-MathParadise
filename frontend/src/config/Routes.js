@@ -20,6 +20,18 @@ import AdminInstitutionsCreate from '../pages/admin/institutions/CreateIInstitut
 import AdminExcercisesMenu from '../pages/admin/excercises/MenuExcercises'
 import AdminExcercisesCreate from '../pages/admin/excercises/CreateExcercise'
 
+//Areas
+import AdminAreasMenu from '../pages/admin/areas/MenuAreas'
+import AdminAreasCreate from '../pages/admin/areas/CreateArea'
+
+//Temas
+import AdminTopicsMenu from '../pages/admin/topics/MenuTopics'
+import AdminTopicsCreate from '../pages/admin/topics/CreateTopic'
+
+//Subtemas
+import AdminSubtopicsMenu from '../pages/admin/subtopics/MenuSubtopics'
+import AdminSubtopicsCreate from '../pages/admin/subtopics/CreateSubtopic'
+
 /** User Pages */
 import Dashboard from '../pages/user/Dashboard'
 import PlayMenu from '../pages/user/PlayMenu'
@@ -94,6 +106,36 @@ const routes = [
             {
                 path: '/admin/excercises/create',
                 component: AdminExcercisesCreate,
+                exact: true,
+            },
+            {
+                path: '/admin/areas',
+                component: AdminAreasMenu,
+                exact: true,
+            },
+            {
+                path: '/admin/areas/create',
+                component: AdminAreasCreate,
+                exact: true,
+            },
+            {
+                path: '/admin/topics',
+                component: AdminTopicsMenu,
+                exact: true,
+            },
+            {
+                path: '/admin/topics/create',
+                component: AdminTopicsCreate,
+                exact: true,
+            },
+            {
+                path: '/admin/subtopics',
+                component: AdminSubtopicsMenu,
+                exact: true,
+            },
+            {
+                path: '/admin/subtopics/create',
+                component: AdminSubtopicsCreate,
                 exact: true,
             },
             {
@@ -180,18 +222,7 @@ const routes = [
                 component: Error
             }
         ]
-    },
-    /**Ruta de perfil público */
-    {
-        path: '/profile/@:nickname',
-        component: Profile,
-        exact: false,
-        routes: [
-            {
-                component: Error
-            }
-        ]
-    },
+    }
 ]
 
 export default routes
