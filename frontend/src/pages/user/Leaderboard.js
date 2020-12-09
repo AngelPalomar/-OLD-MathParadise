@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
         width: '60px'
     },
     userPaperInfo: {
-        padding: theme.spacing(1),
+        padding: theme.spacing(1.5),
         marginBottom: theme.spacing(1)
     },
     avatar: {
@@ -93,8 +93,6 @@ export default function Leaderboard() {
         })
     }, [])
 
-    console.log(rushTable)
-
     return (
         <Paper className={classes.root}>
             <Box className={classes.header_board}>
@@ -116,12 +114,12 @@ export default function Leaderboard() {
                         <Box mt={2}>
                             {
                                 rushTable.map((values, index) =>
-                                    <Paper className={classes.userPaperInfo}>
+                                    <Paper key={index} className={classes.userPaperInfo}>
                                         <Grid container spacing={2}>
-                                            <Grid item lg={2} sm={2} sm={2} className={classes.avatar}>
+                                            <Grid item lg={2} md={2} sm={2} xs={2} className={classes.avatar}>
                                                 <DefaultAvatar nickname={values.nickname} large="sm" />
                                             </Grid>
-                                            <Grid item lg={7} sm={7} xs={7} >
+                                            <Grid item lg={7} md={7} sm={7} xs={7} >
                                                 <Box>
                                                     <Link className={classes.link} to={"/home/profile/@" + values.nickname}>
                                                         <Typography>{values.nickname}</Typography>
@@ -129,7 +127,7 @@ export default function Leaderboard() {
                                                     <Typography variant="subtitle2">Puntos: <span className={classes.points}>{values.rush.points}</span></Typography>
                                                 </Box>
                                             </Grid>
-                                            <Grid item lg={3} sm={3} xs={3} className={classes.avatar}>
+                                            <Grid item lg={3} md={3} sm={3} xs={3} className={classes.avatar}>
                                                 {
                                                     index < 3 ?
                                                         <img src={

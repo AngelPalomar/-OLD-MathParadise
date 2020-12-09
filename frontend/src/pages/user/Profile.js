@@ -41,7 +41,8 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2),
     },
     boxInfo: {
-        marginTop: theme.spacing(2)
+        marginTop: theme.spacing(2),
+        textAlign: 'center'
     },
     fullnameLabel: {
         textAlign: 'center'
@@ -170,6 +171,11 @@ function Profile(props) {
                                 }
                                 {
                                     getAccessTokenApi() && userData ?
+                                        <Typography className={classes.role}>{userData.institution}</Typography>
+                                        : null
+                                }
+                                {
+                                    getAccessTokenApi() && userData ?
                                         JwtDecode(getAccessTokenApi()).nickname === userData.nickname ?
                                             <>
                                                 <ProfileForm userData={userData} open={openProfileForm} close={handleCloseProfileForm} />
@@ -188,16 +194,16 @@ function Profile(props) {
                     </Grid>
                     <Grid item lg={8} md={9} sm={12} xs={12}>
                         <Paper className={classes.paperStats}>
-                            <Typography variant="h5" className={classes.title}>Estadísticas de juego</Typography>
+                            <Typography variant="h5" className={classes.title}>Puntuaciones</Typography>
                             <Grid container spacing={1}>
-                                <Grid item lg={6} md={6} sm={12} xs={12}>
-                                    <ClassicStats nickname={nickname} />
+                                <Grid item lg={12} md={12} sm={12} xs={12}>
+                                    <ClassicStats nickname={nickname} summary={true} />
                                 </Grid>
-                                <Grid item lg={6} md={6} sm={12} xs={12}>
-                                    <ArcadeStats nickname={nickname} />
+                                <Grid item lg={12} md={12} sm={12} xs={12}>
+                                    <ArcadeStats nickname={nickname} summary={true} />
                                 </Grid>
-                                <Grid item lg={6} md={6} sm={12} xs={12}>
-                                    <RushStats nickname={nickname} />
+                                <Grid item lg={12} md={12} sm={12} xs={12}>
+                                    <RushStats nickname={nickname} summary={true} />
                                 </Grid>
                             </Grid>
                         </Paper>

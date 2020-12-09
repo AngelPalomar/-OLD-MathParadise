@@ -91,10 +91,6 @@ function Footer() {
                         Universidad Tecnológica de Querétaro
                     </a>
                     <br />
-                    <a href="/" className={classes.link}>
-                        Créditos
-                    </a>
-                    <br />
                     <a href="/privacy-policies" className={classes.link}>
                         Políticas de privacidad
                     </a>

@@ -1,6 +1,9 @@
 import { makeStyles } from "@material-ui/core/styles"
 
 export const useStyles = makeStyles((theme) => ({
+    statsPaperSummary: {
+        padding: theme.spacing(2)
+    },
     statsPaper: {
         padding: theme.spacing(2),
         height: '280px'
@@ -12,8 +15,7 @@ export const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: theme.spacing(1)
+        alignItems: 'center'
     },
     statsElement: {
         display: 'flex',
@@ -21,10 +23,20 @@ export const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-between',
         alignItems: 'center',
     },
-    statsInfo: {
-        marginTop: theme.spacing(1)
+    statsElementSummary: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    divider: {
+        marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(1),
     },
     statsTitle: {
-        fontSize: '22px'
+        fontSize: '22px',
+        textAlign: 'center'
+    },
+    summaryPoints: {
+        textAlign: 'center'
     }
 }))

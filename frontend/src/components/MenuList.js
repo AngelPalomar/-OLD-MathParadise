@@ -57,7 +57,7 @@ function MenuList(props) {
                 </Link>
 
                 <Link to="/home/leaderboard" className={classes.link}>
-                    <ListItem button >
+                    <ListItem button onClick={props.close}>
                         <ListItemIcon>
                             <EmojiEventsIcon />
                         </ListItemIcon>

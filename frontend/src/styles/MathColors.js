@@ -45,6 +45,7 @@ export function MATH_GRADIENTS(deg = 45) {
         disabled: `linear-gradient(${deg}deg, #515151, #A1A1A1)`,
         classic: `linear-gradient(${deg}deg, #388659, #98CE00)`,
         arcade: `linear-gradient(${deg}deg, #6A041D, #FF006E)`,
-        rush: `linear-gradient(${deg}deg, #00487C, #2A8EFF)`
+        rush: `linear-gradient(${deg}deg, #00487C, #2A8EFF)`,
+        lobby: `linear-gradient(${deg}deg, #0D001A, #330063)`
     }
 }

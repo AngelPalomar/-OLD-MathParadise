@@ -42,6 +42,10 @@ import Profile from '../pages/user/Profile'
 /**Gamemode pages */
 import RushMode from '../pages/games/rush/Rush'
 
+//Classic pages
+import Lobby from '../pages/Lobby'
+import ClassicMode from '../pages/games/clasico/Board'
+
 /**General pages */
 import Home from '../pages/Home'
 import Login from '../pages/Login'
@@ -179,10 +183,36 @@ const routes = [
             }
         ]
     },
+    /**
+     *  Lobby
+     *  Generará el PIN de la partida */
+    {
+        //path: '/lobby/:host/:gamemode/:difficulty/:area/:time',
+        path: '/lobby',
+        component: Lobby,
+        exact: true,
+        routes: [
+            {
+                component: Error
+            }
+        ]
+    },
     /**Modos de juego */
     {
+        //Modo Rush
         path: '/rush',
         component: RushMode,
+        exact: true,
+        routes: [
+            {
+                component: Error
+            }
+        ]
+    },
+    {
+        //Modo Clásico, recibe el PIN de la partida para obtener la configuración
+        path: '/classic/:pin',
+        component: ClassicMode,
         exact: true,
         routes: [
             {

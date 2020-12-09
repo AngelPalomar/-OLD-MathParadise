@@ -189,7 +189,7 @@ function updateUser(req, res) {
  */
 
 function getRushLeaderboard(req, res) {
-    User.find({}).sort({ "rush.points": -1 })
+    User.find({ role: 'student' }).sort({ "rush.points": -1 })
         .select("-email -role -active -sign_up_date -school_grade -password -arcade -classic -__v")
         .limit(10)
         .exec((err, result) => {

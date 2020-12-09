@@ -7,6 +7,7 @@ const SubtopicSchema = Schema({
         unique: true
     },
     topic: String,
+    area: String,
     displayLabel: {
         type: String,
         unique: true

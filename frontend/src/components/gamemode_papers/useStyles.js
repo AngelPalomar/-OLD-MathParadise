@@ -11,6 +11,7 @@ export const useStyles = makeStyles((theme) => ({
     paperConfig: {
         padding: theme.spacing(2),
         background: "rgb(255, 255, 255)",
+        marginBottom: theme.spacing(2)
     },
     classicPaper: {
         padding: theme.spacing(2),
@@ -69,8 +70,20 @@ export const useStyles = makeStyles((theme) => ({
     playButton: {
         padding: theme.spacing(2),
         color: "#FFFFFF",
-        background: "linear-gradient(45deg, #2A55FF, #15FFD4)",
+        background: MATH_GRADIENTS().default,
         textAlign: "center"
+    },
+    joinButton: {
+        padding: theme.spacing(1),
+        color: "#FFFFFF",
+        background: MATH_GRADIENTS().lobby,
+        textAlign: "center"
+    },
+    pinInput: {
+        width: '100%'
+    },
+    title: {
+        marginBottom: theme.spacing(1)
     },
     link: {
         textDecoration: 'none',
@@ -79,5 +92,8 @@ export const useStyles = makeStyles((theme) => ({
             textDecoration: 'none',
             color: theme.palette.text.primary
         }
+    },
+    circularJoin: {
+        color: '#FFF'
     }
 }))
