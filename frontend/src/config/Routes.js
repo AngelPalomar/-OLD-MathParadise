@@ -44,7 +44,7 @@ import RushMode from '../pages/games/rush/Rush'
 
 //Classic pages
 import Lobby from '../pages/Lobby'
-import ClassicMode from '../pages/games/clasico/Board'
+import ClassicMode from '../pages/games/clasico/Classic'
 
 /**General pages */
 import Home from '../pages/Home'

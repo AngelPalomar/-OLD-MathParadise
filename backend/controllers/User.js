@@ -209,6 +209,27 @@ function getRushLeaderboard(req, res) {
         })
 }
 
+function getClassicLeaderboard(req, res) {
+    User.find({ role: 'student' }).sort({ "classic.points": -1 })
+        .select("-email -role -active -sign_up_date -school_grade -password -arcade -rush -__v")
+        .limit(10)
+        .exec((err, result) => {
+            if (err) {
+                res.status(500).send({ status: 0, message: "Error al obtener la clasificación.", error: err })
+            } else {
+                if (!result) {
+                    res.status(404).send({ status: 0, message: "Sin clasificaciones" })
+                } else {
+                    res.status(200).send({
+                        status: 1,
+                        message: "Mostrando clasificación.",
+                        classic_board: result
+                    })
+                }
+            }
+        })
+}
+
 module.exports = {
     signUp,
     login,
@@ -216,5 +237,6 @@ module.exports = {
     getUserByNickname,
     getAllUsers,
     updateUser,
-    getRushLeaderboard
+    getRushLeaderboard,
+    getClassicLeaderboard
 }

@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 
 function PlayMenu() {
     const classes = useStyles()
-    const [game, setgame] = useState(<RushPaper />)
+    const [game, setgame] = useState(<ClassicPaper />)
 
     useEffect(() => {
         document.title = 'Modos de juego - Math Paradise'
@@ -77,7 +77,7 @@ function PlayMenu() {
                     <br />
                     <Grid container spacing={2}>
                         <Grid item lg={12} md={12} sm={6} xs={6}>
-                            <Button onClick={() => changeGame('classic')} className={classes.disabled} size="large" variant="contained" fullWidth disabled>
+                            <Button onClick={() => changeGame('classic')} className={classes.classicPaper} size="large" variant="contained" fullWidth>
                                 <Grid item lg={1} md={1} sm={2} xs={2}>
                                     <img src={classicIconWhite} alt="classic.svg"></img>
                                 </Grid>

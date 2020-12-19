@@ -4,7 +4,7 @@ import jwtDecode from 'jwt-decode'
 import { useStyles } from './useStyles'
 import {
     Typography, Box, Grid, Paper, Button, InputLabel, FormControl,
-    MenuItem, Select, TextField, CircularProgress
+    MenuItem, Select, TextField, CircularProgress, Backdrop
 } from "@material-ui/core"
 
 /**API */
@@ -39,6 +39,7 @@ function ClassicPaper() {
     //Datos para visuales
     const [message, setMessage] = useState("")
     const [openSnackbar, setOpenSnackbar] = useState(false)
+    const [openBackdrop, setOpenBackdrop] = useState(false)
     const [blockJoinbutton, setblockJoinbutton] = useState(false)
     //Datos de partida buscada
     const [gameJoined, setGameJoined] = useState([])
@@ -71,38 +72,61 @@ function ClassicPaper() {
     }
 
     //Función para buscar la partida
-    const joinGameHandler = () => {
+    const joinGameAndFind = () => {
         if (pin !== "") {
             getGameByPinApi(pin).then(response => {
-                if (response.status === 1) {
-                    //Abre el backdrop
-                    setblockJoinbutton(true)
-
-                    //Guarda la partida buscada
-                    setGameJoined(response.game)
-
-                    //Actualiza el jugador 2
-                    joinPlayer()
-                } else {
+                //Si no se encuentra la partida
+                if (response.status === 0) {
                     //Mensaje de la respuesta
                     setOpenSnackbar(true)
                     setMessage(response.message)
+                } else {
+                    if (response.game.status !== "in_lobby") {
+                        setOpenSnackbar(true)
+                        setMessage("Esta partida está en juego o fue finalizada.")
+                    } else {
+                        //Abre el backdrop
+                        setblockJoinbutton(true)
+
+                        //Guarda la partida buscada
+                        setGameJoined(response.game)
+
+                        //Actualiza el jugador 2
+                        joinPlayer()
+                    }
                 }
             })
         }
     }
 
     //Función para actualizar el jugador 2
+    /**
+     * Función para verificar si el backdrop está activo y busca la partida en busca
+     * de que se cambie de estado de "in_lobby" a "in_game", si cambia, redirige al tablero
+     * con el pin
+     * */
     const joinPlayer = () => {
         joinGameApi(
             { player2: jwtDecode(getAccessTokenApi()).nickname },
             pin).then(response => {
-                console.log(response)
+                setOpenBackdrop(true)
+                //Si se activa el backdrop
+                setInterval(() => {
+                    getGameByPinApi(pin).then(response => {
+                        if (response.status === 1 && response.game.status === "in_game") {
+                            window.location.href = "/classic/" + pin
+                        }
+                    })
+                }, 2000);
             })
     }
 
     return (
         <>
+            <Backdrop className={classes.backdrop} open={openBackdrop} >
+                <Typography variant="h4">Esperando a que se inicie la partida</Typography>
+                <CircularProgress className={classes.circularJoin} />
+            </Backdrop>
             <DefaultSnackbar
                 open={openSnackbar}
                 message={message}
@@ -198,7 +222,7 @@ function ClassicPaper() {
                                                 label="Tablero"
                                                 className={classes.select}>
 
-                                                <MenuItem value={"default"}>Por defecto</MenuItem>
+                                                <MenuItem value={"default"} title="Tablero generado aleatoriamente.">Por defecto</MenuItem>
                                             </Select>
                                         </FormControl>
                                     </Grid>
@@ -244,11 +268,12 @@ function ClassicPaper() {
                                     onChange={handlePin}
                                     className={classes.pinInput} />
 
-                                <Box className={classes.box} onClick={joinGameHandler}>
+                                <Box className={classes.box}>
                                     <Button
                                         className={classes.joinButton}
                                         variant="contained"
                                         disabled={blockJoinbutton}
+                                        onClick={joinGameAndFind}
                                         fullWidth>
                                         {
                                             !blockJoinbutton ? "Unirse" : <CircularProgress className={classes.circularJoin} />

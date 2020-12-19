@@ -156,3 +156,22 @@ export function getRushLeaderboardApi() {
         return err.message
     })
 }
+
+export function getClassicLeaderboardApi() {
+    const url = `${basePath}/${apiVersion}/get-classic-leaderboard`
+    const params = {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: getAccessTokenApi()
+        }
+    }
+
+    return fetch(url, params).then(response => {
+        return response.json()
+    }).then(result => {
+        return result
+    }).catch(err => {
+        return err.message
+    })
+}

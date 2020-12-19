@@ -76,7 +76,9 @@ function getGameByPin(req, res) {
     })
 }
 
-/**Función usada para actualizar el jugador 2 */
+/**
+ * Función usada para actualizar el jugador 2
+ * TODO: Validación para verificar si el jugador 2 es diferente al jugador 1 */
 function joinGame(req, res) {
     const query = req.query
     const data = req.body
@@ -98,8 +100,30 @@ function joinGame(req, res) {
     })
 }
 
+/**Función para actualizar todo el juego */
+function updateGame(req, res) {
+    const query = req.query
+    const data = req.body
+
+    Game.findOneAndUpdate({ pin: query.pin }, data, (err, game) => {
+        if (err) {
+            res.status(500).send({ status: 0, message: "Error del servidor." })
+        } else {
+            if (!game) {
+                res.status(404).send({ status: 0, message: "No se encontró la partida." })
+            } else {
+                res.status(200).send({
+                    status: 1,
+                    message: "Partida modificada."
+                })
+            }
+        }
+    })
+}
+
 module.exports = {
     createGame,
     getGameByPin,
-    joinGame
+    joinGame,
+    updateGame
 }

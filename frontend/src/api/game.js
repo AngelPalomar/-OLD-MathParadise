@@ -56,3 +56,22 @@ export function joinGameApi(data, pin) {
         return err.message
     })
 }
+
+export function updateGameApi(data, pin) {
+    const url = `${basePath}/${apiVersion}/update-game?pin=${pin}`
+    const params = {
+        method: 'PUT',
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }
+
+    return fetch(url, params).then(response => {
+        return response.json()
+    }).then(result => {
+        return result
+    }, (err) => {
+        return err.message
+    })
+}

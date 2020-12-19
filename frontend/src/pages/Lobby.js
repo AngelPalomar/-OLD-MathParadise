@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Typography, Paper, Divider, Grid, Box, CircularProgress, Button } from '@material-ui/core'
+import { Typography, Paper, Divider, Box, CircularProgress, Button } from '@material-ui/core'
 import { makeStyles } from "@material-ui/core/styles"
 import { MATH_COLORS, MATH_GRADIENTS } from '../styles/MathColors'
 
@@ -7,8 +7,9 @@ import { MATH_COLORS, MATH_GRADIENTS } from '../styles/MathColors'
 import DefaultAvatar from '../components/DefaultAvatar'
 
 /**APIs */
-import { createGameApi, getGameByPinApi } from '../api/game'
+import { createGameApi, getGameByPinApi, updateGameApi } from '../api/game'
 import { getAccessTokenApi } from '../api/auth'
+import { getDefaultClassicBoardApi } from '../api/boards'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -76,6 +77,7 @@ function Lobby(props) {
     const classes = useStyles()
     const { area, host, difficulty, gamemode, time } = props.location.gameProps
     const [game, setGame] = useState([])
+    const [subtopics, setSubtopics] = useState([])
     const gameData = {
         host: host,
         gamemode: gamemode,
@@ -83,6 +85,7 @@ function Lobby(props) {
         area: area,
         time: time
     }
+    let board = new Array(30)
 
     //Función para crear la partida en la base de datos
     useEffect(() => {
@@ -107,9 +110,58 @@ function Lobby(props) {
         }
     }, [game.player2])
 
-    /**
-     * TODO: Función del botón "Jugar" para generar el tablero y redirigir al modo de juego
-     */
+    //Función para traer los subtemas
+    useEffect(() => {
+        if (game.area) {
+            getDefaultClassicBoardApi(game.area).then(response => {
+                if (response.status === 1) {
+                    setSubtopics(response.board)
+                }
+            })
+        }
+    }, [game.area])
+
+    //Función para generar tablero y redirigir
+    const startGame = () => {
+        /**Genera tablero
+         * 1. Llena un arreglo de con 26 posiciones de subtemas al azar
+         * 2. guarda el tablero en la base de datos y cambia el estado de la partida a "in_game"
+         * 3. redirige al tablero pasando el pin para que se busque en ese componente
+         */
+
+        // 1
+        for (let index = 0; index < board.length; index++) {
+            switch (index) {
+                case 0: board[0] = "INICIO"
+                    break
+                case 9: board[9] = "EXCER. RANDOM"
+                    break
+                case 15: board[15] = "RETO"
+                    break
+                case 24: board[24] = "EVENTO"
+                    break
+                default: board[index] = subtopics[Math.floor(Math.random() * subtopics.length)]
+                    break
+            }
+        }
+
+        // 2
+        updateGameApi({ board: board, status: "in_game" }, game.pin).then(response => {
+            // 3
+            if (response.status === 1) {
+                //Redirige al modo de juego en cuestión
+                switch (gameData.gamemode) {
+                    case 'classic':
+                        window.location.href = "/classic/" + game.pin
+                        break
+
+                    default:
+                        window.location.href = "/classic/" + game.pin
+                        break
+                }
+            }
+        })
+    }
 
     return (
         <div className={classes.root}>
@@ -121,7 +173,7 @@ function Lobby(props) {
 
                     <Box className={classes.infoBox}>
                         <Typography className={classes.infoData}>
-                            PIN de acceso: <span className={classes.infoLabel}>{game.pin}</span>
+                            PIN de acceso: <code className={classes.infoLabel}>{game.pin}</code>
                         </Typography>
                         <Typography>¡Pasa este código a un amigo para empezar la partida!</Typography>
                     </Box>
@@ -141,7 +193,7 @@ function Lobby(props) {
                     {
                         game.player2 === "" ?
                             <Typography>Esperando jugador 2...</Typography> :
-                            <Button className={classes.playButton}>
+                            <Button onClick={startGame} className={classes.playButton}>
                                 <Typography variant="h6">¡Jugar!</Typography>
                             </Button>
                     }

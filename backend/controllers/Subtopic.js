@@ -99,7 +99,7 @@ function getDefaultClassicBoard(req, res) {
             } else {
                 res.status(200).send({
                     status: 1,
-                    message: 'Tablero generado',
+                    message: 'Temas para tablero clásico generados.',
                     board: board
                 })
             }

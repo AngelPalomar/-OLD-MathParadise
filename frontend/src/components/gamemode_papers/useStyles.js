@@ -95,5 +95,13 @@ export const useStyles = makeStyles((theme) => ({
     },
     circularJoin: {
         color: '#FFF'
+    },
+    backdrop: {
+        zIndex: theme.zIndex.drawer + 1,
+        color: '#fff',
+        display: 'flex',
+        flexDirection: 'column',
+        textAlign: 'left',
+        alignItems: 'center',
     }
 }))

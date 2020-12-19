@@ -12,5 +12,6 @@ api.post("/get-user-nickname/:nickname", UserController.getUserByNickname)
 api.get("/get-all-users", UserController.getAllUsers)
 api.put("/update-user/:id", [md_auth.ensureAuth], UserController.updateUser)
 api.get("/get-rush-leaderboard", [md_auth.ensureAuth], UserController.getRushLeaderboard)
+api.get("/get-classic-leaderboard", [md_auth.ensureAuth], UserController.getClassicLeaderboard)
 
 module.exports = api 
