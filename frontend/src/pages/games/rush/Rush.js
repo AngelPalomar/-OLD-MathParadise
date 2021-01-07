@@ -28,10 +28,10 @@ import {
 } from '../../../utils/Sounds'
 
 /**Imagenes */
-import sumSrc from '../../../assets/images/layouts/suma_card.svg'
-import resSrc from '../../../assets/images/layouts/resta_card.svg'
-import mulSrc from '../../../assets/images/layouts/mult_card.svg'
-import divSrc from '../../../assets/images/layouts/div_card.svg'
+import sumSrc from '../../../assets/images/layouts/rush/suma_card.svg'
+import resSrc from '../../../assets/images/layouts/rush/resta_card.svg'
+import mulSrc from '../../../assets/images/layouts/rush/mult_card.svg'
+import divSrc from '../../../assets/images/layouts/rush/div_card.svg'
 import rushIcon from '../../../assets/images/icons/rush_icon_white.svg'
 import ok_icon from '../../../assets/images/icons/ok_icon.svg'
 import x_icon from '../../../assets/images/icons/x_icon.svg'

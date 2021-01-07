@@ -76,7 +76,7 @@ export const useStyles = makeStyles((theme) => ({
     joinButton: {
         padding: theme.spacing(1),
         color: "#FFFFFF",
-        background: MATH_GRADIENTS().lobby,
+        background: MATH_GRADIENTS().event_tile,
         textAlign: "center"
     },
     pinInput: {

@@ -46,6 +46,9 @@ export function MATH_GRADIENTS(deg = 45) {
         classic: `linear-gradient(${deg}deg, #388659, #98CE00)`,
         arcade: `linear-gradient(${deg}deg, #6A041D, #FF006E)`,
         rush: `linear-gradient(${deg}deg, #00487C, #2A8EFF)`,
-        lobby: `linear-gradient(${deg}deg, #0D001A, #330063)`
+        start_tile: `linear-gradient(${deg}deg, #D4145A, #ED1C24)`,
+        random_exc_tile: `linear-gradient(${deg}deg, #8CC63F, #006837)`,
+        challenge_tile: `linear-gradient(${deg}deg, #29CBD1, #2A7BD1)`,
+        event_tile: `linear-gradient(${deg}deg, #0D001A, #330063)`
     }
 }
