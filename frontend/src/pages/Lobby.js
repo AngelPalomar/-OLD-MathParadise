@@ -186,7 +186,7 @@ function Lobby(props) {
                             game.player2 === "" ? "Jugador 2..." : game.player2
                         }</Typography>
                         {
-                            game.player2 === "" ? <CircularProgress /> : <DefaultAvatar large="lg" nickname={game.player2} />
+                            game.player2 === "" ? <CircularProgress /> : <DefaultAvatar large="lg" nickname={game.player2} color={1} />
                         }
                     </Box>
 

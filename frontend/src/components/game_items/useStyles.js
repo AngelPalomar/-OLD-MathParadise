@@ -17,7 +17,8 @@ export const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
         alignContent: 'center',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        //backgroundImage: `url(${"static/src/img/main.jpg"})`
     },
     contentHorizontal: {
         height: '80%'
@@ -31,11 +32,17 @@ export const useStyles = makeStyles((theme) => ({
     verticalLabelLeft: {
         transform: 'rotate(-90deg)'
     },
+    symbolPaper: {
+        color: '#FFF',
+        border: '1px solid white'
+    },
     labelSize: {
-        fontSize: `calc(11px + (12 - 9) * ((100vw - 1000px) / (1600 - 300)))`,
+        //fontSize: `calc(11px + (12 - 9) * ((100vw - 1000px) / (1600 - 300)))`,
+        fontSize: `1.7vh`,
     },
     symbolSize: {
-        fontSize: `calc(10px + (12 - 10) * ((100vw - 500px) / (1600 - 300)))`,
+        //fontSize: `calc(10px + (12 - 10) * ((100vw - 500px) / (1600 - 300)))`,
+        fontSize: `1.75vh`,
     },
     corner_tile: {
         display: 'flex',
@@ -43,7 +50,9 @@ export const useStyles = makeStyles((theme) => ({
         alignContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
-        color: '#FFF'
+        color: '#FFF',
+        border: '2px white',
+        borderStyle: 'dotted'
     },
     start_tile: {
         borderRadius: '0 0 0 15px',
