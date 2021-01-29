@@ -73,5 +73,47 @@ export const useStyles = makeStyles((theme) => ({
     image: {
         width: '6vh',
         marginBottom: theme.spacing(1)
-    }
+    },
+    menuTitle: {
+        textAlign: 'center',
+        color: MATH_COLORS().math_rush
+    },
+    gameInfoContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        textAlign: 'center',
+        flexDirection: 'column',
+        fontSize: '2.5vh'
+    },
+    infoData: {
+        color: MATH_COLORS().math_rush_base_dark
+    },
+    buttonBack: {
+        padding: theme.spacing(1),
+        color: "#FFFFFF",
+        background: MATH_GRADIENTS().default,
+        textAlign: "center",
+        margin: theme.spacing(2),
+    },
+    buttonResume: {
+        padding: theme.spacing(2),
+        color: "#FFFFFF",
+        background: MATH_GRADIENTS().classic,
+        textAlign: "center",
+        margin: theme.spacing(2),
+    },
+    buttonRestart: {
+        padding: theme.spacing(1),
+        color: "#FFFFFF",
+        background: MATH_GRADIENTS().arcade,
+        textAlign: "center",
+        margin: theme.spacing(2),
+    },
+    menuPauseOptions: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
 }))

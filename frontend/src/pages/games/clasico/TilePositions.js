@@ -1,0 +1,65 @@
+export const posPlayer1 = [
+    { left: '3vw', top: '80vh' }, //0
+    { left: '20vw', top: '80vh' }, //1
+    { left: '28vw', top: '80vh' }, //2
+    { left: '36vw', top: '80vh' }, //3
+    { left: '44vw', top: '80vh' }, //4
+    { left: '52vw', top: '80vh' }, //5
+    { left: '61vw', top: '80vh' }, //6
+    { left: '69vw', top: '80vh' }, //7
+    { left: '76vw', top: '80vh' }, //8
+    { left: '85vw', top: '80vh' }, //9
+    { left: '86vw', top: '67.5vh' }, //10
+    { left: '86vw', top: '56.5vh' }, //11
+    { left: '86vw', top: '45.5vh' }, //12
+    { left: '86vw', top: '34.5vh' }, //13
+    { left: '86vw', top: '22.5vh' }, //14
+    { left: '84vw', top: '5vh' }, //15
+    { left: '76vw', top: '4vh' }, //16
+    { left: '69vw', top: '4vh' }, //17
+    { left: '61vw', top: '4vh' }, //18
+    { left: '52vw', top: '4vh' }, //19
+    { left: '44vw', top: '4vh' }, //20
+    { left: '36vw', top: '4vh' }, //21
+    { left: '28vw', top: '4vh' }, //22
+    { left: '20vw', top: '4vh' }, //23
+    { left: '3vw', top: '4vh' }, //24
+    { left: '3vw', top: '22.5vh' }, //25
+    { left: '3vw', top: '34.5vh' }, //26
+    { left: '3vw', top: '45.5vh' }, //27
+    { left: '3vw', top: '56.5vh' }, //28
+    { left: '3vw', top: '67.5vh' }, //29
+]
+
+export const posPlayer2 = [
+    { left: '12vw', top: '85vh' }, //0
+    { left: '20vw', top: '85vh' }, //1
+    { left: '28vw', top: '85vh' }, //2
+    { left: '36vw', top: '85vh' }, //3
+    { left: '44vw', top: '85vh' }, //4
+    { left: '52vw', top: '85vh' }, //5
+    { left: '61vw', top: '85vh' }, //6
+    { left: '69vw', top: '85vh' }, //7
+    { left: '76vw', top: '85vh' }, //8
+    { left: '93vw', top: '85vh' }, //9
+    { left: '94vw', top: '67.5vh' }, //10
+    { left: '94vw', top: '56.5vh' }, //11
+    { left: '94vw', top: '45.5vh' }, //12
+    { left: '94vw', top: '34.5vh' }, //13
+    { left: '94vw', top: '22.5vh' }, //14
+    { left: '93vw', top: '10vh' }, //15
+    { left: '76vw', top: '8vh' }, //16
+    { left: '69vw', top: '8vh' }, //17
+    { left: '61vw', top: '8vh' }, //18
+    { left: '52vw', top: '8vh' }, //19
+    { left: '44vw', top: '8vh' }, //20
+    { left: '36vw', top: '8vh' }, //21
+    { left: '28vw', top: '8vh' }, //22
+    { left: '20vw', top: '8vh' }, //23
+    { left: '12vw', top: '4vh' }, //24
+    { left: '10vw', top: '22.5vh' }, //25
+    { left: '10vw', top: '34.5vh' }, //26
+    { left: '10vw', top: '45.5vh' }, //27
+    { left: '10vw', top: '56.5vh' }, //28
+    { left: '10vw', top: '67.5vh' }, //29
+]

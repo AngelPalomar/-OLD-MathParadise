@@ -130,7 +130,7 @@ export default function Leaderboard() {
                                     <Paper key={index} className={classes.userPaperInfo}>
                                         <Grid container spacing={2}>
                                             <Grid item lg={2} md={2} sm={2} xs={2} className={classes.avatar}>
-                                                <DefaultAvatar nickname={values.nickname} large="sm" />
+                                                <DefaultAvatar nickname={values.nickname} size="40px" fs="100%" />
                                             </Grid>
                                             <Grid item lg={7} md={7} sm={7} xs={7} >
                                                 <Box>
@@ -170,7 +170,7 @@ export default function Leaderboard() {
                                     <Paper key={index} className={classes.userPaperInfo}>
                                         <Grid container spacing={2}>
                                             <Grid item lg={2} md={2} sm={2} xs={2} className={classes.avatar}>
-                                                <DefaultAvatar nickname={values.nickname} large="sm" />
+                                                <DefaultAvatar nickname={values.nickname} size="40px" fs="100%" />
                                             </Grid>
                                             <Grid item lg={7} md={7} sm={7} xs={7} >
                                                 <Box>

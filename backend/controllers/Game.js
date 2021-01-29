@@ -8,7 +8,7 @@ function createGame(req, res) {
 
     /**
      * Turno 0 = player 1
-     * Turno 1 = player 2
+     * Turno 1 = player 2 
      */
 
     const { host, gamemode, area, difficulty, time } = req.body
@@ -20,7 +20,7 @@ function createGame(req, res) {
     game.points_player_2 = 0
     game.box_player_1 = 0
     game.box_player_2 = 0
-    game.turn = Math.floor(Math.random() * 2)
+    game.turn = Math.floor(Math.random() * 2 + 1)
     game.gamemode = gamemode
     game.area = area
     game.difficulty = difficulty
@@ -31,6 +31,7 @@ function createGame(req, res) {
      * finished
      */
     game.status = "in_lobby"
+    game.message = "Partida iniciada"
     game.game_date = new Date()
 
     if (!host || !gamemode || !difficulty || !area || host === ""

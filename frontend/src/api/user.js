@@ -1,6 +1,5 @@
 import { basePath, apiVersion } from './config'
 import { getAccessTokenApi } from './auth'
-//import { message } from 'antd'
 
 /**Dar de alta a usuario */
 export function signUpApi(data) {

@@ -155,7 +155,7 @@ function Profile(props) {
                     <Grid item lg={4} md={3} sm={12} xs={12}>
                         <Paper className={classes.paperProfile}>
                             <Box>
-                                {userData ? <DefaultAvatar nickname={userData.nickname} /> : <CircularProgress color="primary" />}
+                                {userData ? <DefaultAvatar nickname={userData.nickname} size="120px" fs="8vh" /> : <CircularProgress color="primary" />}
                             </Box>
                             <Box className={classes.boxInfo}>
                                 <Typography variant="h5" className={classes.fullnameLabel}>

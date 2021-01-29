@@ -84,7 +84,7 @@ function Header(props) {
 
                 <a href={"/home/profile/@" + jwtDecode(getAccessTokenApi()).nickname} className={classes.link}>
                     <Button>
-                        <UserAvatar large="xs" nickname={jwtDecode(getAccessTokenApi()).nickname} />
+                        <UserAvatar size="35px" fs="100%" nickname={jwtDecode(getAccessTokenApi()).nickname} />
                     &nbsp;
                     {jwtDecode(getAccessTokenApi()).nickname}
                     </Button>

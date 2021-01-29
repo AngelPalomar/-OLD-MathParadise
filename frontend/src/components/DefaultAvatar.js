@@ -5,25 +5,8 @@ import { MATH_GRADIENTS } from '../styles/MathColors'
 import clsx from 'clsx'
 
 const useStyles = makeStyles((theme) => ({
-    xsmall: {
-        color: '#FFF',
-        width: theme.spacing(4),
-        height: theme.spacing(4),
-    },
-    small: {
-        color: '#FFF',
-        width: theme.spacing(5),
-        height: theme.spacing(5),
-    },
-    large: {
-        color: '#FFF',
-        width: theme.spacing(7),
-        height: theme.spacing(7),
-    },
-    xlarge: {
-        color: '#FFF',
-        width: theme.spacing(12),
-        height: theme.spacing(12),
+    default: {
+        color: '#FFF'
     },
     gradientDefault: {
         background: MATH_GRADIENTS().default
@@ -37,7 +20,7 @@ function DefaultAvatar(props) {
     const classes = useStyles()
 
     //Props
-    const { nickname, large, color } = props
+    const { nickname, size, fs, color } = props
 
     const [initialAvatar, setInitialAvatar] = useState('')
     useEffect(() => {
@@ -46,9 +29,10 @@ function DefaultAvatar(props) {
     }, [nickname])
 
     return (
-        <Avatar className={clsx(color === 1 ? classes.gradient1 : classes.gradientDefault,
-            large === 'lg' ? classes.large : large === 'xs' ? classes.xsmall : large === 'sm' ? classes.small : classes.xlarge)}>
-            <Typography variant={large === 'lg' ? 'h5' : large === 'xs' ? 'subtitle2' : large === 'sm' ? 'h5' : 'h3'}>
+        <Avatar
+            className={clsx(color === 1 ? classes.gradient1 : classes.gradientDefault, classes.default)}
+            style={{ width: size, height: size }}>
+            <Typography style={{ fontSize: fs }}>
                 {initialAvatar}
             </Typography>
         </ Avatar>

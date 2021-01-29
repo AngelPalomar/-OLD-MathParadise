@@ -179,14 +179,14 @@ function Lobby(props) {
                     </Box>
 
                     <Box className={classes.playerInfo}>
-                        <DefaultAvatar nickname={host} large="lg" />
+                        <DefaultAvatar nickname={host} size="60px" fs="100%" />
                         <Typography variant="h5">{host}</Typography>
                         <Typography variant="h5" className={classes.vs}>vs</Typography>
                         <Typography variant="h5">{
                             game.player2 === "" ? "Jugador 2..." : game.player2
                         }</Typography>
                         {
-                            game.player2 === "" ? <CircularProgress /> : <DefaultAvatar large="lg" nickname={game.player2} color={1} />
+                            game.player2 === "" ? <CircularProgress /> : <DefaultAvatar size="60px" fs="100%" nickname={game.player2} color={1} />
                         }
                     </Box>
 

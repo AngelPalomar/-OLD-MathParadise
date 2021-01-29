@@ -25,15 +25,23 @@ export const useStyles = makeStyles((theme) => ({
         height: '97%',
         zIndex: theme.zIndex.drawer + 1,
     },
-    playersLayer: {
+    player1Layer: {
         position: 'absolute',
         zIndex: theme.zIndex.drawer + 2,
+        height: '100vh',
+        width: '100vw'
+    },
+    player2Layer: {
+        position: 'absolute',
+        zIndex: theme.zIndex.drawer + 3,
+        height: '100vh',
+        width: '100vw'
     },
     uiLayer: {
         display: 'flex',
         flexDirection: 'row',
         position: 'absolute',
-        zIndex: theme.zIndex.drawer + 3,
+        zIndex: theme.zIndex.drawer + 4,
         top: '21%',
         left: '18%',
         fontSize: '1.75vh'

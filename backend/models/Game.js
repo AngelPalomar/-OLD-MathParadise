@@ -20,6 +20,7 @@ const GameSchema = Schema({
     time: Number,
     game_date: Date,
     status: String,
+    message: String,
     board: []
 })
 
