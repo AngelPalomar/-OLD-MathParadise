@@ -15,9 +15,7 @@ const SubtopicSchema = Schema({
     symbol: {
         type: String,
         unique: true
-    },
-    primaryColor: String,
-    secondaryColor: String
+    }
 })
 
 module.exports = mongoose.model("Subtopic", SubtopicSchema)

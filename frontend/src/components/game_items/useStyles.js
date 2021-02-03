@@ -116,4 +116,53 @@ export const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-between',
         alignItems: 'center',
     },
+    //Estilos del panel de ejercicios
+    excDialog: {
+        padding: theme.spacing(2)
+    },
+    topicLabel: {
+        fontSize: '2.5vh',
+        color: MATH_COLORS().math_disabled_label
+    },
+    subtopicLabel: {
+        fontSize: '7vh',
+        textTransform: 'uppercase'
+    },
+    instrucLabel: {
+        fontSize: '3vh',
+    },
+    excerciseLabel: {
+        fontSize: '6vh',
+        color: MATH_COLORS().math_blue_dark
+    },
+    optionsPanel: {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    radioBtn: {
+        color: MATH_COLORS().math_blue,
+        '&$checked': {
+            color: MATH_COLORS().math_blue
+        }
+    },
+    clockContainer: {
+        marginTop: '10px',
+        marginBottom: '10px'
+    },
+    btnContainer: {
+        marginTop: '10px',
+        float: 'right'
+    },
+    giveUpBtn: {
+        color: '#FFF',
+        background: MATH_GRADIENTS().event_tile,
+        paddingInline: theme.spacing(2)
+    },
+    answerBtn: {
+        color: '#FFF',
+        background: MATH_GRADIENTS().classic,
+        paddingInline: theme.spacing(2)
+    }
 }))

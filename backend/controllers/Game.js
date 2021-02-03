@@ -11,7 +11,7 @@ function createGame(req, res) {
      * Turno 1 = player 2 
      */
 
-    const { host, gamemode, area, difficulty, time } = req.body
+    const { host, gamemode, area, difficulty, rounds } = req.body
     game.pin = randomToken(8)
     game.host = host
     game.player1 = host
@@ -24,7 +24,9 @@ function createGame(req, res) {
     game.gamemode = gamemode
     game.area = area
     game.difficulty = difficulty
-    game.time = time
+    game.rounds = rounds
+    game.rounds_player1 = 0
+    game.rounds_player2 = 0
     /**
      * in_lobby
      * in_game

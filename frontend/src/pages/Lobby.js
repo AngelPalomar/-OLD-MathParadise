@@ -75,7 +75,7 @@ function Lobby(props) {
     }
 
     const classes = useStyles()
-    const { area, host, difficulty, gamemode, time } = props.location.gameProps
+    const { area, host, difficulty, gamemode, rounds } = props.location.gameProps
     const [game, setGame] = useState([])
     const [subtopics, setSubtopics] = useState([])
     const gameData = {
@@ -83,7 +83,7 @@ function Lobby(props) {
         gamemode: gamemode,
         difficulty: difficulty,
         area: area,
-        time: time
+        rounds: rounds
     }
     let board = new Array(30)
 

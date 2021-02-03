@@ -81,10 +81,15 @@ export const useStyles = makeStyles((theme) => ({
         fontWeight: 'bold',
         fontSize: '2.3vh'
     },
-    timeLabel: {
+    roundTitle: {
         textAlign: 'center',
-        color: MATH_COLORS().math_rush_base,
+        color: MATH_COLORS().math_blue,
         fontSize: '3vh'
+    },
+    roundLabel: {
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: '2.5vh'
     },
     difLabel: {
         textAlign: 'center',
@@ -147,5 +152,5 @@ export const useStyles = makeStyles((theme) => ({
             background: MATH_COLORS().math_disabled_label,
         },
         textAlign: "center"
-    },
+    }
 }))

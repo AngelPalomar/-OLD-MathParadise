@@ -9,6 +9,7 @@ import { MATH_GRADIENTS } from '../../../styles/MathColors'
 import DefaultAvatar from '../../../components/DefaultAvatar'
 import Tile from '../../../components/game_items/Tile'
 import GameMenu from '../../../components/game_items/GameMenu'
+import ExcercisePanel from '../../../components/game_items/ExcercisePanel'
 
 /**APIs */
 import { getGameByPinApi, updateGameApi } from '../../../api/game'
@@ -49,7 +50,8 @@ function Classic(props) {
             pos: 0,
             excer: 0,
             correct: 0,
-            wrong: 0
+            wrong: 0,
+            rounds: 0
         },
 
         player2: {
@@ -58,39 +60,36 @@ function Classic(props) {
             pos: 0,
             excer: 0,
             correct: 0,
-            wrong: 0
+            wrong: 0,
+            rounds: 0
         },
-
+        currentPlayer: 0,
+        currentPos: 0,
+        turn: '',
         /**
          * Fases (phase):
-         * - draw: tirar
-         * - answering: contestando
-         * - waiting: esperando 
+         * - draw: Es cuando el jugador puede mover su ficha
+         * - answering: Es cuando el jugador está contestando
+         * - waiting: Es cuando ya puede bajar del servidor
          */
-
-        currentPlayer: 0,
-        turn: '',
         phase: 'draw',
+        totalRounds: 0,
         message: '',
         status: 'in_game'
     })
-
     //Estado que guarda la información del juego
     const [game, setGame] = useState([])
     const [board, setBoard] = useState([])
 
-    //Estado que guarda la información del juego
+    //Estado que guarda la menu del juego
     const [openMenu, setOpenMenu] = useState(false)
+    const [openExcPanel, setOpenExcPanel] = useState(false)
 
     //Estados locales
     //Sumatoria de dados para calcular el No de casilla
     const [dice, setDice] = useState(0)
-    //Variables para el tiempo
-    const [clock, setClock] = useState("00:00")
-    const [minutes, setMinutes] = useState(0)
-    const [seconds, setSeconds] = useState(0)
 
-    //Hooks de animaciones
+    //Hooks de animaciones de los jugadores
     const moveP1 = useSpring({
         config: { tension: 400 },
         marginLeft: posPlayer1[gameLocal.player1.sum_dice % 30].left,
@@ -102,7 +101,7 @@ function Classic(props) {
         marginLeft: posPlayer2[gameLocal.player2.sum_dice % 30].left,
         marginTop: posPlayer2[gameLocal.player2.sum_dice % 30].top
     })
-
+    //Hooks y estado del dado
     const [flipDice, setFlipDice] = useState(false)
     const diceRotate = useSpring({
         config: { mass: 5, tension: 750, friction: 50 },
@@ -110,7 +109,7 @@ function Classic(props) {
         marginBottom: '10px'
     })
 
-    //Función para traer los datos
+    //Efecto inicial para traer los datos
     useEffect(() => {
         getGameByPinApi(pin).then(response => {
             if (response.status === 0) {
@@ -126,14 +125,44 @@ function Classic(props) {
                     if (response.game.host === player) {
                         setGameLocal({
                             ...gameLocal,
+                            player1: {
+                                ...gameLocal.player1,
+                                pts: response.game.points_player_1,
+                                sum_dice: response.game.box_player_1,
+                                pos: response.game.box_player_1 % 30,
+                                rounds: response.game.rounds_player1
+                            },
+                            player2: {
+                                ...gameLocal.player2,
+                                pts: response.game.points_player_2,
+                                sum_dice: response.game.box_player_2,
+                                pos: response.game.box_player_2 % 30,
+                                rounds: response.game.rounds_player2
+                            },
                             currentPlayer: 1,
-                            turn: response.game.turn
+                            turn: response.game.turn,
+                            totalRounds: response.game.rounds
                         })
                     } else {
                         setGameLocal({
                             ...gameLocal,
+                            player1: {
+                                ...gameLocal.player1,
+                                pts: response.game.points_player_1,
+                                sum_dice: response.game.box_player_1,
+                                pos: response.game.box_player_1 % 30,
+                                rounds: response.game.rounds_player1
+                            },
+                            player2: {
+                                ...gameLocal.player2,
+                                pts: response.game.points_player_2,
+                                sum_dice: response.game.box_player_2,
+                                pos: response.game.box_player_2 % 30,
+                                rounds: response.game.rounds_player2
+                            },
                             currentPlayer: 2,
-                            turn: response.game.turn
+                            turn: response.game.turn,
+                            totalRounds: response.game.rounds
                         })
                     }
                 }
@@ -142,43 +171,11 @@ function Classic(props) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    //Efecto para el cronómetro
-    useEffect(() => {
-        const c = setInterval(() => {
-            setSeconds(seconds + 1)
-
-            if (seconds === 59) {
-                setSeconds(0)
-                setMinutes(minutes + 1)
-            }
-
-            setClock(
-                seconds < 10 && minutes < 10 ? `0${minutes}:0${seconds}` :
-                    seconds < 10 && minutes >= 10 ? `${minutes}:0${seconds}` :
-                        seconds >= 10 && minutes < 10 ? `0${minutes}:${seconds}` :
-                            `${minutes}:${seconds}`
-            )
-        }, 1000)
-
-        //Limpia el cronometro
-        return () => {
-            clearInterval(c)
-        }
-    }, [seconds, minutes, clock])
-
-    //Función que genera un número aleatorio al dado
-    const randomDiceNumber = () => {
-        return <img src={
-            dice === 1 ? dice1 :
-                dice === 2 ? dice2 :
-                    dice === 3 ? dice3 :
-                        dice === 4 ? dice4 :
-                            dice === 5 ? dice5 :
-                                dice === 6 ? dice6 : dice1
-        } alt="dice.svg" className={classes.diceImg} />
-    }
-
     //Efecto que suma el dado al contador para mover la ficha
+    /**
+     * Solo mueve la ficha del jugador local,
+     * asigna la posición local de acuerdo al mod del tablero
+     */
     useEffect(() => {
         gameLocal.turn === 1 ?
             setGameLocal({
@@ -187,14 +184,16 @@ function Classic(props) {
                     ...gameLocal.player1,
                     sum_dice: gameLocal.player1.sum_dice + dice,
                     pos: (gameLocal.player1.sum_dice + dice) % 30
-                }
+                },
+                currentPos: (gameLocal.player1.sum_dice + dice) % 30
             }) :
             setGameLocal({
                 ...gameLocal, player2: {
                     ...gameLocal.player2,
                     sum_dice: gameLocal.player2.sum_dice + dice,
                     pos: ((gameLocal.player2.sum_dice + dice)) % 30
-                }
+                },
+                currentPos: (gameLocal.player2.sum_dice + dice) % 30
             })
     }, [dice])
 
@@ -211,30 +210,98 @@ function Classic(props) {
         setFlipDice(!flipDice)
         //Asigna aleatorio al dado
         setDice(rand)
-        //Hace el movimiento
+        //Cambia de fase de contestar
+        setGameLocal({ ...gameLocal, phase: 'answering' })
     }
 
+    //Efecto que reacciona a las posiciones para mostrar ejercicio
     /**
-     * TODO: Función para actualizar los datos una vez que se haya acabado de
-     * contestar
-     * 
-     * updateGameApi({
-                    turn: gameLocal.turn === 1 ? 2 : 1,
-                    points_player_1: gameLocal.player1.pts,
-                    box_player_1: gameLocal.player1.sum_dice,
-                    points_player_2: gameLocal.player2.pts,
-                    box_player_2: gameLocal.player2.sum_dice,
-                }, pin).then(response => {
-                    if (response.status === 1) {
-                        setTimeout(() => {
-                            setGameLocal({
-                                ...gameLocal,
-                                turn: gameLocal.turn === 1 ? 2 : 1
-                            })
-                        }, 1000);
+     * Solo mostrará el ejercicio de la posición del jugador
+     * actual (currentPlayer) si la fase está en contestando
+     */
+    useEffect(() => {
+        setTimeout(() => {
+            if (gameLocal.phase === 'answering') {
+                //si la casilla es diferente a las esquinas
+                if (gameLocal.currentPos !== 0 && gameLocal.currentPos !== 24) {
+                    setOpenExcPanel(true)
+                } else {
+                    //Casilla de evento random
+                    if (gameLocal.currentPos !== 24) {
+
+                    }
+                }
+            }
+        }, 1000);
+    }, [
+        gameLocal.currentPlayer,
+        gameLocal.turn,
+        gameLocal.currentPos
+    ])
+
+    //Efecto que suma el número de vueltas
+    useEffect(() => {
+        //vueltas del jugador 1
+        /**
+         * Ciclo for que se detiene hasta el No de vueltas elegidas.
+         * Condiciona si, la sumatoria de dados ha llegado a 30 mult. por el indice y
+         * sus vueltas son iguales a sus rondas - 1, entonces, asigna el valor de i
+         * a la vuelta.
+         * --- El ciclo ya no aumentará vueltas si ya las alcanzó ---
+         */
+        for (let i = 1; i <= gameLocal.totalRounds; i++) {
+            if (gameLocal.player1.sum_dice >= 30 * i && gameLocal.player1.rounds === i - 1) {
+                setGameLocal({
+                    ...gameLocal, player1: {
+                        ...gameLocal.player1,
+                        rounds: i
                     }
                 })
+                //Rompre el ciclo
+                break
+            }
+        }
+
+        //vueltas del jugador 2 (Mismo algoritmo para el jugador 2)
+        for (let i = 1; i <= gameLocal.totalRounds; i++) {
+            if (gameLocal.player2.sum_dice >= 30 * i && gameLocal.player2.rounds === i - 1) {
+                setGameLocal({
+                    ...gameLocal, player2: {
+                        ...gameLocal.player2,
+                        rounds: i
+                    }
+                })
+                break
+            }
+        }
+    }, [gameLocal.player1.sum_dice, gameLocal.player2.sum_dice])
+
+    //Efecto que detecta las vueltas de los dos jugadores
+    /**
+     * SI LOS DOS JUGADORES YA ALCANZARON LAS VUELTAS,
+     * EL JUEGO SE TERMINA
      */
+    useEffect(() => {
+        if ((gameLocal.player1.rounds === gameLocal.totalRounds &&
+            gameLocal.player2.rounds === gameLocal.totalRounds) &&
+            gameLocal.totalRounds > 0) {
+            console.log("Juego terminado.")
+        }
+    }, [gameLocal.player1.rounds, gameLocal.player2.rounds])
+
+    //Efecto que actualiza el mensaje
+    useEffect(() => {
+        //Si tu turno, muestra mensaje
+        if (gameLocal.turn === gameLocal.currentPlayer) {
+            setGameLocal({ ...gameLocal, message: '¡Es tu turno!' })
+        } else {
+            setGameLocal({
+                ...gameLocal,
+                message: `Es el turno de ${gameLocal.currentPlayer === 1 ? game.player2 : game.player1}`
+            })
+        }
+    }, [gameLocal.turn, gameLocal.currentPlayer])
+
 
     //Efecto para bajar la partida si el turno es del otro jugador
     /**
@@ -255,15 +322,18 @@ function Classic(props) {
                                 pts: response.game.points_player_1,
                                 sum_dice: response.game.box_player_1,
                                 pos: response.game.box_player_1 % 30,
+                                rounds: response.game.rounds_player1
                             },
                             player2: {
                                 ...gameLocal.player2,
                                 pts: response.game.points_player_2,
                                 sum_dice: response.game.box_player_2,
                                 pos: response.game.box_player_2 % 30,
+                                rounds: response.game.rounds_player2
                             },
                             turn: response.game.turn,
-                            status: response.game.status
+                            status: response.game.status,
+                            phase: gameLocal.turn !== response.game.turn ? 'draw' : 'waiting'
                         })
                     }
                 })
@@ -272,40 +342,46 @@ function Classic(props) {
         return () => clearInterval(f)
     }, [gameLocal.turn, gameLocal.currentPlayer, gameLocal])
 
-    //Efecto que reacciona a las posiciones para mostrar ejercicio
-    /**
-     * Solo mostrará el ejercicio de la posición del jugador
-     * actual (currentPlayer)
-     */
-    useEffect(() => {
-        setTimeout(() => {
-            if (gameLocal.currentPlayer === gameLocal.turn) {
-                if (gameLocal.turn === 1) {
-                    console.log(board[gameLocal.player1.pos])
-                } else {
-                    console.log(board[gameLocal.player2.pos])
-                }
-            }
-        }, 1000);
-    }, [
-        gameLocal.currentPlayer,
-        gameLocal.turn,
-        gameLocal.player1.pos,
-        gameLocal.player2.pos
-    ])
+    //Función para cerrar el panel de ejercicio y contestar el ejercicio
+    //Esta función cambia la fase a esperando y cambia el turno 
+    const excPanelHandler = () => {
+        //Cierro el panel de ejercicios
+        setOpenExcPanel(!openExcPanel)
 
-    //Efecto que actualiza el mensaje
-    useEffect(() => {
-        //Si tu turno, muestra mensaje
-        if (gameLocal.turn === gameLocal.currentPlayer) {
-            setGameLocal({ ...gameLocal, message: '¡Es tu turno!' })
-        } else {
-            setGameLocal({
-                ...gameLocal,
-                message: `Es el turno de ${gameLocal.currentPlayer === 1 ? game.player2 : game.player1}`
-            })
-        }
-    }, [gameLocal.turn, gameLocal.currentPlayer])
+        //Subo al servidor los resultados locales
+        updateGameApi({
+            turn: gameLocal.turn === 1 ? 2 : 1,
+            points_player_1: gameLocal.player1.pts,
+            box_player_1: gameLocal.player1.sum_dice,
+            points_player_2: gameLocal.player2.pts,
+            box_player_2: gameLocal.player2.sum_dice,
+            rounds_player1: gameLocal.player1.rounds,
+            rounds_player2: gameLocal.player2.rounds
+        }, pin).then(response => {
+            if (response.status === 1) {
+                console.log("Partida subida.")
+            }
+        })
+
+        //Cambio el turno actual y cambio de fase
+        setGameLocal({
+            ...gameLocal,
+            turn: gameLocal.turn === 1 ? 2 : 1,
+            phase: 'waiting'
+        })
+    }
+
+    //Función que genera un número aleatorio al dado
+    const randomDiceNumber = () => {
+        return <img src={
+            dice === 1 ? dice1 :
+                dice === 2 ? dice2 :
+                    dice === 3 ? dice3 :
+                        dice === 4 ? dice4 :
+                            dice === 5 ? dice5 :
+                                dice === 6 ? dice6 : dice1
+        } alt="dice.svg" className={classes.diceImg} />
+    }
 
     //Función para abir y cerrar el menú
     const menuHandler = () => {
@@ -331,6 +407,20 @@ function Classic(props) {
                 handler={menuHandler}
                 gamemode={game.gamemode}
                 difficulty={game.difficulty} area={game.area} />
+            <ExcercisePanel
+                open={openExcPanel}
+                answerExc={excPanelHandler}
+                info={
+                    //Si es ejercicio random o es reto
+                    gameLocal.currentPos === 9 || gameLocal.currentPos === 15 ?
+                        //manda del tablero, una posición random con tema
+                        board[Math.floor(Math.random() * 8) + 1] :
+                        board[gameLocal.currentPos]
+                }
+                isChall={
+                    //Si es reto (Es decir, si se responde mal, se bajan 10 puntos)
+                    gameLocal.currentPos === 15 ? true : false
+                } />
             <div className={classes.player1Layer}>
                 <animated.div style={moveP1}>
                     <DefaultAvatar nickname={game.player1}
@@ -372,7 +462,10 @@ function Classic(props) {
                         </div>
                     </div>
                     <div>
-                        <Typography className={classes.timeLabel}>Tiempo - {clock}</Typography>
+                        <Typography className={classes.roundTitle}>{`Vueltas (${game.rounds})`}</Typography>
+                        <Typography className={classes.roundLabel}>
+                            {`${gameLocal.player1.rounds} - ${gameLocal.player2.rounds}`}
+                        </Typography>
                     </div>
                     <div className={classes.pauseContainer}>
                         <IconButton className={classes.buttonPause} size="small" onClick={menuHandler}>
@@ -395,7 +488,8 @@ function Classic(props) {
                                 gameLocal.turn === gameLocal.currentPlayer ?
                                     { background: MATH_GRADIENTS().default } :
                                     { background: MATH_GRADIENTS().disabled }}
-                            onClick={gameLocal.turn === gameLocal.currentPlayer ? rollDice : null}>
+                            onClick={gameLocal.turn === gameLocal.currentPlayer ? rollDice : null}
+                            disabled={gameLocal.phase === 'answering' ? true : false}>
                             TIRAR
                         </Button>
                         <div className={classes.logoContainer}>

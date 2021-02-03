@@ -32,7 +32,7 @@ function ClassicPaper() {
         gamemode: "classic",
         difficulty: "normal",
         area: "Algebra",
-        time: 5,
+        rounds: 3,
         board: "default"
     })
     const [pin, setPin] = useState("")
@@ -193,20 +193,20 @@ function ClassicPaper() {
                                     </Grid>
                                     <Grid item lg={6} md={6} sm={12} xs={12}>
                                         <FormControl variant="outlined" fullWidth>
-                                            <InputLabel id="materia">Tiempo de partida</InputLabel>
+                                            <InputLabel id="materia">Vueltas al tablero</InputLabel>
                                             <Select
-                                                name="time"
+                                                name="rounds"
                                                 labelId="demo-simple-select-outlined-label"
                                                 id="demo-simple-select-outlined"
-                                                value={inputs.time}
+                                                value={inputs.rounds}
                                                 onChange={handleInputs}
-                                                label="Tiempo de partida"
+                                                label="Vueltas al tablero"
                                                 className={classes.select}>
 
-                                                <MenuItem value={5}>5:00 minutos</MenuItem>
-                                                <MenuItem value={7}>7:00 minutos</MenuItem>
-                                                <MenuItem value={10}>10:00 minutos</MenuItem>
-                                                <MenuItem value={15}>15:00 minutos</MenuItem>
+                                                <MenuItem value={3}>3 vueltas</MenuItem>
+                                                <MenuItem value={5}>5 vueltas</MenuItem>
+                                                <MenuItem value={7}>7 vueltas</MenuItem>
+                                                <MenuItem value={10}>10 vueltas</MenuItem>
                                             </Select>
                                         </FormControl>
                                     </Grid>

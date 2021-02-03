@@ -3,15 +3,13 @@ const Subtopic = require('../models/Subtopic')
 
 function createSubtopic(req, res) {
     const subtopic = new Subtopic()
-    const { name, topic, area, displayLabel, symbol, primaryColor, secondaryColor } = req.body
+    const { name, topic, area, displayLabel, symbol } = req.body
 
     subtopic.name = name
     subtopic.topic = topic
     subtopic.area = area
     subtopic.displayLabel = displayLabel
     subtopic.symbol = symbol
-    subtopic.primaryColor = primaryColor
-    subtopic.secondaryColor = secondaryColor
 
     subtopic.save((err, result) => {
         if (err) {
