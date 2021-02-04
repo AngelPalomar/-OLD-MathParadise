@@ -42,7 +42,7 @@ function NavMenu(props) {
                     </Link>
                 </div>
             </div>
-            <MenuList close={props.onClose} />
+            <MenuList close={props.onClose} url={props.url} />
         </Drawer>
     );
 }

@@ -5,6 +5,9 @@ import {
     Button, Grid, Typography, Box
 } from "@material-ui/core"
 
+/**Compod */
+import TopicsTable from '../../../components/info_tables/TopicsTable'
+
 /**Icons */
 import AddIcon from '@material-ui/icons/Add'
 
@@ -63,7 +66,7 @@ function MenuTopics() {
                 </Grid>
                 <Grid item lg={12}>
                     <Box>
-                        Lista
+                        <TopicsTable />
                     </Box>
                 </Grid>
             </Grid>

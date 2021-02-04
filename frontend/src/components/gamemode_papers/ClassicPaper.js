@@ -31,7 +31,7 @@ function ClassicPaper() {
         host: jwtDecode(getAccessTokenApi()).nickname,
         gamemode: "classic",
         difficulty: "normal",
-        area: "Algebra",
+        area: "Álgebra",
         rounds: 3,
         board: "default"
     })

@@ -67,7 +67,9 @@ function updateTopic(req, res) {
 }
 
 function getTopics(req, res) {
-    Topic.aggregate([{ $sort: { name: 1 } }], (err, result) => {
+    const query = req.query
+
+    Topic.aggregate([{ $match: query }, { $sort: { name: 1 } }], (err, result) => {
         if (err) {
             res.status(500).send({ status: 0, message: "Error del servidor." })
         } else {

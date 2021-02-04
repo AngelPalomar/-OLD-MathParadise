@@ -1,4 +1,3 @@
-const Excercise = require('../models/Excercise')
 const Subtopic = require('../models/Subtopic')
 
 function createSubtopic(req, res) {
@@ -8,12 +7,12 @@ function createSubtopic(req, res) {
     subtopic.name = name
     subtopic.topic = topic
     subtopic.area = area
-    subtopic.displayLabel = displayLabel
+    subtopic.displayLabel = displayLabel.toUpperCase()
     subtopic.symbol = symbol
 
     subtopic.save((err, result) => {
         if (err) {
-            res.status(500).send({ status: 0, message: "Error del servidor", error: err })
+            res.status(500).send({ status: 0, message: "Este subtema ya existe.", error: err })
         } else {
             if (!result) {
                 res.status(404).send({ status: 0, message: "No se pudo añadir el subtema." })
@@ -62,7 +61,9 @@ function updateSubtopic(req, res) {
 }
 
 function getSubtopics(req, res) {
-    Subtopic.aggregate([{ $sort: { name: 1 } }], (err, result) => {
+    const query = req.query
+
+    Subtopic.aggregate([{ $match: query }, { $sort: { name: 1 } }], (err, result) => {
         if (err) {
             res.status(500).send({ status: 0, message: "Error del servidor." })
         } else {

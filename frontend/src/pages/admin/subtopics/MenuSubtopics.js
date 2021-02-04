@@ -5,6 +5,9 @@ import {
     Button, Grid, Typography, Box
 } from "@material-ui/core"
 
+/**Componentes */
+import SubtopicsTable from '../../../components/info_tables/SubtopicsTable'
+
 /**Icons */
 import AddIcon from '@material-ui/icons/Add'
 
@@ -63,7 +66,7 @@ function MenuSubtopics() {
                 </Grid>
                 <Grid item lg={12}>
                     <Box>
-                        Lista
+                        <SubtopicsTable />
                     </Box>
                 </Grid>
             </Grid>

@@ -54,13 +54,14 @@ function LayoutAdmin(props) {
             <div className={classes.root}>
                 <Header position="fixed" OpenAction={OpenAction} title={path} />
                 <Hidden xsDown>
-                    <NavMenu variant="permanent" open={true} />
+                    <NavMenu variant="permanent" open={true} url={props.location.pathname} />
                 </Hidden>
                 <Hidden smUp>
                     <NavMenu
                         variant="temporary"
                         open={open}
                         onClose={OpenAction}
+                        url={props.location.pathname}
                     />
                 </Hidden>
                 <div className={classes.content}>

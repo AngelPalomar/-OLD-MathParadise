@@ -41,3 +41,23 @@ export function getAreasApi() {
         return err.message
     })
 }
+
+export function deleteAreaApi(id) {
+    const url = `${basePath}/${apiVersion}/delete-area/${id}`
+    const params = {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: getAccessTokenApi()
+        }
+    }
+
+    /**Petición fetch */
+    return fetch(url, params).then(response => {
+        return response.json()
+    }).then(result => {
+        return result
+    }, (err) => {
+        return err.message
+    })
+}

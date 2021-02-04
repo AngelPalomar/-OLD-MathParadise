@@ -10,15 +10,15 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import CreateIcon from '@material-ui/icons/Create'
 
 /**APIs */
-import { getInstitutionsApi } from "../../api/institution"
+import { getTopicsApi, deleteTopicApi } from "../../api/topics"
 
-function InstitutionsTable() {
+function TopicsTable() {
     const classes = useStyles()
-    const [instData, setTnstData] = useState([])
+    const [areasData, setAreaData] = useState([])
 
     useEffect(() => {
-        getInstitutionsApi().then(response => {
-            setTnstData(response.institution)
+        getTopicsApi().then(response => {
+            setAreaData(response.topics)
         })
     }, [])
 
@@ -27,26 +27,27 @@ function InstitutionsTable() {
             <Table>
                 <TableHead>
                     <TableRow>
-                        <TableCell className={classes.tableHead}>Nombre de la institución</TableCell>
-                        <TableCell className={classes.tableHead}>Abreviatura</TableCell>
-                        <TableCell className={classes.tableHead}>Tipo</TableCell>
-                        <TableCell className={classes.tableHead}>Ciudad</TableCell>
-                        <TableCell className={classes.tableHead}>País</TableCell>
+                        <TableCell className={classes.tableHead}>Nombre del tema</TableCell>
+                        <TableCell className={classes.tableHead}>Nombre del area</TableCell>
                         <TableCell className={classes.tableHead}>Acciones</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {instData.map((row) => (
+                    {areasData.map((row) => (
                         <TableRow key={row.name}>
                             <TableCell component='th' scope='row'>
                                 {row.name}
                             </TableCell>
-                            <TableCell>{row.abbrev}</TableCell>
-                            <TableCell>{row.type}</TableCell>
-                            <TableCell>{row.city}</TableCell>
-                            <TableCell>{row.country}</TableCell>
                             <TableCell component='th' scope='row'>
-                                <IconButton className={classes.deleteButton}>
+                                {row.area}
+                            </TableCell>
+                            <TableCell component='th' scope='row'>
+                                <IconButton
+                                    className={classes.deleteButton}
+                                    onClick={() => {
+                                        deleteTopicApi(row._id).then()
+                                        window.location.reload()
+                                    }}>
                                     <DeleteIcon />
                                 </IconButton>
                                 <IconButton className={classes.modifyButton}>
@@ -62,4 +63,4 @@ function InstitutionsTable() {
     )
 }
 
-export default InstitutionsTable
+export default TopicsTable

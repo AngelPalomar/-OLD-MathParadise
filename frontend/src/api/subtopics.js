@@ -1,7 +1,7 @@
 import { basePath, apiVersion } from './config'
 
-export function createExcercise(data) {
-    const url = `${basePath}/${apiVersion}/create-excercise`
+export function createSubtopicApi(data) {
+    const url = `${basePath}/${apiVersion}/create-subtopic`
     const params = {
         method: 'POST',
         body: JSON.stringify(data),
@@ -22,9 +22,8 @@ export function createExcercise(data) {
         })
 }
 
-export function getRandomExcerciseApi(area, subtopic, difficulty) {
-    const url = `${basePath}/${apiVersion}/get-random-excercise?difficulty=
-    ${difficulty}&subtopic=${subtopic}&area=${area}`
+export function getTSubtopicsApi(query = '') {
+    const url = `${basePath}/${apiVersion}/get-subtopics?${query}`
     const params = {
         method: 'GET',
         headers: {
@@ -44,29 +43,8 @@ export function getRandomExcerciseApi(area, subtopic, difficulty) {
         })
 }
 
-export function getExcercisesApi() {
-    const url = `${basePath}/${apiVersion}/get-excercises`
-    const params = {
-        method: 'GET',
-        headers: {
-            "Content-Type": "application/json"
-        }
-    }
-
-    /**Petición fetch */
-    return fetch(url, params).then(response => {
-        return response.json()
-    })
-        .then(result => {
-            return result
-        })
-        .catch(err => {
-            return err.message
-        })
-}
-
-export function deleteExcerciseApi(id) {
-    const url = `${basePath}/${apiVersion}/delete-excercise/${id}`
+export function deleteTSubtopicApi(id) {
+    const url = `${basePath}/${apiVersion}/delete-subtopic/${id}`
     const params = {
         method: 'POST',
         headers: {

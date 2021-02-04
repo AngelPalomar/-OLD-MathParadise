@@ -56,13 +56,17 @@ function LayoutUser(props) {
             <div className={classes.root}>
                 <Header position="fixed" OpenAction={OpenAction} />
                 <Hidden xsDown>
-                    <NavMenu variant="permanent" open={true} title={path} />
+                    <NavMenu
+                        variant="permanent"
+                        open={true} title={path}
+                        url={props.location.pathname} />
                 </Hidden>
                 <Hidden smUp>
                     <NavMenu
                         variant="temporary"
                         open={open}
                         onClose={OpenAction}
+                        url={props.location.pathname}
                     />
                 </Hidden>
                 <div className={classes.content}>

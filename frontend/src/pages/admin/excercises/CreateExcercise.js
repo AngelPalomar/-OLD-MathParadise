@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useStyles } from '../useStyles'
 import { BlockMath, InlineMath } from "react-katex"
 import 'katex/dist/katex.min.css'
@@ -7,11 +7,27 @@ import {
     Select, MenuItem, InputLabel
 } from "@material-ui/core"
 
+/**Conts */
+import { difficulties } from '../../../utils/SelectArrays'
+
+/**APIS */
+import { getAreasApi } from '../../../api/areas'
+import { getTopicsApi } from '../../../api/topics'
+import { getTSubtopicsApi } from '../../../api/subtopics'
+import { createExcercise } from '../../../api/excercises'
+
+/**Components */
+import DefaultSnackbar from '../../../components/snackbars/DefaultSnackbar'
+
 /**Icons */
 import AddIcon from '@material-ui/icons/Add'
 
 function Create() {
     const classes = useStyles()
+
+    const [areas, setAreas] = useState([])
+    const [topics, setTopics] = useState([])
+    const [subtopics, setSubtopics] = useState([])
 
     const [inputs, setInputs] = useState({
         label: "",
@@ -25,6 +41,42 @@ function Create() {
         subtopic: "",
         difficulty: ""
     })
+    const [message, setMessage] = useState("")
+    const [open, setOpen] = useState(false)
+
+    //Cerrar notificación
+    const handleCloseSnackbar = () => {
+        setOpen(false)
+    }
+
+    useEffect(() => {
+        //Areas
+        getAreasApi().then(r => {
+            if (r.status === 1) {
+                setAreas(r.areas)
+            }
+        })
+    }, [])
+
+    //Efecto que reacciona al area seleccionada y muestra los temas correspondiente
+    useEffect(() => {
+        //Topics
+        getTopicsApi(`area=${inputs.area}`).then(r => {
+            if (r.status === 1) {
+                setTopics(r.topics)
+            }
+        })
+    }, [inputs.area])
+
+    //Efecto que reacciona al area seleccionada y muestra los temas correspondiente
+    useEffect(() => {
+        //Topics
+        getTSubtopicsApi(`area=${inputs.area}&topic=${inputs.topic}`).then(r => {
+            if (r.status === 1) {
+                setSubtopics(r.subtopics)
+            }
+        })
+    }, [inputs.area, inputs.topic])
 
     //Cambio de valores de los states y formulario
     const changeForm = (e) => {
@@ -36,12 +88,32 @@ function Create() {
 
     const submit = (e) => {
         e.preventDefault()
-        console.log(inputs)
+
+        const { label, option_a, option_b, option_c, option_d, answer, area, topic,
+            subtopic, difficulty } = inputs
+
+        if (label === "" || option_a === "" || option_b === "" || option_c === "" ||
+            option_d === "" || answer === "" || area === "" || topic === "" ||
+            subtopic === "" || difficulty === "") {
+            setMessage("Todos los campos son requeridos")
+            setOpen(true)
+        } else {
+            createExcercise(inputs).then(r => {
+                setMessage(r.message)
+                setOpen(true)
+                if (r.status === 1) {
+                    window.location.href = "/admin/excercises"
+                }
+            })
+        }
     }
 
     return (
         <>
-
+            <DefaultSnackbar
+                open={open}
+                handleClose={handleCloseSnackbar}
+                message={message} />
             <Paper className={classes.paper}>
                 <Typography variant="h5" className={classes.title}>
                     <AddIcon fontSize="large" /> Añadir ejercicio
@@ -207,6 +279,11 @@ function Create() {
                                         label="Seleccione el área"
                                         value={inputs.area}
                                         onChange={changeForm}>
+
+
+                                        {areas.map((values, index) =>
+                                            <MenuItem key={index} value={values.name}>{values.name}</MenuItem>
+                                        )}
                                     </Select>
                                 </FormControl>
                             </Grid>
@@ -219,6 +296,10 @@ function Create() {
                                         label="Seleccione el tema"
                                         value={inputs.topic}
                                         onChange={changeForm}>
+
+                                        {topics.map((values, index) =>
+                                            <MenuItem key={index} value={values.name}>{values.name}</MenuItem>
+                                        )}
 
                                     </Select>
                                 </FormControl>
@@ -233,6 +314,10 @@ function Create() {
                                         value={inputs.subtopic}
                                         onChange={changeForm}>
 
+                                        {subtopics.map((values, index) =>
+                                            <MenuItem key={index} value={values.name}>{values.name}</MenuItem>
+                                        )}
+
                                     </Select>
                                 </FormControl>
                             </Grid>
@@ -245,6 +330,10 @@ function Create() {
                                         label="Seleccione la dificultad"
                                         value={inputs.difficulty}
                                         onChange={changeForm}>
+
+                                        {difficulties.map((values, index) =>
+                                            <MenuItem key={index} value={values.val}>{values.name}</MenuItem>
+                                        )}
 
                                     </Select>
                                 </FormControl>

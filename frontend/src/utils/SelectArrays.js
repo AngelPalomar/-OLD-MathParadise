@@ -19,3 +19,9 @@ export const grades = [
     { val: 10, name: '10mo' },
     { val: 11, name: '11vo' }
 ]
+
+export const difficulties = [
+    { val: 'easy', name: 'Fácil' },
+    { val: 'normal', name: 'Normal' },
+    { val: 'hard', name: 'Difícil' },
+]

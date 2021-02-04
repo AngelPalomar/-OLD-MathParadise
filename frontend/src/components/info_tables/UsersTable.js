@@ -2,8 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { useStyles } from './useStyles'
 import {
     Table, TableBody, TableCell, TableContainer, TableHead,
-    TableRow, Paper
+    TableRow, Paper, IconButton
 } from "@material-ui/core"
+
+/**Iconos */
+import DeleteIcon from '@material-ui/icons/Delete'
+import CreateIcon from '@material-ui/icons/Create'
 
 /**APIs */
 import { getAllUsersApi } from "../../api/user"
@@ -30,6 +34,7 @@ function UsersTable() {
                         <TableCell className={classes.tableHead}>Grado escolar</TableCell>
                         <TableCell className={classes.tableHead}>Rol</TableCell>
                         <TableCell className={classes.tableHead}>Estado</TableCell>
+                        <TableCell className={classes.tableHead}>Acciones</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -44,6 +49,14 @@ function UsersTable() {
                             <TableCell>{row.school_grade}</TableCell>
                             <TableCell>{row.role}</TableCell>
                             <TableCell>{row.active ? "Activo" : "Inactivo"}</TableCell>
+                            <TableCell component='th' scope='row'>
+                                <IconButton className={classes.deleteButton}>
+                                    <DeleteIcon />
+                                </IconButton>
+                                <IconButton className={classes.modifyButton}>
+                                    <CreateIcon />
+                                </IconButton>
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

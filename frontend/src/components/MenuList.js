@@ -34,12 +34,14 @@ const useStyles = makeStyles((theme) => ({
 
 function MenuList(props) {
     const classes = useStyles()
+    const { url } = props
+
     return (
         <div className={classes.root}>
             <List component="nav">
 
                 <Link to="/home" className={classes.link}>
-                    <ListItem button onClick={props.close}>
+                    <ListItem button onClick={props.close} selected={url === '/home' ? true : false}>
                         <ListItemIcon>
                             <DashboardIcon />
                         </ListItemIcon>
@@ -48,7 +50,7 @@ function MenuList(props) {
                 </Link>
 
                 <Link to="/home/play" className={classes.link}>
-                    <ListItem button onClick={props.close}>
+                    <ListItem button onClick={props.close} selected={url === '/home/play' ? true : false}>
                         <ListItemIcon>
                             <GamesIcon />
                         </ListItemIcon>
@@ -57,7 +59,7 @@ function MenuList(props) {
                 </Link>
 
                 <Link to="/home/leaderboard" className={classes.link}>
-                    <ListItem button onClick={props.close}>
+                    <ListItem button onClick={props.close} selected={url === '/home/leaderboard' ? true : false}>
                         <ListItemIcon>
                             <EmojiEventsIcon />
                         </ListItemIcon>

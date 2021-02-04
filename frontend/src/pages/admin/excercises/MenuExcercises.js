@@ -7,6 +7,9 @@ import {
     Typography,
 } from "@material-ui/core"
 
+/**Componentes */
+import ExcercisesTable from '../../../components/info_tables/ExcercisesTable'
+
 /**Icons */
 import AddIcon from '@material-ui/icons/Add'
 
@@ -64,7 +67,7 @@ function Menu() {
                     </Grid>
                 </Grid>
                 <Grid item lg={12}>
-                    <Typography>Lista de ejercicios</Typography>
+                    <ExcercisesTable />
                 </Grid>
             </Grid>
         </>

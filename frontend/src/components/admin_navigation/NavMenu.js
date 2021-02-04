@@ -42,7 +42,7 @@ function NavMenu(props) {
                     </Link>
                 </div>
             </div>
-            <MenuList />
+            <MenuList url={props.url} />
         </Drawer>
     );
 }

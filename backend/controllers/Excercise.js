@@ -17,21 +17,26 @@ function createExcercise(req, res) {
     excercise.subtopic = subtopic
     excercise.difficulty = difficulty
 
-    excercise.save((err, ExcerciseStored) => {
-        if (err) {
-            res.status(500).send({ status: 0, message: "Este ejercicio ya existe, escriba un ejercicio diferente.", err })
-        } else {
-            if (!ExcerciseStored) {
-                res.status(404).send({ status: 0, message: 'No se pudo guardar el ejercicio, vuelva a intentarlo.', err })
+    if (label === "" || option_a === "" || option_b === "" || option_d === "" ||
+        answer === "" || area === "" || topic === "" || subtopic === "" || difficulty === "") {
+        res.status(500).send({ status: 0, message: "No se permiten campos vacios." })
+    } else {
+        excercise.save((err, ExcerciseStored) => {
+            if (err) {
+                res.status(500).send({ status: 0, message: "Este ejercicio ya existe, escriba un ejercicio diferente.", err })
             } else {
-                res.status(200).send({
-                    status: 1,
-                    message: 'Ejercicio guardado correctamente.',
-                    excercise: ExcerciseStored
-                })
+                if (!ExcerciseStored) {
+                    res.status(404).send({ status: 0, message: 'No se pudo guardar el ejercicio, vuelva a intentarlo.', err })
+                } else {
+                    res.status(200).send({
+                        status: 1,
+                        message: 'Ejercicio guardado correctamente.',
+                        excercise: ExcerciseStored
+                    })
+                }
             }
-        }
-    })
+        })
+    }
 }
 
 function getExcercises(req, res) {
@@ -78,9 +83,35 @@ function getRandomExcercise(req, res) {
     })
 }
 
+function deleteExcercise(req, res) {
+    const params = req.params
+
+    Excercise.deleteOne({ _id: params.id }, (err, result) => {
+        if (err) {
+            res.status(500).send({
+                status: 0,
+                message: 'Error del servidor.'
+            })
+        } else {
+            if (!result) {
+                res.status(404).send({
+                    status: 0,
+                    message: 'No se pudo eliminar el ejercicio.'
+                })
+            } else {
+                res.status(200).send({
+                    status: 1,
+                    message: 'Ejercicio eliminado.'
+                })
+            }
+        }
+    })
+}
+
 
 module.exports = {
     createExcercise,
     getExcercises,
-    getRandomExcercise
+    getRandomExcercise,
+    deleteExcercise
 }

@@ -31,13 +31,14 @@ const useStyles = makeStyles((theme) => ({
 
 function MenuList(props) {
     const classes = useStyles()
+    const { url } = props
 
     return (
         <div className={classes.root}>
             <List component="nav">
 
                 <Link to="/admin" className={classes.link}>
-                    <ListItem button>
+                    <ListItem button selected={url === '/admin' ? true : false}>
                         <ListItemIcon>
                             <HomeIcon />
                         </ListItemIcon>
@@ -46,7 +47,7 @@ function MenuList(props) {
                 </Link>
 
                 <Link to="/admin/users" className={classes.link}>
-                    <ListItem button>
+                    <ListItem button selected={url === '/admin/users' ? true : false}>
                         <ListItemIcon>
                             <PersonIcon />
                         </ListItemIcon>
@@ -55,7 +56,7 @@ function MenuList(props) {
                 </Link>
 
                 <Link to="/admin/groups" className={classes.link}>
-                    <ListItem button >
+                    <ListItem button selected={url === '/admin/groups' ? true : false}>
                         <ListItemIcon>
                             <PeopleAltIcon />
                         </ListItemIcon>
@@ -64,7 +65,7 @@ function MenuList(props) {
                 </Link>
 
                 <Link to="/admin/institutions" className={classes.link}>
-                    <ListItem button >
+                    <ListItem button selected={url === '/admin/institutions' ? true : false}>
                         <ListItemIcon>
                             <ApartmentIcon />
                         </ListItemIcon>
@@ -73,7 +74,7 @@ function MenuList(props) {
                 </Link>
 
                 <Link to="/admin/areas" className={classes.link}>
-                    <ListItem button >
+                    <ListItem button selected={url === '/admin/areas' ? true : false}>
                         <ListItemIcon>
                             <MenuBookIcon />
                         </ListItemIcon>
@@ -82,7 +83,7 @@ function MenuList(props) {
                 </Link>
 
                 <Link to="/admin/topics" className={classes.link}>
-                    <ListItem button >
+                    <ListItem button selected={url === '/admin/topics' ? true : false}>
                         <ListItemIcon>
                             <BookmarkIcon />
                         </ListItemIcon>
@@ -91,7 +92,7 @@ function MenuList(props) {
                 </Link>
 
                 <Link to="/admin/subtopics" className={classes.link}>
-                    <ListItem button >
+                    <ListItem button selected={url === '/admin/subtopics' ? true : false}>
                         <ListItemIcon>
                             <BookmarksIcon />
                         </ListItemIcon>
@@ -100,7 +101,7 @@ function MenuList(props) {
                 </Link>
 
                 <Link to="/admin/excercises" className={classes.link}>
-                    <ListItem button >
+                    <ListItem button selected={url === '/admin/excercises' ? true : false}>
                         <ListItemIcon>
                             <FunctionsIcon />
                         </ListItemIcon>
