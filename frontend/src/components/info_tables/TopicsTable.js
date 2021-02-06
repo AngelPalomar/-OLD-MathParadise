@@ -24,7 +24,7 @@ function TopicsTable() {
 
     return (
         <TableContainer component={Paper}>
-            <Table>
+            <Table size="small">
                 <TableHead>
                     <TableRow>
                         <TableCell className={classes.tableHead}>Nombre del tema</TableCell>
@@ -41,7 +41,7 @@ function TopicsTable() {
                             <TableCell component='th' scope='row'>
                                 {row.area}
                             </TableCell>
-                            <TableCell component='th' scope='row'>
+                            <TableCell component='th' scope='row' align="center">
                                 <IconButton
                                     className={classes.deleteButton}
                                     onClick={() => {

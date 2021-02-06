@@ -26,7 +26,7 @@ function SubtopicsTable() {
 
     return (
         <TableContainer component={Paper}>
-            <Table>
+            <Table size="small">
                 <TableHead>
                     <TableRow>
                         <TableCell className={classes.tableHead}>Nombre del subtema</TableCell>
@@ -55,7 +55,7 @@ function SubtopicsTable() {
                             <TableCell component='th' scope='row'>
                                 <InlineMath math={row.symbol} />
                             </TableCell>
-                            <TableCell component='th' scope='row'>
+                            <TableCell component='th' scope='row' align="center">
                                 <IconButton
                                     className={classes.deleteButton}
                                     onClick={() => {

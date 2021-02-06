@@ -26,9 +26,10 @@ function ExcercisesTable() {
 
     return (
         <TableContainer component={Paper}>
-            <Table>
+            <Table size="small">
                 <TableHead>
                     <TableRow>
+                        <TableCell className={classes.tableHead}>ID</TableCell>
                         <TableCell className={classes.tableHead}>Ejercicio</TableCell>
                         <TableCell className={classes.tableHead}>A</TableCell>
                         <TableCell className={classes.tableHead}>B</TableCell>
@@ -45,6 +46,9 @@ function ExcercisesTable() {
                 <TableBody>
                     {areasData.map((row) => (
                         <TableRow key={row._id}>
+                            <TableCell component='th' scope='row'>
+                                {row._id}
+                            </TableCell>
                             <TableCell component='th' scope='row'>
                                 <InlineMath math={row.label} />
                             </TableCell>

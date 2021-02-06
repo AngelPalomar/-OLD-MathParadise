@@ -131,15 +131,29 @@ export const useStyles = makeStyles((theme) => ({
     instrucLabel: {
         fontSize: '3vh',
     },
+    ptsToWinLabel: {
+        color: MATH_COLORS().math_warning
+    },
     excerciseLabel: {
         fontSize: '6vh',
         color: MATH_COLORS().math_blue_dark
+    },
+    isTimeOverLabel: {
+        color: MATH_COLORS().math_rush_base,
+        marginBlock: theme.spacing(4)
+    },
+    optionsLabelText: {
+        fontSize: '3vh',
     },
     optionsPanel: {
         width: '100%',
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between'
+    },
+    idLabel: {
+        color: MATH_COLORS().math_disabled_dark,
+        fontSize: '2vh'
     },
     radioBtn: {
         color: MATH_COLORS().math_blue,
@@ -155,14 +169,34 @@ export const useStyles = makeStyles((theme) => ({
         marginTop: '10px',
         float: 'right'
     },
+    resultContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        //alignContent: 'center',
+        justifyContent: 'center'
+    },
     giveUpBtn: {
         color: '#FFF',
         background: MATH_GRADIENTS().event_tile,
+        paddingInline: theme.spacing(2)
+    },
+    acceptBtn: {
+        color: '#FFF',
+        background: MATH_GRADIENTS().default,
+        paddingInline: theme.spacing(2)
+    },
+    disabledBtn: {
+        color: '#FFF',
+        background: MATH_GRADIENTS().disabled,
         paddingInline: theme.spacing(2)
     },
     answerBtn: {
         color: '#FFF',
         background: MATH_GRADIENTS().classic,
         paddingInline: theme.spacing(2)
+    },
+    imgIconResult: {
+        width: '3.5vh',
+        marginRight: '10px'
     }
 }))

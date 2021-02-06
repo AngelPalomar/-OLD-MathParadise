@@ -24,7 +24,7 @@ function UsersTable() {
 
     return (
         <TableContainer component={Paper}>
-            <Table>
+            <Table size="small">
                 <TableHead>
                     <TableRow>
                         <TableCell className={classes.tableHead}>Nombre</TableCell>

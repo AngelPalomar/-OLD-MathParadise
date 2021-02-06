@@ -23,8 +23,7 @@ export function createExcercise(data) {
 }
 
 export function getRandomExcerciseApi(area, subtopic, difficulty) {
-    const url = `${basePath}/${apiVersion}/get-random-excercise?difficulty=
-    ${difficulty}&subtopic=${subtopic}&area=${area}`
+    const url = `${basePath}/${apiVersion}/get-random-excercise?difficulty=${difficulty}&subtopic=${subtopic}&area=${area}`
     const params = {
         method: 'GET',
         headers: {

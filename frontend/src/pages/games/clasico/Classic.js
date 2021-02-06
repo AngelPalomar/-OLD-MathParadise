@@ -14,6 +14,7 @@ import ExcercisePanel from '../../../components/game_items/ExcercisePanel'
 /**APIs */
 import { getGameByPinApi, updateGameApi } from '../../../api/game'
 import { getAccessTokenApi } from '../../../api/auth'
+import { getRandomExcerciseApi } from '../../../api/excercises'
 
 /**Iconos */
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
@@ -75,11 +76,14 @@ function Classic(props) {
         phase: 'draw',
         totalRounds: 0,
         message: '',
-        status: 'in_game'
+        status: 'in_game',
+        area: '',
+        difficulty: ''
     })
     //Estado que guarda la información del juego
     const [game, setGame] = useState([])
     const [board, setBoard] = useState([])
+    const [excercise, setExcercise] = useState([])
 
     //Estado que guarda la menu del juego
     const [openMenu, setOpenMenu] = useState(false)
@@ -141,7 +145,9 @@ function Classic(props) {
                             },
                             currentPlayer: 1,
                             turn: response.game.turn,
-                            totalRounds: response.game.rounds
+                            totalRounds: response.game.rounds,
+                            area: response.game.area,
+                            difficulty: response.game.difficulty
                         })
                     } else {
                         setGameLocal({
@@ -162,7 +168,9 @@ function Classic(props) {
                             },
                             currentPlayer: 2,
                             turn: response.game.turn,
-                            totalRounds: response.game.rounds
+                            totalRounds: response.game.rounds,
+                            area: response.game.area,
+                            difficulty: response.game.difficulty
                         })
                     }
                 }
@@ -222,8 +230,24 @@ function Classic(props) {
     useEffect(() => {
         setTimeout(() => {
             if (gameLocal.phase === 'answering') {
-                //si la casilla es diferente a las esquinas
+                //si la casilla es diferente a las esquinas (Inicio y random)
                 if (gameLocal.currentPos !== 0 && gameLocal.currentPos !== 24) {
+                    /**
+                     * Trae un ejercicio aleatorio del servidor
+                     * Parámetros: 
+                     * - Area (Materia)
+                     * - Posición actual (Subtema)
+                     * - Dificultad
+                     */
+                    getRandomExcerciseApi(
+                        gameLocal.area,
+                        board[gameLocal.currentPos === 9 || gameLocal.currentPos === 15 ?
+                            //manda del tablero, una posición random con tema
+                            Math.floor(Math.random() * 8) + 1 :
+                            gameLocal.currentPos].name,
+                        gameLocal.difficulty).then(r => {
+                            setExcercise(r.excercise[0])
+                        })
                     setOpenExcPanel(true)
                 } else {
                     //Casilla de evento random
@@ -344,30 +368,65 @@ function Classic(props) {
 
     //Función para cerrar el panel de ejercicio y contestar el ejercicio
     //Esta función cambia la fase a esperando y cambia el turno 
-    const excPanelHandler = () => {
+    const saveResult = (earnedPts) => {
         //Cierro el panel de ejercicios
         setOpenExcPanel(!openExcPanel)
 
+        //Asigno puntos a jugador que corresponda
+        if (gameLocal.currentPlayer === 1) {
+            /**
+             * Cambio el turno actual y cambio de fase
+             * Sumo los puntos
+             * Si los puntos es mayor que cero, es ejercicio correcto,
+             * si no, es incorrecto
+           * */
+            setGameLocal({
+                ...gameLocal,
+                player1: {
+                    ...gameLocal.player1,
+                    pts: gameLocal.player1.pts + earnedPts,
+                    excer: gameLocal.player1.excer + 1,
+                    correct: earnedPts > 0 ? gameLocal.player1.correct + 1 : gameLocal.player1.correct,
+                    wrong: earnedPts <= 0 ? gameLocal.player1.wrong + 1 : gameLocal.player1.wrong
+                },
+                turn: gameLocal.turn === 1 ? 2 : 1,
+                phase: 'waiting'
+            })
+        } else {
+            setGameLocal({
+                ...gameLocal,
+                player2: {
+                    ...gameLocal.player2,
+                    pts: gameLocal.player2.pts + earnedPts,
+                    excer: gameLocal.player2.excer + 1,
+                    correct: earnedPts > 0 ? gameLocal.player2.correct + 1 : gameLocal.player2.correct,
+                    wrong: earnedPts <= 0 ? gameLocal.player2.wrong + 1 : gameLocal.player2.wrong
+                },
+                turn: gameLocal.turn === 1 ? 2 : 1,
+                phase: 'waiting'
+            })
+        }
+
         //Subo al servidor los resultados locales
+        updateGame(earnedPts)
+    }
+
+    /**
+     * Función que sube los datos locales al servidor
+     */
+    const updateGame = (ePts) => {
         updateGameApi({
-            turn: gameLocal.turn === 1 ? 2 : 1,
-            points_player_1: gameLocal.player1.pts,
+            points_player_1: gameLocal.currentPlayer === 1 ? gameLocal.player1.pts + ePts : gameLocal.player1.pts,
             box_player_1: gameLocal.player1.sum_dice,
-            points_player_2: gameLocal.player2.pts,
+            points_player_2: gameLocal.currentPlayer === 2 ? gameLocal.player2.pts + ePts : gameLocal.player2.pts,
             box_player_2: gameLocal.player2.sum_dice,
             rounds_player1: gameLocal.player1.rounds,
-            rounds_player2: gameLocal.player2.rounds
+            rounds_player2: gameLocal.player2.rounds,
+            turn: gameLocal.turn === 1 ? 2 : 1
         }, pin).then(response => {
             if (response.status === 1) {
                 console.log("Partida subida.")
             }
-        })
-
-        //Cambio el turno actual y cambio de fase
-        setGameLocal({
-            ...gameLocal,
-            turn: gameLocal.turn === 1 ? 2 : 1,
-            phase: 'waiting'
         })
     }
 
@@ -409,14 +468,9 @@ function Classic(props) {
                 difficulty={game.difficulty} area={game.area} />
             <ExcercisePanel
                 open={openExcPanel}
-                answerExc={excPanelHandler}
-                info={
-                    //Si es ejercicio random o es reto
-                    gameLocal.currentPos === 9 || gameLocal.currentPos === 15 ?
-                        //manda del tablero, una posición random con tema
-                        board[Math.floor(Math.random() * 8) + 1] :
-                        board[gameLocal.currentPos]
-                }
+                saveResult={saveResult}
+                difficulty={game.difficulty}
+                excercise={excercise}
                 isChall={
                     //Si es reto (Es decir, si se responde mal, se bajan 10 puntos)
                     gameLocal.currentPos === 15 ? true : false
