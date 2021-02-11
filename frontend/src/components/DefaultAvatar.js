@@ -13,6 +13,9 @@ const useStyles = makeStyles((theme) => ({
     },
     gradient1: {
         background: MATH_GRADIENTS().error
+    },
+    gradient2: {
+        background: MATH_GRADIENTS().winner
     }
 }))
 
@@ -30,7 +33,11 @@ function DefaultAvatar(props) {
 
     return (
         <Avatar
-            className={clsx(color === 1 ? classes.gradient1 : classes.gradientDefault, classes.default)}
+            className={clsx(
+                color === 1 ? classes.gradient1 :
+                    color === 2 ? classes.gradient2 :
+                        classes.gradientDefault, classes.default
+            )}
             style={{ width: size, height: size }}>
             <Typography style={{ fontSize: fs }}>
                 {initialAvatar}

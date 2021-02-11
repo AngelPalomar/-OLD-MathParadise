@@ -12,7 +12,11 @@ function createGame(req, res) {
      */
 
     const { host, gamemode, area, difficulty, rounds } = req.body
-    game.pin = randomToken(8)
+    if (gamemode === 'classic') {
+        game.pin = `C-${randomToken(8)}`
+    } else if (gamemode === 'arcade') {
+        game.pin = `A-${randomToken(8)}`
+    }
     game.host = host
     game.player1 = host
     game.player2 = ""

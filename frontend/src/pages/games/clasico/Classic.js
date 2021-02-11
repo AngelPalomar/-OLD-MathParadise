@@ -10,18 +10,26 @@ import DefaultAvatar from '../../../components/DefaultAvatar'
 import Tile from '../../../components/game_items/Tile'
 import GameMenu from '../../../components/game_items/GameMenu'
 import ExcercisePanel from '../../../components/game_items/ExcercisePanel'
+import GameEvent from '../../../components/game_items/GameEvent'
+import GameResults from '../../../components/game_items/GameResults'
 
 /**APIs */
 import { getGameByPinApi, updateGameApi } from '../../../api/game'
 import { getAccessTokenApi } from '../../../api/auth'
 import { getRandomExcerciseApi } from '../../../api/excercises'
+import { getUserByNicknameApi, updateUserApi } from '../../../api/user'
 
 /**Iconos */
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 import SpeakerNotesIcon from '@material-ui/icons/SpeakerNotes'
+import CasinoIcon from '@material-ui/icons/Casino'
 
 /**Otros */
 import { posPlayer1, posPlayer2 } from './TilePositions'
+
+//Musica y sonidos
+import { classicTheme } from '../../../utils/Music'
+import { startSound } from '../../../utils/Sounds'
 
 /**Images */
 import classicIcon from '../../../assets/images/icons/classic_icon_white.svg'
@@ -80,6 +88,10 @@ function Classic(props) {
         area: '',
         difficulty: ''
     })
+    //Estdos que guardan las stats del jugador
+    const [oldStats, setOldStats] = useState([])
+    const [isNewRecord, setIsNewRecord] = useState(false)
+
     //Estado que guarda la información del juego
     const [game, setGame] = useState([])
     const [board, setBoard] = useState([])
@@ -88,6 +100,8 @@ function Classic(props) {
     //Estado que guarda la menu del juego
     const [openMenu, setOpenMenu] = useState(false)
     const [openExcPanel, setOpenExcPanel] = useState(false)
+    const [openEventPanel, setopenEventPanel] = useState(false)
+    const [openResultsPanel, setOpenResultsPanel] = useState(false)
 
     //Estados locales
     //Sumatoria de dados para calcular el No de casilla
@@ -124,6 +138,15 @@ function Classic(props) {
                 } else {
                     setGame(response.game)
                     setBoard(response.game.board)
+
+                    /**
+                     * Si el estado del juego está finalizado
+                     * lo devuelve al menú
+                     */
+                    if (response.game.status === 'finished') {
+                        window.location.href = '/home/play'
+                        return
+                    }
 
                     //Asigna el current player y el turno
                     if (response.game.host === player) {
@@ -176,6 +199,12 @@ function Classic(props) {
                 }
             }
         })
+
+        getUserByNicknameApi(player).then(response => {
+            setOldStats(response.user.classic)
+        })
+
+        document.title = 'Modo Clásico - Math Paradise'
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -199,7 +228,7 @@ function Classic(props) {
                 ...gameLocal, player2: {
                     ...gameLocal.player2,
                     sum_dice: gameLocal.player2.sum_dice + dice,
-                    pos: ((gameLocal.player2.sum_dice + dice)) % 30
+                    pos: (gameLocal.player2.sum_dice + dice) % 30
                 },
                 currentPos: (gameLocal.player2.sum_dice + dice) % 30
             })
@@ -221,6 +250,18 @@ function Classic(props) {
         //Cambia de fase de contestar
         setGameLocal({ ...gameLocal, phase: 'answering' })
     }
+
+    //Función para avanzar casillas personalizas
+    // --- TESTEAR ---
+    //TODO: Quitar luego
+    /*const addDiceNumber = (n) => {
+        //Gira el dado
+        setFlipDice(!flipDice)
+        //Asigna aleatorio al dado
+        setDice(n)
+        //Cambia de fase de contestar
+        setGameLocal({ ...gameLocal, phase: 'answering' })
+    }*/
 
     //Efecto que reacciona a las posiciones para mostrar ejercicio
     /**
@@ -244,15 +285,48 @@ function Classic(props) {
                         board[gameLocal.currentPos === 9 || gameLocal.currentPos === 15 ?
                             //manda del tablero, una posición random con tema
                             Math.floor(Math.random() * 8) + 1 :
+                            //Manda el ejercicio en la posición actual
                             gameLocal.currentPos].name,
                         gameLocal.difficulty).then(r => {
                             setExcercise(r.excercise[0])
                         })
+
+                    //Abre panel de ejercicios
                     setOpenExcPanel(true)
                 } else {
-                    //Casilla de evento random
-                    if (gameLocal.currentPos !== 24) {
+                    //Casilla inicio
+                    if (gameLocal.currentPos === 0) {
+                        //Suma 20 puntos por dar una vuelta completa
+                        if (gameLocal.currentPlayer === 1) {
+                            setGameLocal({
+                                ...gameLocal,
+                                player1: {
+                                    ...gameLocal.player1,
+                                    pts: gameLocal.player1.pts + 20
+                                },
+                                turn: 2,
+                                phase: 'waiting'
+                            })
+                        } else {
+                            setGameLocal({
+                                ...gameLocal,
+                                player2: {
+                                    ...gameLocal.player2,
+                                    pts: gameLocal.player2.pts + 20
+                                },
+                                turn: 1,
+                                phase: 'waiting'
+                            })
+                        }
 
+                        //Cambia de turno
+                        updateGame(20)
+                    }
+
+                    //Casilla de evento random
+                    if (gameLocal.currentPos === 24) {
+                        //Abre el panel del ejercicio
+                        setopenEventPanel(true)
                     }
                 }
             }
@@ -309,23 +383,76 @@ function Classic(props) {
         if ((gameLocal.player1.rounds === gameLocal.totalRounds &&
             gameLocal.player2.rounds === gameLocal.totalRounds) &&
             gameLocal.totalRounds > 0) {
-            console.log("Juego terminado.")
-        }
-    }, [gameLocal.player1.rounds, gameLocal.player2.rounds])
+            //Finaliza el juego
+            updateGameApi({ status: 'finished' }, pin).then()
 
-    //Efecto que actualiza el mensaje
-    useEffect(() => {
-        //Si tu turno, muestra mensaje
-        if (gameLocal.turn === gameLocal.currentPlayer) {
-            setGameLocal({ ...gameLocal, message: '¡Es tu turno!' })
-        } else {
-            setGameLocal({
-                ...gameLocal,
-                message: `Es el turno de ${gameLocal.currentPlayer === 1 ? game.player2 : game.player1}`
+            let newStats = {
+                classic: {
+                    points: 0,
+                    right_excercises: 0,
+                    mistakes: 0,
+                    victories: 0,
+                    defeats: 0
+                }
+            }
+
+            if (gameLocal.currentPlayer === 1) {
+
+                newStats.classic.points = gameLocal.player1.pts > oldStats.points ? gameLocal.player1.pts : oldStats.points
+                newStats.classic.right_excercises = oldStats.right_excercises + gameLocal.player1.correct
+                newStats.classic.mistakes = oldStats.mistakes + gameLocal.player1.wrong
+                newStats.classic.victories = gameLocal.player1.pts > gameLocal.player2.pts ? oldStats.victories + 1 : oldStats.victories
+                newStats.classic.defeats = gameLocal.player1.pts < gameLocal.player2.pts ? oldStats.defeats + 1 : oldStats.defeats
+
+                //condición que indica si hay nuevo record en los puntos
+                if (gameLocal.player1.pts > oldStats.points) {
+                    setIsNewRecord(true)
+                }
+
+            } else if (gameLocal.currentPlayer === 2) {
+                newStats.classic.points = gameLocal.player2.pts > oldStats.points ? gameLocal.player2.pts : oldStats.points
+                newStats.classic.right_excercises = oldStats.right_excercises + gameLocal.player2.correct
+                newStats.classic.mistakes = oldStats.mistakes + gameLocal.player2.wrong
+                newStats.classic.victories = gameLocal.player2.pts > gameLocal.player1.pts ? oldStats.victories + 1 : oldStats.victories
+                newStats.classic.defeats = gameLocal.player2.pts < gameLocal.player1.pts ? oldStats.defeats + 1 : oldStats.defeats
+
+                //condición que indica si hay nuevo record en los puntos
+                if (gameLocal.player2.pts > oldStats.points) {
+                    setIsNewRecord(true)
+                }
+            }
+
+            //Actualiza las stats del jugador
+            updateUserApi(
+                getAccessTokenApi(),
+                newStats,
+                jwtDecode(getAccessTokenApi()).id
+            ).then(response => {
+                console.log(response.message)
             })
-        }
-    }, [gameLocal.turn, gameLocal.currentPlayer])
 
+            //cierra todos los paneles
+            setOpenExcPanel(false)
+            setopenEventPanel(false)
+            setOpenMenu(false)
+
+            //Actualiza la partida
+            updateGame(0, 0)
+
+            //Abre el panel de resultados
+            setOpenResultsPanel(true)
+        }
+    }, [
+        gameLocal.player1.rounds,
+        gameLocal.player2.rounds,
+        gameLocal.player1.pts,
+        gameLocal.player2.pts,
+        openExcPanel,
+        openEventPanel,
+        openMenu,
+        oldStats,
+        isNewRecord
+    ])
 
     //Efecto para bajar la partida si el turno es del otro jugador
     /**
@@ -411,15 +538,244 @@ function Classic(props) {
         updateGame(earnedPts)
     }
 
+    //Función para guardar los datos del evento
+    const saveEvent = (event) => {
+        //Cierra el panel de evento
+        setopenEventPanel(!openEventPanel)
+
+        switch (event) {
+            //Disminuye una casilla
+            case '-1 casillas': {
+                if (gameLocal.currentPlayer === 1) {
+                    setGameLocal({
+                        ...gameLocal,
+                        player1: {
+                            ...gameLocal.player1,
+                            sum_dice: gameLocal.player1.sum_dice - 1
+                        },
+                        turn: gameLocal.turn === 1 ? 2 : 1,
+                        phase: 'waiting'
+                    })
+                } else {
+                    setGameLocal({
+                        ...gameLocal,
+                        player2: {
+                            ...gameLocal.player2,
+                            sum_dice: gameLocal.player2.sum_dice - 1
+                        },
+                        turn: gameLocal.turn === 1 ? 2 : 1,
+                        phase: 'waiting'
+                    })
+                }
+
+                //Actualiza la partida
+                updateGame(0, -1)
+            }
+                break;
+
+            //Disminuye tres casilla
+            case '-3 casillas': {
+                if (gameLocal.currentPlayer === 1) {
+                    setGameLocal({
+                        ...gameLocal,
+                        player1: {
+                            ...gameLocal.player1,
+                            sum_dice: gameLocal.player1.sum_dice - 3
+                        },
+                        turn: gameLocal.turn === 1 ? 2 : 1,
+                        phase: 'waiting'
+                    })
+                } else {
+                    setGameLocal({
+                        ...gameLocal,
+                        player2: {
+                            ...gameLocal.player2,
+                            sum_dice: gameLocal.player2.sum_dice - 3
+                        },
+                        turn: gameLocal.turn === 1 ? 2 : 1,
+                        phase: 'waiting'
+                    })
+                }
+
+                //Actualiza la partida
+                updateGame(0, -3)
+            }
+                break;
+
+            case '-5 casillas': {
+                if (gameLocal.currentPlayer === 1) {
+                    setGameLocal({
+                        ...gameLocal, player1: {
+                            ...gameLocal.player1,
+                            sum_dice: gameLocal.player1.sum_dice - 5
+                        },
+                        turn: gameLocal.turn === 1 ? 2 : 1,
+                        phase: 'waiting'
+                    })
+                } else {
+                    setGameLocal({
+                        ...gameLocal,
+                        player2: {
+                            ...gameLocal.player2,
+                            sum_dice: gameLocal.player2.sum_dice - 5
+                        },
+                        turn: gameLocal.turn === 1 ? 2 : 1,
+                        phase: 'waiting'
+                    })
+                }
+
+                //Actualiza la partida
+                updateGame(0, -5)
+            }
+                break;
+
+            case '+2 casillas': {
+                if (gameLocal.currentPlayer === 1) {
+                    setGameLocal({
+                        ...gameLocal, player1: {
+                            ...gameLocal.player1,
+                            sum_dice: gameLocal.player1.sum_dice + 2
+                        },
+                        turn: gameLocal.turn === 1 ? 2 : 1,
+                        phase: 'waiting'
+                    })
+                } else {
+                    setGameLocal({
+                        ...gameLocal,
+                        player2: {
+                            ...gameLocal.player2,
+                            sum_dice: gameLocal.player2.sum_dice + 2
+                        },
+                        turn: gameLocal.turn === 1 ? 2 : 1,
+                        phase: 'waiting'
+                    })
+                }
+
+                //Actualiza la partida
+                updateGame(0, 2)
+            }
+                break;
+
+            case '+3 casillas': {
+                if (gameLocal.currentPlayer === 1) {
+                    setGameLocal({
+                        ...gameLocal, player1: {
+                            ...gameLocal.player1,
+                            sum_dice: gameLocal.player1.sum_dice + 3
+                        },
+                        turn: gameLocal.turn === 1 ? 2 : 1,
+                        phase: 'waiting'
+                    })
+                } else {
+                    setGameLocal({
+                        ...gameLocal,
+                        player2: {
+                            ...gameLocal.player2,
+                            sum_dice: gameLocal.player2.sum_dice + 3
+                        },
+                        turn: gameLocal.turn === 1 ? 2 : 1,
+                        phase: 'waiting'
+                    })
+                }
+
+                //Actualiza la partida
+                updateGame(0, 3)
+            }
+                break;
+
+            case 'Ejercicio Aleatorio': {
+
+                getRandomExcerciseApi(
+                    gameLocal.area,
+                    board[Math.floor(Math.random() * (16 - 24) + 24)].name,
+                    gameLocal.difficulty).then(r => {
+                        setExcercise(r.excercise[0])
+                    })
+
+                /**
+                 * Abre el panel de ejercicios
+                 * el ejercicio lo dará aleatorio
+                 */
+                setOpenExcPanel(true)
+            }
+                break;
+
+            case '-5 puntos': {
+                if (gameLocal.currentPlayer === 1) {
+                    setGameLocal({
+                        ...gameLocal, player1: {
+                            ...gameLocal.player1,
+                            pts: gameLocal.player1.pts - 5
+                        },
+                        turn: gameLocal.turn === 1 ? 2 : 1,
+                        phase: 'waiting'
+                    })
+                } else {
+                    setGameLocal({
+                        ...gameLocal,
+                        player2: {
+                            ...gameLocal.player2,
+                            pts: gameLocal.player2.sum_dice - 5
+                        },
+                        turn: gameLocal.turn === 1 ? 2 : 1,
+                        phase: 'waiting'
+                    })
+                }
+
+                //Actualiza la partida
+                updateGame(-5, 0)
+            }
+                break;
+
+            case '-10 puntos': {
+                if (gameLocal.currentPlayer === 1) {
+                    setGameLocal({
+                        ...gameLocal, player1: {
+                            ...gameLocal.player1,
+                            pts: gameLocal.player1.pts - 10
+                        },
+                        turn: gameLocal.turn === 1 ? 2 : 1,
+                        phase: 'waiting'
+                    })
+                } else {
+                    setGameLocal({
+                        ...gameLocal,
+                        player2: {
+                            ...gameLocal.player2,
+                            pts: gameLocal.player2.sum_dice - 10
+                        },
+                        turn: gameLocal.turn === 1 ? 2 : 1,
+                        phase: 'waiting'
+                    })
+                }
+
+                //Actualiza la partida
+                updateGame(-10, 0)
+            }
+                break;
+
+            case 'Tira otra vez': {
+                setGameLocal({
+                    ...gameLocal,
+                    phase: 'draw'
+                })
+            }
+                break;
+
+            default:
+                break;
+        }
+    }
+
     /**
      * Función que sube los datos locales al servidor
      */
-    const updateGame = (ePts) => {
+    const updateGame = (ePts, pos = 0) => {
         updateGameApi({
             points_player_1: gameLocal.currentPlayer === 1 ? gameLocal.player1.pts + ePts : gameLocal.player1.pts,
-            box_player_1: gameLocal.player1.sum_dice,
+            box_player_1: gameLocal.currentPlayer === 1 ? gameLocal.player1.sum_dice + pos : gameLocal.player1.sum_dice,
             points_player_2: gameLocal.currentPlayer === 2 ? gameLocal.player2.pts + ePts : gameLocal.player2.pts,
-            box_player_2: gameLocal.player2.sum_dice,
+            box_player_2: gameLocal.currentPlayer === 2 ? gameLocal.player2.sum_dice + pos : gameLocal.player2.sum_dice,
             rounds_player1: gameLocal.player1.rounds,
             rounds_player2: gameLocal.player2.rounds,
             turn: gameLocal.turn === 1 ? 2 : 1
@@ -441,6 +797,19 @@ function Classic(props) {
                                 dice === 6 ? dice6 : dice1
         } alt="dice.svg" className={classes.diceImg} />
     }
+
+    //Efecto que actualiza el mensaje
+    useEffect(() => {
+        //Si tu turno, muestra mensaje
+        if (gameLocal.turn === gameLocal.currentPlayer) {
+            setGameLocal({ ...gameLocal, message: '¡Es tu turno!' })
+        } else {
+            setGameLocal({
+                ...gameLocal,
+                message: `Es el turno de ${gameLocal.currentPlayer === 1 ? game.player2 : game.player1}`
+            })
+        }
+    }, [gameLocal.turn, gameLocal.currentPlayer])
 
     //Función para abir y cerrar el menú
     const menuHandler = () => {
@@ -475,6 +844,16 @@ function Classic(props) {
                     //Si es reto (Es decir, si se responde mal, se bajan 10 puntos)
                     gameLocal.currentPos === 15 ? true : false
                 } />
+            <GameEvent
+                open={openEventPanel}
+                saveEvents={saveEvent} />
+            <GameResults
+                open={openResultsPanel}
+                info={gameLocal}
+                player1={game.player1}
+                player2={game.player2}
+                gamemode="classic"
+                isNewRecord={isNewRecord} />
             <div className={classes.player1Layer}>
                 <animated.div style={moveP1}>
                     <DefaultAvatar nickname={game.player1}
@@ -495,24 +874,49 @@ function Classic(props) {
                     </Typography>
                     <div>
                         <div>
-                            <div className={classes.playerScore}>
-                                <div className={classes.playerNickname}>
-                                    <DefaultAvatar size="5vh" fs="3vh" nickname={game.player1} />
-                                    <Typography
-                                        className={classes.nickname}
-                                        style={player === game.player1 ? { fontWeight: 'bold' } : null}>{game.player1}</Typography>
-                                </div>
-                                <Typography className={classes.pointsLabel}>{gameLocal.player1.pts}</Typography>
-                            </div>
-                            <div className={classes.playerScore}>
-                                <div className={classes.playerNickname}>
-                                    <DefaultAvatar size="5vh" fs="3vh" nickname={game.player2} color={1} />
-                                    <Typography
-                                        className={classes.nickname}
-                                        style={player === game.player2 ? { fontWeight: 'bold' } : null}>{game.player2}</Typography>
-                                </div>
-                                <Typography className={classes.pointsLabel}>{gameLocal.player2.pts}</Typography>
-                            </div>
+                            {
+                                gameLocal.player2.pts < gameLocal.player1.pts ?
+                                    <>
+                                        <div className={classes.playerScore}>
+                                            <div className={classes.playerNickname}>
+                                                <DefaultAvatar size="5vh" fs="3vh" nickname={game.player1} />
+                                                <Typography
+                                                    className={classes.nickname}
+                                                    style={player === game.player1 ? { fontWeight: 'bold' } : null}>{game.player1}</Typography>
+                                            </div>
+                                            <Typography className={classes.pointsLabel}>{gameLocal.player1.pts}</Typography>
+                                        </div>
+                                        <div className={classes.playerScore}>
+                                            <div className={classes.playerNickname}>
+                                                <DefaultAvatar size="5vh" fs="3vh" nickname={game.player2} color={1} />
+                                                <Typography
+                                                    className={classes.nickname}
+                                                    style={player === game.player2 ? { fontWeight: 'bold' } : null}>{game.player2}</Typography>
+                                            </div>
+                                            <Typography className={classes.pointsLabel}>{gameLocal.player2.pts}</Typography>
+                                        </div>
+                                    </> :
+                                    <>
+                                        <div className={classes.playerScore}>
+                                            <div className={classes.playerNickname}>
+                                                <DefaultAvatar size="5vh" fs="3vh" nickname={game.player2} color={1} />
+                                                <Typography
+                                                    className={classes.nickname}
+                                                    style={player === game.player2 ? { fontWeight: 'bold' } : null}>{game.player2}</Typography>
+                                            </div>
+                                            <Typography className={classes.pointsLabel}>{gameLocal.player2.pts}</Typography>
+                                        </div>
+                                        <div className={classes.playerScore}>
+                                            <div className={classes.playerNickname}>
+                                                <DefaultAvatar size="5vh" fs="3vh" nickname={game.player1} />
+                                                <Typography
+                                                    className={classes.nickname}
+                                                    style={player === game.player1 ? { fontWeight: 'bold' } : null}>{game.player1}</Typography>
+                                            </div>
+                                            <Typography className={classes.pointsLabel}>{gameLocal.player1.pts}</Typography>
+                                        </div>
+                                    </>
+                            }
                         </div>
                     </div>
                     <div>
@@ -538,6 +942,7 @@ function Classic(props) {
                         </animated.div>
                         <Button
                             className={classes.button}
+                            startIcon={<CasinoIcon />}
                             style={
                                 gameLocal.turn === gameLocal.currentPlayer ?
                                     { background: MATH_GRADIENTS().default } :

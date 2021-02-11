@@ -22,6 +22,9 @@ export function MATH_COLORS() {
         math_warning: '#FF8D29',
         math_warning_dark: '#FF8114',
 
+        math_event: '#0D001A',
+        math_event_secondary: '#330063',
+
         //Gamemodes
         math_classic: '#388659',
         math_arcade: '#6A041D',
@@ -49,6 +52,7 @@ export function MATH_GRADIENTS(deg = 45) {
         start_tile: `linear-gradient(${deg}deg, #D4145A, #ED1C24)`,
         random_exc_tile: `linear-gradient(${deg}deg, #8CC63F, #006837)`,
         challenge_tile: `linear-gradient(${deg}deg, #29CBD1, #2A7BD1)`,
-        event_tile: `linear-gradient(${deg}deg, #0D001A, #330063)`
+        event_tile: `linear-gradient(${deg}deg, #0D001A, #330063)`,
+        winner: `linear-gradient(${deg}deg, #FFBE0B, #FFE80A)`
     }
 }

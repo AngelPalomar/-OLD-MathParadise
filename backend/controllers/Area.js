@@ -2,8 +2,9 @@ const Area = require('../models/Area')
 
 function createArea(req, res) {
     const area = new Area()
-    const { name } = req.body
+    const { name, status } = req.body
     area.name = name.trim()
+    area.status = status
 
     if (name === "") {
         res.status(404).send({ status: 0, message: "No se permiten valores vacíos." })

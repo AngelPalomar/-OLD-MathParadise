@@ -116,6 +116,7 @@ export const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-between',
         alignItems: 'center',
     },
+
     //Estilos del panel de ejercicios
     excDialog: {
         padding: theme.spacing(2)
@@ -198,5 +199,78 @@ export const useStyles = makeStyles((theme) => ({
     imgIconResult: {
         width: '3.5vh',
         marginRight: '10px'
+    },
+
+    //Estilos del panel de Evento
+    evtTitle: {
+        color: MATH_COLORS().math_event,
+        fontSize: '5vh',
+        textAlign: 'center'
+    },
+    evtInstruc: {
+        color: MATH_COLORS().math_disabled_label,
+        fontSize: '3vh',
+        textAlign: 'center'
+    },
+    cardContainer: {
+        marginTop: theme.spacing(3),
+        marginBottom: theme.spacing(3),
+    },
+    eventCard: {
+        background: MATH_COLORS().math_event,
+        border: 5,
+        borderStyle: 'dotted',
+        borderColor: '#FFF',
+        padding: 20,
+        color: '#FFF',
+        textAlign: 'center',
+        borderRadius: 10
+    },
+    drawBtnEventCont: {
+        display: 'flex',
+        justifyContent: 'center'
+    },
+
+    //Estilos del panel de resultados
+    resultsDialog: {
+        padding: theme.spacing(2)
+    },
+    resultsTitle: {
+        color: '#2F3F3F',
+        fontSize: '4.5vh',
+        textAlign: 'center'
+    },
+    resultsSubTitle: {
+        color: MATH_COLORS().math_disabled_label,
+        fontSize: '2.5vh',
+        textAlign: 'center'
+    },
+    avatarContainer: {
+        display: 'flex',
+        position: 'relative',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBlock: theme.spacing(2)
+    },
+    winnerPlayerLabel: {
+        color: '#4A4A4A',
+        fontSize: '4vh',
+        textAlign: 'center'
+    },
+    winnerLabel: {
+        color: MATH_COLORS().math_disabled_label,
+        fontSize: '2.2vh',
+        textAlign: 'center'
+    },
+    divider: {
+        marginBlock: theme.spacing(1)
+    },
+    statsLabels: {
+        fontSize: '3vh',
+    },
+    statsContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        marginTop: theme.spacing(2)
     }
 }))

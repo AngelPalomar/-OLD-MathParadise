@@ -62,6 +62,7 @@ function ExcercisePanel(props) {
     const [isAnswered, setIsAnswered] = useState(false)
     const [isTimeOver, setIsTimeOver] = useState(false)
     const [isCorrect, setIsCorrect] = useState(false)
+    const [wasGiveUp, setWasGiveUp] = useState(false)
 
     /**
      * Función para el cronómetro regresivo
@@ -163,6 +164,7 @@ function ExcercisePanel(props) {
         setUserAnswer('')
         setEarnedPoints(0)
         setPtsToWin(1000)
+        setWasGiveUp(false)
     }
 
     if (!excercise) {
@@ -219,7 +221,7 @@ function ExcercisePanel(props) {
                             </RadioGroup>
                             {
                                 //Si no ha contestado
-                                isAnswered ?
+                                isAnswered && !wasGiveUp ?
                                     <div style={{ marginBlock: '5px' }}>
                                         {
                                             isCorrect ?
@@ -254,7 +256,12 @@ function ExcercisePanel(props) {
                                         <>
                                             <Button
                                                 className={classes.giveUpBtn}
-                                                startIcon={<CancelIcon />}>
+                                                startIcon={<CancelIcon />}
+                                                onClick={() => {
+                                                    setseconds(0)
+                                                    setminutes(0)
+                                                    setWasGiveUp(true)
+                                                }}>
                                                 Rendirse
                                             </Button>
                                             <Button

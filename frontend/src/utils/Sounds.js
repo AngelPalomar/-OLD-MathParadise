@@ -32,3 +32,8 @@ export const ticktockSound = new Howl({
     src: ['sounds/ticktock_sound.mp3'],
     loop: true
 })
+
+export const joinSound = new Howl({
+    src: ['sounds/join_sound.mp3'],
+    loop: true
+})

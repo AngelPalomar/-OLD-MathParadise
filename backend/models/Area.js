@@ -5,7 +5,8 @@ const AreaSchema = Schema({
     name: {
         type: String,
         unique: true
-    }
+    },
+    status: Boolean
 })
 
 module.exports = mongoose.model("Area", AreaSchema)
