@@ -4,7 +4,7 @@ import { BlockMath, InlineMath } from "react-katex"
 import 'katex/dist/katex.min.css'
 import {
     Grid, Typography, Paper, Box, Divider, Button, TextField, FormControl,
-    Select, MenuItem, InputLabel, FormControlLabel, Switch
+    Select, MenuItem, InputLabel, FormControlLabel, Switch, CircularProgress
 } from "@material-ui/core"
 
 /**Conts */
@@ -14,7 +14,7 @@ import { difficulties } from '../../../utils/SelectArrays'
 import { getAreasApi } from '../../../api/areas'
 import { getTopicsApi } from '../../../api/topics'
 import { getTSubtopicsApi } from '../../../api/subtopics'
-import { createExcercise } from '../../../api/excercises'
+import { getExcerciseByIdApi, updateExcercise } from '../../../api/excercises'
 
 /**Components */
 import DefaultSnackbar from '../../../components/snackbars/DefaultSnackbar'
@@ -22,8 +22,10 @@ import DefaultSnackbar from '../../../components/snackbars/DefaultSnackbar'
 /**Icons */
 import AddIcon from '@material-ui/icons/Add'
 
-function Create() {
+function UpdateExcercise(props) {
     const classes = useStyles()
+    //Traigo el id del documento
+    const { match: { params: { id } } } = props
 
     const [areas, setAreas] = useState([])
     const [topics, setTopics] = useState([])
@@ -44,6 +46,7 @@ function Create() {
     })
     const [message, setMessage] = useState("")
     const [open, setOpen] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
 
     //Cerrar notificación
     const handleCloseSnackbar = () => {
@@ -55,6 +58,16 @@ function Create() {
         getAreasApi().then(r => {
             if (r.status === 1) {
                 setAreas(r.areas)
+            }
+        })
+
+        //Traigo la info del ejercicio a editar
+        getExcerciseByIdApi(id).then(response => {
+            if (response.status === 1) {
+                setInputs(response.excercise)
+                setIsLoading(false)
+            } else {
+                window.location.href = '/admin/excercises'
             }
         })
     }, [])
@@ -106,14 +119,22 @@ function Create() {
             setMessage("Todos los campos son requeridos")
             setOpen(true)
         } else {
-            createExcercise(inputs).then(r => {
-                setMessage(r.message)
-                setOpen(true)
+            updateExcercise(inputs, id).then(r => {
                 if (r.status === 1) {
+                    setMessage(r.message)
+                    setOpen(true)
+
                     window.location.href = "/admin/excercises"
+                } else {
+                    setMessage(r.message)
+                    setOpen(true)
                 }
             })
         }
+    }
+
+    if (isLoading) {
+        return <CircularProgress />
     }
 
     return (
@@ -197,7 +218,8 @@ function Create() {
                                     name="label"
                                     label="Ingrese el ejercicio principal (use funciones KaTex)"
                                     variant="outlined"
-                                    className={classes.textField} />
+                                    className={classes.textField}
+                                    value={inputs.label} />
                             </Grid>
                             <Grid item lg={4}>
                                 {inputs.option_a !== "" && inputs.option_b !== "" && inputs.option_c !== "" && inputs.option_d !== "" ?
@@ -208,7 +230,8 @@ function Create() {
                                             labelId="right_answer"
                                             label="Seleccione la respuesta correcta"
                                             value={inputs.answer}
-                                            onChange={changeForm} >
+                                            onChange={changeForm}
+                                            value={inputs.answer}>
 
                                             <MenuItem value={inputs.option_a}>
                                                 {inputs.option_a !== "" ?
@@ -252,7 +275,8 @@ function Create() {
                                     name="option_a"
                                     label="Ingrese la opción a"
                                     variant="outlined"
-                                    className={classes.textField} />
+                                    className={classes.textField}
+                                    value={inputs.option_a} />
                             </Grid>
                             <Grid item lg={3}>
                                 <TextField
@@ -260,7 +284,8 @@ function Create() {
                                     name="option_b"
                                     label="Ingrese la opción b"
                                     variant="outlined"
-                                    className={classes.textField} />
+                                    className={classes.textField}
+                                    value={inputs.option_b} />
                             </Grid>
                             <Grid item lg={3}>
                                 <TextField
@@ -268,7 +293,8 @@ function Create() {
                                     name="option_c"
                                     label="Ingrese la opción c"
                                     variant="outlined"
-                                    className={classes.textField} />
+                                    className={classes.textField}
+                                    value={inputs.option_c} />
                             </Grid>
                             <Grid item lg={3}>
                                 <TextField
@@ -276,7 +302,8 @@ function Create() {
                                     name="option_d"
                                     label="Ingrese la opción d"
                                     variant="outlined"
-                                    className={classes.textField} />
+                                    className={classes.textField}
+                                    value={inputs.option_d} />
                             </Grid>
                             <Grid item lg={3}>
                                 <FormControl variant="outlined" className={classes.textField}>
@@ -286,7 +313,8 @@ function Create() {
                                         labelId="lbl_area"
                                         label="Seleccione el área"
                                         value={inputs.area}
-                                        onChange={changeForm}>
+                                        onChange={changeForm}
+                                        value={inputs.area}>
 
 
                                         {areas.map((values, index) =>
@@ -303,7 +331,8 @@ function Create() {
                                         labelId="lbl_topic"
                                         label="Seleccione el tema"
                                         value={inputs.topic}
-                                        onChange={changeForm}>
+                                        onChange={changeForm}
+                                        value={inputs.topic}>
 
                                         {topics.map((values, index) =>
                                             <MenuItem key={index} value={values.name}>{values.name}</MenuItem>
@@ -320,7 +349,8 @@ function Create() {
                                         labelId="lbl_subtopic"
                                         label="Seleccione el subtema"
                                         value={inputs.subtopic}
-                                        onChange={changeForm}>
+                                        onChange={changeForm}
+                                        value={inputs.subtopic}>
 
                                         {subtopics.map((values, index) =>
                                             <MenuItem key={index} value={values.name}>{values.name}</MenuItem>
@@ -337,7 +367,8 @@ function Create() {
                                         labelId="lbl_dif"
                                         label="Seleccione la dificultad"
                                         value={inputs.difficulty}
-                                        onChange={changeForm}>
+                                        onChange={changeForm}
+                                        value={inputs.difficulty}>
 
                                         {difficulties.map((values, index) =>
                                             <MenuItem key={index} value={values.val}>{values.name}</MenuItem>
@@ -370,4 +401,4 @@ function Create() {
     )
 }
 
-export default Create
+export default UpdateExcercise

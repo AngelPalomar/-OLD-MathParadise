@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { useStyles } from './useStyles'
 import {
     Table, TableBody, TableCell, TableContainer, TableHead,
@@ -31,15 +32,11 @@ function ExcercisesTable() {
                     <TableRow>
                         <TableCell className={classes.tableHead}>ID</TableCell>
                         <TableCell className={classes.tableHead}>Ejercicio</TableCell>
-                        <TableCell className={classes.tableHead}>A</TableCell>
-                        <TableCell className={classes.tableHead}>B</TableCell>
-                        <TableCell className={classes.tableHead}>C</TableCell>
-                        <TableCell className={classes.tableHead}>D</TableCell>
-                        <TableCell className={classes.tableHead}>Respuesta</TableCell>
                         <TableCell className={classes.tableHead}>Dificultad</TableCell>
                         <TableCell className={classes.tableHead}>Subtopic</TableCell>
                         <TableCell className={classes.tableHead}>Topic</TableCell>
                         <TableCell className={classes.tableHead}>Area</TableCell>
+                        <TableCell className={classes.tableHead}>Estado</TableCell>
                         <TableCell className={classes.tableHead}>Acciones</TableCell>
                     </TableRow>
                 </TableHead>
@@ -51,21 +48,6 @@ function ExcercisesTable() {
                             </TableCell>
                             <TableCell component='th' scope='row'>
                                 <InlineMath math={row.label} />
-                            </TableCell>
-                            <TableCell component='th' scope='row'>
-                                <InlineMath math={row.option_a} />
-                            </TableCell>
-                            <TableCell component='th' scope='row'>
-                                <InlineMath math={row.option_b} />
-                            </TableCell>
-                            <TableCell component='th' scope='row'>
-                                <InlineMath math={row.option_c} />
-                            </TableCell>
-                            <TableCell component='th' scope='row'>
-                                <InlineMath math={row.option_d} />
-                            </TableCell>
-                            <TableCell component='th' scope='row'>
-                                <InlineMath math={row.answer} />
                             </TableCell>
                             <TableCell component='th' scope='row'>
                                 {row.difficulty}
@@ -80,6 +62,9 @@ function ExcercisesTable() {
                                 {row.area}
                             </TableCell>
                             <TableCell component='th' scope='row'>
+                                {row.active ? 'Habilitado' : 'Deshabilitado'}
+                            </TableCell>
+                            <TableCell component='th' scope='row'>
                                 <IconButton
                                     className={classes.deleteButton}
                                     onClick={() => {
@@ -88,9 +73,11 @@ function ExcercisesTable() {
                                     }}>
                                     <DeleteIcon />
                                 </IconButton>
-                                <IconButton className={classes.modifyButton}>
-                                    <CreateIcon />
-                                </IconButton>
+                                <Link to={`/admin/excercises/update/${row._id}`}>
+                                    <IconButton className={classes.modifyButton}>
+                                        <CreateIcon />
+                                    </IconButton>
+                                </Link>
                             </TableCell>
                         </TableRow>
                     ))}

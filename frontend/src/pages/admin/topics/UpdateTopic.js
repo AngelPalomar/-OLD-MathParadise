@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { useStyles } from '../useStyles'
 import {
     Grid, Typography, Paper, Box, Divider, Button, TextField, FormControl,
-    Select, MenuItem, InputLabel, FormControlLabel, Switch
+    Select, MenuItem, InputLabel, FormControlLabel, Switch, CircularProgress
 } from "@material-ui/core"
 
 /**APIS */
 import { getAreasApi } from '../../../api/areas'
-import { createTopicApi } from '../../../api/topics'
+import { getTopicByIdApi, updateTopicApi } from '../../../api/topics'
 
 /**Components */
 import DefaultSnackbar from '../../../components/snackbars/DefaultSnackbar'
@@ -15,16 +15,22 @@ import DefaultSnackbar from '../../../components/snackbars/DefaultSnackbar'
 /**Icons */
 import AddIcon from '@material-ui/icons/Add'
 
-function CreateTopic() {
+function UpdateTopic(props) {
     const classes = useStyles()
+    //Traigo el id del documento
+    const { match: { params: { id } } } = props
+
     const [areas, setAreas] = useState([])
     const [inputs, setInputs] = useState({
         name: '',
         area: '',
         active: false
     })
+
     const [message, setMessage] = useState("")
     const [open, setOpen] = useState(false)
+
+    const [isLoading, setIsLoading] = useState(true)
 
     //Cerrar notificación
     const handleCloseSnackbar = () => {
@@ -32,9 +38,20 @@ function CreateTopic() {
     }
 
     useEffect(() => {
+        //Traigo las areas para que sean seleccionadas
         getAreasApi().then(r => {
             if (r.status === 1) {
                 setAreas(r.areas)
+            }
+        })
+
+        //Traigo el tema seleccionado de la tabla
+        getTopicByIdApi(id).then(response => {
+            if (response.status === 1) {
+                setInputs(response.topic)
+                setIsLoading(false)
+            } else {
+                window.location.href = "/admin/topics"
             }
         })
     }, [])
@@ -55,13 +72,14 @@ function CreateTopic() {
 
     const submitForm = (e) => {
         e.preventDefault()
-        console.log(inputs)
 
         if (inputs.name !== '' && inputs.area !== '') {
-            createTopicApi(inputs).then(r => {
+            updateTopicApi(inputs, id).then(r => {
                 setOpen(true)
                 setMessage(r.message)
                 if (r.status === 1) {
+                    setOpen(true)
+                    setMessage(r.message)
                     window.location.href = '/admin/topics'
                 }
             })
@@ -69,6 +87,10 @@ function CreateTopic() {
             setOpen(true)
             setMessage('todos los campos son requeridos')
         }
+    }
+
+    if (isLoading) {
+        return <CircularProgress />
     }
 
     return (
@@ -91,7 +113,8 @@ function CreateTopic() {
                                 name="name"
                                 label="*Nombre del tema"
                                 variant="outlined"
-                                className={classes.textField} />
+                                className={classes.textField}
+                                value={inputs.name} />
                         </Grid>
                         <Grid item lg={6}>
                             <FormControl variant="outlined" className={classes.textField}>
@@ -100,7 +123,8 @@ function CreateTopic() {
                                     name="area"
                                     label="*Area"
                                     labelId="lbl_area"
-                                    onChange={changeForm}>
+                                    onChange={changeForm}
+                                    value={inputs.area}>
 
                                     {areas.map((values, index) =>
                                         <MenuItem key={index} value={values.name}>{values.name}</MenuItem>
@@ -131,4 +155,4 @@ function CreateTopic() {
     )
 }
 
-export default CreateTopic
+export default UpdateTopic

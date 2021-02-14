@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useStyles } from '../useStyles'
 import {
-    Grid, Typography, Paper, Box, Divider, Button, TextField
+    Grid, Typography, Paper, Box, Divider, Button, TextField, Switch, FormControlLabel
 } from "@material-ui/core"
 
 /**Apis */
@@ -19,7 +19,11 @@ import AddIcon from '@material-ui/icons/Add'
 function CreateArea() {
     const classes = useStyles()
 
-    const [name, setName] = useState("")
+    const [inputs, setInputs] = useState({
+        name: '',
+        active: false
+    })
+
     const [message, setMessage] = useState("")
     const [open, setOpen] = useState(false)
 
@@ -30,18 +34,28 @@ function CreateArea() {
 
     //Cambio del formulario
     const changeForm = (e) => {
-        setName(e.target.value)
+        if (e.target.type === 'checkbox') {
+            setInputs({
+                ...inputs,
+                active: e.target.checked
+            })
+        } else {
+            setInputs({
+                ...inputs,
+                [e.target.name]: e.target.value
+            })
+        }
     }
 
     //Submit del formulario
     const submitForm = (e) => {
         e.preventDefault()
-        if (!minLenghtValidation(name, 1)) {
+        if (!minLenghtValidation(inputs.name, 1)) {
             setOpen(true)
             setMessage("Todos los campos son requeridos.")
         } else {
             //Crea el area llamando el API
-            createAreaApi({ name: name }).then(response => {
+            createAreaApi(inputs).then(response => {
                 if (response.status === 0) {
                     setOpen(true)
                     setMessage(response.message)
@@ -68,13 +82,20 @@ function CreateArea() {
                 <form onChange={changeForm} onSubmit={submitForm} className={classes.formBox}>
                     <Typography>*Todos los campos son requeridos</Typography>
                     <Grid container spacing={2} className={classes.form}>
-                        <Grid item lg={12}>
+                        <Grid item lg={8}>
                             <TextField
                                 type="text"
                                 name="name"
                                 label="*Nombre del area"
                                 variant="outlined"
                                 className={classes.textField} />
+                        </Grid>
+                        <Grid item lg={4}>
+                            <FormControlLabel label="Estado (Habilitado / deshabilitado)" control={
+                                <Switch
+                                    checked={inputs.active}
+                                    name="active" />
+                            } />
                         </Grid>
                     </Grid>
                     <Box className={classes.formButtons}>

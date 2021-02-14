@@ -26,7 +26,7 @@ function Avatar(props) {
     <Paper elevation={2} className={classes.root}>
       <Grid container spacing={1}>
         <Grid container item lg={2} md={3} sm={4} xs={3}>
-          <DefaultAvatar nickname={nickname} size="60px" fs="4vh" />
+          <DefaultAvatar nickname={nickname} size="60px" fs="5vh" />
         </Grid>
         <Grid container item lg={10} ms={9} sm={8} xs={9}>
           <Typography component="div">

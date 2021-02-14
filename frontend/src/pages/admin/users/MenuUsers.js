@@ -42,7 +42,7 @@ function Menu() {
     const classes = useStyles()
 
     useEffect(() => {
-        document.title = 'Ejercicios - Panel de administración | Math Paradise'
+        document.title = 'Usuarios - Panel de administración | Math Paradise'
     }, [])
 
     return (

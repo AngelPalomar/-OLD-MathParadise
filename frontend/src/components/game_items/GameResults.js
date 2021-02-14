@@ -1,5 +1,6 @@
 import React from 'react'
 import { useStyles } from './useStyles'
+import { Howler } from 'howler'
 import {
     Dialog, DialogActions, Button, Typography, Divider
 } from '@material-ui/core'
@@ -110,7 +111,7 @@ function GameResults(props) {
                             </div> :
                             <>
                                 <div style={{ zIndex: '2000', position: 'absolute' }}>
-                                    <img src={olive} style={{ width: '18vh' }} />
+                                    <img src={olive} style={{ width: '18vh' }} alt="olive.svg" />
                                 </div>
                                 <div style={{ zIndex: '1500', position: 'relative' }}>
                                     <Avatar nickname={
@@ -159,10 +160,10 @@ function GameResults(props) {
                         Puntos: <span style={{ color: MATH_COLORS().math_blue }}>{
                             info.currentPlayer === 1 ? info.player1.pts : info.player2.pts
                         }</span> {
-                            /*stats.points > classic.points ?
+                            isNewRecord ?
                                 <span style={{ color: '#f53f60' }}>
                                     ¡Nuevo Récord!
-                                </span> : null*/
+                                </span> : null
                         }
                     </Typography>
                     <Typography className={classes.statsLabels}>
@@ -183,7 +184,12 @@ function GameResults(props) {
                 </div>
 
                 <DialogActions>
-                    <Button className={classes.acceptBtn} onClick={() => { window.location.href = '/home/play' }}>
+                    <Button
+                        className={classes.acceptBtn}
+                        onClick={() => {
+                            Howler.unload()
+                            window.location.href = '/home/play'
+                        }}>
                         Aceptar
                     </Button>
                 </DialogActions>

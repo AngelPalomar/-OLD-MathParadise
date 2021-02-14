@@ -1,49 +1,58 @@
 import React, { useState, useEffect } from 'react'
 import { useStyles } from '../useStyles'
 import {
-    Grid, Typography, Paper, Box, Divider, Button, TextField, FormControl,
-    Select, MenuItem, InputLabel, FormControlLabel, Switch
+    Grid, Typography, Paper, Box, Divider, Button, TextField, Switch, FormControlLabel, CircularProgress
 } from "@material-ui/core"
 
-/**APIS */
-import { getAreasApi } from '../../../api/areas'
-import { createTopicApi } from '../../../api/topics'
+/**Apis */
+import { updateAreaApi, getAreaByIdApi } from '../../../api/areas'
 
 /**Components */
 import DefaultSnackbar from '../../../components/snackbars/DefaultSnackbar'
 
+/**Utils */
+import { minLenghtValidation } from '../../../utils/FormValidation'
+
 /**Icons */
 import AddIcon from '@material-ui/icons/Add'
 
-function CreateTopic() {
+function UpdateArea(props) {
     const classes = useStyles()
-    const [areas, setAreas] = useState([])
+    //Traigo el id del documento
+    const { match: { params: { id } } } = props
+
     const [inputs, setInputs] = useState({
         name: '',
-        area: '',
         active: false
     })
+
     const [message, setMessage] = useState("")
     const [open, setOpen] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
+
+    //guardo los datos en un estado
+    useEffect(() => {
+        getAreaByIdApi(id).then(response => {
+            if (response.status === 1) {
+                setInputs(response.area)
+                setIsLoading(false)
+            } else {
+                window.location.href = "/admin/areas"
+            }
+        })
+    }, [])
 
     //Cerrar notificación
     const handleCloseSnackbar = () => {
         setOpen(false)
     }
 
-    useEffect(() => {
-        getAreasApi().then(r => {
-            if (r.status === 1) {
-                setAreas(r.areas)
-            }
-        })
-    }, [])
-
+    //Cambio del formulario
     const changeForm = (e) => {
         if (e.target.type === 'checkbox') {
             setInputs({
                 ...inputs,
-                [e.target.name]: e.target.checked
+                active: e.target.checked
             })
         } else {
             setInputs({
@@ -53,22 +62,30 @@ function CreateTopic() {
         }
     }
 
+    //Submit del formulario
     const submitForm = (e) => {
         e.preventDefault()
-        console.log(inputs)
+        if (!minLenghtValidation(inputs.name, 1)) {
+            setOpen(true)
+            setMessage("Todos los campos son requeridos.")
+        } else {
+            //Actualiza el area llamando el API
+            updateAreaApi(inputs, id).then(response => {
+                if (response.status === 0) {
+                    setOpen(true)
+                    setMessage(response.message)
+                } else {
+                    setOpen(true)
+                    setMessage(response.message)
 
-        if (inputs.name !== '' && inputs.area !== '') {
-            createTopicApi(inputs).then(r => {
-                setOpen(true)
-                setMessage(r.message)
-                if (r.status === 1) {
-                    window.location.href = '/admin/topics'
+                    window.location.href = "/admin/areas"
                 }
             })
-        } else {
-            setOpen(true)
-            setMessage('todos los campos son requeridos')
         }
+    }
+
+    if (isLoading) {
+        return <CircularProgress />
     }
 
     return (
@@ -79,46 +96,32 @@ function CreateTopic() {
                 message={message} />
             <Paper className={classes.paper}>
                 <Typography variant="h5" className={classes.title}>
-                    <AddIcon fontSize="large" /> Añadir tema
+                    <AddIcon fontSize="large" /> Añadir area (Materia)
             </Typography>
                 <Divider />
-                <form className={classes.formBox} onChange={changeForm} onSubmit={submitForm}>
+                <form onChange={changeForm} onSubmit={submitForm} className={classes.formBox}>
                     <Typography>*Todos los campos son requeridos</Typography>
                     <Grid container spacing={2} className={classes.form}>
-                        <Grid item lg={6}>
+                        <Grid item lg={8}>
                             <TextField
                                 type="text"
                                 name="name"
-                                label="*Nombre del tema"
+                                label="*Nombre del area"
                                 variant="outlined"
-                                className={classes.textField} />
+                                className={classes.textField}
+                                value={inputs.name} />
                         </Grid>
-                        <Grid item lg={6}>
-                            <FormControl variant="outlined" className={classes.textField}>
-                                <InputLabel id="lbl_area">*Area</InputLabel>
-                                <Select
-                                    name="area"
-                                    label="*Area"
-                                    labelId="lbl_area"
-                                    onChange={changeForm}>
-
-                                    {areas.map((values, index) =>
-                                        <MenuItem key={index} value={values.name}>{values.name}</MenuItem>
-                                    )}
-
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                        <Grid item lg={6}>
+                        <Grid item lg={4}>
                             <FormControlLabel label="Estado (Habilitado / deshabilitado)" control={
                                 <Switch
+                                    //checked={inputs.active}
                                     checked={inputs.active}
                                     name="active" />
                             } />
                         </Grid>
                     </Grid>
                     <Box className={classes.formButtons}>
-                        <Button onClick={() => { window.location.href = '/admin/topics' }} className={classes.cancelButton}>
+                        <Button onClick={() => { window.location.href = '/admin/areas' }} className={classes.cancelButton}>
                             Cancelar
                     </Button>
                         <Button type="submit" className={classes.okButton}>
@@ -131,4 +134,4 @@ function CreateTopic() {
     )
 }
 
-export default CreateTopic
+export default UpdateArea

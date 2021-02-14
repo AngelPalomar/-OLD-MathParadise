@@ -63,3 +63,46 @@ export function deleteTopicApi(id) {
             return err.message
         })
 }
+
+export function getTopicByIdApi(id) {
+    const url = `${basePath}/${apiVersion}/get-topic?id=${id}`
+    const params = {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }
+
+    /**Petición fetch */
+    return fetch(url, params).then(response => {
+        return response.json()
+    })
+        .then(result => {
+            return result
+        })
+        .catch(err => {
+            return err.message
+        })
+}
+
+export function updateTopicApi(data, id) {
+    const url = `${basePath}/${apiVersion}/update-topic/${id}`
+    const params = {
+        method: 'PUT',
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }
+
+    /**Petición fetch */
+    return fetch(url, params).then(response => {
+        return response.json()
+    })
+        .then(result => {
+            return result
+        })
+        .catch(err => {
+            return err.message
+        })
+}

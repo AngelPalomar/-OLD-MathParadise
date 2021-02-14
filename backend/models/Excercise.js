@@ -14,7 +14,8 @@ const ExcerciseSchema = Schema({
     area: String,
     topic: String,
     subtopic: String,
-    difficulty: String
+    difficulty: String,
+    active: Boolean
 })
 
 module.exports = mongoose.model("Excercise", ExcerciseSchema)

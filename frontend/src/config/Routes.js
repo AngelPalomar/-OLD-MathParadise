@@ -19,18 +19,22 @@ import AdminInstitutionsCreate from '../pages/admin/institutions/CreateIInstitut
 //Ejercicios
 import AdminExcercisesMenu from '../pages/admin/excercises/MenuExcercises'
 import AdminExcercisesCreate from '../pages/admin/excercises/CreateExcercise'
+import AdminExcerciseUpdate from '../pages/admin/excercises/UpdateExcercise'
 
 //Areas
 import AdminAreasMenu from '../pages/admin/areas/MenuAreas'
 import AdminAreasCreate from '../pages/admin/areas/CreateArea'
+import AdminAreaUpdate from '../pages/admin/areas/UpdateArea'
 
 //Temas
 import AdminTopicsMenu from '../pages/admin/topics/MenuTopics'
 import AdminTopicsCreate from '../pages/admin/topics/CreateTopic'
+import AdminTopicUpdate from '../pages/admin/topics/UpdateTopic'
 
 //Subtemas
 import AdminSubtopicsMenu from '../pages/admin/subtopics/MenuSubtopics'
 import AdminSubtopicsCreate from '../pages/admin/subtopics/CreateSubtopic'
+import AdminSubtopicUpdate from '../pages/admin/subtopics/UpdateSubtopic'
 
 /** User Pages */
 import Dashboard from '../pages/user/Dashboard'
@@ -113,6 +117,11 @@ const routes = [
                 exact: true,
             },
             {
+                path: '/admin/excercises/update/:id',
+                component: AdminExcerciseUpdate,
+                exact: true,
+            },
+            {
                 path: '/admin/areas',
                 component: AdminAreasMenu,
                 exact: true,
@@ -120,6 +129,11 @@ const routes = [
             {
                 path: '/admin/areas/create',
                 component: AdminAreasCreate,
+                exact: true,
+            },
+            {
+                path: '/admin/areas/update/:id',
+                component: AdminAreaUpdate,
                 exact: true,
             },
             {
@@ -133,6 +147,11 @@ const routes = [
                 exact: true,
             },
             {
+                path: '/admin/topics/update/:id',
+                component: AdminTopicUpdate,
+                exact: true,
+            },
+            {
                 path: '/admin/subtopics',
                 component: AdminSubtopicsMenu,
                 exact: true,
@@ -140,6 +159,11 @@ const routes = [
             {
                 path: '/admin/subtopics/create',
                 component: AdminSubtopicsCreate,
+                exact: true,
+            },
+            {
+                path: '/admin/subtopics/update/:id',
+                component: AdminSubtopicUpdate,
                 exact: true,
             },
             {

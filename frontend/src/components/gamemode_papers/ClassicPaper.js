@@ -167,7 +167,8 @@ function ClassicPaper() {
                                                 className={classes.select}>
 
                                                 {areas.map((values, index) => (
-                                                    <MenuItem key={index} value={values.name}>{values.name}</MenuItem>
+                                                    values.active ?
+                                                        <MenuItem key={index} value={values.name}>{values.name}</MenuItem> : null
                                                 ))}
 
                                             </Select>

@@ -84,3 +84,46 @@ export function deleteExcerciseApi(id) {
             return err.message
         })
 }
+
+export function updateExcercise(data, id) {
+    const url = `${basePath}/${apiVersion}/update-excercise/${id}`
+    const params = {
+        method: 'PUT',
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }
+
+    /**Petición fetch */
+    return fetch(url, params).then(response => {
+        return response.json()
+    })
+        .then(result => {
+            return result
+        })
+        .catch(err => {
+            return err.message
+        })
+}
+
+export function getExcerciseByIdApi(id) {
+    const url = `${basePath}/${apiVersion}/get-excercise?id=${id}`
+    const params = {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }
+
+    /**Petición fetch */
+    return fetch(url, params).then(response => {
+        return response.json()
+    })
+        .then(result => {
+            return result
+        })
+        .catch(err => {
+            return err.message
+        })
+}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { useStyles } from './useStyles'
 import {
     Table, TableBody, TableCell, TableContainer, TableHead,
@@ -34,6 +35,7 @@ function SubtopicsTable() {
                         <TableCell className={classes.tableHead}>Nombre del area</TableCell>
                         <TableCell className={classes.tableHead}>Texto de casilla</TableCell>
                         <TableCell className={classes.tableHead}>Símbolo</TableCell>
+                        <TableCell className={classes.tableHead}>Estado</TableCell>
                         <TableCell className={classes.tableHead}>Acciones</TableCell>
                     </TableRow>
                 </TableHead>
@@ -55,6 +57,9 @@ function SubtopicsTable() {
                             <TableCell component='th' scope='row'>
                                 <InlineMath math={row.symbol} />
                             </TableCell>
+                            <TableCell component='th' scope='row'>
+                                {row.active ? 'Habilitado' : 'Deshabilitado'}
+                            </TableCell>
                             <TableCell component='th' scope='row' align="center">
                                 <IconButton
                                     className={classes.deleteButton}
@@ -64,9 +69,11 @@ function SubtopicsTable() {
                                     }}>
                                     <DeleteIcon />
                                 </IconButton>
-                                <IconButton className={classes.modifyButton}>
-                                    <CreateIcon />
-                                </IconButton>
+                                <Link to={`/admin/subtopics/update/${row._id}`}>
+                                    <IconButton className={classes.modifyButton}>
+                                        <CreateIcon />
+                                    </IconButton>
+                                </Link>
                             </TableCell>
                         </TableRow>
                     ))}

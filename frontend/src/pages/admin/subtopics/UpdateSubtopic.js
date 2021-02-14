@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useStyles } from '../useStyles'
 import {
     Grid, Typography, Paper, Box, Divider, Button, TextField, FormControl,
-    Select, MenuItem, InputLabel, FormControlLabel, Switch
+    Select, MenuItem, InputLabel, FormControlLabel, Switch, CircularProgress
 } from "@material-ui/core"
 
 import { BlockMath } from "react-katex"
@@ -11,7 +11,7 @@ import 'katex/dist/katex.min.css'
 /**APIS */
 import { getAreasApi } from '../../../api/areas'
 import { getTopicsApi } from '../../../api/topics'
-import { createSubtopicApi } from '../../../api/subtopics'
+import { getSubtopicByIdApi, updateSubtopicApi } from '../../../api/subtopics'
 
 /**Components */
 import DefaultSnackbar from '../../../components/snackbars/DefaultSnackbar'
@@ -19,8 +19,10 @@ import DefaultSnackbar from '../../../components/snackbars/DefaultSnackbar'
 /**Icons */
 import AddIcon from '@material-ui/icons/Add'
 
-function CreateSubtopic() {
+function UpdateSubtopic(props) {
     const classes = useStyles()
+    //Traigo el id del documento
+    const { match: { params: { id } } } = props
 
     const [areas, setAreas] = useState([])
     const [topics, setTopics] = useState([])
@@ -34,6 +36,7 @@ function CreateSubtopic() {
     })
     const [message, setMessage] = useState("")
     const [open, setOpen] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
 
     //Cerrar notificación
     const handleCloseSnackbar = () => {
@@ -45,6 +48,16 @@ function CreateSubtopic() {
         getAreasApi().then(r => {
             if (r.status === 1) {
                 setAreas(r.areas)
+            }
+        })
+
+        //Traigo la info del subtema seleccionado
+        getSubtopicByIdApi(id).then(response => {
+            if (response.status === 1) {
+                setInputs(response.subtopic)
+                setIsLoading(false)
+            } else {
+                window.location.href = '/admin/subtopics'
             }
         })
     }, [])
@@ -88,7 +101,7 @@ function CreateSubtopic() {
                 setMessage("El nombre de la casilla debe tener menos de 13 caracteres.")
                 setOpen(true)
             } else {
-                createSubtopicApi(inputs).then(r => {
+                updateSubtopicApi(inputs, id).then(r => {
                     setMessage(r.message)
                     setOpen(true)
                     if (r.status === 1) {
@@ -97,6 +110,10 @@ function CreateSubtopic() {
                 })
             }
         }
+    }
+
+    if (isLoading) {
+        return <CircularProgress />
     }
 
     return (
@@ -119,7 +136,8 @@ function CreateSubtopic() {
                                 name="name"
                                 label="*Nombre del subtema"
                                 variant="outlined"
-                                className={classes.textField} />
+                                className={classes.textField}
+                                value={inputs.name} />
                         </Grid>
                         <Grid item lg={4}>
                             <FormControl variant="outlined" className={classes.textField}>
@@ -128,7 +146,8 @@ function CreateSubtopic() {
                                     name="area"
                                     label="*Area"
                                     labelId="lbl_area"
-                                    onChange={changeForm}>
+                                    onChange={changeForm}
+                                    value={inputs.area}>
 
                                     {areas.map((values, index) =>
                                         <MenuItem key={index} value={values.name}>{values.name}</MenuItem>
@@ -144,7 +163,8 @@ function CreateSubtopic() {
                                     name="topic"
                                     label="*Tema"
                                     labelId="lbl_topic"
-                                    onChange={changeForm}>
+                                    onChange={changeForm}
+                                    value={inputs.topic}>
 
                                     {topics.map((values, index) =>
                                         <MenuItem key={index} value={values.name}>{values.name}</MenuItem>
@@ -159,7 +179,8 @@ function CreateSubtopic() {
                                 name="displayLabel"
                                 label="*Nombre a mostrar en las casillas"
                                 variant="outlined"
-                                className={classes.textField} />
+                                className={classes.textField}
+                                value={inputs.displayLabel} />
                         </Grid>
                         <Grid item lg={4}>
                             <TextField
@@ -167,7 +188,8 @@ function CreateSubtopic() {
                                 name="symbol"
                                 label="*Símbolo a mostrar en casillas"
                                 variant="outlined"
-                                className={classes.textField} />
+                                className={classes.textField}
+                                value={inputs.symbol} />
                         </Grid>
                         <Grid item lg={2}>
                             {
@@ -203,4 +225,4 @@ function CreateSubtopic() {
     )
 }
 
-export default CreateSubtopic
+export default UpdateSubtopic

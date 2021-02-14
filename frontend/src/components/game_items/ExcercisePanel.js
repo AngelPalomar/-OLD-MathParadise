@@ -19,6 +19,9 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import correctIcon from '../../assets/images/icons/ok_icon.svg'
 import errorIcon from '../../assets/images/icons/x_icon.svg'
 
+/**Sonidos */
+import { questionSound, correctSound, incorrectSound, gameoverSound } from '../../utils/Sounds'
+
 const Transition = UpTransition
 
 function ExcercisePanel(props) {
@@ -102,6 +105,9 @@ function ExcercisePanel(props) {
             setIsCorrect(false)
             setIsAnswered(true)
             setEarnedPoints(!isChall ? 0 : -150)
+
+            //Reproduce sonido
+            gameoverSound.play()
         }
 
         return () => {
@@ -111,6 +117,15 @@ function ExcercisePanel(props) {
 
     //Función para iniciar el reloj
     const startClock = () => {
+        //Carga y Reproduce el sonido
+        questionSound.load()
+        correctSound.load()
+        incorrectSound.load()
+        gameoverSound.load()
+
+        questionSound.play()
+
+        //Reinicia el tiempo
         setseconds(
             difficulty === 'easy' ? 30 :
                 difficulty === 'normal' ? 15 :
@@ -141,6 +156,9 @@ function ExcercisePanel(props) {
         if (userAnswer === excercise.answer) {
             setIsCorrect(true)
             setEarnedPoints(ptsToWin)
+
+            //Reproduce sonido
+            correctSound.play()
         } else {
             //No acertó
             setIsCorrect(false)
@@ -152,6 +170,9 @@ function ExcercisePanel(props) {
                 //Pierde 50 puntos
                 setEarnedPoints(-150)
             }
+
+            //Reproduce sonido
+            incorrectSound.play()
         }
     }
 

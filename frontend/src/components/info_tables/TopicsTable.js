@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { useStyles } from './useStyles'
 import {
     Table, TableBody, TableCell, TableContainer, TableHead,
@@ -29,6 +30,7 @@ function TopicsTable() {
                     <TableRow>
                         <TableCell className={classes.tableHead}>Nombre del tema</TableCell>
                         <TableCell className={classes.tableHead}>Nombre del area</TableCell>
+                        <TableCell className={classes.tableHead}>Estado</TableCell>
                         <TableCell className={classes.tableHead}>Acciones</TableCell>
                     </TableRow>
                 </TableHead>
@@ -41,6 +43,9 @@ function TopicsTable() {
                             <TableCell component='th' scope='row'>
                                 {row.area}
                             </TableCell>
+                            <TableCell component='th' scope='row'>
+                                {row.active ? 'Habilitado' : 'Deshabilitado'}
+                            </TableCell>
                             <TableCell component='th' scope='row' align="center">
                                 <IconButton
                                     className={classes.deleteButton}
@@ -50,9 +55,11 @@ function TopicsTable() {
                                     }}>
                                     <DeleteIcon />
                                 </IconButton>
-                                <IconButton className={classes.modifyButton}>
-                                    <CreateIcon />
-                                </IconButton>
+                                <Link to={`/admin/topics/update/${row._id}`}>
+                                    <IconButton className={classes.modifyButton}>
+                                        <CreateIcon />
+                                    </IconButton>
+                                </Link>
                             </TableCell>
                         </TableRow>
                     ))}

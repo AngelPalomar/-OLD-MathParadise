@@ -63,3 +63,47 @@ export function deleteTSubtopicApi(id) {
             return err.message
         })
 }
+
+
+export function getSubtopicByIdApi(id) {
+    const url = `${basePath}/${apiVersion}/get-subtopic?id=${id}`
+    const params = {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }
+
+    /**Petición fetch */
+    return fetch(url, params).then(response => {
+        return response.json()
+    })
+        .then(result => {
+            return result
+        })
+        .catch(err => {
+            return err.message
+        })
+}
+
+export function updateSubtopicApi(data, id) {
+    const url = `${basePath}/${apiVersion}/update-subtopic/${id}`
+    const params = {
+        method: 'PUT',
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }
+
+    /**Petición fetch */
+    return fetch(url, params).then(response => {
+        return response.json()
+    })
+        .then(result => {
+            return result
+        })
+        .catch(err => {
+            return err.message
+        })
+}

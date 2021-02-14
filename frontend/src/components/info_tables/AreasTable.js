@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { useStyles } from './useStyles'
 import {
     Table, TableBody, TableCell, TableContainer, TableHead,
     TableRow, Paper, IconButton
 } from "@material-ui/core"
-
-/**Componentes */
-import UpdateArea from '../forms/UpdateArea'
 
 /**Iconos */
 import DeleteIcon from '@material-ui/icons/Delete'
@@ -18,9 +16,6 @@ import { getAreasApi, deleteAreaApi } from "../../api/areas"
 function AreasTable() {
     const classes = useStyles()
     const [areasData, setAreaData] = useState([])
-    //Panel
-    const [selectedItem, setSelectedItem] = useState(0)
-    const [openPanel, setOpenPanel] = useState(false)
 
     useEffect(() => {
         getAreasApi().then(response => {
@@ -28,19 +23,14 @@ function AreasTable() {
         })
     }, [])
 
-    //Panel de modificación
-    const handlerPanel = () => {
-        setOpenPanel(!openPanel)
-    }
-
     return (
         <>
-            <UpdateArea open={openPanel} handler={handlerPanel} values={areasData[selectedItem]} />
             <TableContainer component={Paper}>
                 <Table size="small">
                     <TableHead>
                         <TableRow>
                             <TableCell className={classes.tableHead}>Nombre del área (Materia)</TableCell>
+                            <TableCell className={classes.tableHead}>Estado</TableCell>
                             <TableCell className={classes.tableHead}>Acciones</TableCell>
                         </TableRow>
                     </TableHead>
@@ -49,6 +39,9 @@ function AreasTable() {
                             <TableRow key={index}>
                                 <TableCell component='th' scope='row'>
                                     {row.name}
+                                </TableCell>
+                                <TableCell component='th' scope='row'>
+                                    {row.active ? 'Habilitado' : 'Deshabilitado'}
                                 </TableCell>
                                 <TableCell component='th' scope='row' align="center">
                                     <IconButton
@@ -59,14 +52,12 @@ function AreasTable() {
                                         }}>
                                         <DeleteIcon />
                                     </IconButton>
-                                    <IconButton
-                                        className={classes.modifyButton}
-                                        onClick={() => {
-                                            setSelectedItem(index)
-                                            handlerPanel()
-                                        }}>
-                                        <CreateIcon />
-                                    </IconButton>
+                                    <Link to={`/admin/areas/update/${row._id}`}>
+                                        <IconButton
+                                            className={classes.modifyButton}>
+                                            <CreateIcon />
+                                        </IconButton>
+                                    </Link>
                                 </TableCell>
                             </TableRow>
                         ))}

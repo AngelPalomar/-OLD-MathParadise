@@ -76,7 +76,8 @@ export const useStyles = makeStyles((theme) => ({
     },
     menuTitle: {
         textAlign: 'center',
-        color: MATH_COLORS().math_rush
+        color: MATH_COLORS().math_rush,
+        fontSize: '6vh'
     },
     gameInfoContainer: {
         display: 'flex',
@@ -113,8 +114,9 @@ export const useStyles = makeStyles((theme) => ({
     menuPauseOptions: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center',
+        alignContent: 'center'
     },
 
     //Estilos del panel de ejercicios

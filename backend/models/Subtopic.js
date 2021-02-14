@@ -15,7 +15,8 @@ const SubtopicSchema = Schema({
     symbol: {
         type: String,
         unique: true
-    }
+    },
+    active: Boolean
 })
 
 module.exports = mongoose.model("Subtopic", SubtopicSchema)

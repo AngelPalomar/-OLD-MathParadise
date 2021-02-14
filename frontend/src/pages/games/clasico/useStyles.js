@@ -11,6 +11,17 @@ export const useStyles = makeStyles((theme) => ({
         position: "bottom",
         height: "100vh"
     },
+    verticalScreen: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: '#FFF',
+        textAlign: 'center',
+        position: 'absolute',
+        zIndex: theme.zIndex.drawer + 6,
+        width: '100vw'
+    },
     loadingScreen: {
         zIndex: theme.zIndex.drawer + 1,
         color: '#fff',
@@ -106,7 +117,8 @@ export const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         alignItems: 'left',
         justifyContent: 'space-between',
-        margin: '10px'
+        marginTop: '10px',
+        marginLeft: '1vh'
     },
     diceImg: {
         width: '15vh',
@@ -116,14 +128,14 @@ export const useStyles = makeStyles((theme) => ({
         color: '#FFF',
         width: '15vh',
         fontSize: '2.3vh',
-        marginBottom: '15px'
+        marginBottom: '2vh'
     },
     logoContainer: {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
         color: '#FFF',
-        marginBottom: '15px'
+        marginBottom: '2vh'
     },
     logo: {
         width: '7vh',
@@ -134,7 +146,7 @@ export const useStyles = makeStyles((theme) => ({
     },
     circularMess: {
         color: '#FFF',
-        marginRight: '10px'
+        marginRight: '1vh'
     },
     messageSize: {
         fontSize: '2.5vh'

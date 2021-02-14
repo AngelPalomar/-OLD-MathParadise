@@ -6,7 +6,8 @@ const TopicSchema = Schema({
         type: String,
         unique: true
     },
-    area: String
+    area: String,
+    active: Boolean
 })
 
 module.exports = mongoose.model("Topic", TopicSchema)

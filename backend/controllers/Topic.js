@@ -3,9 +3,10 @@ const Topic = require('../models/Topic')
 function createTopic(req, res) {
     const topic = new Topic()
 
-    const { name, area } = req.body
+    const { name, area, active } = req.body
     topic.name = name
     topic.area = area
+    topic.active = active
 
     if (name === "" || area === "" || !name || !area) {
         res.status(500).send({ status: 0, message: "No se permiten campos vacíos." })
@@ -85,9 +86,29 @@ function getTopics(req, res) {
     })
 }
 
+function getTopicById(req, res) {
+    const query = req.query
+
+    Topic.findOne({ _id: query.id }, (err, result) => {
+        if (err) {
+            res.status(500).send({ status: 0, message: "Error del servidor." })
+        } else {
+            if (!result) {
+                res.status(404).send({ status: 0, message: "No se encontraron areas." })
+            } else {
+                res.status(200).send({
+                    status: 1,
+                    topic: result
+                })
+            }
+        }
+    })
+}
+
 module.exports = {
     createTopic,
     deleteTopic,
     updateTopic,
-    getTopics
+    getTopics,
+    getTopicById
 }
