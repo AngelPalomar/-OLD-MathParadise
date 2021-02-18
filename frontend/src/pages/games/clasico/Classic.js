@@ -919,49 +919,24 @@ function Classic(props) {
                                 </Typography>
                                 <div>
                                     <div>
-                                        {
-                                            gameLocal.player2.pts < gameLocal.player1.pts ?
-                                                <>
-                                                    <div className={classes.playerScore}>
-                                                        <div className={classes.playerNickname}>
-                                                            <DefaultAvatar size="5vh" fs="3vh" nickname={game.player1} />
-                                                            <Typography
-                                                                className={classes.nickname}
-                                                                style={player === game.player1 ? { fontWeight: 'bold' } : null}>{game.player1}</Typography>
-                                                        </div>
-                                                        <Typography className={classes.pointsLabel}>{gameLocal.player1.pts}</Typography>
-                                                    </div>
-                                                    <div className={classes.playerScore}>
-                                                        <div className={classes.playerNickname}>
-                                                            <DefaultAvatar size="5vh" fs="3vh" nickname={game.player2} color={1} />
-                                                            <Typography
-                                                                className={classes.nickname}
-                                                                style={player === game.player2 ? { fontWeight: 'bold' } : null}>{game.player2}</Typography>
-                                                        </div>
-                                                        <Typography className={classes.pointsLabel}>{gameLocal.player2.pts}</Typography>
-                                                    </div>
-                                                </> :
-                                                <>
-                                                    <div className={classes.playerScore}>
-                                                        <div className={classes.playerNickname}>
-                                                            <DefaultAvatar size="5vh" fs="3vh" nickname={game.player2} color={1} />
-                                                            <Typography
-                                                                className={classes.nickname}
-                                                                style={player === game.player2 ? { fontWeight: 'bold' } : null}>{game.player2}</Typography>
-                                                        </div>
-                                                        <Typography className={classes.pointsLabel}>{gameLocal.player2.pts}</Typography>
-                                                    </div>
-                                                    <div className={classes.playerScore}>
-                                                        <div className={classes.playerNickname}>
-                                                            <DefaultAvatar size="5vh" fs="3vh" nickname={game.player1} />
-                                                            <Typography
-                                                                className={classes.nickname}
-                                                                style={player === game.player1 ? { fontWeight: 'bold' } : null}>{game.player1}</Typography>
-                                                        </div>
-                                                        <Typography className={classes.pointsLabel}>{gameLocal.player1.pts}</Typography>
-                                                    </div>
-                                                </>
-                                        }
+                                        <div className={classes.playerScore}>
+                                            <div className={classes.playerNickname}>
+                                                <DefaultAvatar size="5vh" fs="3vh" nickname={game.player1} />
+                                                <Typography
+                                                    className={classes.nickname}
+                                                    style={player === game.player1 ? { fontWeight: 'bold' } : null}>{game.player1}</Typography>
+                                            </div>
+                                            <Typography className={classes.pointsLabel}>{gameLocal.player1.pts}</Typography>
+                                        </div>
+                                        <div className={classes.playerScore}>
+                                            <div className={classes.playerNickname}>
+                                                <DefaultAvatar size="5vh" fs="3vh" nickname={game.player2} color={1} />
+                                                <Typography
+                                                    className={classes.nickname}
+                                                    style={player === game.player2 ? { fontWeight: 'bold' } : null}>{game.player2}</Typography>
+                                            </div>
+                                            <Typography className={classes.pointsLabel}>{gameLocal.player2.pts}</Typography>
+                                        </div>
                                     </div>
                                 </div>
                                 <div>

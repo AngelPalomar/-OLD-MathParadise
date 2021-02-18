@@ -47,7 +47,8 @@ import Profile from '../pages/user/Profile'
 import RushMode from '../pages/games/rush/Rush'
 
 //Classic pages
-import Lobby from '../pages/Lobby'
+import Lobby from '../pages/user/lobby/Lobby'
+
 import ClassicMode from '../pages/games/clasico/Classic'
 
 /**General pages */

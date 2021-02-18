@@ -137,6 +137,42 @@ export function updateUserApi(token, userData, userId) {
     })
 }
 
+export function uploadAvatarApi(avatar, id) {
+    const url = `${basePath}/${apiVersion}/upload-avatar/${id}`
+
+    //para archivos
+    const formData = new FormData()
+    formData.append("avatar", avatar, avatar.name)
+
+    const params = {
+        method: 'PUT',
+        body: formData,
+        headers: {
+            //"Content-Type": "application/json",
+            //Authorization: getAccessTokenApi()
+        }
+    }
+
+    return fetch(url, params).then(response => {
+        return response.json()
+    }).then(result => {
+        return result
+    }).catch(err => {
+        return err.message
+    })
+}
+
+export function getAvatarApi(avatarName) {
+    const url = `${basePath}/${apiVersion}/get-avatar/${avatarName}`
+
+    return fetch(url)
+        .then(response => {
+            return response.url
+        }).catch(err => {
+            return err.message
+        })
+}
+
 export function getRushLeaderboardApi() {
     const url = `${basePath}/${apiVersion}/get-rush-leaderboard`
     const params = {

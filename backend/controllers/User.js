@@ -1,6 +1,9 @@
 const bcrypt = require("bcrypt-nodejs")
 const jwt = require("../services/jwt")
 const User = require("../models/User")
+//File system
+const fs = require('fs')
+const path = require('path')
 
 function signUp(req, res) {
     const user = new User()
@@ -169,24 +172,83 @@ function updateUser(req, res) {
     })
 }
 
-/**
- * [
-        { $limit: 10 },
-        {
-            $project: {
-                name: 1,
-                lastname: 1,
-                nickname: 1,
-                rush: {
-                    points: 1
-                },
-                institution: 1
+function uploadAvatar(req, res) {
+    const params = req.params
+
+    User.findById({ _id: params.id }, (err, userData) => {
+        if (err) {
+            res.status(500).send({ status: 0, message: "Error en el servidor." })
+        } else {
+            if (!userData) {
+                res.status(404).send({ status: 0, message: "No se ha encontrado el usuario." })
+            } else {
+                //Guardamos la info del usuario
+                let user = userData
+
+                if (req.files) {
+                    let filePath = req.files.avatar.path
+                    //separamos el string del path
+                    let fileSplit = filePath.split("\\")
+                    //Obtenemos la posición dos del arreglo
+                    let fileName = fileSplit[2]
+                    //Separamos el string por puntos
+                    let extSplit = fileName.split(".")
+                    //Extención
+                    let fileExt = extSplit[1]
+
+                    //Si la extension no es valida
+                    if (fileExt !== 'png' && fileExt !== 'jpg') {
+                        res.status(400).send({
+                            status: 0,
+                            message: "Archivo no permitido (solo: png/jpg)."
+                        })
+                    } else {
+                        //Actualizar el usaurios
+                        user.avatar = fileName
+                        User.findByIdAndUpdate({ _id: params.id }, user, (err, result) => {
+                            if (err) {
+                                res.status(500).send({
+                                    status: 0,
+                                    message: "Error del servidor."
+                                })
+                            } else {
+                                if (!result) {
+                                    res.status(404).send({
+                                        status: 0,
+                                        message: "No se pudo actualizar el usuario."
+                                    })
+                                } else {
+                                    res.status(200).send({
+                                        status: 1,
+                                        message: "Usuario modificado.",
+                                        user: result,
+                                        avatarName: fileName
+                                    })
+                                }
+                            }
+                        })
+                    }
+                }
             }
-        },
-        {
-            $sort: { "rush.points": -1 }
-        }]
- */
+        }
+    })
+}
+
+function getAvatar(req, res) {
+    const avatarName = req.params.avatarName
+    const filePath = `./uploads/avatar/${avatarName}`
+
+    fs.exists(filePath, exists => {
+        if (!exists) {
+            res.status(200).send({
+                status: 0,
+                message: "El archivo no existe"
+            })
+        } else {
+            res.sendFile(path.resolve(filePath))
+        }
+    })
+}
 
 function getRushLeaderboard(req, res) {
     User.find({ role: 'student' }).sort({ "rush.points": -1 })
@@ -238,5 +300,7 @@ module.exports = {
     getAllUsers,
     updateUser,
     getRushLeaderboard,
-    getClassicLeaderboard
+    getClassicLeaderboard,
+    uploadAvatar,
+    getAvatar
 }

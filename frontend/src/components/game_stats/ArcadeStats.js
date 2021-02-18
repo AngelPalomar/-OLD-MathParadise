@@ -74,7 +74,7 @@ function ArcadeStats(props) {
                             <Grid container spacing={2} className={classes.statsElementSummary}>
                                 <Grid item lg={6} md={6} sm={6} xs={6} className={classes.statsHeader}>
                                     <img src={ArcadeSrc} alt="classic_icon.svg" className={classes.imgGameMode} />
-                                    <Typography className={classes.statsTitle}>Modo Clásico</Typography>
+                                    <Typography className={classes.statsTitle}>Modo Arcade</Typography>
                                 </Grid>
                                 <Grid item lg={6} md={6} sm={6} xs={6} className={classes.summaryPoints}>
                                     <Typography variant="subtitle2">Puntuación máxima</Typography>

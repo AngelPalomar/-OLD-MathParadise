@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import {
     Typography, Paper, Grid, Box, CircularProgress, Button
 } from '@material-ui/core'
+import { MATH_COLORS } from '../../styles/MathColors'
 
 /**Iconos */
 import EditIcon from '@material-ui/icons/Edit';
@@ -68,7 +69,14 @@ const useStyles = makeStyles((theme) => ({
     alignIconRole: {
         display: 'flex',
         alignItems: 'center'
-    }
+    },
+    button: {
+        background: MATH_COLORS().math_blue,
+        color: '#FFF',
+        '&:hover': {
+            background: MATH_COLORS().math_blue_dark,
+        }
+    },
 }))
 
 function Profile(props) {
@@ -78,6 +86,7 @@ function Profile(props) {
     const [userData, setUserData] = useState(null)
     const [isFound, setIsFound] = useState(true)
     const [openProfileForm, setOpenProflieForm] = useState(false)
+    const [reloadProfile, setreloadProfile] = useState(false)
 
     useEffect(() => {
         document.title = nickname + ' - Math Paradise'
@@ -100,8 +109,9 @@ function Profile(props) {
         }
 
         fetchGetUserByNickname()
+        setreloadProfile(false)
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [reloadProfile])
 
     //Mostrar rol de usuario
     const renderRole = (key) => {
@@ -178,12 +188,16 @@ function Profile(props) {
                                     getAccessTokenApi() && userData ?
                                         JwtDecode(getAccessTokenApi()).nickname === userData.nickname ?
                                             <>
-                                                <ProfileForm userData={userData} open={openProfileForm} close={handleCloseProfileForm} />
+                                                <ProfileForm
+                                                    userData={userData}
+                                                    open={openProfileForm}
+                                                    close={handleCloseProfileForm}
+                                                    setreloadProfile={setreloadProfile} />
                                                 <Box className={classes.editProfileBtn}>
                                                     <Button
                                                         onClick={() => { setOpenProflieForm(true) }}
                                                         variant="contained"
-                                                        color="default"
+                                                        className={classes.button}
                                                         startIcon={<EditIcon />}>
                                                         Editar Perfil
                                                 </Button>

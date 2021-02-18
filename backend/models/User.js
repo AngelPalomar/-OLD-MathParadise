@@ -18,6 +18,7 @@ const UserSchema = Schema({
     sign_up_date: Date,
     role: String,
     active: Boolean,
+    avatar: String,
     classic: {
         points: Number,
         excercises: Number,

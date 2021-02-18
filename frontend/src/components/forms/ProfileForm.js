@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
+import jwtDecode from 'jwt-decode'
 import {
     Grid, TextField, Button, Dialog, DialogActions, DialogContent, DialogTitle,
-    FormControl, InputLabel, Select, MenuItem, Typography
+    FormControl, InputLabel, Select, MenuItem, Typography, Avatar
 } from "@material-ui/core"
 import { useStyles } from './useStyles'
+import { useDropzone } from 'react-dropzone'
 
 /**Icons */
 import ClearIcon from '@material-ui/icons/Clear'
@@ -18,13 +20,14 @@ import { grades } from '../../utils/SelectArrays'
 
 /**APIs */
 import { getInstitutionsApi } from '../../api/institution'
-import { updateUserApi } from '../../api/user'
+import { updateUserApi, getAvatarApi, uploadAvatarApi } from '../../api/user'
 import { getAccessTokenApi, logout } from '../../api/auth'
 
 function ProfileForm(props) {
     const classes = useStyles()
-    const { userData, open, close } = props
+    const { userData, open, close, setreloadProfile } = props
     const [institutionsList, setInstitutionsList] = useState([])
+
     const [inputs, setInputs] = useState({
         name: userData.name,
         lastname: userData.lastname,
@@ -32,7 +35,12 @@ function ProfileForm(props) {
         email: userData.email,
         institution: userData.institution,
         school_grade: userData.school_grade,
+        avatar: userData.avatar
     })
+    //Estado para la foto de perfil
+    const [avatar, setAvatar] = useState(null)
+
+    //Validación de los imputs
     const [inputsValidation, setInputsValidation] = useState({
         name: true,
         lastname: true,
@@ -41,6 +49,7 @@ function ProfileForm(props) {
         institution: true,
         school_grade: true,
     })
+
     //Snackbar
     const [messageNotification, setMessageNotification] = useState('')
     const [openNotification, setOpenNotification] = useState(false)
@@ -52,11 +61,29 @@ function ProfileForm(props) {
     }
 
     useEffect(() => {
+        //si existe un avatar
+        if (userData.avatar) {
+            getAvatarApi(userData.avatar).then(response => {
+                setAvatar(response)
+            })
+        } else {
+            setAvatar(null)
+        }
+
+        //Traer institutciones
         getInstitutionsApi().then(response => {
             setInstitutionsList(response.institution)
         })
-    }, [])
+    }, [userData])
 
+    //Traer el avatar si se sube uno nuevo
+    useEffect(() => {
+        if (avatar) {
+            setInputs({ ...inputs, avatar: avatar.file })
+        }
+    }, [avatar])
+
+    //Función para guardar los datos editados 
     const changeForm = (e) => {
         if (e.target.type === "text" || e.target.type === "email") {
             setInputs({
@@ -71,6 +98,7 @@ function ProfileForm(props) {
         }
     }
 
+    //Función para validar los datos
     const validForm = (e) => {
         const { type, name, value } = e.target
         if (type === "text" && name !== 'nickname') {
@@ -88,44 +116,70 @@ function ProfileForm(props) {
     const submitForm = (e) => {
         e.preventDefault()
         const { name, lastname, nickname, email } = inputsValidation
+        let userUpdate = inputs
 
-        if (!name || !lastname || !nickname || inputs.institution === "" ||
-            inputs.school_grade === "") {
+        if (!name || !lastname || !nickname || userUpdate.institution === "" ||
+            userUpdate.school_grade === "") {
             setMessageNotification("Todos los campos son requeridos")
             setOpenNotification(true)
+            return
+
+        }
+
+        if (!email) {
+            setMessageNotification("Ingrese un correo válido.")
+            setOpenNotification(true)
+
+            return
+        }
+
+        //si cambió la foto de perfil, lo actualiza
+        if (typeof inputs.avatar === "object") {
+            uploadAvatarApi(userUpdate.avatar, userData._id).then(response => {
+                //Obtenemos el nuevo nombre del archivo subido
+                userUpdate.avatar = response.avatarName
+
+                //Actualiza los datos del usuario con el AVATAR
+                updateUserApi(getAccessTokenApi(), userUpdate, userData._id).then(result => {
+                    if (result.status === 0) {
+                        setMessageNotification(result.message)
+                        setOpenNotification(true)
+                    } else {
+                        //Recarga la pagina para visualizar el nuevo foto de perfil
+                        window.location.reload()
+
+                        //Si se modificó el correo o el nickname, cierra sesión
+                        if (userUpdate.email !== jwtDecode(getAccessTokenApi()).email ||
+                            userUpdate.nickname !== jwtDecode(getAccessTokenApi()).nickname) {
+                            //cierra sesión
+                            logout()
+                        }
+                    }
+                })
+            })
         } else {
-            if (!email) {
-                setMessageNotification("Ingrese un correo válido.")
-                setOpenNotification(true)
-            } else {
-                //Validación por si no se modificaron valores anteriores
-                if (inputs.name === userData.name && inputs.lastname === userData.lastname &&
-                    inputs.nickname === userData.nickname && inputs.email === userData.email &&
-                    inputs.institution === userData.institution && inputs.school_grade === userData.school_grade) {
-                    setMessageNotification("Modifique los datos para poder guardarlos.")
+            //Actualiza los datos del usuario SIN el avatar
+            userUpdate.avatar = userData.avatar
+
+            updateUserApi(getAccessTokenApi(), userUpdate, userData._id).then(result => {
+                if (result.status === 0) {
+                    setMessageNotification(result.message)
                     setOpenNotification(true)
                 } else {
-                    //Actualización de datos
-                    updateUserApi(getAccessTokenApi(), inputs, userData._id).then(response => {
-                        if (response.status === 0) {
-                            setMessageNotification(response.message)
-                            setOpenNotification(true)
-                        } else {
-                            //Si se modificó el alias o el correo
-                            if (inputs.email !== userData.email || inputs.nickname !== userData.nickname) {
-                                logout()
-                                window.location.href = "/login"
-                            } else {
-                                setMessageNotification(response.message + " Vuelva a iniciar sesión para ver los cambios.")
-                                setOpenNotification(true)
+                    //Si se modificó el correo o el nickname, cierra sesión
+                    if (userUpdate.email !== jwtDecode(getAccessTokenApi()).email ||
+                        userUpdate.nickname !== jwtDecode(getAccessTokenApi()).nickname) {
+                        //cierra sesión
+                        logout()
+                        //Recarga la pagina para redirigir al login
+                        window.location.reload()
+                    }
 
-                                //Cerrar formulario
-                                close()
-                            }
-                        }
-                    })
+                    //Recarga la nueva info y cierra el modal
+                    setreloadProfile(true)
+                    close()
                 }
-            }
+            })
         }
     }
 
@@ -139,7 +193,16 @@ function ProfileForm(props) {
 
                 <DialogTitle>
                     Editar perfil
-            </DialogTitle>
+                </DialogTitle>
+
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignContent: 'center',
+                    alignItems: 'center'
+                }}>
+                    <UploadAvatar avatar={avatar} setAvatar={setAvatar} />
+                </div>
 
                 <form onChange={changeForm} onSubmit={submitForm}>
                     <DialogContent>
@@ -245,6 +308,48 @@ function ProfileForm(props) {
                 </form>
             </Dialog>
         </>
+    )
+}
+
+function UploadAvatar(props) {
+    const { avatar, setAvatar, nickname } = props
+    const [avatarUrl, setAvatarUrl] = useState(null)
+    const classes = useStyles()
+
+    useEffect(() => {
+        if (avatar) {
+            if (avatar.preview) {
+                setAvatarUrl(avatar.preview)
+            } else {
+                setAvatarUrl(avatar)
+            }
+        } else {
+            setAvatarUrl(null)
+        }
+    }, [avatar])
+
+    const onDrop = useCallback(
+        acceptedFiles => {
+            const file = acceptedFiles[0]
+            setAvatar({ file, preview: URL.createObjectURL(file) })
+        }, [setAvatar]
+    )
+
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+        accept: "image/jpeg, image/png",
+        noKeyboard: true,
+        onDrop: onDrop
+    })
+
+    return (
+        <div {...getRootProps()}>
+            <input {...getInputProps()} />
+            {isDragActive ? (
+                <Avatar src={null} className={classes.avatar} />
+            ) : (
+                    <Avatar src={avatarUrl ? avatarUrl : null} className={classes.avatar} />
+                )}
+        </div>
     )
 }
 

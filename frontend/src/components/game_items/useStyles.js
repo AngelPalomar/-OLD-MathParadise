@@ -245,14 +245,15 @@ export const useStyles = makeStyles((theme) => ({
     resultsSubTitle: {
         color: MATH_COLORS().math_disabled_label,
         fontSize: '2.5vh',
-        textAlign: 'center'
+        textAlign: 'center',
+        marginBottom: theme.spacing(2)
     },
     avatarContainer: {
         display: 'flex',
         position: 'relative',
         justifyContent: 'center',
         alignItems: 'center',
-        marginBlock: theme.spacing(2)
+        marginBlock: theme.spacing(5)
     },
     winnerPlayerLabel: {
         color: '#4A4A4A',

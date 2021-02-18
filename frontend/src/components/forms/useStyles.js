@@ -26,5 +26,13 @@ export const useStyles = makeStyles((theme) => ({
     },
     label: {
         color: MATH_COLORS().math_blue
+    },
+    avatar: {
+        width: theme.spacing(15),
+        height: theme.spacing(15),
+        border: 2,
+        borderStyle: 'dashed',
+        borderColor: MATH_COLORS().math_disabled_dark,
+        borderRadius: '100px'
     }
 }))
