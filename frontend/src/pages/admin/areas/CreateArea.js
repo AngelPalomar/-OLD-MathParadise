@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useStyles } from '../useStyles'
 import {
     Grid, Typography, Paper, Box, Divider, Button, TextField, Switch, FormControlLabel
@@ -99,9 +100,11 @@ function CreateArea() {
                         </Grid>
                     </Grid>
                     <Box className={classes.formButtons}>
-                        <Button onClick={() => { window.location.href = '/admin/areas' }} className={classes.cancelButton}>
-                            Cancelar
-                    </Button>
+                        <Link className={classes.link} to="/admin/areas">
+                            <Button className={classes.cancelButton}>
+                                Cancelar
+                            </Button>
+                        </Link>
                         <Button type="submit" className={classes.okButton}>
                             Guardar
                     </Button>

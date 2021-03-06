@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { useStyles } from '../useStyles'
 import {
     Grid, Typography, Paper, Box, Divider, Button, TextField, FormControl,
@@ -118,9 +119,11 @@ function CreateTopic() {
                         </Grid>
                     </Grid>
                     <Box className={classes.formButtons}>
-                        <Button onClick={() => { window.location.href = '/admin/topics' }} className={classes.cancelButton}>
-                            Cancelar
-                    </Button>
+                        <Link className={classes.link} to="/admin/topics">
+                            <Button className={classes.cancelButton}>
+                                Cancelar
+                            </Button>
+                        </Link>
                         <Button type="submit" className={classes.okButton}>
                             Guardar
                     </Button>

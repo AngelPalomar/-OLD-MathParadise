@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { useStyles } from '../useStyles'
 import {
     Grid, Typography, Paper, Box, Divider, Button, TextField, FormControl,
@@ -70,9 +71,11 @@ function CreateIInstitution() {
                     </Grid>
                 </Grid>
                 <Box className={classes.formButtons}>
-                    <Button onClick={() => { window.location.href = '/admin/institutions' }} className={classes.cancelButton}>
-                        Cancelar
-                    </Button>
+                    <Link className={classes.link} to="/admin/institutions">
+                        <Button className={classes.cancelButton}>
+                            Cancelar
+                            </Button>
+                    </Link>
                     <Button className={classes.okButton}>
                         Guardar
                     </Button>

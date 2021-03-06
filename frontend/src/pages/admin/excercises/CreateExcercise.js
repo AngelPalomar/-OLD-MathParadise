@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { useStyles } from '../useStyles'
 import { BlockMath, InlineMath } from "react-katex"
 import 'katex/dist/katex.min.css'
@@ -355,14 +356,16 @@ function Create() {
                             </Grid>
                         </Grid>
 
-                        <Box className={classes.formButtons}>
-                            <Button onClick={() => { window.location.href = '/admin/excercises' }} className={classes.cancelButton}>
-                                Cancelar
+                        <div className={classes.formButtons}>
+                            <Link className={classes.link} to="/admin/excercises">
+                                <Button className={classes.cancelButton}>
+                                    Cancelar
                             </Button>
+                            </Link>
                             <Button type="submit" className={classes.okButton}>
                                 Guardar ejercicio
                             </Button>
-                        </Box>
+                        </div>
                     </form>
                 </Box>
             </Paper>

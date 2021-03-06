@@ -45,7 +45,11 @@ export const useStyles = makeStyles((theme) => ({
     },
     formButtons: {
         display: 'flex',
+        justifyItems: 'center',
         justifyContent: 'center',
+        alignContent: 'center',
+        alignItems: 'center',
+        width: '100%',
         marginTop: theme.spacing(3),
         marginBottom: theme.spacing(3)
     },
@@ -80,5 +84,13 @@ export const useStyles = makeStyles((theme) => ({
     },
     form: {
         marginTop: theme.spacing(2)
-    }
+    },
+    link: {
+        textDecoration: 'none',
+        color: theme.palette.text.primary,
+        '&:hover': {
+            textDecoration: 'none',
+            color: theme.palette.text.primary,
+        }
+    },
 }))

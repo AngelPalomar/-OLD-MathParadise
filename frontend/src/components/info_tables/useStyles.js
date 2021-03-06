@@ -8,11 +8,13 @@ export const useStyles = makeStyles({
     deleteButton: {
         color: '#FFF',
         background: MATH_COLORS().math_error,
-        marginRight: '10px',
+        marginLeft: 20,
         '&:hover': {
             color: '#FFF',
             background: MATH_COLORS().math_error_dark
-        }
+        },
+        width: 32,
+        height: 32
     },
     modifyButton: {
         color: '#FFF',
@@ -20,6 +22,8 @@ export const useStyles = makeStyles({
         '&:hover': {
             color: '#FFF',
             background: MATH_COLORS().math_rush_base_dark
-        }
+        },
+        width: 32,
+        height: 32
     }
 })

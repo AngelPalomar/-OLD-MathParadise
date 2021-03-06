@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { useStyles } from '../useStyles'
 import {
     Grid, Typography, Paper, Box, Divider, Button, TextField, FormControl,
@@ -212,9 +213,11 @@ function UpdateSubtopic(props) {
                         </Grid>
                     </Grid>
                     <Box className={classes.formButtons}>
-                        <Button onClick={() => { window.location.href = '/admin/subtopics' }} className={classes.cancelButton}>
-                            Cancelar
-                        </Button>
+                        <Link className={classes.link} to="/admin/subtopics">
+                            <Button className={classes.cancelButton}>
+                                Cancelar
+                            </Button>
+                        </Link>
                         <Button type="submit" className={classes.okButton}>
                             Guardar
                         </Button>

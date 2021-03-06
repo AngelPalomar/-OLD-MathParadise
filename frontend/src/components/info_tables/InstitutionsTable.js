@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { useStyles } from './useStyles'
 import {
-    Table, TableBody, TableCell, TableContainer, TableHead,
-    TableRow, Paper, IconButton
+    LinearProgress, IconButton, Typography
 } from "@material-ui/core"
+import { DataGrid, GridToolbar } from '@material-ui/data-grid'
+
+/**Componentes */
+import Notification from '../Notification'
 
 /**Iconos */
 import DeleteIcon from '@material-ui/icons/Delete'
@@ -14,51 +18,85 @@ import { getInstitutionsApi } from "../../api/institution"
 
 function InstitutionsTable() {
     const classes = useStyles()
+
+    let instList = []
     const [instData, setTnstData] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
+
+    const [open, setOpen] = useState(false)
+    const [selectedId, setSelectedId] = useState("")
+    const [reload, setReload] = useState(false)
+
+    const columns = [
+        { field: 'id', headerName: 'ID', width: 70 },
+        { field: 'name', headerName: 'Nombre', width: 300, },
+        { field: 'abbrev', headerName: 'Abrebiatura', width: 120 },
+        { field: 'type', headerName: 'Tipo', width: 150 },
+        { field: 'city', headerName: 'Ciudad', width: 150 },
+        { field: 'country', headerName: 'Paía', width: 150 },
+        {
+            field: 'actions',
+            headerName: 'Acciones',
+            width: 150,
+            renderCell: (params) => (
+                <>
+                    <Link to={`/admin/institutions/update/${params.getValue("id")}`}>
+                        <IconButton className={classes.modifyButton}>
+                            <CreateIcon style={{ fontSize: 16 }} />
+                        </IconButton>
+                    </Link>
+                    <IconButton
+                        className={classes.deleteButton}
+                        onClick={() => {
+                            setOpen(true)
+                            setSelectedId(params.getValue("id"))
+                        }}>
+                        <DeleteIcon style={{ fontSize: 16 }} />
+                    </IconButton>
+                </>
+            )
+        }
+    ]
 
     useEffect(() => {
         getInstitutionsApi().then(response => {
-            setTnstData(response.institution)
+            response.institution.map(value => {
+                instList.push({ ...value, id: value._id })
+            })
+
+            setTnstData(instList)
+            setIsLoading(false)
         })
-    }, [])
+
+        setReload(false)
+    }, [reload])
 
     return (
-        <TableContainer component={Paper}>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell className={classes.tableHead}>Nombre de la institución</TableCell>
-                        <TableCell className={classes.tableHead}>Abreviatura</TableCell>
-                        <TableCell className={classes.tableHead}>Tipo</TableCell>
-                        <TableCell className={classes.tableHead}>Ciudad</TableCell>
-                        <TableCell className={classes.tableHead}>País</TableCell>
-                        <TableCell className={classes.tableHead}>Acciones</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {instData.map((row) => (
-                        <TableRow key={row.name}>
-                            <TableCell component='th' scope='row'>
-                                {row.name}
-                            </TableCell>
-                            <TableCell>{row.abbrev}</TableCell>
-                            <TableCell>{row.type}</TableCell>
-                            <TableCell>{row.city}</TableCell>
-                            <TableCell>{row.country}</TableCell>
-                            <TableCell component='th' scope='row'>
-                                <IconButton className={classes.deleteButton}>
-                                    <DeleteIcon />
-                                </IconButton>
-                                <IconButton className={classes.modifyButton}>
-                                    <CreateIcon />
-                                </IconButton>
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
-
+        <>
+            <Notification
+                open={open}
+                onClose={() => setOpen(false)}
+                title="Eliminar institución"
+                onAccept={() => {
+                    //deleteAreaApi(selectedId).then()
+                    setOpen(false)
+                    setReload(true)
+                }}>
+                <Typography>¿Estás seguro de querer eliminar este elemento?</Typography>
+            </Notification>
+            <div style={{ height: 400 }}>
+                <DataGrid
+                    columns={columns}
+                    rows={instData}
+                    pageSize={10}
+                    disableSelectionOnClick
+                    loading={isLoading}
+                    components={{
+                        LoadingOverlay: LinearProgress,
+                        Toolbar: GridToolbar
+                    }} />
+            </div>
+        </>
     )
 }
 
