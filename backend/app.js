@@ -14,7 +14,6 @@ const AreaRoutes = require('./routers/Area')
 const TopicRoutes = require('./routers/Topic')
 const SubtopicRoutes = require('./routers/Subtopic')
 const GameRoutes = require('./routers/Game')
-const ModuleRoutes = require('./routers/Module')
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -41,6 +40,5 @@ app.use(`/api/${API_VERSION}`, AreaRoutes)
 app.use(`/api/${API_VERSION}`, TopicRoutes)
 app.use(`/api/${API_VERSION}`, SubtopicRoutes)
 app.use(`/api/${API_VERSION}`, GameRoutes)
-app.use(`/api/${API_VERSION}`, ModuleRoutes)
 
 module.exports = app;

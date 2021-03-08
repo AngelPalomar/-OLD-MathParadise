@@ -1,6 +1,10 @@
 import React from 'react'
+import jwtDecode from 'jwt-decode'
 import { Link } from "react-router-dom";
 import { makeStyles, List, ListItem, ListItemIcon, ListItemText, Divider } from "@material-ui/core"
+
+/**APIs */
+import { getAccessTokenApi } from '../../api/auth'
 
 /**Icons */
 import HomeIcon from '@material-ui/icons/Home'
@@ -32,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
 function MenuList(props) {
     const classes = useStyles()
     const { url } = props
+    const { role } = jwtDecode(getAccessTokenApi())
 
     return (
         <div className={classes.root}>
@@ -46,32 +51,37 @@ function MenuList(props) {
                     </ListItem>
                 </Link>
 
-                <Link to="/admin/users" className={classes.link}>
-                    <ListItem button selected={url === '/admin/users' ? true : false}>
-                        <ListItemIcon>
-                            <PersonIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Usuarios" />
-                    </ListItem>
-                </Link>
+                {
+                    role === 'admin' ?
+                        <>
+                            <Link to="/admin/users" className={classes.link}>
+                                <ListItem button selected={url === '/admin/users' ? true : false}>
+                                    <ListItemIcon>
+                                        <PersonIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Usuarios" />
+                                </ListItem>
+                            </Link>
 
-                <Link to="/admin/groups" className={classes.link}>
-                    <ListItem button selected={url === '/admin/groups' ? true : false}>
-                        <ListItemIcon>
-                            <PeopleAltIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Grupos" />
-                    </ListItem>
-                </Link>
+                            <Link to="/admin/groups" className={classes.link}>
+                                <ListItem button selected={url === '/admin/groups' ? true : false}>
+                                    <ListItemIcon>
+                                        <PeopleAltIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Grupos" />
+                                </ListItem>
+                            </Link>
 
-                <Link to="/admin/institutions" className={classes.link}>
-                    <ListItem button selected={url === '/admin/institutions' ? true : false}>
-                        <ListItemIcon>
-                            <ApartmentIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Instituciones" />
-                    </ListItem>
-                </Link>
+                            <Link to="/admin/institutions" className={classes.link}>
+                                <ListItem button selected={url === '/admin/institutions' ? true : false}>
+                                    <ListItemIcon>
+                                        <ApartmentIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Instituciones" />
+                                </ListItem>
+                            </Link>
+                        </> : null
+                }
 
                 <Link to="/admin/areas" className={classes.link}>
                     <ListItem button selected={url === '/admin/areas' ? true : false}>

@@ -81,7 +81,7 @@ function CreateTopic() {
             <Paper className={classes.paper}>
                 <Typography variant="h5" className={classes.title}>
                     <AddIcon fontSize="large" /> Añadir tema
-            </Typography>
+                </Typography>
                 <Divider />
                 <form className={classes.formBox} onChange={changeForm} onSubmit={submitForm}>
                     <Typography>*Todos los campos son requeridos</Typography>
@@ -126,7 +126,7 @@ function CreateTopic() {
                         </Link>
                         <Button type="submit" className={classes.okButton}>
                             Guardar
-                    </Button>
+                        </Button>
                     </Box>
                 </form>
             </Paper>

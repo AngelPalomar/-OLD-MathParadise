@@ -1,9 +1,13 @@
 import React from 'react'
-import { Link } from "react-router-dom";
+import jwtDecode from 'jwt-decode'
+import { Link, Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles"
 import {
     Button, Grid, Typography, Box
 } from "@material-ui/core"
+
+/**APIs */
+import { getAccessTokenApi } from '../../../api/auth'
 
 /**Icons */
 import AddIcon from '@material-ui/icons/Add'
@@ -35,10 +39,15 @@ const useStyles = makeStyles((theme) => ({
 
 function MenuGroups() {
     const classes = useStyles()
+    const { role } = jwtDecode(getAccessTokenApi())
 
     React.useEffect(() => {
         document.title = 'Grupos - Panel de administración | Math Paradise'
     }, [])
+
+    if (role !== 'admin') {
+        return <Redirect to="/admin" />
+    }
 
     return (
         <>

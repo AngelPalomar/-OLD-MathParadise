@@ -135,7 +135,7 @@ function Create() {
                             <Typography className={classes.previewLabel}>Ejercicio principal</Typography>
                         </Box> :
                         <span className={classes.previewLabel}>
-                            Escriba el ejercicio en funciones KaTex en el campo inferior
+                            Escriba el ejercicio en funciones <a href="https://katex.org/docs/supported.html" target="_blank">KaTex</a> en el campo inferior
                         </span>
                     }
                 </Box>

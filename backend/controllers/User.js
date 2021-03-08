@@ -97,6 +97,142 @@ function login(req, res) {
     })
 }
 
+function createUser(req, res) {
+    const user = new User()
+
+    const { name, lastname, nickname, email, password, role, institution,
+        school_grade, active } = req.body
+
+    user.name = name
+    user.lastname = lastname
+    user.nickname = nickname
+    user.email = email
+    user.role = role
+    user.institution = institution
+    user.school_grade = school_grade
+    user.active = active
+
+    bcrypt.hash(password, null, null, (err, hash) => {
+        if (err) {
+            res.status(500).send({ message: "Error al encriptar." })
+        } else {
+            //Encripta
+            user.password = hash
+
+            //Guarda el usuario
+            user.save((err, result) => {
+                if (err) {
+                    res.status(500).send({
+                        status: 0,
+                        message: "Este usuario ya existe."
+                    })
+                } else {
+                    if (!result) {
+                        res.status(404).send({
+                            status: 0,
+                            message: "Error al crear el usuario"
+                        })
+                    } else {
+                        res.status(200).send({
+                            status: 1,
+                            message: "Usuario creado correctamente",
+                            user: result
+                        })
+                    }
+                }
+            })
+        }
+    })
+}
+
+async function updateFullUser(req, res) {
+    let userData = req.body;
+    userData.email = req.body.email.toLowerCase();
+    const params = req.params;
+
+    if (userData.password != "") {
+        await bcrypt.hash(userData.password, null, null, (err, hash) => {
+            if (err) {
+                res.status(500).send({ status: 0, message: "Error al encriptar la contraseña." });
+            } else {
+                userData.password = hash;
+            }
+        });
+    } else {
+        delete userData.password
+    }
+
+    User.findByIdAndUpdate({ _id: params.id }, userData, (err, userUpdate) => {
+        if (err) {
+            res.status(500).send({ status: 0, message: "Error del servidor." });
+        } else {
+            if (!userUpdate) {
+                res
+                    .status(404)
+                    .send({ status: 0, message: "No se ha encontrado ningun usuario." });
+            } else {
+                res.status(200).send({ status: 1, message: "Usuario actualizado correctamente." });
+            }
+        }
+    });
+}
+
+function updatePassword(req, res) {
+    const params = req.params
+    const { password, repeatPassword, oldPassword } = req.body
+
+    if (!password || !repeatPassword) {
+        res.status(500).send({ status: 0, message: "Las contraseñas son requeridas" })
+        return
+    }
+
+    if (password !== repeatPassword) {
+        res.status(500).send({ status: 0, message: "Las contraseñas deben ser iguales" })
+        return
+    }
+
+    User.findByIdAndUpdate({ _id: params.id }, (err, userData) => {
+        if (err) {
+            res.status(404).send({ status: 0, message: "Error del servidor" })
+        } else {
+            if (!userData) {
+                res.status(404).send({ status: 0, message: "Usuario no encontrado" })
+            } else {
+                bcrypt.compare(oldPassword, userData.password, (err, check) => {
+                    if (err) {
+                        res.status(500).send({ status: 0, message: "Error del servidor" })
+                    } else if (!check) {
+                        res.status(400).send({ status: 0, message: "La contraseña es incorrecta" })
+                    } else {
+                        //Una vez que se haya ingresado la contraseña, las actualiza
+                        bcrypt.hash(password, null, null, (err, hash) => {
+                            if (err) {
+                                res.status(500).send({ status: 0, message: "Error al encriptar" })
+                            } else {
+                                User.findByIdAndUpdate(
+                                    params.id,
+                                    { password: hash },
+                                    (err, result) => {
+                                        if (err) {
+                                            res.status(500).send({ status: 0, message: "Error del servidor" })
+                                        } else {
+                                            if (!result) {
+                                                res.status(404).send({ status: 0, message: "Error al actualizar la contraseña" })
+                                            } else {
+                                                res.status(200).send({ status: 1, message: "Contraseña actualizada correctamente" })
+                                            }
+                                        }
+                                    }
+                                )
+                            }
+                        })
+                    }
+                })
+            }
+        }
+    })
+}
+
 function getUser(req, res) {
     const params = req.params
 
@@ -131,11 +267,25 @@ function getUserByNickname(req, res) {
                 if (!user) {
                     res.status(404).send({ message: "No se ha encontrado a ningun usuario." })
                 } else {
-                    if (!user.active) {
-                        res.status(200).send({ code: 200, message: "El usuario no está activo." })
-                    } else {
-                        res.status(200).send({ user })
-                    }
+                    res.status(200).send({ user })
+                }
+            }
+        })
+}
+
+function getUserById(req, res) {
+    const params = req.params
+
+    User.findById({ _id: params.id },
+        { password: 0 },
+        (err, user) => {
+            if (err) {
+                res.status(500).send({ message: "Error del servidor" })
+            } else {
+                if (!user) {
+                    res.status(404).send({ message: "No se ha encontrado a ningun usuario." })
+                } else {
+                    res.status(200).send({ user })
                 }
             }
         })
@@ -251,7 +401,7 @@ function getAvatar(req, res) {
 }
 
 function getRushLeaderboard(req, res) {
-    User.find({ role: 'student' }).sort({ "rush.points": -1 })
+    User.find({ role: 'student', active: true }).sort({ "rush.points": -1 })
         .select("-email -role -active -sign_up_date -school_grade -password -arcade -classic -__v")
         .limit(10)
         .exec((err, result) => {
@@ -272,7 +422,7 @@ function getRushLeaderboard(req, res) {
 }
 
 function getClassicLeaderboard(req, res) {
-    User.find({ role: 'student' }).sort({ "classic.points": -1 })
+    User.find({ role: 'student', active: true }).sort({ "classic.points": -1 })
         .select("-email -role -active -sign_up_date -school_grade -password -arcade -rush -__v")
         .limit(10)
         .exec((err, result) => {
@@ -292,15 +442,58 @@ function getClassicLeaderboard(req, res) {
         })
 }
 
+function getArcadeLeaderboard(req, res) {
+    User.find({ role: 'student', active: true }).sort({ "arcade.points": -1 })
+        .select("-email -role -active -sign_up_date -school_grade -password -classic -rush -__v")
+        .limit(10)
+        .exec((err, result) => {
+            if (err) {
+                res.status(500).send({ status: 0, message: "Error al obtener la clasificación.", error: err })
+            } else {
+                if (!result) {
+                    res.status(404).send({ status: 0, message: "Sin clasificaciones" })
+                } else {
+                    res.status(200).send({
+                        status: 1,
+                        message: "Mostrando clasificación.",
+                        arcade_board: result
+                    })
+                }
+            }
+        })
+}
+
+function deleteUser(req, res) {
+    const params = req.params
+
+    User.findByIdAndDelete({ _id: params.id }, (err, result) => {
+        if (err) {
+            res.status(500).send({ status: 0, message: "Error del servidor" })
+        } else {
+            if (!result) {
+                res.status(404).send({ status: 0, message: "Error al eliminar" })
+            } else {
+                res.status(200).send({ status: 1, message: "Usuario eliminado correctamente" })
+            }
+        }
+    })
+}
+
 module.exports = {
     signUp,
     login,
+    createUser,
+    updatePassword,
+    updateFullUser,
     getUser,
     getUserByNickname,
+    getUserById,
     getAllUsers,
     updateUser,
     getRushLeaderboard,
     getClassicLeaderboard,
+    getArcadeLeaderboard,
     uploadAvatar,
-    getAvatar
+    getAvatar,
+    deleteUser
 }

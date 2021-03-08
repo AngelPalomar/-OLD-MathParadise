@@ -86,7 +86,7 @@ function DefaultAvatar(props) {
                     </Avatar> :
                     <Avatar
                         src={avatarUrl}
-                        style={{ width: size, height: size }}>
+                        style={{ width: size, height: size, background: "#FFF" }}>
                     </Avatar>
             }
         </>

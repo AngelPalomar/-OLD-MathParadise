@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
-import { Link } from "react-router-dom";
+import jwtDecode from 'jwt-decode'
+import { Link, Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles"
 import {
     Button,
@@ -12,6 +13,9 @@ import UsersTable from '../../../components/info_tables/UsersTable'
 
 /**Icons */
 import AddIcon from '@material-ui/icons/Add'
+
+/**APIs */
+import { getAccessTokenApi } from '../../../api/auth'
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -40,10 +44,15 @@ const useStyles = makeStyles((theme) => ({
 
 function Menu() {
     const classes = useStyles()
+    const { role } = jwtDecode(getAccessTokenApi())
 
     useEffect(() => {
         document.title = 'Usuarios - Panel de administración | Math Paradise'
     }, [])
+
+    if (role !== 'admin') {
+        return <Redirect to="/admin" />
+    }
 
     return (
         <>
@@ -54,7 +63,7 @@ function Menu() {
                     </Typography>
                     <Grid container spacing={2}>
                         <Grid item lg={3}>
-                            <Link to="/admin/excercises/create" className={classes.link}>
+                            <Link to="/admin/users/create" className={classes.link}>
                                 <Button
                                     variant="contained"
                                     startIcon={<AddIcon />}

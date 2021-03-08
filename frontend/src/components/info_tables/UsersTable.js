@@ -16,7 +16,7 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import CancelIcon from '@material-ui/icons/Cancel'
 
 /**APIs */
-import { getAllUsersApi } from "../../api/user"
+import { getAllUsersApi, deleteUserApi } from "../../api/user"
 
 function UsersTable() {
     const classes = useStyles()
@@ -107,7 +107,7 @@ function UsersTable() {
                 onClose={() => setOpen(false)}
                 title="Eliminar usuario"
                 onAccept={() => {
-                    //deleteAreaApi(selectedId).then()
+                    deleteUserApi(selectedId).then()
                     setOpen(false)
                     setReload(true)
                 }}>

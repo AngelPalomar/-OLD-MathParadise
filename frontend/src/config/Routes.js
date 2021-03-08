@@ -11,6 +11,8 @@ import AdminGroupsCreate from '../pages/admin/groups/CreateGroup'
 
 //Usuarios
 import AdminUsersMenu from '../pages/admin/users/MenuUsers'
+import AdminUserCreate from '../pages/admin/users/CreateUser'
+import AdminUserUpdate from '../pages/admin/users/UpdateUser'
 
 //Instituciones
 import AdminInstitutionsMenu from '../pages/admin/institutions/MenuInstitutions'
@@ -85,6 +87,16 @@ const routes = [
             {
                 path: '/admin/users',
                 component: AdminUsersMenu,
+                exact: true,
+            },
+            {
+                path: '/admin/users/create',
+                component: AdminUserCreate,
+                exact: true,
+            },
+            {
+                path: '/admin/users/update/:id',
+                component: AdminUserUpdate,
                 exact: true,
             },
             {

@@ -41,12 +41,7 @@ function LayoutAdmin(props) {
     const { user, isLoading } = useAuth()
 
     if ((!user && !isLoading) || !getAccessTokenApi()) {
-        return (
-            <>
-                <Route path="/login" component={Login} />
-                <Redirect to="/login" />
-            </>
-        )
+        return <Redirect to="/login" />
     }
 
     if (user && !isLoading && (role === 'admin' || role === 'moderator')) {

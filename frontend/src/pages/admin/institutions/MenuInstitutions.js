@@ -1,9 +1,13 @@
 import React, { useEffect } from 'react'
-import { Link } from "react-router-dom";
+import jwtDecode from 'jwt-decode'
+import { Link, Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles"
 import {
     Button, Grid, Typography, Box
 } from "@material-ui/core"
+
+/**APIs */
+import { getAccessTokenApi } from '../../../api/auth'
 
 /**Components */
 import InstitutionsTable from '../../../components/info_tables/InstitutionsTable'
@@ -38,10 +42,15 @@ const useStyles = makeStyles((theme) => ({
 
 function Menu() {
     const classes = useStyles()
+    const { role } = jwtDecode(getAccessTokenApi())
 
     useEffect(() => {
         document.title = 'Instituciones - Panel de administración | Math Paradise'
     }, [])
+
+    if (role !== 'admin') {
+        return <Redirect to="/admin" />
+    }
 
     return (
         <>

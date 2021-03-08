@@ -102,7 +102,7 @@ function MenuList(props) {
                                 <ListItemIcon>
                                     <AvTimerIcon />
                                 </ListItemIcon>
-                                <ListItemText primary="Panel de adminstración" />
+                                <ListItemText primary="Panel de gestión" />
                             </ListItem>
                         </Link>
                     </div> : null
