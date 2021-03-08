@@ -196,7 +196,7 @@ function ProfileForm(props) {
                 </DialogTitle>
 
                 <div style={{
-                    display: 'flex',
+                    display: 'none',
                     justifyContent: 'center',
                     alignContent: 'center',
                     alignItems: 'center'
@@ -347,8 +347,8 @@ function UploadAvatar(props) {
             {isDragActive ? (
                 <Avatar src={null} className={classes.avatar} />
             ) : (
-                    <Avatar src={avatarUrl ? avatarUrl : null} className={classes.avatar} />
-                )}
+                <Avatar src={avatarUrl ? avatarUrl : null} className={classes.avatar} />
+            )}
         </div>
     )
 }
