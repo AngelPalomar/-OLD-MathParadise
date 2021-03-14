@@ -151,7 +151,8 @@ function UpdateSubtopic(props) {
                                     value={inputs.area}>
 
                                     {areas.map((values, index) =>
-                                        <MenuItem key={index} value={values.name}>{values.name}</MenuItem>
+                                        values.active ?
+                                            <MenuItem key={index} value={values.name}>{values.name}</MenuItem> : null
                                     )}
 
                                 </Select>
@@ -168,7 +169,8 @@ function UpdateSubtopic(props) {
                                     value={inputs.topic}>
 
                                     {topics.map((values, index) =>
-                                        <MenuItem key={index} value={values.name}>{values.name}</MenuItem>
+                                        values.active ?
+                                            <MenuItem key={index} value={values.name}>{values.name}</MenuItem> : null
                                     )}
 
                                 </Select>

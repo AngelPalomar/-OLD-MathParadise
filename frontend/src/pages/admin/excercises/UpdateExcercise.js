@@ -319,7 +319,8 @@ function UpdateExcercise(props) {
 
 
                                         {areas.map((values, index) =>
-                                            <MenuItem key={index} value={values.name}>{values.name}</MenuItem>
+                                            values.active ?
+                                                <MenuItem key={index} value={values.name}>{values.name}</MenuItem> : null
                                         )}
                                     </Select>
                                 </FormControl>
@@ -336,7 +337,8 @@ function UpdateExcercise(props) {
                                         value={inputs.topic}>
 
                                         {topics.map((values, index) =>
-                                            <MenuItem key={index} value={values.name}>{values.name}</MenuItem>
+                                            values.active ?
+                                                <MenuItem key={index} value={values.name}>{values.name}</MenuItem> : null
                                         )}
 
                                     </Select>
@@ -354,7 +356,8 @@ function UpdateExcercise(props) {
                                         value={inputs.subtopic}>
 
                                         {subtopics.map((values, index) =>
-                                            <MenuItem key={index} value={values.name}>{values.name}</MenuItem>
+                                            values.active ?
+                                                <MenuItem key={index} value={values.name}>{values.name}</MenuItem> : null
                                         )}
 
                                     </Select>

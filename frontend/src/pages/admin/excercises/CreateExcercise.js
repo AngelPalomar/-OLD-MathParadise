@@ -291,7 +291,8 @@ function Create() {
 
 
                                         {areas.map((values, index) =>
-                                            <MenuItem key={index} value={values.name}>{values.name}</MenuItem>
+                                            values.active ?
+                                                <MenuItem key={index} value={values.name}>{values.name}</MenuItem> : null
                                         )}
                                     </Select>
                                 </FormControl>
@@ -307,7 +308,8 @@ function Create() {
                                         onChange={changeForm}>
 
                                         {topics.map((values, index) =>
-                                            <MenuItem key={index} value={values.name}>{values.name}</MenuItem>
+                                            values.active ?
+                                                <MenuItem key={index} value={values.name}>{values.name}</MenuItem> : null
                                         )}
 
                                     </Select>
@@ -324,7 +326,8 @@ function Create() {
                                         onChange={changeForm}>
 
                                         {subtopics.map((values, index) =>
-                                            <MenuItem key={index} value={values.name}>{values.name}</MenuItem>
+                                            values.active ?
+                                                <MenuItem key={index} value={values.name}>{values.name}</MenuItem> : null
                                         )}
 
                                     </Select>
