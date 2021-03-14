@@ -132,8 +132,12 @@ function CreateSubtopic() {
                                     onChange={changeForm}>
 
                                     {areas.map((values, index) =>
-                                        values.active ?
-                                            <MenuItem key={index} value={values.name}>{values.name}</MenuItem> : null
+                                        <MenuItem
+                                            style={{ color: !values.active ? 'red' : 'black' }}
+                                            key={index}
+                                            value={values.name}>
+                                            {values.name}
+                                        </MenuItem>
                                     )}
 
                                 </Select>
@@ -149,8 +153,12 @@ function CreateSubtopic() {
                                     onChange={changeForm}>
 
                                     {topics.map((values, index) =>
-                                        values.active ?
-                                            <MenuItem key={index} value={values.name}>{values.name}</MenuItem> : null
+                                        <MenuItem
+                                            style={{ color: !values.active ? 'red' : 'black' }}
+                                            key={index}
+                                            value={values.name}>
+                                            {values.name}
+                                        </MenuItem>
                                     )}
 
                                 </Select>

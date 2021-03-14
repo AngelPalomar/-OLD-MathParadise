@@ -291,8 +291,11 @@ function Create() {
 
 
                                         {areas.map((values, index) =>
-                                            values.active ?
-                                                <MenuItem key={index} value={values.name}>{values.name}</MenuItem> : null
+                                            <MenuItem
+                                                style={{ color: !values.active ? 'red' : 'black' }}
+                                                key={index} value={values.name}>
+                                                {values.name}
+                                            </MenuItem>
                                         )}
                                     </Select>
                                 </FormControl>
@@ -308,8 +311,11 @@ function Create() {
                                         onChange={changeForm}>
 
                                         {topics.map((values, index) =>
-                                            values.active ?
-                                                <MenuItem key={index} value={values.name}>{values.name}</MenuItem> : null
+                                            <MenuItem
+                                                style={{ color: !values.active ? 'red' : 'black' }}
+                                                key={index} value={values.name}>
+                                                {values.name}
+                                            </MenuItem>
                                         )}
 
                                     </Select>
@@ -326,8 +332,11 @@ function Create() {
                                         onChange={changeForm}>
 
                                         {subtopics.map((values, index) =>
-                                            values.active ?
-                                                <MenuItem key={index} value={values.name}>{values.name}</MenuItem> : null
+                                            <MenuItem
+                                                style={{ color: !values.active ? 'red' : 'black' }}
+                                                key={index} value={values.name}>
+                                                {values.name}
+                                            </MenuItem>
                                         )}
 
                                     </Select>
