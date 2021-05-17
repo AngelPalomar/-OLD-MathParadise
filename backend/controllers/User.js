@@ -100,17 +100,33 @@ function login(req, res) {
 function createUser(req, res) {
     const user = new User()
 
-    const { name, lastname, nickname, email, password, role, institution,
-        school_grade, active } = req.body
+    const { name, lastname, nickname, email, password, role, institution, school_grade } = req.body
 
-    user.name = name
-    user.lastname = lastname
-    user.nickname = nickname
-    user.email = email
-    user.role = role
+    user.name = name.trim()
+    user.lastname = lastname.trim()
+    user.nickname = nickname.trim()
+    user.email = email.trim()
     user.institution = institution
     user.school_grade = school_grade
-    user.active = active
+    user.sign_up_date = new Date()
+    user.role = role
+    user.active = true
+    user.classic.points = 0
+    user.classic.excercices = 0
+    user.classic.right_excercises = 0
+    user.classic.mistakes = 0
+    user.classic.victories = 0
+    user.classic.defeats = 0
+    user.arcade.points = 0
+    user.arcade.excercices = 0
+    user.arcade.right_excercises = 0
+    user.arcade.mistakes = 0
+    user.arcade.victories = 0
+    user.arcade.defeats = 0
+    user.rush.points = 0
+    user.rush.excercises = 0
+    user.rush.level = 1
+    user.rush.multiplier = 1
 
     bcrypt.hash(password, null, null, (err, hash) => {
         if (err) {

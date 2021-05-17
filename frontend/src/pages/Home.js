@@ -10,6 +10,8 @@ import Footer from '../components/Footer'
 import banner1 from '../assets/images/banners/banner1.svg'
 import banner2 from '../assets/images/banners/banner2.svg'
 import banner3 from '../assets/images/banners/banner3.svg'
+import banner4 from '../assets/images/banners/banner4.svg'
+import banner5 from '../assets/images/banners/banner5.svg'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -113,6 +115,18 @@ function Home() {
             <Box className={classes.root}>
                 <Box className={classes.bannerContainer}>
                     <img src={banner2} alt="banner2" className={classes.bannersOne} />
+                </Box>
+            </Box>
+
+            <Box className={classes.root}>
+                <Box className={classes.bannerContainer}>
+                    <img src={banner4} alt="banner4" className={classes.bannersOne} />
+                </Box>
+            </Box>
+
+            <Box className={classes.root}>
+                <Box className={classes.bannerContainer}>
+                    <img src={banner5} alt="banner5" className={classes.bannersOne} />
                 </Box>
             </Box>
 
