@@ -156,11 +156,11 @@ function ExcercisesTable() {
                 }}>
                 <Typography>¿Estás seguro de querer eliminar este elemento?</Typography>
             </Notification>
-            <div style={{ height: 400 }}>
+            <div style={{ height: 600 }}>
                 <DataGrid
                     columns={columns}
                     rows={areasData}
-                    pageSize={10}
+                    pageSize={20}
                     disableSelectionOnClick
                     loading={isLoading}
                     components={{

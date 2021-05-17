@@ -22,6 +22,7 @@ import playIconWhite from '../../assets/images/icons/play2_icon_white.svg'
 
 /**Components */
 import DefaultSnackbar from '../snackbars/DefaultSnackbar'
+import HowtoPlayClassicMode from '../game_information_slides/HowtoPlayClassicMode'
 
 function ClassicPaper() {
     const classes = useStyles()
@@ -41,6 +42,8 @@ function ClassicPaper() {
     const [openSnackbar, setOpenSnackbar] = useState(false)
     const [openBackdrop, setOpenBackdrop] = useState(false)
     const [blockJoinbutton, setblockJoinbutton] = useState(false)
+    const [openHowTo, setOpenHowTo] = useState(false)
+
     //Datos de partida buscada
     const [gameJoined, setGameJoined] = useState([])
 
@@ -73,29 +76,36 @@ function ClassicPaper() {
 
     //Función para buscar la partida
     const joinGameAndFind = () => {
-        if (pin !== "") {
-            getGameByPinApi(pin).then(response => {
-                //Si no se encuentra la partida
-                if (response.status === 0) {
-                    //Mensaje de la respuesta
-                    setOpenSnackbar(true)
-                    setMessage(response.message)
-                } else {
-                    if (response.game.status !== "in_lobby") {
+        if (pin.trim() !== "") {
+            //Saco el modo de juego
+            let pinMode = pin.charAt(0)
+            if (pinMode !== 'C') {
+                setOpenSnackbar(true)
+                setMessage("Esta pin no corresponde a este modo de juego.\nIntenta en otro")
+            } else {
+                getGameByPinApi(pin).then(response => {
+                    //Si no se encuentra la partida
+                    if (response.status === 0) {
+                        //Mensaje de la respuesta
                         setOpenSnackbar(true)
-                        setMessage("Esta partida está en juego o fue finalizada.")
+                        setMessage(response.message)
                     } else {
-                        //Abre el backdrop
-                        setblockJoinbutton(true)
+                        if (response.game.status !== "in_lobby" || response.game.player2 !== "") {
+                            setOpenSnackbar(true)
+                            setMessage("Esta partida está en juego o fue finalizada.")
+                        } else {
+                            //Abre el backdrop
+                            setblockJoinbutton(true)
 
-                        //Guarda la partida buscada
-                        setGameJoined(response.game)
+                            //Guarda la partida buscada
+                            setGameJoined(response.game)
 
-                        //Actualiza el jugador 2
-                        joinPlayer()
+                            //Actualiza el jugador 2
+                            joinPlayer()
+                        }
                     }
-                }
-            })
+                })
+            }
         }
     }
 
@@ -123,8 +133,9 @@ function ClassicPaper() {
 
     return (
         <>
+            <HowtoPlayClassicMode isOpen={openHowTo} handleOnClose={() => setOpenHowTo(false)} />
             <Backdrop className={classes.backdrop} open={openBackdrop} >
-                <Typography variant="h4">Esperando a que se inicie la partida</Typography>
+                <Typography variant="h4" style={{ textAlign: 'center' }}>Esperando a que se inicie la partida</Typography>
                 <CircularProgress className={classes.circularJoin} />
             </Backdrop>
             <DefaultSnackbar
@@ -186,9 +197,9 @@ function ClassicPaper() {
                                                 label="Dificultad"
                                                 className={classes.select}>
 
-                                                <MenuItem value={"easy"}>Fácil</MenuItem>
+                                                {/* <MenuItem value={"easy"}>Fácil</MenuItem> */}
                                                 <MenuItem value={"normal"}>Normal</MenuItem>
-                                                <MenuItem value={"hard"}>Difícil</MenuItem>
+                                                {/* <MenuItem value={"hard"}>Difícil</MenuItem> */}
                                             </Select>
                                         </FormControl>
                                     </Grid>
@@ -230,11 +241,15 @@ function ClassicPaper() {
                                 </Grid>
                                 <Typography variant="h6">Información</Typography>
                                 <Grid container spacing={2} className={classes.grid}>
-                                    <Grid item lg={6} md={12} sm={12} xs={12}>
-                                        <Button className={classes.classicInfo} variant="contained" startIcon={<HelpIcon />} fullWidth>¿Cómo jugar?</Button>
-                                    </Grid>
-                                    <Grid item lg={6} md={12} sm={12} xs={12}>
-                                        <Button className={classes.classicInfo} variant="contained" startIcon={<BookmarkIcon />} fullWidth>Competencias</Button>
+                                    <Grid item lg={12} md={12} sm={12} xs={12}>
+                                        <Button
+                                            className={classes.classicInfo}
+                                            variant="contained"
+                                            startIcon={<HelpIcon />}
+                                            fullWidth
+                                            onClick={() => setOpenHowTo(true)}>
+                                            ¿Cómo jugar?
+                                        </Button>
                                     </Grid>
                                 </Grid>
 

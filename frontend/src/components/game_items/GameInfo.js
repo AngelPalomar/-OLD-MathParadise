@@ -3,10 +3,12 @@ import {
     Button, Dialog, DialogActions, DialogContent, Box, Slide, Typography
 } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
-import { MATH_COLORS } from '../../../styles/MathColors'
-import { useStyles as generalStyles } from '../../../components/game_items/useStyles'
+import { MATH_COLORS, MATH_GRADIENTS } from '../../styles/MathColors'
+import { useStyles as generalStyles } from '../../components/game_items/useStyles'
 
-import classicLogo from '../../../assets/images/icons/classic_icon_1.svg'
+import classicLogo from '../../assets/images/icons/classic_icon_1.svg'
+import arcadeLogo from '../../assets/images/icons/arcade_icon_1.svg'
+import rushLogo from '../../assets/images/icons/rush_icon_1.svg'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />
@@ -14,7 +16,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const useStyles = makeStyles((theme) => ({
     title: {
-        color: MATH_COLORS().math_classic,
         fontSize: '6vh'
     },
     subtitle: {
@@ -34,14 +35,18 @@ const useStyles = makeStyles((theme) => ({
     },
     image: {
         width: '12vh'
-    }
+    },
+    btn: {
+        color: '#FFF',
+        paddingInline: theme.spacing(2)
+    },
 }))
 
 function ClassicInfo(props) {
     const classes = useStyles()
     const styles = generalStyles()
     /**Props */
-    const { title, children, introSound } = props
+    const { title, children, gameMode, introSound } = props
 
     const [open, setOpen] = React.useState(true)
 
@@ -61,11 +66,17 @@ function ClassicInfo(props) {
                 aria-describedby="alert-dialog-slide-description">
 
                 <Box className={classes.imageBox}>
-                    <img src={classicLogo} alt='rush_icon' className={classes.image}></img>
+                    <img src={gameMode === 'classic' ? classicLogo :
+                        gameMode === 'arcade' ? arcadeLogo : rushLogo} alt='rush_icon' className={classes.image}></img>
                 </Box>
 
                 <Box className={classes.dialog}>
-                    <Typography className={classes.title}>{title}</Typography>
+                    <Typography
+                        style={{
+                            color: gameMode === 'classic' ? MATH_COLORS().math_classic_base :
+                                gameMode === 'arcade' ? MATH_COLORS().math_arcade_base : MATH_COLORS().math_rush_base
+                        }}
+                        className={classes.title}>{title}</Typography>
                 </Box>
 
                 <DialogContent>
@@ -73,7 +84,13 @@ function ClassicInfo(props) {
                 </DialogContent>
 
                 <DialogActions>
-                    <Button onClick={handleClose} className={styles.answerBtn}>
+                    <Button
+                        onClick={handleClose}
+                        style={{
+                            background: gameMode === 'classic' ? MATH_GRADIENTS().classic :
+                                gameMode === 'arcade' ? MATH_GRADIENTS().arcade : MATH_GRADIENTS().rush
+                        }}
+                        className={classes.btn}>
                         Empezar
                     </Button>
                 </DialogActions>

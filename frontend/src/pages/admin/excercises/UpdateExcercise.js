@@ -230,7 +230,6 @@ function UpdateExcercise(props) {
                                             name="answer"
                                             labelId="right_answer"
                                             label="Seleccione la respuesta correcta"
-                                            value={inputs.answer}
                                             onChange={changeForm}
                                             value={inputs.answer}>
 
@@ -314,8 +313,7 @@ function UpdateExcercise(props) {
                                         labelId="lbl_area"
                                         label="Seleccione el área"
                                         value={inputs.area}
-                                        onChange={changeForm}
-                                        value={inputs.area}>
+                                        onChange={changeForm}>
 
 
                                         {areas.map((values, index) =>
@@ -336,8 +334,7 @@ function UpdateExcercise(props) {
                                         labelId="lbl_topic"
                                         label="Seleccione el tema"
                                         value={inputs.topic}
-                                        onChange={changeForm}
-                                        value={inputs.topic}>
+                                        onChange={changeForm}>
 
                                         {topics.map((values, index) =>
                                             <MenuItem
@@ -358,8 +355,7 @@ function UpdateExcercise(props) {
                                         labelId="lbl_subtopic"
                                         label="Seleccione el subtema"
                                         value={inputs.subtopic}
-                                        onChange={changeForm}
-                                        value={inputs.subtopic}>
+                                        onChange={changeForm}>
 
                                         {subtopics.map((values, index) =>
                                             <MenuItem
@@ -380,8 +376,7 @@ function UpdateExcercise(props) {
                                         labelId="lbl_dif"
                                         label="Seleccione la dificultad"
                                         value={inputs.difficulty}
-                                        onChange={changeForm}
-                                        value={inputs.difficulty}>
+                                        onChange={changeForm}>
 
                                         {difficulties.map((values, index) =>
                                             <MenuItem key={index} value={values.val}>{values.name}</MenuItem>

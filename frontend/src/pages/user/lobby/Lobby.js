@@ -14,7 +14,7 @@ import DefaultAvatar from '../../../components/DefaultAvatar'
 /**APIs */
 import { createGameApi, getGameByPinApi, updateGameApi } from '../../../api/game'
 import { getAccessTokenApi } from '../../../api/auth'
-import { getDefaultClassicBoardApi } from '../../../api/boards'
+import { getDefaultBoardApi } from '../../../api/boards'
 
 /**Imágenes */
 import classicIcon from '../../../assets/images/icons/classic_icon_1.svg'
@@ -43,7 +43,8 @@ function LobbyNew(props) {
         area: area,
         rounds: rounds
     }
-    let board = new Array(30)
+    //Si el modo de juego es classic, el tablero es de 30 pos, si no, es arcade y es 22 
+    let board = new Array(gameData.gamemode === "classic" ? 30 : 22)
 
     //Función para crear la partida en la base de datos
     useEffect(() => {
@@ -80,7 +81,7 @@ function LobbyNew(props) {
     //Función para traer los subtemas
     useEffect(() => {
         if (game.area) {
-            getDefaultClassicBoardApi(game.area).then(response => {
+            getDefaultBoardApi(game.area).then(response => {
                 if (response.status === 1) {
                     setSubtopics(response.board)
                 }
@@ -97,19 +98,45 @@ function LobbyNew(props) {
          */
 
         // 1
-        for (let index = 0; index < board.length; index++) {
-            switch (index) {
-                case 0: board[0] = "INICIO"
-                    break
-                case 9: board[9] = "EXCER. RANDOM"
-                    break
-                case 15: board[15] = "RETO"
-                    break
-                case 24: board[24] = "EVENTO"
-                    break
-                default: board[index] = subtopics[Math.floor(Math.random() * subtopics.length)]
-                    break
-            }
+        switch (gameData.gamemode) {
+            //Generación del modo clásico
+            case "classic":
+                for (let index = 0; index < board.length; index++) {
+                    switch (index) {
+                        case 0: board[0] = "INICIO"
+                            break
+                        case 9: board[9] = "EXCER. RANDOM"
+                            break
+                        case 15: board[15] = "RETO"
+                            break
+                        case 24: board[24] = "EVENTO"
+                            break
+                        default: board[index] = subtopics[Math.floor(Math.random() * subtopics.length)]
+                            break
+                    }
+                }
+                break;
+
+            //Generación del modo arcade
+            case "arcade":
+                for (let index = 0; index < board.length; index++) {
+                    switch (index) {
+                        case 0: board[0] = "+50 PTS"
+                            break
+                        case 5: board[5] = "EXCER. RANDOM"
+                            break
+                        case 11: board[11] = "-50 PTS"
+                            break
+                        case 16: board[16] = "RETO"
+                            break
+                        default: board[index] = subtopics[Math.floor(Math.random() * subtopics.length)]
+                            break
+                    }
+                }
+                break;
+
+            default:
+                break;
         }
 
         // 2
@@ -120,6 +147,10 @@ function LobbyNew(props) {
                 switch (gameData.gamemode) {
                     case 'classic':
                         window.location.href = "/classic/" + game.pin
+                        break
+
+                    case 'arcade':
+                        window.location.href = "/arcade/" + game.pin
                         break
 
                     default:

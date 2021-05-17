@@ -7,6 +7,7 @@ import { useStyles } from './useStyles'
 
 /**Imágenes */
 import rushIcon from '../../assets/images/icons/rush_icon_1.svg'
+import { MATH_COLORS } from '../../styles/MathColors'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />
@@ -27,11 +28,13 @@ function HowtoPlayRushMode(props) {
                 <img src={rushIcon} alt="rush_icon" className={classes.rushIcon} />
             </Box>
 
-            <DialogTitle className={classes.title}>¿Cómo jugar en el Modo Rush?</DialogTitle>
+            <DialogTitle
+                style={{ color: MATH_COLORS().math_rush_base }}
+                className={classes.title}>¿Cómo jugar en el Modo Rush?</DialogTitle>
 
             <DialogContent>
                 <DialogContentText className={classes.textContent}>
-                    Para jugar el Modo Rush, deberás contestas tantos
+                    Para jugar el Modo Rush, deberás contestar tantos
                     ejercicios matemáticos puedas en un plazo de un minuto.
                     <br />
                     <br />

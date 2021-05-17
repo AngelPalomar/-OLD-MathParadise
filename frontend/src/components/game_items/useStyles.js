@@ -275,5 +275,15 @@ export const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         marginTop: theme.spacing(2)
+    },
+
+    //Estilos para slots arcade
+    slot: {
+        flexDirection: 'column'
+    },
+    normalSlot: {
+        color: "#FFF",
+        width: '100%',
+        height: '100%'
     }
 }))

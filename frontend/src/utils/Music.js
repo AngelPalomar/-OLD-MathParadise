@@ -11,6 +11,11 @@ export const classicTheme = new Howl({
     loop: true
 })
 
+export const arcadeTheme = new Howl({
+    src: ['/music/arcade_music.mp3'],
+    loop: true
+})
+
 export const lobbyTheme = new Howl({
     src: ['/music/lobby_music.mp3'],
     loop: true

@@ -26,7 +26,7 @@ const Transition = UpTransition
 
 function ExcercisePanel(props) {
     //Traigo las props
-    const { open, saveResult, excercise, isChall, difficulty } = props
+    const { open, saveResult, excercise, isChall, isRand, difficulty } = props
 
     const classes = useStyles()
     const theme = useTheme();
@@ -212,7 +212,11 @@ function ExcercisePanel(props) {
                                         isChall ?
                                             <span style={{ color: MATH_COLORS().math_error }}>
                                                 RETO:
-                                            </span> : null
+                                            </span> :
+                                            isRand ?
+                                                <span style={{ color: MATH_COLORS().math_success }}>
+                                                    ALEATORIO:
+                                        </span> : null
                                     }{` ${excercise.area} - ${excercise.topic}`}
                                 </Typography>
                                 <Typography className={classes.subtopicLabel}>{excercise.subtopic}</Typography>
@@ -226,7 +230,7 @@ function ExcercisePanel(props) {
                                      */
                                     !isTimeOver ?
                                         <div className={classes.excerciseLabel}>
-                                            <BlockMath math={`${excercise.label}=${isAnswered ? excercise.answer : ''}`} />
+                                            <BlockMath math={`${excercise.label}`} />
                                         </div> :
                                         <div className={classes.isTimeOverLabel}>
                                             <Typography style={{ fontSize: '5vh', textAlign: 'center' }}>El tiempo se ha acabado</Typography>

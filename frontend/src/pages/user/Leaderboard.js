@@ -129,7 +129,7 @@ export default function Leaderboard() {
             </Box>
             <Grid container spacing={2}>
                 <Grid item lg={4} md={6} sm={12} xs={12}>
-                    {/* <Paper className={classes.classic_board}>
+                    <Paper className={classes.classic_board}>
                         <Box className={classes.header_board}>
                             <img src={classicIconWhite} className={classes.classic_icon} alt="rush_icon.svg" />
                             <Typography variant="h6">Modo Clásico</Typography>
@@ -166,7 +166,47 @@ export default function Leaderboard() {
                                 )
                             }
                         </Box>
-                    </Paper> */}
+                    </Paper>
+                </Grid>
+                <Grid item lg={4} md={6} sm={12} xs={12}>
+                    <Paper className={classes.arcade_board}>
+                        <Box className={classes.header_board}>
+                            <img src={arcadeIconWhite} className={classes.classic_icon} alt="rush_icon.svg" />
+                            <Typography variant="h6">Modo Arcade</Typography>
+                            <Typography varint="subtitle1">Top 10</Typography>
+                        </Box>
+
+                        <Box mt={2}>
+                            {
+                                arcadeTable.map((values, index) =>
+                                    <Paper key={index} className={classes.userPaperInfo}>
+                                        <Grid container spacing={2}>
+                                            <Grid item lg={2} md={2} sm={2} xs={2} className={classes.avatar}>
+                                                <DefaultAvatar nickname={values.nickname} size="40px" fs="100%" />
+                                            </Grid>
+                                            <Grid item lg={7} md={7} sm={7} xs={7} >
+                                                <Box>
+                                                    <Link className={classes.link} to={"/home/profile/@" + values.nickname}>
+                                                        <Typography>{values.nickname}</Typography>
+                                                    </Link>
+                                                    <Typography variant="subtitle2">Puntos: <span className={classes.points}>{values.arcade.points}</span></Typography>
+                                                </Box>
+                                            </Grid>
+                                            <Grid item lg={3} md={3} sm={3} xs={3} className={classes.avatar}>
+                                                {
+                                                    index < 3 ?
+                                                        <img src={
+                                                            index === 0 ? GoldIcon : index === 1 ? SilverIcon : index === 2 ? BronzeIcon : null
+                                                        } className={classes.medal} alt="medal.svg" /> :
+                                                        <Typography>{index + 1}</Typography>
+                                                }
+                                            </Grid>
+                                        </Grid>
+                                    </Paper>
+                                )
+                            }
+                        </Box>
+                    </Paper>
                 </Grid>
                 <Grid item lg={4} md={6} sm={12} xs={12}>
                     <Paper className={classes.rush_board}>
@@ -207,46 +247,6 @@ export default function Leaderboard() {
                             }
                         </Box>
                     </Paper>
-                </Grid>
-                <Grid item lg={4} md={6} sm={12} xs={12}>
-                    {/*  <Paper className={classes.arcade_board}>
-                        <Box className={classes.header_board}>
-                            <img src={arcadeIconWhite} className={classes.classic_icon} alt="rush_icon.svg" />
-                            <Typography variant="h6">Modo Arcade</Typography>
-                            <Typography varint="subtitle1">Top 10</Typography>
-                        </Box>
-
-                        <Box mt={2}>
-                            {
-                                arcadeTable.map((values, index) =>
-                                    <Paper key={index} className={classes.userPaperInfo}>
-                                        <Grid container spacing={2}>
-                                            <Grid item lg={2} md={2} sm={2} xs={2} className={classes.avatar}>
-                                                <DefaultAvatar nickname={values.nickname} size="40px" fs="100%" />
-                                            </Grid>
-                                            <Grid item lg={7} md={7} sm={7} xs={7} >
-                                                <Box>
-                                                    <Link className={classes.link} to={"/home/profile/@" + values.nickname}>
-                                                        <Typography>{values.nickname}</Typography>
-                                                    </Link>
-                                                    <Typography variant="subtitle2">Puntos: <span className={classes.points}>{values.arcade.points}</span></Typography>
-                                                </Box>
-                                            </Grid>
-                                            <Grid item lg={3} md={3} sm={3} xs={3} className={classes.avatar}>
-                                                {
-                                                    index < 3 ?
-                                                        <img src={
-                                                            index === 0 ? GoldIcon : index === 1 ? SilverIcon : index === 2 ? BronzeIcon : null
-                                                        } className={classes.medal} alt="medal.svg" /> :
-                                                        <Typography>{index + 1}</Typography>
-                                                }
-                                            </Grid>
-                                        </Grid>
-                                    </Paper>
-                                )
-                            }
-                        </Box>
-                    </Paper> */}
                 </Grid>
             </Grid>
         </Paper>

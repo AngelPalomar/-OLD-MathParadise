@@ -12,7 +12,7 @@ import clsx from 'clsx'
 /**Componentes */
 import DefaultAvatar from '../../../components/DefaultAvatar'
 import Tile from '../../../components/game_items/Tile'
-import ClassicInfo from './ClassicInfo'
+import GameInfo from '../../../components/game_items/GameInfo'
 import GameMenu from '../../../components/game_items/GameMenu'
 import ExcercisePanel from '../../../components/game_items/ExcercisePanel'
 import GameEvent from '../../../components/game_items/GameEvent'
@@ -854,12 +854,13 @@ function Classic(props) {
 
     return (
         <>
-            <ClassicInfo
+            <GameInfo
                 title="Bienvenido al Modo Clásico"
+                gameMode="classic"
                 introSound={startSound}>
                 En este modo de juego deberás de responder ejercicios matemáticos
                 contra tu oponente, completa las vueltas y consigue más puntos para ganar.
-            </ClassicInfo>
+            </GameInfo>
             <GameMenu
                 open={openMenu}
                 handler={menuHandler}
@@ -873,6 +874,10 @@ function Classic(props) {
                 isChall={
                     //Si es reto (Es decir, si se responde mal, se bajan 10 puntos)
                     gameLocal.currentPos === 15 ? true : false
+                }
+                isRand={
+                    //Si es aleatorio
+                    gameLocal.currentPos === 9 ? true : false
                 } />
             <GameEvent
                 open={openEventPanel}

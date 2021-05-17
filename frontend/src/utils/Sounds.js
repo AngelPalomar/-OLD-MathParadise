@@ -44,6 +44,10 @@ export const tileSound = new Howl({
     src: ['/sounds/tile_sound.wav']
 })
 
+export const spinSound = new Howl({
+    src: ['/sounds/spin_sound.wav']
+})
+
 export const turnSound = new Howl({
     src: ['/sounds/turn_sound.wav']
 })

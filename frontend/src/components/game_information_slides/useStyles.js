@@ -12,7 +12,7 @@ export const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(2)
     },
     title: {
-        color: '#00487C'
+        textAlign: 'center'
     },
     textContent: {
         color: '#000'

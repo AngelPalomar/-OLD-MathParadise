@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        marginTop: theme.spacing(10),
+        marginTop: theme.spacing(3),
     },
     titles: {
         color: '#2A55FF',

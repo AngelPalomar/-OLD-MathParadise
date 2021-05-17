@@ -45,13 +45,17 @@ import Groups from '../pages/user/Groups'
 import Leaderboard from '../pages/user/Leaderboard'
 import Profile from '../pages/user/Profile'
 
+/**Lobyys */
+import Lobby from '../pages/user/lobby/Lobby'
+
 /**Gamemode pages */
 import RushMode from '../pages/games/rush/Rush'
 
 //Classic pages
-import Lobby from '../pages/user/lobby/Lobby'
-
 import ClassicMode from '../pages/games/clasico/Classic'
+
+//Arcade pages
+import ArcadeMode from '../pages/games/arcade/Arcade'
 
 /**General pages */
 import Home from '../pages/Home'
@@ -250,6 +254,17 @@ const routes = [
         //Modo Clásico, recibe el PIN de la partida para obtener la configuración
         path: '/classic/:pin',
         component: ClassicMode,
+        exact: true,
+        routes: [
+            {
+                component: Error
+            }
+        ]
+    },
+    {
+        //Modo Arcade, recibe el PIN de la partida para obtener la configuración
+        path: '/arcade/:pin',
+        component: ArcadeMode,
         exact: true,
         routes: [
             {

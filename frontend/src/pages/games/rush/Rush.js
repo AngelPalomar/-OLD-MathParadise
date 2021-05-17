@@ -584,7 +584,7 @@ function Rush(props) {
                                 <form id="answer-form" onChange={handleChange} onSubmit={checkAnswer}>
                                     <Box className={classes.form}>
                                         <Box className={classes.input}>
-                                            <TextField type="number" name="userAnswer" label="Respuesta" variant="outlined" error={isErrorInput} fullWidth />
+                                            <TextField name="userAnswer" label="Respuesta" variant="outlined" error={isErrorInput} fullWidth />
                                             <img src={srcResult} alt='' className={classes.resultIcon} />
                                         </Box>
                                         <Button type="submit" size="large" variant="contained" className={classes.button}>

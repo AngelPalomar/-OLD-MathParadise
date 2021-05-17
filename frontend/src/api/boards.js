@@ -1,7 +1,7 @@
 import { getAccessTokenApi } from './auth'
 import { basePath, apiVersion } from './config'
 
-export function getDefaultClassicBoardApi(area) {
+export function getDefaultBoardApi(area) {
     const url = `${basePath}/${apiVersion}/get-default-classic-board?area=${area}`
     const params = {
         method: 'GET',
