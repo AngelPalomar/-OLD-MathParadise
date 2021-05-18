@@ -196,7 +196,7 @@ function ProfileForm(props) {
                 </DialogTitle>
 
                 <div style={{
-                    display: 'none',
+                    display: 'flex',
                     justifyContent: 'center',
                     alignContent: 'center',
                     alignItems: 'center'
