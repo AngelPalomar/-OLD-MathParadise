@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, Fragment } from "react"
 import jwtDecode from 'jwt-decode'
 import { makeStyles } from "@material-ui/core/styles"
 import {
@@ -34,7 +34,7 @@ function Dashboard() {
     }, [])
 
     return (
-        <>
+        <Fragment>
             <Grid container spacing={1}>
                 <Grid item xs={12} sm={6} md={5} lg={5}>
                     <Avatar name={userData.name} lastname={userData.lastname} nickname={userData.nickname} />
@@ -54,7 +54,7 @@ function Dashboard() {
                     <RushStats nickname={userData.nickname} />
                 </Grid>
             </Grid>
-        </>
+        </Fragment>
     )
 }
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { useStyles } from '../useStyles'
 import {
@@ -118,7 +118,7 @@ function UpdateSubtopic(props) {
     }
 
     return (
-        <>
+        <Fragment>
             <DefaultSnackbar
                 open={open}
                 handleClose={handleCloseSnackbar}
@@ -234,7 +234,7 @@ function UpdateSubtopic(props) {
                     </Box>
                 </form>
             </Paper>
-        </>
+        </Fragment>
     )
 }
 

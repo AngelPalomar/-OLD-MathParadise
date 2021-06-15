@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import {
     Typography,
     Paper,
@@ -31,10 +31,10 @@ function RushStats(props) {
     }, [])
 
     return (
-        <>
+        <Fragment>
             {
                 !summary ?
-                    <>
+                    <Fragment>
                         <Paper className={classes.statsPaper} elevation={2}>
                             <Box className={classes.statsHeader}>
                                 <img src={RushSrc} alt="classic_icon.svg" className={classes.imgGameMode} />
@@ -63,8 +63,8 @@ function RushStats(props) {
                             </Box>
 
                         </Paper>
-                    </> :
-                    <>
+                    </Fragment> :
+                    <Fragment>
                         <Paper className={classes.statsPaperSummary} elevation={2}>
                             <Grid container spacing={2} className={classes.statsElementSummary}>
                                 <Grid item lg={6} md={6} sm={6} xs={6} className={classes.statsHeader}>
@@ -77,9 +77,9 @@ function RushStats(props) {
                                 </Grid>
                             </Grid>
                         </Paper>
-                    </>
+                    </Fragment>
             }
-        </>
+        </Fragment>
     )
 }
 

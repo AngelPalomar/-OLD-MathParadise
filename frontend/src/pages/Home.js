@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, Fragment } from 'react'
 import { Box, Grid, Typography, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core'
 
@@ -86,7 +86,7 @@ function Home() {
     }, [])
 
     return (
-        <>
+        <Fragment>
             <PublicHeader />
             <Grid container className={classes.welcome}>
                 <Grid item lg={6} md={6} sm={12} xs={12}>
@@ -137,7 +137,7 @@ function Home() {
             </Box>
 
             <Footer />
-        </>
+        </Fragment>
     )
 }
 

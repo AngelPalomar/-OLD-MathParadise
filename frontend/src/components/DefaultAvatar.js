@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { makeStyles } from "@material-ui/core/styles"
 import { Avatar, CircularProgress, Typography } from "@material-ui/core"
 import { MATH_GRADIENTS } from '../styles/MathColors'
@@ -70,7 +70,7 @@ function DefaultAvatar(props) {
     }
 
     return (
-        <>
+        <Fragment>
             {
                 avatarName === "" ?
                     <Avatar
@@ -89,7 +89,7 @@ function DefaultAvatar(props) {
                         style={{ width: size, height: size, background: "#FFF" }}>
                     </Avatar>
             }
-        </>
+        </Fragment>
     )
 }
 

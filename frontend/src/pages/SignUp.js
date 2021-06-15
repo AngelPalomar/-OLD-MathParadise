@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { Redirect } from "react-router-dom"
 import { makeStyles } from '@material-ui/core/styles'
 import {
@@ -195,7 +195,7 @@ function SignUp() {
     }
 
     return (
-        <>
+        <Fragment>
             <PublicHeader />
             <Snackbar
                 anchorOrigin={{
@@ -307,7 +307,7 @@ function SignUp() {
             <div className={classes.footer}>
                 <Footer />
             </div>
-        </>
+        </Fragment>
     )
 }
 

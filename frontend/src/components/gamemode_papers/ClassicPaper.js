@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import jwtDecode from 'jwt-decode'
 import { useStyles } from './useStyles'
@@ -132,7 +132,7 @@ function ClassicPaper() {
     }
 
     return (
-        <>
+        <Fragment>
             <HowtoPlayClassicMode isOpen={openHowTo} handleOnClose={() => setOpenHowTo(false)} />
             <Backdrop className={classes.backdrop} open={openBackdrop} >
                 <Typography variant="h4" style={{ textAlign: 'center' }}>Esperando a que se inicie la partida</Typography>
@@ -301,7 +301,7 @@ function ClassicPaper() {
                     </Grid>
                 </form>
             </Paper>
-        </>
+        </Fragment>
     )
 }
 

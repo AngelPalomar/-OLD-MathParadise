@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import {
     Button, Dialog, DialogActions, DialogContent, Box, Slide, Typography
 } from "@material-ui/core"
@@ -55,7 +55,7 @@ function ClassicInfo(props) {
     };
 
     return (
-        <>
+        <Fragment>
             <Dialog
                 open={open}
                 TransitionComponent={Transition}
@@ -96,7 +96,7 @@ function ClassicInfo(props) {
                 </DialogActions>
 
             </Dialog>
-        </>
+        </Fragment>
     );
 }
 

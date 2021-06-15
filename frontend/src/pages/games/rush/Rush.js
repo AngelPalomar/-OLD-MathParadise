@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { Howler } from 'howler'
 import jwtDecode from "jwt-decode"
 import {
@@ -445,7 +445,7 @@ function Rush(props) {
     }
 
     return (
-        <>
+        <Fragment>
             <RushDialogSlide
                 title="Bienvenido al modo Rush"
                 button1="Empezar"
@@ -641,7 +641,7 @@ function Rush(props) {
                     </Grid>
                 </Box>
             </Box>
-        </>
+        </Fragment>
     )
 }
 

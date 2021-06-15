@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { useStyles } from './useStyles'
 import {
@@ -56,7 +56,7 @@ function TopicsTable() {
             headerName: 'Acciones',
             width: 150,
             renderCell: (params) => (
-                <>
+                <Fragment>
                     <Link to={`/admin/topics/update/${params.getValue("id")}`}>
                         <IconButton className={classes.modifyButton}>
                             <CreateIcon style={{ fontSize: 16 }} />
@@ -70,7 +70,7 @@ function TopicsTable() {
                         }}>
                         <DeleteIcon style={{ fontSize: 16 }} />
                     </IconButton>
-                </>
+                </Fragment>
             )
         }
     ]
@@ -89,7 +89,7 @@ function TopicsTable() {
     }, [reload])
 
     return (
-        <>
+        <Fragment>
             <Notification
                 open={open}
                 onClose={() => setOpen(false)}
@@ -113,7 +113,7 @@ function TopicsTable() {
                         Toolbar: GridToolbar
                     }} />
             </div>
-        </>
+        </Fragment>
     )
 }
 

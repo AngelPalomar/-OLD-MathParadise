@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { makeStyles } from '@material-ui/core'
 
 /**Components */
@@ -25,12 +25,12 @@ const useStyle = makeStyles((theme) => ({
 function Error404() {
     const classes = useStyle()
     return (
-        <>
+        <Fragment>
             {!getAccessTokenApi() ? <PublicHeader /> : null}
             <div className={classes.root}>
                 <img src={error_banner} alt="error404.svg" className={classes.banner} />
             </div>
-        </>
+        </Fragment>
     )
 }
 

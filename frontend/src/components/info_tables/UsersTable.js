@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { useStyles } from './useStyles'
 import {
@@ -20,7 +20,6 @@ import { getAllUsersApi, deleteUserApi } from "../../api/user"
 
 function UsersTable() {
     const classes = useStyles()
-    let usersList = []
 
     const [users, setUsers] = useState([])
     const [isLoading, setIsLoading] = useState(true)
@@ -31,6 +30,8 @@ function UsersTable() {
 
     useEffect(() => {
         getAllUsersApi().then(response => {
+            let usersList = []
+
             response.users.map(value => {
                 usersList.push({ ...value, id: value._id })
             })
@@ -101,7 +102,7 @@ function UsersTable() {
     ]
 
     return (
-        <>
+        <Fragment>
             <Notification
                 open={open}
                 onClose={() => setOpen(false)}
@@ -125,7 +126,7 @@ function UsersTable() {
                         Toolbar: GridToolbar
                     }} />
             </div>
-        </>
+        </Fragment>
     )
 }
 

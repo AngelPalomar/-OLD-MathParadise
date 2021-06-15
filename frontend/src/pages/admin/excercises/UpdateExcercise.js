@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { useStyles } from '../useStyles'
 import { BlockMath, InlineMath } from "react-katex"
@@ -139,7 +139,7 @@ function UpdateExcercise(props) {
     }
 
     return (
-        <>
+        <Fragment>
             <DefaultSnackbar
                 open={open}
                 handleClose={handleCloseSnackbar}
@@ -407,7 +407,7 @@ function UpdateExcercise(props) {
                     </form>
                 </Box>
             </Paper>
-        </>
+        </Fragment>
     )
 }
 

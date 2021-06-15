@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import {
     Typography, Paper, Divider, Box,
     CircularProgress, Button, Grid
@@ -211,14 +211,14 @@ function LobbyNew(props) {
                             <div className={classes.playerInfo}>
                                 {
                                     game.player2 === "" ?
-                                        <>
+                                        <Fragment>
                                             <CircularProgress />
                                             <Typography className={classes.playerLabel}>Esperando al jugador 2...</Typography>
-                                        </> :
-                                        <>
+                                        </Fragment> :
+                                        <Fragment>
                                             <DefaultAvatar nickname={!game.player2 ? host : game.player2} size="60px" fs="28px" color={1} />
                                             <Typography className={classes.playerLabel}>{game.player2}</Typography>
-                                        </>
+                                        </Fragment>
                                 }
                             </div>
                         </Grid>

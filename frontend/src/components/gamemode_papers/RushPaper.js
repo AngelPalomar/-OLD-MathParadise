@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, Fragment } from 'react'
 import { Link } from "react-router-dom"
 import { useStyles } from './useStyles'
 import { Typography, Box, Grid, Paper, Button } from "@material-ui/core"
@@ -29,7 +29,7 @@ function RushPaper() {
     }
 
     return (
-        <>
+        <Fragment>
             <HowtoPlayRushMode isOpen={openHowTo} handleOnClose={handleCloseHowTo} />
             <CompetenciesRushMode isOpen={openCompetencies} handleOnClose={handleCloseCompetencies} />
             <Paper className={classes.RushPaper} color="primary" elevation={2}>
@@ -96,7 +96,7 @@ function RushPaper() {
                     </Grid>
                 </Grid>
             </Paper>
-        </>
+        </Fragment>
     )
 }
 

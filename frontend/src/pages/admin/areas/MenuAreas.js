@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles"
 import {
@@ -44,7 +44,7 @@ function MenuAreas() {
     }, [])
 
     return (
-        <>
+        <Fragment>
             <Grid container spacing={2}>
                 <Grid item lg={12}>
                     <Typography variant="h4" className={classes.title}>
@@ -70,7 +70,7 @@ function MenuAreas() {
                     </Box>
                 </Grid>
             </Grid>
-        </>
+        </Fragment>
     )
 }
 

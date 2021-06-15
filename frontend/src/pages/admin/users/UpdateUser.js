@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import {
     Grid, Typography, TextField, FormControl, InputLabel, Select,
@@ -183,7 +183,7 @@ function UpdateUser(props) {
     }
 
     return (
-        <>
+        <Fragment>
             <DefaultSnackbar
                 open={open}
                 handleClose={() => setOpen(false)}
@@ -336,7 +336,7 @@ function UpdateUser(props) {
                     </div>
                 </form >
             </Paper >
-        </>
+        </Fragment>
     )
 }
 

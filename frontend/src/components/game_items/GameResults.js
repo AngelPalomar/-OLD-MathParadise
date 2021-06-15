@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { useStyles } from './useStyles'
 import { Howler } from 'howler'
 import {
@@ -109,7 +109,7 @@ function GameResults(props) {
                                     <Avatar nickname={player2} size="9vh" fs="5vh" color={1} />
                                 </div>
                             </div> :
-                            <>
+                            <Fragment>
                                 <div style={{ zIndex: '2000', position: 'absolute' }}>
                                     <img src={olive} style={{ width: '18vh' }} alt="olive.svg" />
                                 </div>
@@ -119,7 +119,7 @@ function GameResults(props) {
                                             player1 : player2
                                     } size="14vh" fs="7vh" color={2} />
                                 </div>
-                            </>
+                            </Fragment>
                     }
                 </div>
                 <div>

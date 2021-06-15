@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, Fragment } from 'react'
 import jwtDecode from 'jwt-decode'
 import {
     Grid, TextField, Button, Dialog, DialogActions, DialogContent, DialogTitle,
@@ -184,7 +184,7 @@ function ProfileForm(props) {
     }
 
     return (
-        <>
+        <Fragment>
             <DefaultSnackbar message={messageNotification} open={openNotification} handleClose={handleClose} />
             <Dialog
                 open={open}
@@ -307,7 +307,7 @@ function ProfileForm(props) {
                     </DialogActions>
                 </form>
             </Dialog>
-        </>
+        </Fragment>
     )
 }
 

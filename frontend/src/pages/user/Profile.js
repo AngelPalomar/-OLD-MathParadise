@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import {
     Typography, Paper, Grid, Box, CircularProgress, Button
@@ -159,7 +159,7 @@ function Profile(props) {
         )
     } else {
         return (
-            <>
+            <Fragment>
                 {!getAccessTokenApi() ? <PublicHeader /> : null}
                 <Grid container spacing={2} className={!getAccessTokenApi() ? classes.root : null}>
                     <Grid item lg={4} md={3} sm={12} xs={12}>
@@ -187,7 +187,7 @@ function Profile(props) {
                                 {
                                     getAccessTokenApi() && userData ?
                                         JwtDecode(getAccessTokenApi()).nickname === userData.nickname ?
-                                            <>
+                                            <Fragment>
                                                 <ProfileForm
                                                     userData={userData}
                                                     open={openProfileForm}
@@ -201,7 +201,7 @@ function Profile(props) {
                                                         startIcon={<EditIcon />}>
                                                         Editar Perfil
                                                 </Button>
-                                                </Box> </> : null : null
+                                                </Box> </Fragment> : null : null
                                 }
                             </Box>
                         </Paper>
@@ -223,7 +223,7 @@ function Profile(props) {
                         </Paper>
                     </Grid>
                 </Grid>
-            </>
+            </Fragment>
         )
     }
 }

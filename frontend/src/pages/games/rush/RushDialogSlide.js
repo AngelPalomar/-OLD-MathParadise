@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import {
     Button, Dialog, DialogActions, DialogContent, Box, Slide, Typography
 } from "@material-ui/core"
@@ -49,35 +49,33 @@ function RushDialogSlide(props) {
     };
 
     return (
-        <>
-            <Dialog
-                open={open}
-                TransitionComponent={Transition}
-                keepMounted
-                onClose={handleClose}
-                aria-labelledby="alert-dialog-slide-title"
-                aria-describedby="alert-dialog-slide-description">
+        <Dialog
+            open={open}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-slide-title"
+            aria-describedby="alert-dialog-slide-description">
 
-                <Box className={classes.imageBox}>
-                    <img src={rushLogo} alt='rush_icon' className={classes.image}></img>
-                </Box>
+            <Box className={classes.imageBox}>
+                <img src={rushLogo} alt='rush_icon' className={classes.image}></img>
+            </Box>
 
-                <Box className={classes.dialog}>
-                    <Typography variant="h4" className={classes.title}>{title}</Typography>
-                </Box>
+            <Box className={classes.dialog}>
+                <Typography variant="h4" className={classes.title}>{title}</Typography>
+            </Box>
 
-                <DialogContent>
-                    {children}
-                </DialogContent>
+            <DialogContent>
+                {children}
+            </DialogContent>
 
-                <DialogActions>
-                    <Button onClick={handleClose} color="primary">
-                        {button1}
-                    </Button>
-                </DialogActions>
+            <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                    {button1}
+                </Button>
+            </DialogActions>
 
-            </Dialog>
-        </>
+        </Dialog>
     );
 }
 

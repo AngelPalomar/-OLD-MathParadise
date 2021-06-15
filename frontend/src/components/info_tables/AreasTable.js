@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { useStyles } from './useStyles'
 import {
@@ -55,7 +55,7 @@ function AreasTable() {
             headerName: 'Acciones',
             width: 150,
             renderCell: (params) => (
-                <>
+                <Fragment>
                     <Link to={`/admin/areas/update/${params.getValue("id")}`}>
                         <IconButton className={classes.modifyButton}>
                             <CreateIcon style={{ fontSize: 16 }} />
@@ -69,7 +69,7 @@ function AreasTable() {
                         }}>
                         <DeleteIcon style={{ fontSize: 16 }} />
                     </IconButton>
-                </>
+                </Fragment>
             )
         }
     ]
@@ -88,7 +88,7 @@ function AreasTable() {
     }, [reload])
 
     return (
-        <>
+        <Fragment>
             <Notification
                 open={open}
                 onClose={() => setOpen(false)}
@@ -112,7 +112,7 @@ function AreasTable() {
                         Toolbar: GridToolbar
                     }} />
             </div>
-        </>
+        </Fragment>
     )
 }
 

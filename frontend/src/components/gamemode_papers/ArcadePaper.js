@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import jwtDecode from 'jwt-decode'
 import { useStyles } from './useStyles'
@@ -13,7 +13,6 @@ import { getAreasApi } from '../../api/areas'
 import { getGameByPinApi, joinGameApi } from '../../api/game'
 
 /**Iconos */
-import BookmarkIcon from '@material-ui/icons/Bookmark'
 import HelpIcon from '@material-ui/icons/Help'
 
 /**Imagenes */
@@ -132,7 +131,7 @@ function ArcadePaper() {
     }
 
     return (
-        <>
+        <Fragment>
             <HowtoPlayArcadeMode isOpen={openHowTo} handleOnClose={() => setOpenHowTo(false)} />
             <Backdrop className={classes.backdrop} open={openBackdrop} >
                 <Typography variant="h4" style={{ textAlign: 'center' }}>Esperando a que se inicie la partida</Typography>
@@ -301,7 +300,7 @@ function ArcadePaper() {
                     </Grid>
                 </form>
             </Paper>
-        </>
+        </Fragment>
     )
 }
 

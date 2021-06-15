@@ -57,53 +57,50 @@ function RushResults(props) {
     }
 
     return (
-        <>
-            <Dialog
-                open={isOpen}
-                TransitionComponent={Transition}
-                keepMounted
-                aria-labelledby="alert-dialog-slide-title"
-                aria-describedby="alert-dialog-slide-description">
+        <Dialog
+            open={isOpen}
+            TransitionComponent={Transition}
+            keepMounted
+            aria-labelledby="alert-dialog-slide-title"
+            aria-describedby="alert-dialog-slide-description">
 
-                <Box className={classes.imageBox}>
-                    <img src={rushLogo} alt='rush_icon' className={classes.image}></img>
-                </Box>
+            <Box className={classes.imageBox}>
+                <img src={rushLogo} alt='rush_icon' className={classes.image}></img>
+            </Box>
 
-                <Box className={classes.dialog}>
-                    <Typography variant="h4" className={classes.title}>{title}</Typography>
-                    <span className={classes.subtitle}>Resultados de juego</span>
-                </Box>
+            <Box className={classes.dialog}>
+                <Typography variant="h4" className={classes.title}>{title}</Typography>
+                <span className={classes.subtitle}>Resultados de juego</span>
+            </Box>
 
-                <DialogContent>
-                    <Typography className={classes.stats}>
-                        Puntos:<span className={classes.title}> {points}</span>
-                        {isNewRecordPoints ? <span className={classes.recordLabel}> ¡Nuevo Récord!</span> : null}
-                    </Typography>
-                    <Typography className={classes.stats}>
-                        No. de ejercicios:<span className={classes.title}> {exCount}</span>
-                        {isNewRecordExcercises ? <span className={classes.recordLabel}> ¡Nuevo Récord!</span> : null}
-                    </Typography>
-                    <Typography className={classes.stats}>
-                        Nivel alcanzado: <span className={classes.title}> {level}</span>
-                        {isNewRecordLevel ? <span className={classes.recordLabel}> ¡Nuevo Récord!</span> : null}
-                    </Typography>
-                    <Typography className={classes.stats}>
-                        Multiplicador: <span className={classes.title}> &times;{multiplier}</span>
-                        {isNewRecordMultiplier ? <span className={classes.recordLabel}> ¡Nuevo Récord!</span> : null}
-                    </Typography>
-                </DialogContent>
+            <DialogContent>
+                <Typography className={classes.stats}>
+                    Puntos:<span className={classes.title}> {points}</span>
+                    {isNewRecordPoints ? <span className={classes.recordLabel}> ¡Nuevo Récord!</span> : null}
+                </Typography>
+                <Typography className={classes.stats}>
+                    No. de ejercicios:<span className={classes.title}> {exCount}</span>
+                    {isNewRecordExcercises ? <span className={classes.recordLabel}> ¡Nuevo Récord!</span> : null}
+                </Typography>
+                <Typography className={classes.stats}>
+                    Nivel alcanzado: <span className={classes.title}> {level}</span>
+                    {isNewRecordLevel ? <span className={classes.recordLabel}> ¡Nuevo Récord!</span> : null}
+                </Typography>
+                <Typography className={classes.stats}>
+                    Multiplicador: <span className={classes.title}> &times;{multiplier}</span>
+                    {isNewRecordMultiplier ? <span className={classes.recordLabel}> ¡Nuevo Récord!</span> : null}
+                </Typography>
+            </DialogContent>
 
-                <DialogActions>
-                    <Button onClick={playAgain} color="primary">
-                        Volver a jugar
+            <DialogActions>
+                <Button onClick={playAgain} color="primary">
+                    Volver a jugar
                     </Button>
-                    <Button onClick={backToHome} color="primary">
-                        {button1}
-                    </Button>
-                </DialogActions>
-
-            </Dialog>
-        </>
+                <Button onClick={backToHome} color="primary">
+                    {button1}
+                </Button>
+            </DialogActions>
+        </Dialog>
     )
 }
 

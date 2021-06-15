@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import jwtDecode from 'jwt-decode'
 import { Link } from "react-router-dom";
 import { makeStyles, List, ListItem, ListItemIcon, ListItemText, Divider } from "@material-ui/core"
@@ -53,7 +53,7 @@ function MenuList(props) {
 
                 {
                     role === 'admin' ?
-                        <>
+                        <Fragment>
                             <Link to="/admin/users" className={classes.link}>
                                 <ListItem button selected={url === '/admin/users' ? true : false}>
                                     <ListItemIcon>
@@ -80,7 +80,7 @@ function MenuList(props) {
                                     <ListItemText primary="Instituciones" />
                                 </ListItem>
                             </Link>
-                        </> : null
+                        </Fragment> : null
                 }
 
                 <Link to="/admin/areas" className={classes.link}>

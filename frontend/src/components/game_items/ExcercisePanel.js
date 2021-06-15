@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { useStyles } from './useStyles'
 import { withStyles } from "@material-ui/core/styles"
 import { MATH_COLORS } from "../../styles/MathColors"
@@ -205,7 +205,7 @@ function ExcercisePanel(props) {
             <div className={classes.excDialog}>
                 {
                     !excercise.label ? <CircularProgress /> :
-                        <>
+                        <Fragment>
                             <div>
                                 <Typography className={classes.topicLabel}>
                                     {
@@ -278,7 +278,7 @@ function ExcercisePanel(props) {
                                      * el tiempo se acabó, muestra el botón ACEPTAR
                                      */
                                     !isAnswered && isTimeRunning ?
-                                        <>
+                                        <Fragment>
                                             <Button
                                                 className={classes.giveUpBtn}
                                                 startIcon={<CancelIcon />}
@@ -295,8 +295,8 @@ function ExcercisePanel(props) {
                                                 onClick={answerExcercise}>
                                                 {`Contestar +${ptsToWin} pts`}
                                             </Button>
-                                        </> :
-                                        <>
+                                        </Fragment> :
+                                        <Fragment>
                                             {
                                                 earnedPoints === 1000 ?
                                                     <Typography style={{
@@ -321,11 +321,11 @@ function ExcercisePanel(props) {
                                                 onClick={() => { saveResult(earnedPoints) }}>
                                                 Aceptar
                                         </Button>
-                                        </>
+                                        </Fragment>
                                 }
                             </DialogActions>
                             <Typography className={classes.idLabel}>ID: {excercise._id}</Typography>
-                        </>
+                        </Fragment>
                 }
             </div>
         </Dialog>

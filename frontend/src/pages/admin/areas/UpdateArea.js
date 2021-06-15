@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { useStyles } from '../useStyles'
 import {
@@ -90,7 +90,7 @@ function UpdateArea(props) {
     }
 
     return (
-        <>
+        <Fragment>
             <DefaultSnackbar
                 open={open}
                 handleClose={handleCloseSnackbar}
@@ -133,7 +133,7 @@ function UpdateArea(props) {
                     </Box>
                 </form>
             </Paper>
-        </>
+        </Fragment>
     )
 }
 

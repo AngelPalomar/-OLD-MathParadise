@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import jwtDecode from 'jwt-decode'
 import { useSpring, animated } from 'react-spring'
 import { useStyles } from './useStyles'
@@ -853,7 +853,7 @@ function Classic(props) {
     }
 
     return (
-        <>
+        <Fragment>
             <GameInfo
                 title="Bienvenido al Modo Clásico"
                 gameMode="classic"
@@ -903,7 +903,7 @@ function Classic(props) {
                         </Typography>
                         <ScreenRotationIcon style={{ fontSize: '7vw', marginTop: '10px' }} />
                     </div> :
-                    <>
+                    <Fragment>
                         <div className={classes.player1Layer}>
                             <animated.div style={moveP1}>
                                 <DefaultAvatar nickname={game.player1}
@@ -1074,9 +1074,9 @@ function Classic(props) {
                                 </Grid>
                             </div>
                         </div>
-                    </>
+                    </Fragment>
             }
-        </>
+        </Fragment>
     )
 }
 

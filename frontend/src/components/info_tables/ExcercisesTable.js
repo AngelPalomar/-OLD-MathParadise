@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { useStyles } from './useStyles'
 import {
@@ -144,7 +144,7 @@ function ExcercisesTable() {
     }, [reload])
 
     return (
-        <>
+        <Fragment>
             <Notification
                 open={open}
                 onClose={() => setOpen(false)}
@@ -168,7 +168,7 @@ function ExcercisesTable() {
                         Toolbar: GridToolbar
                     }} />
             </div>
-        </>
+        </Fragment>
     )
 }
 

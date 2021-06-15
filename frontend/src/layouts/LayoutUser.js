@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, Fragment } from 'react'
 import { Howler } from 'howler'
 import { makeStyles, Hidden } from "@material-ui/core"
 import { Route, Switch, Redirect } from 'react-router-dom'
@@ -44,10 +44,10 @@ function LayoutUser(props) {
 
     if (!user && !isLoading) {
         return (
-            <>
+            <Fragment>
                 <Route path="/login" component={Login} />
                 <Redirect to="/login" />
-            </>
+            </Fragment>
         )
     }
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core'
 
@@ -23,7 +23,7 @@ function PrivacyPolicies() {
     const classes = useStyles()
 
     return (
-        <>
+        <Fragment>
             <PublicHeader />
             <div className={classes.root}>
                 <Typography variant="h5">Políticas de privacidad</Typography>
@@ -63,7 +63,7 @@ function PrivacyPolicies() {
             <div className={classes.footer}>
                 <Footer />
             </div>
-        </>
+        </Fragment>
     )
 }
 

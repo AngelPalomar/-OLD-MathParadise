@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, Fragment } from 'react'
 import jwtDecode from 'jwt-decode'
 import { Link, Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles"
@@ -53,7 +53,7 @@ function Menu() {
     }
 
     return (
-        <>
+        <Fragment>
             <Grid container spacing={2}>
                 <Grid item lg={12}>
                     <Typography variant="h4" className={classes.title}>
@@ -79,7 +79,7 @@ function Menu() {
                     </Box>
                 </Grid>
             </Grid>
-        </>
+        </Fragment>
     )
 }
 

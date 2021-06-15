@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import jwtDecode from 'jwt-decode'
 import {
     Typography, Grid, Paper, IconButton, Button,
@@ -488,7 +488,7 @@ function Arcade(props) {
     }
 
     return (
-        <>
+        <Fragment>
             <GameInfo
                 title="Bienvenido al Modo Arcade"
                 gameMode="arcade"
@@ -741,7 +741,7 @@ function Arcade(props) {
                         </Grid>
                     </div>
             }
-        </>
+        </Fragment>
     )
 }
 
