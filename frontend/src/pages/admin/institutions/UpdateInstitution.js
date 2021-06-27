@@ -1,16 +1,16 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useStyles } from '../useStyles'
 import {
     Grid, Typography, Paper, Box, Divider, Button, TextField, FormControl,
-    Select, MenuItem, InputLabel
+    Select, MenuItem, InputLabel, CircularProgress
 } from "@material-ui/core"
 
 /**COmponents */
 import DefaultSnackbar from '../../../components/snackbars/DefaultSnackbar'
 
 /**APIs */
-import { createInstitutionApi } from '../../../api/institution'
+import { getInstitutionByIdApi, updateInstitutionApi } from '../../../api/institution'
 
 /**Utils */
 import { institutionTypes } from '../../../utils/SelectArrays'
@@ -18,18 +18,26 @@ import { institutionTypes } from '../../../utils/SelectArrays'
 /**Icons */
 import AddIcon from '@material-ui/icons/Add'
 
-function CreateIInstitution() {
+function UpdateInstitution(props) {
     const classes = useStyles()
+    //Traigo el id del documento
+    const { match: { params: { id } } } = props
 
-    const [inputs, setInputs] = useState({
-        name: '',
-        abbrev: '',
-        type: '',
-        city: '',
-        country: ''
-    })
+    const [inputs, setInputs] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
     const [message, setMessage] = useState("")
     const [open, setOpen] = useState(false)
+
+    useEffect(() => {
+        getInstitutionByIdApi(id).then(response => {
+            if (response.status === 1) {
+                setInputs(response.institution)
+                setIsLoading(false)
+            } else {
+                window.location.href = '/admin/institutions'
+            }
+        })
+    }, [])
 
     //Cambio del form
     const changeForm = (e) => {
@@ -53,7 +61,7 @@ function CreateIInstitution() {
             setMessage("Todos los campos son requeridos.")
             setOpen(true)
         } else {
-            createInstitutionApi(inputs).then(response => {
+            updateInstitutionApi(id, inputs).then(response => {
                 if (response.status === 1) {
                     setMessage(response.message)
                     setOpen(true)
@@ -65,6 +73,10 @@ function CreateIInstitution() {
                 }
             })
         }
+    }
+
+    if (inputs.length === 0) {
+        return <CircularProgress />
     }
 
     return (
@@ -87,6 +99,7 @@ function CreateIInstitution() {
                                 name="name"
                                 label="*Nombre de la institución"
                                 variant="outlined"
+                                value={inputs.name}
                                 className={classes.textField} />
                         </Grid>
                         <Grid item lg={3}>
@@ -95,6 +108,7 @@ function CreateIInstitution() {
                                 name="abbrev"
                                 label="*Abreviatura (Ejemplo: UTEQ)"
                                 variant="outlined"
+                                value={inputs.abbrev}
                                 className={classes.textField} />
                         </Grid>
                         <Grid item lg={3}>
@@ -104,6 +118,7 @@ function CreateIInstitution() {
                                     name="type"
                                     label="*Tipo"
                                     labelId="lbl_type"
+                                    value={inputs.type}
                                     onChange={changeForm}>
                                     {institutionTypes.map((value, index) =>
                                         <MenuItem key={index} value={value.val}>{value.label}</MenuItem>
@@ -117,6 +132,7 @@ function CreateIInstitution() {
                                 name="city"
                                 label="*Estado/Provincia"
                                 variant="outlined"
+                                value={inputs.city}
                                 className={classes.textField} />
                         </Grid>
                         <Grid item lg={6}>
@@ -125,6 +141,7 @@ function CreateIInstitution() {
                                 name="country"
                                 label="*País"
                                 variant="outlined"
+                                value={inputs.country}
                                 className={classes.textField} />
                         </Grid>
                     </Grid>
@@ -144,4 +161,4 @@ function CreateIInstitution() {
     )
 }
 
-export default CreateIInstitution
+export default UpdateInstitution

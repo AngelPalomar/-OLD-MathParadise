@@ -4,7 +4,8 @@ import {
     Paper,
     Box,
     Divider,
-    Grid
+    Grid,
+    CircularProgress
 } from "@material-ui/core";
 import { useStyles } from './useStyles'
 import ArcadeSrc from '../../assets/images/icons/arcade_icon_1.svg'
@@ -44,29 +45,34 @@ function ArcadeStats(props) {
 
                             <Divider className={classes.divider} />
 
-                            <Box>
-                                <Box className={classes.statsElement}>
-                                    <Typography variant="h6">Puntuación máxima</Typography>
-                                    <Typography>{stats ? stats.points : "0"} pts</Typography>
-                                </Box>
-                                <Box className={classes.statsElement}>
-                                    <Typography>Aciertos</Typography>
-                                    <Typography>{stats ? stats.right_excercises : "0"}</Typography>
-                                </Box>
-                                <Box className={classes.statsElement}>
-                                    <Typography>Errores</Typography>
-                                    <Typography>{stats ? stats.mistakes : "0"}</Typography>
-                                </Box>
-                                <Box className={classes.statsElement}>
-                                    <Typography>No. de victorias</Typography>
-                                    <Typography>{stats ? stats.victories : "0"}</Typography>
-                                </Box>
-                                <Box className={classes.statsElement}>
-                                    <Typography>No. de derrotas</Typography>
-                                    <Typography>{stats ? stats.defeats : "0"}</Typography>
-                                </Box>
-                            </Box>
-
+                            {
+                                !stats ?
+                                    <Box>
+                                        <CircularProgress />
+                                    </Box> :
+                                    <Box>
+                                        <Box className={classes.statsElement}>
+                                            <Typography variant="h6">Puntuación máxima</Typography>
+                                            <Typography>{stats ? stats.points : "0"} pts</Typography>
+                                        </Box>
+                                        <Box className={classes.statsElement}>
+                                            <Typography>Aciertos</Typography>
+                                            <Typography>{stats ? stats.right_excercises : "0"}</Typography>
+                                        </Box>
+                                        <Box className={classes.statsElement}>
+                                            <Typography>Errores</Typography>
+                                            <Typography>{stats ? stats.mistakes : "0"}</Typography>
+                                        </Box>
+                                        <Box className={classes.statsElement}>
+                                            <Typography>No. de victorias</Typography>
+                                            <Typography>{stats ? stats.victories : "0"}</Typography>
+                                        </Box>
+                                        <Box className={classes.statsElement}>
+                                            <Typography>No. de derrotas</Typography>
+                                            <Typography>{stats ? stats.defeats : "0"}</Typography>
+                                        </Box>
+                                    </Box>
+                            }
                         </Paper>
                     </Fragment> :
                     <Fragment>
@@ -78,7 +84,13 @@ function ArcadeStats(props) {
                                 </Grid>
                                 <Grid item lg={6} md={6} sm={6} xs={6} className={classes.summaryPoints}>
                                     <Typography variant="subtitle2">Puntuación máxima</Typography>
-                                    <Typography variant="h6">{stats ? stats.points : "0"} pts</Typography>
+                                    {
+                                        !stats ?
+                                            <Box>
+                                                <CircularProgress />
+                                            </Box> :
+                                            <Typography variant="h6">{stats ? stats.points : "0"} pts</Typography>
+                                    }
                                 </Grid>
                             </Grid>
                         </Paper>

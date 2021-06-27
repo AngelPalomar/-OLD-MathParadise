@@ -9,7 +9,7 @@ import { getAccessTokenApi } from '../../api/auth'
 /**Icons */
 import HomeIcon from '@material-ui/icons/Home'
 import PersonIcon from '@material-ui/icons/Person'
-import PeopleAltIcon from '@material-ui/icons/PeopleAlt'
+//import PeopleAltIcon from '@material-ui/icons/PeopleAlt'
 import ApartmentIcon from '@material-ui/icons/Apartment'
 import FunctionsIcon from '@material-ui/icons/Functions'
 import DashboardIcon from '@material-ui/icons/Dashboard'
@@ -63,7 +63,7 @@ function MenuList(props) {
                                 </ListItem>
                             </Link>
 
-                            <Link to="/admin/groups" className={classes.link}>
+                            {/* <Link to="/admin/groups" className={classes.link}>
                                 <ListItem button selected={url === '/admin/groups' ? true : false}>
                                     <ListItemIcon>
                                         <PeopleAltIcon />
@@ -71,7 +71,7 @@ function MenuList(props) {
                                     <ListItemText primary="Grupos" />
                                 </ListItem>
                             </Link>
-
+ */}
                             <Link to="/admin/institutions" className={classes.link}>
                                 <ListItem button selected={url === '/admin/institutions' ? true : false}>
                                     <ListItemIcon>

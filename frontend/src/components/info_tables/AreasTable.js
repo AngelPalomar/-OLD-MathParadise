@@ -32,13 +32,13 @@ function AreasTable() {
     const [reload, setReload] = useState(false)
 
     const columns = [
-        { field: 'id', headerName: 'ID', width: 70 },
+        { field: 'id', headerName: 'ID', width: 100 },
         { field: 'name', headerName: 'Nombre', width: 500 },
         {
             field: 'active',
             headerName: 'Estado',
             renderCell: (params) => (
-                params.getValue('active') ?
+                params.getValue(params.id, 'active') ?
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <CheckCircleIcon style={{ color: '#00B76F' }} />
                         <span style={{ marginLeft: 5 }}>Activo</span>
@@ -56,7 +56,7 @@ function AreasTable() {
             width: 150,
             renderCell: (params) => (
                 <Fragment>
-                    <Link to={`/admin/areas/update/${params.getValue("id")}`}>
+                    <Link to={`/admin/areas/update/${params.getValue(params.id, "id")}`}>
                         <IconButton className={classes.modifyButton}>
                             <CreateIcon style={{ fontSize: 16 }} />
                         </IconButton>
@@ -65,7 +65,7 @@ function AreasTable() {
                         className={classes.deleteButton}
                         onClick={() => {
                             setOpen(true)
-                            setSelectedId(params.getValue("id"))
+                            setSelectedId(params.getValue(params.id, "id"))
                         }}>
                         <DeleteIcon style={{ fontSize: 16 }} />
                     </IconButton>

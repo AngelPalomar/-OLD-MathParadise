@@ -42,6 +42,25 @@ function getInstitutions(req, res) {
     })
 }
 
+function getInstitutionById(req, res) {
+    const params = req.params
+
+    Institution.findById(params.id, (err, institution) => {
+        if (err) {
+            res.status(500).send({ status: 0, message: "Error del servidor." })
+        } else {
+            if (!institution) {
+                res.status(404).send({ status: 0, message: "No se pudo encontrar una institución." })
+            } else {
+                res.status(200).send({
+                    status: 1,
+                    institution: institution
+                })
+            }
+        }
+    })
+}
+
 function updateInstitution(req, res) {
     const InstitutionData = req.body
     const params = req.params
@@ -82,5 +101,6 @@ module.exports = {
     createInstitution,
     getInstitutions,
     updateInstitution,
-    deleteInstitution
+    deleteInstitution,
+    getInstitutionById
 }

@@ -14,7 +14,7 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import CreateIcon from '@material-ui/icons/Create'
 
 /**APIs */
-import { getInstitutionsApi } from "../../api/institution"
+import { getInstitutionsApi, deleteInstitutionApi } from "../../api/institution"
 
 function InstitutionsTable() {
     const classes = useStyles()
@@ -28,7 +28,7 @@ function InstitutionsTable() {
     const [reload, setReload] = useState(false)
 
     const columns = [
-        { field: 'id', headerName: 'ID', width: 70 },
+        { field: 'id', headerName: 'ID', width: 100, hide: true },
         { field: 'name', headerName: 'Nombre', width: 300, },
         { field: 'abbrev', headerName: 'Abrebiatura', width: 120 },
         { field: 'type', headerName: 'Tipo', width: 150 },
@@ -40,7 +40,7 @@ function InstitutionsTable() {
             width: 150,
             renderCell: (params) => (
                 <Fragment>
-                    <Link to={`/admin/institutions/update/${params.getValue("id")}`}>
+                    <Link to={`/admin/institutions/update/${params.getValue(params.id, "id")}`}>
                         <IconButton className={classes.modifyButton}>
                             <CreateIcon style={{ fontSize: 16 }} />
                         </IconButton>
@@ -49,7 +49,7 @@ function InstitutionsTable() {
                         className={classes.deleteButton}
                         onClick={() => {
                             setOpen(true)
-                            setSelectedId(params.getValue("id"))
+                            setSelectedId(params.getValue(params.id, "id"))
                         }}>
                         <DeleteIcon style={{ fontSize: 16 }} />
                     </IconButton>
@@ -78,7 +78,7 @@ function InstitutionsTable() {
                 onClose={() => setOpen(false)}
                 title="Eliminar institución"
                 onAccept={() => {
-                    //deleteAreaApi(selectedId).then()
+                    deleteInstitutionApi(selectedId).then()
                     setOpen(false)
                     setReload(true)
                 }}>

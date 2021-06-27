@@ -8,6 +8,9 @@ import { useStyles } from '../useStyles'
 
 /**Components */
 import DefaultSnackbar from '../../../components/snackbars/DefaultSnackbar'
+import ClassicStats from '../../../components/game_stats/ClassicStats'
+import ArcadeStats from '../../../components/game_stats/ArcadeStats'
+import RushStats from '../../../components/game_stats/RushStats'
 
 /**Icons */
 import AddIcon from '@material-ui/icons/Add'
@@ -336,6 +339,17 @@ function UpdateUser(props) {
                     </div>
                 </form >
             </Paper >
+            <Grid container spacing={1} style={{ marginBlock: 10 }}>
+                <Grid item xs={12} sm={6} md={4} lg={4}>
+                    <ClassicStats nickname={inputs.nickname} />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={4}>
+                    <ArcadeStats nickname={inputs.nickname} />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={4}>
+                    <RushStats nickname={inputs.nickname} />
+                </Grid>
+            </Grid>
         </Fragment>
     )
 }

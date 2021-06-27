@@ -54,7 +54,7 @@ function UsersTable() {
             headerName: 'Nombre Completo',
             width: 200,
             valueGetter: (params) =>
-                `${params.getValue('name') || ''} ${params.getValue('lastname') || ''}`,
+                `${params.getValue(params.id, 'name') || ''} ${params.getValue(params.id, 'lastname') || ''}`,
         },
         { field: 'nickname', headerName: 'Nickname', width: 150 },
         { field: 'email', headerName: 'Correo electrónico', width: 150 },
@@ -65,7 +65,7 @@ function UsersTable() {
             field: 'active',
             headerName: 'Estado',
             renderCell: (params) => (
-                params.getValue('active') ?
+                params.getValue(params.id, 'active') ?
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <CheckCircleIcon style={{ color: '#00B76F' }} />
                         <span style={{ marginLeft: 5 }}>Activo</span>
@@ -83,7 +83,7 @@ function UsersTable() {
             width: 130,
             renderCell: (params) => (
                 <div>
-                    <Link to={`/admin/users/update/${params.getValue("id")}`}>
+                    <Link to={`/admin/users/update/${params.getValue(params.id, "id")}`}>
                         <IconButton className={classes.modifyButton}>
                             <CreateIcon style={{ fontSize: 16 }} />
                         </IconButton>
@@ -92,7 +92,7 @@ function UsersTable() {
                         className={classes.deleteButton}
                         onClick={() => {
                             setOpen(true)
-                            setSelectedId(params.getValue("id"))
+                            setSelectedId(params.getValue(params.id, "id"))
                         }}>
                         <DeleteIcon style={{ fontSize: 16 }} />
                     </IconButton>

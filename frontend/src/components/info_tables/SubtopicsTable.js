@@ -32,8 +32,8 @@ function SubtopicsTable() {
     const [reload, setReload] = useState(false)
 
     const columns = [
-        { field: 'id', headerName: 'ID', width: 70 },
-        { field: 'name', headerName: 'Nombre', width: 250 },
+        { field: 'id', headerName: 'ID', width: 100 },
+        { field: 'name', headerName: 'Nombre', width: 212 },
         { field: 'topic', headerName: 'Tema', width: 110 },
         { field: 'area', headerName: 'Área', width: 110 },
         { field: 'displayLabel', headerName: 'Texto de casilla', width: 120 },
@@ -41,7 +41,7 @@ function SubtopicsTable() {
             field: 'symbol',
             headerName: 'Símbolo',
             renderCell: (params) => (
-                <InlineMath math={`${params.getValue("symbol")}`} />
+                <InlineMath math={`${params.getValue(params.id, "symbol")}`} />
             ),
             width: 150
         },
@@ -49,7 +49,7 @@ function SubtopicsTable() {
             field: 'active',
             headerName: 'Estado',
             renderCell: (params) => (
-                params.getValue('active') ?
+                params.getValue(params.id, 'active') ?
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <CheckCircleIcon style={{ color: '#00B76F' }} />
                         <span style={{ marginLeft: 5 }}>Activo</span>
@@ -67,7 +67,7 @@ function SubtopicsTable() {
             width: 130,
             renderCell: (params) => (
                 <Fragment>
-                    <Link to={`/admin/subtopics/update/${params.getValue("id")}`}>
+                    <Link to={`/admin/subtopics/update/${params.getValue(params.id, "id")}`}>
                         <IconButton className={classes.modifyButton}>
                             <CreateIcon style={{ fontSize: 16 }} />
                         </IconButton>
@@ -76,7 +76,7 @@ function SubtopicsTable() {
                         className={classes.deleteButton}
                         onClick={() => {
                             setOpen(true)
-                            setSelectedId(params.getValue("id"))
+                            setSelectedId(params.getValue(params.id, "id"))
                         }}>
                         <DeleteIcon style={{ fontSize: 16 }} />
                     </IconButton>

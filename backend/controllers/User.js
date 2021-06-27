@@ -411,7 +411,7 @@ function getAvatar(req, res) {
                 message: "El archivo no existe"
             })
         } else {
-            res.sendFile(path.resolve(filePath))
+            res.status(200).sendFile(path.resolve(filePath))
         }
     })
 }

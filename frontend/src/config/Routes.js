@@ -17,6 +17,7 @@ import AdminUserUpdate from '../pages/admin/users/UpdateUser'
 //Instituciones
 import AdminInstitutionsMenu from '../pages/admin/institutions/MenuInstitutions'
 import AdminInstitutionsCreate from '../pages/admin/institutions/CreateIInstitution'
+import AdminInstitutionsUpdate from '../pages/admin/institutions/UpdateInstitution'
 
 //Ejercicios
 import AdminExcercisesMenu from '../pages/admin/excercises/MenuExcercises'
@@ -121,6 +122,11 @@ const routes = [
             {
                 path: '/admin/institutions/create',
                 component: AdminInstitutionsCreate,
+                exact: true
+            },
+            {
+                path: '/admin/institutions/update/:id',
+                component: AdminInstitutionsUpdate,
                 exact: true
             },
             {

@@ -32,12 +32,12 @@ function ExcercisesTable() {
     const [reload, setReload] = useState(false)
 
     const columns = [
-        { field: 'id', headerName: 'ID', width: 70 },
+        { field: 'id', headerName: 'ID', width: 100 },
         {
             field: 'label',
             headerName: 'Ejercicio',
             renderCell: (params) => (
-                <InlineMath math={`${params.getValue("label")}`} />
+                <InlineMath math={`${params.getValue(params.id, "label")}`} />
             ),
             width: 250
         },
@@ -46,7 +46,7 @@ function ExcercisesTable() {
             headerName: 'Opción A',
             hide: true,
             renderCell: (params) => (
-                <InlineMath math={`${params.getValue("option_a")}`} />
+                <InlineMath math={`${params.getValue(params.id, "option_a")}`} />
             ),
             width: 150
         },
@@ -55,7 +55,7 @@ function ExcercisesTable() {
             headerName: 'Opción B',
             hide: true,
             renderCell: (params) => (
-                <InlineMath math={`${params.getValue("option_b")}`} />
+                <InlineMath math={`${params.getValue(params.id, "option_b")}`} />
             ),
             width: 150
         },
@@ -64,7 +64,7 @@ function ExcercisesTable() {
             headerName: 'Opción C',
             hide: true,
             renderCell: (params) => (
-                <InlineMath math={`${params.getValue("option_c")}`} />
+                <InlineMath math={`${params.getValue(params.id, "option_c")}`} />
             ),
             width: 150
         },
@@ -73,7 +73,7 @@ function ExcercisesTable() {
             headerName: 'Opción D',
             hide: true,
             renderCell: (params) => (
-                <InlineMath math={`${params.getValue("option_d")}`} />
+                <InlineMath math={`${params.getValue(params.id, "option_d")}`} />
             ),
             width: 150
         },
@@ -82,7 +82,7 @@ function ExcercisesTable() {
             headerName: 'Respuesta',
             hide: true,
             renderCell: (params) => (
-                <InlineMath math={`${params.getValue("answer")}`} />
+                <InlineMath math={`${params.getValue(params.id, "answer")}`} />
             ),
             width: 150
         },
@@ -94,7 +94,7 @@ function ExcercisesTable() {
             field: 'active',
             headerName: 'Estado',
             renderCell: (params) => (
-                params.getValue('active') ?
+                params.getValue(params.id, 'active') ?
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <CheckCircleIcon style={{ color: '#00B76F' }} />
                         <span style={{ marginLeft: 5 }}>Activo</span>
@@ -112,7 +112,7 @@ function ExcercisesTable() {
             width: 130,
             renderCell: (params) => (
                 <div>
-                    <Link to={`/admin/excercises/update/${params.getValue("id")}`}>
+                    <Link to={`/admin/excercises/update/${params.getValue(params.id, "id")}`}>
                         <IconButton className={classes.modifyButton}>
                             <CreateIcon style={{ fontSize: 16 }} />
                         </IconButton>
@@ -121,7 +121,7 @@ function ExcercisesTable() {
                         className={classes.deleteButton}
                         onClick={() => {
                             setOpen(true)
-                            setSelectedId(params.getValue("id"))
+                            setSelectedId(params.getValue(params.id, "id"))
                         }}>
                         <DeleteIcon style={{ fontSize: 16 }} />
                     </IconButton>
