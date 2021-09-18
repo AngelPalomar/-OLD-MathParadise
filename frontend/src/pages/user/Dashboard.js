@@ -10,7 +10,7 @@ import {
 import { getAccessTokenApi } from '../../api/auth'
 
 /**Componentes */
-import Avatar from "../../components/Avatar"
+import Avatar from "../../components/UserCard"
 import ClassicStats from "../../components/game_stats/ClassicStats"
 import ArcadeStats from "../../components/game_stats/ArcadeStats"
 import RushStats from "../../components/game_stats/RushStats"

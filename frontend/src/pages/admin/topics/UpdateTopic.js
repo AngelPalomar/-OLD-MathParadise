@@ -55,7 +55,7 @@ function UpdateTopic(props) {
                 window.location.href = "/admin/topics"
             }
         })
-    }, [])
+    }, [id])
 
     const changeForm = (e) => {
         if (e.target.type === 'checkbox') {
@@ -103,7 +103,7 @@ function UpdateTopic(props) {
             <Paper className={classes.paper}>
                 <Typography variant="h5" className={classes.title}>
                     <AddIcon fontSize="large" /> Añadir tema
-            </Typography>
+                </Typography>
                 <Divider />
                 <form className={classes.formBox} onChange={changeForm} onSubmit={submitForm}>
                     <Typography>*Todos los campos son requeridos</Typography>
@@ -154,7 +154,7 @@ function UpdateTopic(props) {
                         </Link>
                         <Button type="submit" className={classes.okButton}>
                             Guardar
-                    </Button>
+                        </Button>
                     </Box>
                 </form>
             </Paper>

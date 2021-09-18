@@ -5,7 +5,7 @@ import {
     Dialog, DialogActions, Button, Typography, Divider
 } from '@material-ui/core'
 import { UpTransition } from '../../styles/Transitions'
-import { MATH_COLORS } from "../../styles/MathColors"
+import theme from "../../styles/MathThemes"
 
 /**Components */
 import Avatar from '../../components/DefaultAvatar'
@@ -27,7 +27,7 @@ function GameResults(props) {
                     <Typography
                         style={{
                             fontSize: '3.5vh',
-                            color: MATH_COLORS().math_success,
+                            color: theme.palette.success.main,
                             fontWeight: 'bold',
                             textAlign: 'center'
                         }}>
@@ -39,7 +39,7 @@ function GameResults(props) {
                     <Typography
                         style={{
                             fontSize: '3.5vh',
-                            color: MATH_COLORS().math_error,
+                            color: theme.palette.error.main,
                             fontWeight: 'bold',
                             textAlign: 'center'
                         }}>
@@ -55,7 +55,7 @@ function GameResults(props) {
                     <Typography
                         style={{
                             fontSize: '3.5vh',
-                            color: MATH_COLORS().math_success,
+                            color: theme.palette.success.main,
                             fontWeight: 'bold',
                             textAlign: 'center'
                         }}>
@@ -67,7 +67,7 @@ function GameResults(props) {
                     <Typography
                         style={{
                             fontSize: '3.5vh',
-                            color: MATH_COLORS().math_error,
+                            color: theme.palette.error.main,
                             fontWeight: 'bold',
                             textAlign: 'center'
                         }}>
@@ -151,13 +151,13 @@ function GameResults(props) {
                         color: '#000'
                     }}>
                         {`${info.currentPlayer === 1 ? player1 : player2}`}
-                        <span style={{ color: MATH_COLORS().math_disabled_label }}> - Estadísicas</span>
+                        <span style={{ color: theme.palette.disabled.dark }}> - Estadísicas</span>
                     </Typography>
                 </div>
                 <IsVictoryOrFailLabel />
                 <div className={classes.statsContainer}>
                     <Typography className={classes.statsLabels}>
-                        Puntos: <span style={{ color: MATH_COLORS().math_blue }}>{
+                        Puntos: <span style={{ color: theme.palette.primary.main }}>{
                             info.currentPlayer === 1 ? info.player1.pts : info.player2.pts
                         }</span> {
                             isNewRecord ?
@@ -167,17 +167,17 @@ function GameResults(props) {
                         }
                     </Typography>
                     <Typography className={classes.statsLabels}>
-                        Ejercicios resueltos: <span style={{ color: MATH_COLORS().math_blue }}>{
+                        Ejercicios resueltos: <span style={{ color: theme.palette.primary.main }}>{
                             info.currentPlayer === 1 ? info.player1.excer : info.player2.excer
                         }</span>
                     </Typography>
                     <Typography className={classes.statsLabels}>
-                        Aciertos: <span style={{ color: MATH_COLORS().math_blue }}>{
+                        Aciertos: <span style={{ color: theme.palette.primary.main }}>{
                             info.currentPlayer === 1 ? info.player1.correct : info.player2.correct
                         }</span>
                     </Typography>
                     <Typography className={classes.statsLabels}>
-                        Errores: <span style={{ color: MATH_COLORS().math_blue }}>{
+                        Errores: <span style={{ color: theme.palette.primary.main }}>{
                             info.currentPlayer === 1 ? info.player1.wrong : info.player2.wrong
                         }</span>
                     </Typography>

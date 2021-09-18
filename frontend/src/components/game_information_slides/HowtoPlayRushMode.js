@@ -7,7 +7,7 @@ import { useStyles } from './useStyles'
 
 /**Imágenes */
 import rushIcon from '../../assets/images/icons/rush_icon_1.svg'
-import { MATH_COLORS } from '../../styles/MathColors'
+import theme from '../../styles/MathThemes'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />
@@ -29,7 +29,7 @@ function HowtoPlayRushMode(props) {
             </Box>
 
             <DialogTitle
-                style={{ color: MATH_COLORS().math_rush_base }}
+                style={{ color: theme.palette.primary.main }}
                 className={classes.title}>¿Cómo jugar en el Modo Rush?</DialogTitle>
 
             <DialogContent>

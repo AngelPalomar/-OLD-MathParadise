@@ -7,7 +7,7 @@ import { useStyles } from './useStyles'
 
 /**Imágenes */
 import rushIcon from '../../assets/images/icons/classic_icon_1.svg'
-import { MATH_COLORS } from '../../styles/MathColors'
+import theme from '../../styles/MathThemes'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />
@@ -29,7 +29,7 @@ function HowtoPlayClassicMode(props) {
             </Box>
 
             <DialogTitle
-                style={{ color: MATH_COLORS().math_classic_base }}
+                style={{ color: theme.palette.primary.main }}
                 className={classes.title}>¿Cómo jugar en el Modo Clásico?</DialogTitle>
 
             <DialogContent>
@@ -73,7 +73,7 @@ function HowtoPlayClassicMode(props) {
                     - Ejercicio Random: Te mostrará un ejercicio aleatorio.
                     <br />
                     - Reto: Mostrará un ejercicio al azar, pero el cronómetro irá el doble de
-                            rápido, si lo contestas de forma errónea, te bajará 150 puntos.
+                    rápido, si lo contestas de forma errónea, te bajará 150 puntos.
                     <br />
                     - Evento: Te soltará una bonificación o penalización, dependiendo del evento al azar.
                     <br />

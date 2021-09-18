@@ -1,5 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles"
-import { MATH_COLORS, MATH_GRADIENTS } from '../../../styles/MathColors'
+import theme from '../../../styles/MathThemes'
+import { MATH_GRADIENTS } from '../../../styles/MathColors'
 
 export const useStyles = makeStyles((theme) => ({
     classicBack: {
@@ -39,13 +40,13 @@ export const useStyles = makeStyles((theme) => ({
         fontSize: '24px'
     },
     vs: {
-        color: MATH_COLORS().math_error_dark,
+        color: theme.palette.error.dark,
         textAlign: 'center',
         fontWeight: 'bold',
         fontSize: '7vh'
     },
     infoLabel: {
-        color: MATH_COLORS().math_success,
+        color: theme.palette.success.main,
         fontSize: '29px'
     },
     infoData: {

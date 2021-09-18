@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from 'react-router-dom'
 import { makeStyles, Drawer } from "@material-ui/core";
 import MenuList from "./MenuList"
-import Logo from "./Logo"
+import Logo from "../Logo"
 
 const drawerWidth = 240;
 const useStyle = makeStyles((theme) => ({

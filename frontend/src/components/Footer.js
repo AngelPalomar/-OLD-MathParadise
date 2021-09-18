@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(3),
         width: '100%',
         background: '#FFF',
-        color: '#2A55FF'
+        color: theme.palette.primary.main
     },
     logos: {
         [theme.breakpoints.up('xs')]: {

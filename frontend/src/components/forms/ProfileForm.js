@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, Fragment } from 'react'
 import jwtDecode from 'jwt-decode'
 import {
     Grid, TextField, Button, Dialog, DialogActions, DialogContent, DialogTitle,
-    FormControl, InputLabel, Select, MenuItem, Typography, Avatar
+    FormControl, InputLabel, Select, MenuItem, Typography, Avatar, CircularProgress
 } from "@material-ui/core"
 import { useStyles } from './useStyles'
 import { useDropzone } from 'react-dropzone'
@@ -39,6 +39,7 @@ function ProfileForm(props) {
     })
     //Estado para la foto de perfil
     const [avatar, setAvatar] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
 
     //Validación de los imputs
     const [inputsValidation, setInputsValidation] = useState({
@@ -81,6 +82,7 @@ function ProfileForm(props) {
         if (avatar) {
             setInputs({ ...inputs, avatar: avatar.file })
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [avatar])
 
     //Función para guardar los datos editados 
@@ -133,6 +135,9 @@ function ProfileForm(props) {
             return
         }
 
+        //Inicia la carga
+        setIsLoading(true)
+
         //si cambió la foto de perfil, lo actualiza
         if (typeof inputs.avatar === "object") {
             uploadAvatarApi(userUpdate.avatar, userData._id).then(response => {
@@ -181,6 +186,9 @@ function ProfileForm(props) {
                 }
             })
         }
+
+        //Para la carga
+        setIsLoading(false)
     }
 
     return (
@@ -298,12 +306,18 @@ function ProfileForm(props) {
                     </DialogContent>
 
                     <DialogActions>
-                        <Button onClick={close} startIcon={<ClearIcon />} className={classes.cancelButton}>
-                            Cancelar
-                    </Button>
-                        <Button type="submit" startIcon={<SaveIcon />} className={classes.button}>
-                            Guardar
-                    </Button>
+                        {
+                            isLoading ?
+                                <CircularProgress color='primary' variant='indeterminate' /> :
+                                <Fragment>
+                                    <Button onClick={close} startIcon={<ClearIcon />} className={classes.cancelButton}>
+                                        Cancelar
+                                    </Button>
+                                    <Button type="submit" color='primary' variant='contained' startIcon={<SaveIcon />}>
+                                        Guardar
+                                    </Button>
+                                </Fragment>
+                        }
                     </DialogActions>
                 </form>
             </Dialog>
@@ -312,7 +326,7 @@ function ProfileForm(props) {
 }
 
 function UploadAvatar(props) {
-    const { avatar, setAvatar, nickname } = props
+    const { avatar, setAvatar, /* nickname */ } = props
     const [avatarUrl, setAvatarUrl] = useState(null)
     const classes = useStyles()
 

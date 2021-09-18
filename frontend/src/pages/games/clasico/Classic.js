@@ -257,6 +257,7 @@ function Classic(props) {
                 },
                 currentPos: (gameLocal.player2.sum_dice + dice) % 30
             })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dice])
 
     //Funmción para girar el dado
@@ -350,6 +351,7 @@ function Classic(props) {
                 }
             }
         }, 1000);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
         gameLocal.currentPlayer,
         gameLocal.turn,
@@ -391,6 +393,7 @@ function Classic(props) {
                 break
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [gameLocal.player1.sum_dice, gameLocal.player2.sum_dice])
 
     //Efecto que detecta las vueltas de los dos jugadores
@@ -464,6 +467,7 @@ function Classic(props) {
             //Abre el panel de resultados
             setOpenResultsPanel(true)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
         gameLocal.player1.rounds,
         gameLocal.player2.rounds,
@@ -513,6 +517,7 @@ function Classic(props) {
             }, 3000);
         }
         return () => clearInterval(f)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [gameLocal.turn, gameLocal.currentPlayer, gameLocal])
 
     //Función para cerrar el panel de ejercicio y contestar el ejercicio
@@ -567,7 +572,7 @@ function Classic(props) {
 
         switch (event) {
             //Disminuye una casilla
-            case '-1 casillas': {
+            case '-1 casillas':
                 if (gameLocal.currentPlayer === 1) {
                     setGameLocal({
                         ...gameLocal,
@@ -592,11 +597,10 @@ function Classic(props) {
 
                 //Actualiza la partida
                 updateGame(0, -1)
-            }
                 break;
 
             //Disminuye tres casilla
-            case '-3 casillas': {
+            case '-3 casillas':
                 if (gameLocal.currentPlayer === 1) {
                     setGameLocal({
                         ...gameLocal,
@@ -621,10 +625,9 @@ function Classic(props) {
 
                 //Actualiza la partida
                 updateGame(0, -3)
-            }
                 break;
 
-            case '-5 casillas': {
+            case '-5 casillas':
                 if (gameLocal.currentPlayer === 1) {
                     setGameLocal({
                         ...gameLocal, player1: {
@@ -648,10 +651,9 @@ function Classic(props) {
 
                 //Actualiza la partida
                 updateGame(0, -5)
-            }
                 break;
 
-            case '+2 casillas': {
+            case '+2 casillas':
                 if (gameLocal.currentPlayer === 1) {
                     setGameLocal({
                         ...gameLocal, player1: {
@@ -675,10 +677,9 @@ function Classic(props) {
 
                 //Actualiza la partida
                 updateGame(0, 2)
-            }
                 break;
 
-            case '+3 casillas': {
+            case '+3 casillas':
                 if (gameLocal.currentPlayer === 1) {
                     setGameLocal({
                         ...gameLocal, player1: {
@@ -702,11 +703,9 @@ function Classic(props) {
 
                 //Actualiza la partida
                 updateGame(0, 3)
-            }
                 break;
 
-            case 'Ejercicio Aleatorio': {
-
+            case 'Ejercicio Aleatorio':
                 getRandomExcerciseApi(
                     gameLocal.area,
                     board[Math.floor(Math.random() * (16 - 24) + 24)].name,
@@ -719,10 +718,9 @@ function Classic(props) {
                  * el ejercicio lo dará aleatorio
                  */
                 setOpenExcPanel(true)
-            }
                 break;
 
-            case '-5 puntos': {
+            case '-5 puntos':
                 if (gameLocal.currentPlayer === 1) {
                     setGameLocal({
                         ...gameLocal, player1: {
@@ -746,10 +744,9 @@ function Classic(props) {
 
                 //Actualiza la partida
                 updateGame(-5, 0)
-            }
                 break;
 
-            case '-10 puntos': {
+            case '-10 puntos':
                 if (gameLocal.currentPlayer === 1) {
                     setGameLocal({
                         ...gameLocal, player1: {
@@ -773,15 +770,13 @@ function Classic(props) {
 
                 //Actualiza la partida
                 updateGame(-10, 0)
-            }
                 break;
 
-            case 'Tira otra vez': {
+            case 'Tira otra vez':
                 setGameLocal({
                     ...gameLocal,
                     phase: 'draw'
                 })
-            }
                 break;
 
             default:
@@ -833,6 +828,7 @@ function Classic(props) {
                 message: `Es el turno de ${gameLocal.currentPlayer === 1 ? game.player2 : game.player1}`
             })
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [gameLocal.turn, gameLocal.currentPlayer])
 
     //Función para abir y cerrar el menú

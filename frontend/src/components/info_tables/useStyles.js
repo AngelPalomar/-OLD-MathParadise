@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles'
-import { MATH_COLORS } from '../../styles/MathColors'
+import theme from '../../styles/MathThemes'
 
 export const useStyles = makeStyles({
     tableHead: {
@@ -7,21 +7,21 @@ export const useStyles = makeStyles({
     },
     deleteButton: {
         color: '#FFF',
-        background: MATH_COLORS().math_error,
+        background: theme.palette.error.main,
         marginLeft: 20,
         '&:hover': {
             color: '#FFF',
-            background: MATH_COLORS().math_error_dark
+            background: theme.palette.error.dark
         },
         width: 32,
         height: 32
     },
     modifyButton: {
         color: '#FFF',
-        background: MATH_COLORS().math_rush_base,
+        background: theme.palette.primary.main,
         '&:hover': {
             color: '#FFF',
-            background: MATH_COLORS().math_rush_base_dark
+            background: theme.palette.primary.dark
         },
         width: 32,
         height: 32

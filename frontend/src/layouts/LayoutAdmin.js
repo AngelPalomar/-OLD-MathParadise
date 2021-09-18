@@ -4,10 +4,10 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 import { makeStyles, Hidden } from "@material-ui/core"
 
 /**Componentes */
-import Login from '../pages/Login'
+//import Login from '../pages/Login'
 
 /**Navegación */
-import Header from '../components/Header'
+import Header from '../components/user_navigation/Header'
 import NavMenu from '../components/admin_navigation/NavMenu'
 
 /**APIs */

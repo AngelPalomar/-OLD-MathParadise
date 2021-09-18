@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import {
-    Typography, Paper, Divider, Box,
+    Typography, Paper, Divider,
     CircularProgress, Button, Grid
 } from '@material-ui/core'
 import { useStyles } from './useStyles'
@@ -59,6 +59,7 @@ function LobbyNew(props) {
                 setGame(response.game)
             }
         })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     //Función para verificar si el jugador 2 se unió
@@ -76,6 +77,7 @@ function LobbyNew(props) {
             //Si ya se unió
             joinSound.play()
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [game.player2])
 
     //Función para traer los subtemas

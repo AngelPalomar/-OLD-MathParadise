@@ -76,8 +76,9 @@ function AreasTable() {
 
     useEffect(() => {
         getAreasApi().then(response => {
-            response.areas.map(value => {
+            response.areas.forEach(value => {
                 areaList.push({ ...value, id: value._id })
+                return null
             })
 
             setAreaData(areaList)
@@ -85,6 +86,7 @@ function AreasTable() {
         })
 
         setReload(false)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reload])
 
     return (
@@ -104,7 +106,7 @@ function AreasTable() {
                 <DataGrid
                     columns={columns}
                     rows={areasData}
-                    pageSize={10}
+                    pageSize={25}
                     disableSelectionOnClick
                     loading={isLoading}
                     components={{

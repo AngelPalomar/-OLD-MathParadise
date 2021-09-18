@@ -7,7 +7,7 @@ import { useStyles } from './useStyles'
 
 /**Imágenes */
 import rushIcon from '../../assets/images/icons/arcade_icon_1.svg'
-import { MATH_COLORS } from '../../styles/MathColors'
+import theme from '../../styles/MathThemes'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />
@@ -29,8 +29,8 @@ function HowtoPlayArcadeMode(props) {
             </Box>
 
             <DialogTitle
-                style={{ color: MATH_COLORS().math_arcade_base }}
-                className={classes.title}>¿Cómo jugar en el Modo Clásico?</DialogTitle>
+                style={{ color: theme.palette.primary.main }}
+                className={classes.title}>¿Cómo jugar en el Modo Arcade?</DialogTitle>
 
             <DialogContent>
                 <DialogContentText className={classes.textContent}>
@@ -72,7 +72,7 @@ function HowtoPlayArcadeMode(props) {
                     - Ejercicio Random: Te mostrará un ejercicio aleatorio.
                     <br />
                     - Reto: Mostrará un ejercicio al azar, pero el cronómetro irá el doble de
-                            rápido, si lo contestas de forma errónea, te bajará 150 puntos.
+                    rápido, si lo contestas de forma errónea, te bajará 150 puntos.
                     <br />
                     <br />
                     Para ganar puntos, obtendrás 1000 puntos si contestas en menos de 5 segundos,

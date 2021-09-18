@@ -132,7 +132,7 @@ function ExcercisesTable() {
 
     useEffect(() => {
         getExcercisesApi().then(response => {
-            response.excercises.map(value => {
+            response.excercises.forEach(value => {
                 excList.push({ ...value, id: value._id })
             })
 
@@ -141,6 +141,7 @@ function ExcercisesTable() {
         })
 
         setReload(false)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reload])
 
     return (
@@ -160,7 +161,7 @@ function ExcercisesTable() {
                 <DataGrid
                     columns={columns}
                     rows={areasData}
-                    pageSize={20}
+                    pageSize={25}
                     disableSelectionOnClick
                     loading={isLoading}
                     components={{

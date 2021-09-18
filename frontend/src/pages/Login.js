@@ -6,6 +6,7 @@ import {
     FormControl, CircularProgress
 } from '@material-ui/core'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
+import { MATH_GRADIENTS } from '../styles/MathColors'
 
 /**Componentes */
 import Logo from '../components/Logo'
@@ -50,11 +51,10 @@ const useStyles = makeStyles((theme) => ({
     button: {
         display: "flex",
         margin: "auto",
+        width: '100%',
         padding: theme.spacing(2),
-        paddingLeft: theme.spacing(3),
-        paddingRight: theme.spacing(3),
         color: "#FFFFFF",
-        background: "linear-gradient(45deg, #2A55FF, #15FFD4)",
+        background: MATH_GRADIENTS().default,
         textAlign: "center",
     },
     footer: {

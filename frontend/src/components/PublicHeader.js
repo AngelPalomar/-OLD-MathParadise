@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
         width: '185px',
     },
     colorLabels: {
-        color: MATH_COLORS().math_blue
+        color: theme.palette.primary.main
     },
     link: {
         textDecoration: 'none',

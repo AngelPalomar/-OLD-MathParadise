@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import {
     Typography, Paper, Grid, Box, CircularProgress, Button
 } from '@material-ui/core'
-import { MATH_COLORS } from '../../styles/MathColors'
+import theme from '../../styles/MathThemes'
 
 /**Iconos */
 import EditIcon from '@material-ui/icons/Edit';
@@ -71,10 +71,10 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center'
     },
     button: {
-        background: MATH_COLORS().math_blue,
+        background: theme.palette.primary.main,
         color: '#FFF',
         '&:hover': {
-            background: MATH_COLORS().math_blue_dark,
+            background: theme.palette.primary.dark,
         }
     },
 }))
@@ -200,7 +200,7 @@ function Profile(props) {
                                                         className={classes.button}
                                                         startIcon={<EditIcon />}>
                                                         Editar Perfil
-                                                </Button>
+                                                    </Button>
                                                 </Box> </Fragment> : null : null
                                 }
                             </Box>

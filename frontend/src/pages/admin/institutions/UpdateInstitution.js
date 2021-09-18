@@ -37,7 +37,7 @@ function UpdateInstitution(props) {
                 window.location.href = '/admin/institutions'
             }
         })
-    }, [])
+    }, [id])
 
     //Cambio del form
     const changeForm = (e) => {
@@ -75,7 +75,7 @@ function UpdateInstitution(props) {
         }
     }
 
-    if (inputs.length === 0) {
+    if (isLoading) {
         return <CircularProgress />
     }
 

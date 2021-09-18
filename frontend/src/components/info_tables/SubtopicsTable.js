@@ -87,7 +87,7 @@ function SubtopicsTable() {
 
     useEffect(() => {
         getTSubtopicsApi().then(response => {
-            response.subtopics.map(value => {
+            response.subtopics.forEach(value => {
                 subtList.push({ ...value, id: value._id })
             })
 
@@ -96,6 +96,7 @@ function SubtopicsTable() {
         })
 
         setReload(false)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reload])
 
     return (
@@ -115,7 +116,7 @@ function SubtopicsTable() {
                 <DataGrid
                     columns={columns}
                     rows={areasData}
-                    pageSize={10}
+                    pageSize={25}
                     disableSelectionOnClick
                     loading={isLoading}
                     components={{

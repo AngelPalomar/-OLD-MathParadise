@@ -5,7 +5,7 @@ import { AppBar, Toolbar, IconButton, Typography, Menu, MenuItem, Button } from 
 import clsx from 'clsx'
 
 /**Componentes */
-import UserAvatar from './DefaultAvatar'
+import UserAvatar from '../DefaultAvatar'
 
 /**Iconos */
 import MenuIcon from '@material-ui/icons/Menu'
@@ -14,8 +14,8 @@ import AccountBoxIcon from '@material-ui/icons/AccountBox'
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew'
 
 /**APIS */
-import { getAccessTokenApi } from "../api/auth"
-import { logout } from "../api/auth";
+import { getAccessTokenApi } from "../../api/auth"
+import { logout } from "../../api/auth";
 
 const drawerWidth = 240
 const useStyles = makeStyles((theme) => ({
@@ -42,18 +42,15 @@ const useStyles = makeStyles((theme) => ({
             marginLeft: drawerWidth,
         },
     },
-    colorLabels: {
-        color: '#616161'
-    },
     alignIcon: {
         display: 'flex',
         alignItems: 'center'
     },
     logoutLabel: {
-        color: '#FF0008'
+        color: theme.palette.error.main
     },
     basicLabel: {
-        color: '#616161'
+        color: theme.palette.primary.main
     }
 }))
 
@@ -85,8 +82,8 @@ function Header(props) {
                 <a href={"/home/profile/@" + jwtDecode(getAccessTokenApi()).nickname} className={classes.link}>
                     <Button>
                         <UserAvatar size="35px" fs="100%" nickname={jwtDecode(getAccessTokenApi()).nickname} />
-                    &nbsp;
-                    {jwtDecode(getAccessTokenApi()).nickname}
+                        &nbsp;
+                        {jwtDecode(getAccessTokenApi()).nickname}
                     </Button>
                 </a>
 

@@ -1,5 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles"
-import { MATH_COLORS, MATH_GRADIENTS } from '../../styles/MathColors'
+import theme from '../../styles/MathThemes'
+import { MATH_GRADIENTS } from '../../styles/MathColors'
 
 export const useStyles = makeStyles((theme) => ({
     root: {
@@ -20,10 +21,10 @@ export const useStyles = makeStyles((theme) => ({
     },
     classicInfo: {
         width: '100%',
-        background: MATH_COLORS().math_classic_base,
+        background: theme.palette.classic.main,
         color: "#FFFFFF",
         '&:hover': {
-            background: MATH_COLORS().math_classic_base_dark
+            background: theme.palette.classic.dark
         }
     },
     ArcadePaper: {
@@ -33,10 +34,10 @@ export const useStyles = makeStyles((theme) => ({
     },
     arcadeInfo: {
         width: '100%',
-        background: MATH_COLORS().math_arcade_base,
+        background: theme.palette.arcade.main,
         color: "#FFFFFF",
         '&:hover': {
-            background: MATH_COLORS().math_arcade_base_dark
+            background: theme.palette.arcade.dark
         }
     },
     RushPaper: {
@@ -46,16 +47,16 @@ export const useStyles = makeStyles((theme) => ({
     },
     rushInfo: {
         width: '100%',
-        background: MATH_COLORS().math_rush_base,
+        background: theme.palette.rush.main,
         color: "#FFFFFF",
         '&:hover': {
-            background: MATH_COLORS().math_rush_base_dark
+            background: theme.palette.rush.dark
         }
     },
     disabled: {
         padding: theme.spacing(2),
         color: "#FFFFFF",
-        background: "linear-gradient(45deg, #515151, #A1A1A1)"
+        background: MATH_GRADIENTS().disabled
     },
     select: {
         backgroundColor: "#FFFFFF",

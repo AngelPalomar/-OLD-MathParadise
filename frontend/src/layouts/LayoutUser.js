@@ -7,8 +7,8 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 import Login from '../pages/Login'
 
 /**Elementos de navegación */
-import Header from "../components/Header"
-import NavMenu from "../components/NavMenu"
+import Header from "../components/user_navigation/Header"
+import NavMenu from "../components/user_navigation/NavMenu"
 
 /**Hook para autenticación */
 import useAuth from '../hooks/useAuth'

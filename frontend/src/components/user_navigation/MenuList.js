@@ -4,7 +4,7 @@ import jwtDecode from 'jwt-decode';
 import { makeStyles, List, ListItem, ListItemIcon, ListItemText, Divider } from "@material-ui/core"
 
 /**APIS */
-import { getAccessTokenApi } from "../api/auth"
+import { getAccessTokenApi } from "../../api/auth"
 
 /**Iconos */
 import DashboardIcon from '@material-ui/icons/Dashboard'

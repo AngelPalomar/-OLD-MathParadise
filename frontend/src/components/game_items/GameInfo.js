@@ -3,8 +3,9 @@ import {
     Button, Dialog, DialogActions, DialogContent, Box, Slide, Typography
 } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
-import { MATH_COLORS, MATH_GRADIENTS } from '../../styles/MathColors'
-import { useStyles as generalStyles } from '../../components/game_items/useStyles'
+import theme from '../../styles/MathThemes'
+import { MATH_GRADIENTS } from '../../styles/MathColors'
+//import { useStyles as generalStyles } from '../../components/game_items/useStyles'
 
 import classicLogo from '../../assets/images/icons/classic_icon_1.svg'
 import arcadeLogo from '../../assets/images/icons/arcade_icon_1.svg'
@@ -44,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 
 function ClassicInfo(props) {
     const classes = useStyles()
-    const styles = generalStyles()
+    //const styles = generalStyles()
     /**Props */
     const { title, children, gameMode, introSound } = props
 
@@ -73,8 +74,8 @@ function ClassicInfo(props) {
                 <Box className={classes.dialog}>
                     <Typography
                         style={{
-                            color: gameMode === 'classic' ? MATH_COLORS().math_classic_base :
-                                gameMode === 'arcade' ? MATH_COLORS().math_arcade_base : MATH_COLORS().math_rush_base
+                            color: gameMode === 'classic' ? theme.palette.classic.main :
+                                gameMode === 'arcade' ? theme.palette.arcade.main : theme.palette.rush.main
                         }}
                         className={classes.title}>{title}</Typography>
                 </Box>

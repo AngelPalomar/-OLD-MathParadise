@@ -61,7 +61,7 @@ function UpdateSubtopic(props) {
                 window.location.href = '/admin/subtopics'
             }
         })
-    }, [])
+    }, [id])
 
     //Efecto que reacciona al area seleccionada y muestra los temas correspondiente
     useEffect(() => {
@@ -126,7 +126,7 @@ function UpdateSubtopic(props) {
             <Paper className={classes.paper}>
                 <Typography variant="h5" className={classes.title}>
                     <AddIcon fontSize="large" /> Añadir subtema
-            </Typography>
+                </Typography>
                 <Divider />
                 <form className={classes.formBox} onChange={changeForm} onSubmit={submitForm}>
                     <Typography>*Todos los campos son requeridos</Typography>

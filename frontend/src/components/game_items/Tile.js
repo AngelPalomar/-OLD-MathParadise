@@ -4,7 +4,7 @@ import { useStyles } from './useStyles'
 import 'katex/dist/katex.min.css'
 import { BlockMath } from "react-katex"
 import clsx from 'clsx'
-import { MATH_COLORS } from "../../styles/MathColors"
+//import { MATH_COLORS } from "../../styles/MathColors"
 
 function Tile(props) {
     const { pos, info, corner, type, image } = props

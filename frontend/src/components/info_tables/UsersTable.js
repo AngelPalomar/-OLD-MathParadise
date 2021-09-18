@@ -32,17 +32,16 @@ function UsersTable() {
         getAllUsersApi().then(response => {
             let usersList = []
 
-            response.users.map(value => {
+            response.users.forEach(value => {
                 usersList.push({ ...value, id: value._id })
             })
 
             setUsers(usersList)
             setIsLoading(false)
-        }).catch(error => {
-            console.log(error)
         })
 
         setReload(false)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reload])
 
     const columns = [
@@ -56,7 +55,17 @@ function UsersTable() {
             valueGetter: (params) =>
                 `${params.getValue(params.id, 'name') || ''} ${params.getValue(params.id, 'lastname') || ''}`,
         },
-        { field: 'nickname', headerName: 'Nickname', width: 150 },
+        {
+            field: 'nickname',
+            headerName: 'Nickname',
+            width: 150,
+            renderCell: (params) => (
+                <a href={`/home/profile/@${params.value}`}
+                    target='_blank'>
+                    {params.value}
+                </a>
+            )
+        },
         { field: 'email', headerName: 'Correo electrónico', width: 150 },
         { field: 'institution', headerName: 'Institución', width: 120 },
         { field: 'school_grade', headerName: 'Grado escolar', type: 'number', width: 120 },
@@ -118,7 +127,7 @@ function UsersTable() {
                 <DataGrid
                     columns={columns}
                     rows={users}
-                    pageSize={10}
+                    pageSize={25}
                     loading={isLoading}
                     disableSelectionOnClick
                     components={{

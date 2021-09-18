@@ -13,7 +13,7 @@ import { getAreasApi } from '../../api/areas'
 import { getGameByPinApi, joinGameApi } from '../../api/game'
 
 /**Iconos */
-import BookmarkIcon from '@material-ui/icons/Bookmark'
+//import BookmarkIcon from '@material-ui/icons/Bookmark'
 import HelpIcon from '@material-ui/icons/Help'
 
 /**Imagenes */

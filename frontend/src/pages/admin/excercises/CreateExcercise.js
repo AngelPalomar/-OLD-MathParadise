@@ -135,7 +135,7 @@ function Create() {
                             <Typography className={classes.previewLabel}>Ejercicio principal</Typography>
                         </Box> :
                         <span className={classes.previewLabel}>
-                            Escriba el ejercicio en funciones <a href="https://katex.org/docs/supported.html" target="_blank">KaTex</a> en el campo inferior
+                            Escriba el ejercicio en funciones <a href="https://katex.org/docs/supported.html" target="_blank" rel="noreferrer">KaTex</a> en el campo inferior
                         </span>
                     }
                 </Box>
@@ -372,7 +372,7 @@ function Create() {
                             <Link className={classes.link} to="/admin/excercises">
                                 <Button className={classes.cancelButton}>
                                     Cancelar
-                            </Button>
+                                </Button>
                             </Link>
                             <Button type="submit" className={classes.okButton}>
                                 Guardar ejercicio

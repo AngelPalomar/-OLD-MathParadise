@@ -1,5 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles"
-import { MATH_COLORS, MATH_GRADIENTS } from "../../styles/MathColors"
+import theme from "../../styles/MathThemes"
+import { MATH_GRADIENTS } from "../../styles/MathColors"
 
 /**
  * font-size: calc([minimum size] + ([maximum size] - [minimum size]) * 
@@ -76,7 +77,7 @@ export const useStyles = makeStyles((theme) => ({
     },
     menuTitle: {
         textAlign: 'center',
-        color: MATH_COLORS().math_rush,
+        color: theme.palette.rush.main,
         fontSize: '6vh'
     },
     gameInfoContainer: {
@@ -88,7 +89,7 @@ export const useStyles = makeStyles((theme) => ({
         fontSize: '2.5vh'
     },
     infoData: {
-        color: MATH_COLORS().math_rush_base_dark
+        color: theme.palette.rush.dark
     },
     buttonBack: {
         padding: theme.spacing(1),
@@ -125,7 +126,7 @@ export const useStyles = makeStyles((theme) => ({
     },
     topicLabel: {
         fontSize: '2.5vh',
-        color: MATH_COLORS().math_disabled_label
+        color: theme.palette.text.secondary
     },
     subtopicLabel: {
         fontSize: '7vh',
@@ -135,14 +136,14 @@ export const useStyles = makeStyles((theme) => ({
         fontSize: '3vh',
     },
     ptsToWinLabel: {
-        color: MATH_COLORS().math_warning
+        color: theme.palette.warning.main
     },
     excerciseLabel: {
         fontSize: '6vh',
-        color: MATH_COLORS().math_blue_dark
+        color: theme.palette.primary.dark
     },
     isTimeOverLabel: {
-        color: MATH_COLORS().math_rush_base,
+        color: theme.palette.rush.main,
         marginBlock: theme.spacing(4)
     },
     optionsLabelText: {
@@ -155,13 +156,13 @@ export const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-between'
     },
     idLabel: {
-        color: MATH_COLORS().math_disabled_dark,
+        color: theme.palette.text.secondary,
         fontSize: '2vh'
     },
     radioBtn: {
-        color: MATH_COLORS().math_blue,
+        color: theme.palette.primary.main,
         '&$checked': {
-            color: MATH_COLORS().math_blue
+            color: theme.palette.primary.main
         }
     },
     clockContainer: {
@@ -180,7 +181,7 @@ export const useStyles = makeStyles((theme) => ({
     },
     giveUpBtn: {
         color: '#FFF',
-        background: MATH_GRADIENTS().event_tile,
+        background: theme.palette.event.main,
         paddingInline: theme.spacing(2)
     },
     acceptBtn: {
@@ -205,12 +206,12 @@ export const useStyles = makeStyles((theme) => ({
 
     //Estilos del panel de Evento
     evtTitle: {
-        color: MATH_COLORS().math_event,
+        color: theme.palette.event.main,
         fontSize: '5vh',
         textAlign: 'center'
     },
     evtInstruc: {
-        color: MATH_COLORS().math_disabled_label,
+        color: theme.palette.text.secondary,
         fontSize: '3vh',
         textAlign: 'center'
     },
@@ -219,7 +220,7 @@ export const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(3),
     },
     eventCard: {
-        background: MATH_COLORS().math_event,
+        background: theme.palette.event.main,
         border: 5,
         borderStyle: 'dotted',
         borderColor: '#FFF',
@@ -243,7 +244,7 @@ export const useStyles = makeStyles((theme) => ({
         textAlign: 'center'
     },
     resultsSubTitle: {
-        color: MATH_COLORS().math_disabled_label,
+        color: theme.palette.text.secondary,
         fontSize: '2.5vh',
         textAlign: 'center',
         marginBottom: theme.spacing(2)
@@ -261,7 +262,7 @@ export const useStyles = makeStyles((theme) => ({
         textAlign: 'center'
     },
     winnerLabel: {
-        color: MATH_COLORS().math_disabled_label,
+        color: theme.palette.text.secondary,
         fontSize: '2.2vh',
         textAlign: 'center'
     },

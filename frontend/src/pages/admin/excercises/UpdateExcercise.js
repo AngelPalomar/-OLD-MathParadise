@@ -71,7 +71,7 @@ function UpdateExcercise(props) {
                 window.location.href = '/admin/excercises'
             }
         })
-    }, [])
+    }, [id])
 
     //Efecto que reacciona al area seleccionada y muestra los temas correspondiente
     useEffect(() => {
@@ -398,7 +398,7 @@ function UpdateExcercise(props) {
                             <Link className={classes.link} to="/admin/excercises">
                                 <Button className={classes.cancelButton}>
                                     Cancelar
-                            </Button>
+                                </Button>
                             </Link>
                             <Button type="submit" className={classes.okButton}>
                                 Guardar ejercicio

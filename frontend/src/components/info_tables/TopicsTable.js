@@ -77,7 +77,7 @@ function TopicsTable() {
 
     useEffect(() => {
         getTopicsApi().then(response => {
-            response.topics.map(value => {
+            response.topics.forEach(value => {
                 topicsList.push({ ...value, id: value._id })
             })
 
@@ -86,6 +86,7 @@ function TopicsTable() {
         })
 
         setReload(false)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reload])
 
     return (
@@ -105,7 +106,7 @@ function TopicsTable() {
                 <DataGrid
                     columns={columns}
                     rows={topicsData}
-                    pageSize={10}
+                    pageSize={25}
                     loading={isLoading}
                     disableSelectionOnClick
                     components={{

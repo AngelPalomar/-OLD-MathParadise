@@ -1,13 +1,12 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import { useStyles } from './useStyles'
 import { withStyles } from "@material-ui/core/styles"
-import { MATH_COLORS } from "../../styles/MathColors"
+import theme from "../../styles/MathThemes"
 import {
     Dialog, DialogActions, Button, Typography, Radio, RadioGroup, FormControlLabel,
     LinearProgress, CircularProgress
 } from '@material-ui/core'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { useTheme } from '@material-ui/core/styles';
 
 import 'katex/dist/katex.min.css'
 import { BlockMath, InlineMath } from "react-katex"
@@ -29,14 +28,13 @@ function ExcercisePanel(props) {
     const { open, saveResult, excercise, isChall, isRand, difficulty } = props
 
     const classes = useStyles()
-    const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     //Color de los radio btn
     const MathRadio = withStyles({
         root: {
-            color: MATH_COLORS().math_disabled_dark,
+            color: theme.palette.disabled.dark,
             '&$checked': {
-                color: MATH_COLORS().math_blue,
+                color: theme.palette.primary.main,
             },
         },
         checked: {},
@@ -113,6 +111,7 @@ function ExcercisePanel(props) {
         return () => {
             clearInterval(c)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [seconds, minutes, clock, ptsToWin, isTimeRunning, isTimeOver])
 
     //Función para iniciar el reloj
@@ -210,13 +209,13 @@ function ExcercisePanel(props) {
                                 <Typography className={classes.topicLabel}>
                                     {
                                         isChall ?
-                                            <span style={{ color: MATH_COLORS().math_error }}>
+                                            <span style={{ color: theme.palette.error.main }}>
                                                 RETO:
                                             </span> :
                                             isRand ?
-                                                <span style={{ color: MATH_COLORS().math_success }}>
+                                                <span style={{ color: theme.palette.success.main }}>
                                                     ALEATORIO:
-                                        </span> : null
+                                                </span> : null
                                     }{` ${excercise.area} - ${excercise.topic}`}
                                 </Typography>
                                 <Typography className={classes.subtopicLabel}>{excercise.subtopic}</Typography>
@@ -252,12 +251,12 @@ function ExcercisePanel(props) {
                                             isCorrect ?
                                                 <div className={classes.resultContainer}>
                                                     <img src={correctIcon} className={classes.imgIconResult} alt="result_icon.svg" />
-                                                    <Typography style={{ color: MATH_COLORS().math_success }}>Respuesta correcta</Typography>
+                                                    <Typography style={{ color: theme.palette.success.main }}>Respuesta correcta</Typography>
                                                     <Typography style={{ marginLeft: '5px' }}>¡Has ganado {earnedPoints} puntos!</Typography>
                                                 </div> :
                                                 <div className={classes.resultContainer}>
                                                     <img src={errorIcon} className={classes.imgIconResult} alt="result_icon.svg" />
-                                                    <Typography style={{ color: MATH_COLORS().math_error }}>Respuesta incorrecta, la respuesta es: <InlineMath math={excercise.answer} /></Typography>
+                                                    <Typography style={{ color: theme.palette.error.main }}>Respuesta incorrecta, la respuesta es: <InlineMath math={excercise.answer} /></Typography>
                                                 </div>
                                         }
                                     </div> : null
@@ -300,17 +299,17 @@ function ExcercisePanel(props) {
                                             {
                                                 earnedPoints === 1000 ?
                                                     <Typography style={{
-                                                        color: MATH_COLORS().math_disabled_label,
+                                                        color: theme.palette.disabled.dark,
                                                         fontSize: '3vh'
                                                     }}>¡Has contestado en menos de 5 segundos!</Typography> :
                                                     earnedPoints === 500 ?
                                                         <Typography style={{
-                                                            color: MATH_COLORS().math_disabled_label,
+                                                            color: theme.palette.disabled.dark,
                                                             fontSize: '3vh'
                                                         }}>¡Has contestado en menos de 15 segundos!</Typography> :
                                                         earnedPoints === -150 ?
                                                             <Typography style={{
-                                                                color: MATH_COLORS().math_error,
+                                                                color: theme.palette.error.main,
                                                                 fontSize: '3vh'
                                                             }}>Pierdes 150 puntos</Typography> :
                                                             null
@@ -320,7 +319,7 @@ function ExcercisePanel(props) {
                                                 startIcon={<CheckCircleIcon />}
                                                 onClick={() => { saveResult(earnedPoints) }}>
                                                 Aceptar
-                                        </Button>
+                                            </Button>
                                         </Fragment>
                                 }
                             </DialogActions>

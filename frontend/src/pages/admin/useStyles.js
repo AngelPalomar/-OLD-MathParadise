@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles"
-import { MATH_COLORS } from '../../styles/MathColors'
+import theme from '../../styles/MathThemes'
 
 export const useStyles = makeStyles((theme) => ({
     paper: {
@@ -34,7 +34,7 @@ export const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(3)
     },
     previewLabel: {
-        color: MATH_COLORS().math_rush
+        color: theme.palette.rush.main
     },
     labelError: {
         color: '#FF0008'
@@ -60,9 +60,9 @@ export const useStyles = makeStyles((theme) => ({
         paddingLeft: theme.spacing(5),
         paddingRight: theme.spacing(5),
         color: "#FFFFFF",
-        background: MATH_COLORS().math_blue,
+        background: theme.palette.primary.main,
         '&:hover': {
-            background: MATH_COLORS().math_blue_dark
+            background: theme.palette.primary.dark
         },
         textAlign: "center",
     },
@@ -73,9 +73,9 @@ export const useStyles = makeStyles((theme) => ({
         paddingLeft: theme.spacing(5),
         paddingRight: theme.spacing(5),
         color: "#FFFFFF",
-        background: MATH_COLORS().math_error,
+        background: theme.palette.error.main,
         '&:hover': {
-            background: MATH_COLORS().math_error_dark
+            background: theme.palette.error.dark
         },
         textAlign: "center",
     },

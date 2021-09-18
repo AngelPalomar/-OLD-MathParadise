@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core'
 import { Paper, Typography, Grid, Box } from '@material-ui/core'
+import theme from '../../styles/MathThemes'
 import { MATH_COLORS, MATH_GRADIENTS } from '../../styles/MathColors'
 
 /**Componentes */
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2),
     },
     title: {
-        color: MATH_COLORS().math_disabled_label,
+        color: theme.palette.text.secondary,
         marginBottom: theme.spacing(3),
         textAlign: 'center'
     },
@@ -74,17 +75,17 @@ const useStyles = makeStyles((theme) => ({
     },
     link: {
         textDecoration: 'none',
-        color: MATH_COLORS().math_rush_base,
+        color: theme.palette.rush.main,
         '&:hover': {
             textDecoration: 'none',
-            color: MATH_COLORS().math_rush_base,
+            color: theme.palette.rush.dark,
         }
     },
     label: {
-        color: MATH_COLORS().math_disabled_label
+        color: theme.palette.text.secondary
     },
     points: {
-        color: MATH_COLORS().math_success
+        color: theme.palette.success.main
     }
 }))
 

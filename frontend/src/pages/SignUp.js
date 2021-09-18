@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import {
     Typography, Paper, Grid, Container, Button, Box, TextField,
     FormControl, FormControlLabel, Radio, RadioGroup, Snackbar, IconButton,
-    InputLabel, Select, MenuItem, Checkbox
+    InputLabel, Select, MenuItem, Checkbox, CircularProgress
 } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
 import CreateIcon from '@material-ui/icons/Create'
@@ -20,15 +20,17 @@ import { grades } from '../utils/SelectArrays'
 import { signUpApi } from '../api/user'
 import { getAccessTokenApi } from '../api/auth'
 import { getInstitutionsApi } from '../api/institution'
+import { MATH_GRADIENTS } from '../styles/MathColors'
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
         padding: 20,
+        textAlign: 'center'
     },
     paper: {
         color: theme.palette.paper,
-        padding: theme.spacing(2),
+        padding: theme.spacing(4),
     },
     boxForm: {
         paddingTop: theme.spacing(3),
@@ -39,11 +41,10 @@ const useStyles = makeStyles((theme) => ({
     button: {
         display: "flex",
         margin: "auto",
+        width: '100%',
         padding: theme.spacing(2),
-        paddingLeft: theme.spacing(5),
-        paddingRight: theme.spacing(5),
         color: "#FFFFFF",
-        background: "linear-gradient(45deg, #2A55FF, #15FFD4)",
+        background: MATH_GRADIENTS().default,
         textAlign: "center",
     },
     container: {
@@ -79,8 +80,10 @@ function SignUp() {
         institution: '',
         school_grade: '',
         repeatPassword: '',
-        role: ''
+        role: '',
+        avatar: 'default.svg'
     })
+    const [isLoading, setIsLoading] = useState(false)
 
     //Contornos de error de los campos
     const [isError, setIsError] = useState({
@@ -172,11 +175,15 @@ function SignUp() {
                 setMessage('Las contraseñas deben ser iguales.')
                 setAlert(true)
             } else {
+                //Inicia la carga
+                setIsLoading(true)
+
                 const result = await signUpApi(inputs)
 
                 if (!result.ok) {
                     setMessage(result.message)
                     setAlert(true)
+                    setIsLoading(false)
                 } else {
                     setMessage(result.message)
                     setAlert(true)
@@ -248,7 +255,7 @@ function SignUp() {
                                             label="Seleccione una institución"
                                             onChange={changeForm}>
 
-                                            <MenuItem key="" value="Ninguna">Ninguna</MenuItem>
+                                            <MenuItem key="" value="Ninguna">No pertenezco a una institución</MenuItem>
 
                                             {instData.map((values, index) =>
                                                 <MenuItem key={index} value={values.name}>{values.name}</MenuItem>
@@ -268,7 +275,7 @@ function SignUp() {
                                             label="Año / Semestre / Cuatrimestre"
                                             onChange={changeForm}>
 
-                                            <MenuItem key="" value="Ninguno">Ninguno</MenuItem>
+                                            <MenuItem key="" value="Ninguno">No pertenezco a una institución o soy tutor/profesor</MenuItem>
 
                                             {grades.map((values, index) =>
                                                 <MenuItem key={index} value={values.val}>{values.name}</MenuItem>
@@ -295,11 +302,15 @@ function SignUp() {
                                 label="Acepto las políticas de privacidad" />
                         </Box>
                         <Container className={classes.centerControl}>
-                            <FormControl>
-                                <Button type="submit" className={classes.button} startIcon={<CreateIcon />}>
-                                    <Typography variant="h5">Crear cuenta</Typography>
-                                </Button>
-                            </FormControl>
+                            {
+                                isLoading ?
+                                    <CircularProgress variant='indeterminate' /> :
+                                    <FormControl>
+                                        <Button type="submit" className={classes.button} startIcon={<CreateIcon />}>
+                                            <Typography variant="h6">Crear cuenta</Typography>
+                                        </Button>
+                                    </FormControl>
+                            }
                         </Container>
                     </Paper>
                 </form>

@@ -17,7 +17,7 @@ import AddIcon from '@material-ui/icons/Add'
 
 /**APis */
 import { getInstitutionsApi } from '../../../api/institution'
-import { getUserByIdApi, getUserByNicknameApi, updateFullUserApi } from '../../../api/user'
+import { getUserByIdApi, /* getUserByNicknameApi, */ updateFullUserApi } from '../../../api/user'
 
 /**Utils */
 import { grades } from '../../../utils/SelectArrays'
@@ -105,7 +105,7 @@ function UpdateUser(props) {
                 setInstData(response.institution)
             }
         })
-    }, [])
+    }, [id])
 
     //Función que guarda los datos en el estado
     const changeForm = (e) => {

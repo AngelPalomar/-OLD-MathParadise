@@ -60,7 +60,7 @@ function InstitutionsTable() {
 
     useEffect(() => {
         getInstitutionsApi().then(response => {
-            response.institution.map(value => {
+            response.institution.forEach(value => {
                 instList.push({ ...value, id: value._id })
             })
 
@@ -69,6 +69,7 @@ function InstitutionsTable() {
         })
 
         setReload(false)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reload])
 
     return (
@@ -88,7 +89,7 @@ function InstitutionsTable() {
                 <DataGrid
                     columns={columns}
                     rows={instData}
-                    pageSize={10}
+                    pageSize={25}
                     disableSelectionOnClick
                     loading={isLoading}
                     components={{

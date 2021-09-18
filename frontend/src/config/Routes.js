@@ -46,7 +46,7 @@ import Groups from '../pages/user/Groups'
 import Leaderboard from '../pages/user/Leaderboard'
 import Profile from '../pages/user/Profile'
 
-/**Lobyys */
+/**Lobys */
 import Lobby from '../pages/user/lobby/Lobby'
 
 /**Gamemode pages */

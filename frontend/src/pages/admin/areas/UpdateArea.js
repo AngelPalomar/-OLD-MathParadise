@@ -41,7 +41,7 @@ function UpdateArea(props) {
                 window.location.href = "/admin/areas"
             }
         })
-    }, [])
+    }, [id])
 
     //Cerrar notificación
     const handleCloseSnackbar = () => {
@@ -98,7 +98,7 @@ function UpdateArea(props) {
             <Paper className={classes.paper}>
                 <Typography variant="h5" className={classes.title}>
                     <AddIcon fontSize="large" /> Añadir area (Materia)
-            </Typography>
+                </Typography>
                 <Divider />
                 <form onChange={changeForm} onSubmit={submitForm} className={classes.formBox}>
                     <Typography>*Todos los campos son requeridos</Typography>
@@ -129,7 +129,7 @@ function UpdateArea(props) {
                         </Link>
                         <Button type="submit" className={classes.okButton}>
                             Guardar
-                    </Button>
+                        </Button>
                     </Box>
                 </form>
             </Paper>

@@ -1,5 +1,6 @@
 import { makeStyles } from '@material-ui/core'
-import { MATH_COLORS, MATH_GRADIENTS } from '../../../styles/MathColors'
+import theme from '../../../styles/MathThemes'
+import { MATH_GRADIENTS } from '../../../styles/MathColors'
 
 export const useStyles = makeStyles((theme) => ({
     background: {
@@ -101,14 +102,14 @@ export const useStyles = makeStyles((theme) => ({
         fontSize: '2.3vh'
     },
     pointsLabel: {
-        color: MATH_COLORS().math_success,
+        color: theme.palette.success.main,
         marginLeft: theme.spacing(3),
         fontWeight: 'bold',
         fontSize: '2.3vh'
     },
     roundTitle: {
         textAlign: 'center',
-        color: MATH_COLORS().math_blue,
+        color: theme.palette.primary.main,
         fontSize: '3vh'
     },
     roundLabel: {
@@ -124,9 +125,9 @@ export const useStyles = makeStyles((theme) => ({
     },
     buttonPause: {
         color: "#FFF",
-        background: MATH_COLORS().math_disabled,
+        background: theme.palette.disabled.main,
         '&:hover': {
-            background: MATH_COLORS().math_disabled_label,
+            background: theme.palette.disabled.dark,
         },
         textAlign: "center"
     },

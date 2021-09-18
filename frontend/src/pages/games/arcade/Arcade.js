@@ -198,6 +198,7 @@ function Arcade(props) {
                 message: `Es el turno de ${gameLocal.currentPlayer === 1 ? game.player2 : game.player1}`
             })
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [gameLocal.turn, gameLocal.currentPlayer])
 
     //Función que empieza el roll del tablero
@@ -233,6 +234,7 @@ function Arcade(props) {
                 clearInterval(t)
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isRolling, slotAcumulator])
 
     //Efecto que detiene el roll y cambia de fase
@@ -250,6 +252,7 @@ function Arcade(props) {
                 setGameLocal({ ...gameLocal, phase: 'answering' })
             }, secondsCount * 1000);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isRolling])
 
     //Efecto que muestra el ejercicio o hace la acción del slot
@@ -317,6 +320,7 @@ function Arcade(props) {
                 }
             }
         }, 1000);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [slotAcumulator, gameLocal.phase])
 
     //Función que guarda los puntos ganados
@@ -408,6 +412,7 @@ function Arcade(props) {
             }, 3000);
         }
         return () => clearInterval(f)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [gameLocal.turn, gameLocal.currentPlayer, gameLocal])
 
     //Efecto que detecta cuando se acaban los turno
@@ -472,6 +477,7 @@ function Arcade(props) {
                 console.log(response.message)
             })
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [gameLocal.player1.rounds, gameLocal.player2.rounds])
 
 
@@ -553,7 +559,7 @@ function Arcade(props) {
                                     <Paper className={classes.scoresPaper}>
                                         <Typography variant="h6" className={classes.scoreTitle}>
                                             Puntuaciones
-                                    </Typography>
+                                        </Typography>
                                         <div>
                                             <div>
                                                 <div className={classes.playerScore}>
@@ -609,7 +615,7 @@ function Arcade(props) {
                                         className={classes.tirarButton}
                                         startIcon={<CasinoIcon />}>
                                         TIRAR
-                                </Button>
+                                    </Button>
                                 </div>
                             </Grid>
                             <Grid item lg={7} md={7} sm={7} xs={7}>
