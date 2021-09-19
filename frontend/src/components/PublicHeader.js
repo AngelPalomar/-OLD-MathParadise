@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import {
     Button, AppBar, Toolbar, Container, Menu, MenuItem
 } from '@material-ui/core'
-import { MATH_COLORS } from '../styles/MathColors'
 
 //import HomeIcon from '@material-ui/icons/Home';
 

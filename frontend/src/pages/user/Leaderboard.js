@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { makeStyles } from '@material-ui/core'
+import { makeStyles, LinearProgress } from '@material-ui/core'
 import { Paper, Typography, Grid, Box } from '@material-ui/core'
-import theme from '../../styles/MathThemes'
-import { MATH_COLORS, MATH_GRADIENTS } from '../../styles/MathColors'
+import { MATH_GRADIENTS } from '../../styles/MathColors'
 
 /**Componentes */
 import DefaultAvatar from '../../components/DefaultAvatar'
@@ -25,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2),
     },
     title: {
-        color: theme.palette.text.secondary,
         marginBottom: theme.spacing(3),
         textAlign: 'center'
     },
@@ -89,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-export default function Leaderboard() {
+function Leaderboard() {
     const classes = useStyles()
 
     //Titulo del documento
@@ -101,6 +99,7 @@ export default function Leaderboard() {
     const [rushTable, setRushTable] = useState([])
     const [classicTable, setclassicTable] = useState([])
     const [arcadeTable, setArcadeTable] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         getRushLeaderboardApi().then(response => {
@@ -120,7 +119,20 @@ export default function Leaderboard() {
                 setArcadeTable(response.arcade_board)
             }
         })
+
+        //Para la carga
+        setIsLoading(false)
+
+        return () => {
+            setRushTable([])
+            setclassicTable([])
+            setArcadeTable([])
+        }
     }, [])
+
+    if (isLoading) {
+        return <LinearProgress variant='indeterminate' />
+    }
 
     return (
         <Paper className={classes.root}>
@@ -253,4 +265,6 @@ export default function Leaderboard() {
         </Paper>
     )
 }
+
+export default Leaderboard
 

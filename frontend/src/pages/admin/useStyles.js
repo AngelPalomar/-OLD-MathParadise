@@ -1,5 +1,4 @@
 import { makeStyles } from "@material-ui/core/styles"
-import theme from '../../styles/MathThemes'
 
 export const useStyles = makeStyles((theme) => ({
     paper: {
@@ -9,7 +8,7 @@ export const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'left',
         alignItems: 'center',
-        color: '#2A55FF',
+        color: theme.palette.primary.main,
         marginBottom: theme.spacing(2)
     },
     textCenter: {
@@ -37,7 +36,7 @@ export const useStyles = makeStyles((theme) => ({
         color: theme.palette.rush.main
     },
     labelError: {
-        color: '#FF0008'
+        color: theme.palette.error.main
     },
     formBox: {
         marginTop: theme.spacing(2),

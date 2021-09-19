@@ -1,5 +1,4 @@
 import { makeStyles } from "@material-ui/core/styles"
-import theme from '../../../styles/MathThemes'
 import { MATH_GRADIENTS } from '../../../styles/MathColors'
 
 export const useStyles = makeStyles((theme) => ({

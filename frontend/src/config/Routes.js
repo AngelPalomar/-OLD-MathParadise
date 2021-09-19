@@ -44,6 +44,7 @@ import Dashboard from '../pages/user/Dashboard'
 import PlayMenu from '../pages/user/PlayMenu'
 import Groups from '../pages/user/Groups'
 import Leaderboard from '../pages/user/Leaderboard'
+import History from '../pages/user/history/History'
 import Profile from '../pages/user/Profile'
 
 /**Lobys */
@@ -218,6 +219,11 @@ const routes = [
             {
                 path: '/home/leaderboard',
                 component: Leaderboard,
+                exact: true,
+            },
+            {
+                path: '/home/history',
+                component: History,
                 exact: true,
             },
             {

@@ -15,6 +15,7 @@ import EmojiEventsIcon from '@material-ui/icons/EmojiEvents'
 //import AccountBoxIcon from '@material-ui/icons/AccountBox'
 //import SettingsIcon from '@material-ui/icons/Settings'
 import AvTimerIcon from '@material-ui/icons/AvTimer'
+import ViewStreamIcon from '@material-ui/icons/ViewStream'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -64,6 +65,15 @@ function MenuList(props) {
                             <EmojiEventsIcon />
                         </ListItemIcon>
                         <ListItemText primary="Clasificación" />
+                    </ListItem>
+                </Link>
+
+                <Link to="/home/history" className={classes.link}>
+                    <ListItem button >
+                        <ListItemIcon>
+                            <ViewStreamIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Historial de partidas" />
                     </ListItem>
                 </Link>
 

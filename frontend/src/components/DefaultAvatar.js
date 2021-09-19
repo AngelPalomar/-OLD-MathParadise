@@ -31,6 +31,11 @@ function DefaultAvatar(props) {
             //Detengo la carga
             setIsLoading(false)
         })
+
+        return () => {
+            setavatarName('')
+            setavatarUrl(null)
+        }
     }, [nickname])
 
     //Si el avatar está cargando

@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import {
     Typography, Paper, Grid, Box, CircularProgress, Button
 } from '@material-ui/core'
-import theme from '../../styles/MathThemes'
 
 /**Iconos */
 import EditIcon from '@material-ui/icons/Edit';
