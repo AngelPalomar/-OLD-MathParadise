@@ -1,91 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { makeStyles, LinearProgress } from '@material-ui/core'
+import { LinearProgress } from '@material-ui/core'
 import { Paper, Typography, Grid, Box } from '@material-ui/core'
-import { MATH_GRADIENTS } from '../../styles/MathColors'
+import { useStyles } from './useStyles'
 
 /**Componentes */
-import DefaultAvatar from '../../components/DefaultAvatar'
+import DefaultAvatar from '../../../components/DefaultAvatar'
 
 /**APIs */
-import { getRushLeaderboardApi, getClassicLeaderboardApi, getArcadeLeaderboardApi } from '../../api/user'
+import { getRushLeaderboardApi, getClassicLeaderboardApi, getArcadeLeaderboardApi } from '../../../api/user'
 
 /**Imagenes */
-import classicIconWhite from '../../assets/images/icons/classic_icon_white.svg'
-import arcadeIconWhite from '../../assets/images/icons/arcade_icon_white.svg'
-import rushIconWhite from '../../assets/images/icons/rush_icon_white.svg'
-import leaderIcon from '../../assets/images/icons/leaderboard_icon.svg'
-import GoldIcon from '../../assets/images/icons/1st_icon.svg'
-import SilverIcon from '../../assets/images/icons/2nd_icon.svg'
-import BronzeIcon from '../../assets/images/icons/3rd_icon.svg'
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        padding: theme.spacing(2),
-    },
-    title: {
-        marginBottom: theme.spacing(3),
-        textAlign: 'center'
-    },
-    rush_board: {
-        background: MATH_GRADIENTS().rush,
-        padding: theme.spacing(2),
-        color: '#FFF'
-    },
-    classic_board: {
-        background: MATH_GRADIENTS().classic,
-        padding: theme.spacing(2),
-        color: '#FFF'
-    },
-    arcade_board: {
-        background: MATH_GRADIENTS().arcade,
-        padding: theme.spacing(2),
-        color: '#FFF'
-    },
-    header_board: {
-        display: 'block',
-        flexDirection: 'column',
-        textAlign: 'center',
-        justifyContent: 'center',
-        justifyItems: 'center',
-        alignContent: 'center'
-    },
-    classic_icon: {
-        width: '42px'
-    },
-    rush_icon: {
-        width: '30px'
-    },
-    leader_icon: {
-        width: '60px'
-    },
-    userPaperInfo: {
-        padding: theme.spacing(1.5),
-        marginBottom: theme.spacing(1)
-    },
-    avatar: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    medal: {
-        width: '50px'
-    },
-    link: {
-        textDecoration: 'none',
-        color: theme.palette.rush.main,
-        '&:hover': {
-            textDecoration: 'none',
-            color: theme.palette.rush.dark,
-        }
-    },
-    label: {
-        color: theme.palette.text.secondary
-    },
-    points: {
-        color: theme.palette.success.main
-    }
-}))
+import classicIconWhite from '../../../assets/images/icons/classic_icon_white.svg'
+import arcadeIconWhite from '../../../assets/images/icons/arcade_icon_white.svg'
+import rushIconWhite from '../../../assets/images/icons/rush_icon_white.svg'
+import leaderIcon from '../../../assets/images/icons/leaderboard_icon.svg'
+import GoldIcon from '../../../assets/images/icons/1st_icon.svg'
+import SilverIcon from '../../../assets/images/icons/2nd_icon.svg'
+import BronzeIcon from '../../../assets/images/icons/3rd_icon.svg'
 
 function Leaderboard() {
     const classes = useStyles()
@@ -93,20 +25,6 @@ function Leaderboard() {
     //Titulo del documento
     useEffect(() => {
         document.title = 'Clasificaciones - Math Paradise'
-    }, [])
-
-    //Variables para almacenar las respuestas
-    const [rushTable, setRushTable] = useState([])
-    const [classicTable, setclassicTable] = useState([])
-    const [arcadeTable, setArcadeTable] = useState([])
-    const [isLoading, setIsLoading] = useState(true)
-
-    useEffect(() => {
-        getRushLeaderboardApi().then(response => {
-            if (response.status === 1) {
-                setRushTable(response.rush_board)
-            }
-        })
 
         getClassicLeaderboardApi().then(response => {
             if (response.status === 1) {
@@ -117,11 +35,16 @@ function Leaderboard() {
         getArcadeLeaderboardApi().then(response => {
             if (response.status === 1) {
                 setArcadeTable(response.arcade_board)
+                setIsLoading(false)
             }
         })
 
-        //Para la carga
-        setIsLoading(false)
+        getRushLeaderboardApi().then(response => {
+            if (response.status === 1) {
+                setRushTable(response.rush_board)
+                setIsLoading(false)
+            }
+        })
 
         return () => {
             setRushTable([])
@@ -129,6 +52,12 @@ function Leaderboard() {
             setArcadeTable([])
         }
     }, [])
+
+    //Variables para almacenar las respuestas
+    const [rushTable, setRushTable] = useState([])
+    const [classicTable, setclassicTable] = useState([])
+    const [arcadeTable, setArcadeTable] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
 
     if (isLoading) {
         return <LinearProgress variant='indeterminate' />
@@ -138,9 +67,14 @@ function Leaderboard() {
         <Paper className={classes.root}>
             <Box className={classes.header_board}>
                 <img src={leaderIcon} className={classes.leader_icon} alt="rush_icon.svg" />
-                <Typography variant="h4" className={classes.title}>Clasificación global</Typography>
+                <Typography variant="h4" gutterBottom className={classes.title} color='primary'>
+                    Clasificación global
+                </Typography>
+                <Typography>
+                    Ve el top 10 de jugadores de todos los modos de juego.
+                </Typography>
             </Box>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} className={classes.grid}>
                 <Grid item lg={4} md={6} sm={12} xs={12}>
                     <Paper className={classes.classic_board}>
                         <Box className={classes.header_board}>

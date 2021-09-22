@@ -6,7 +6,7 @@ import { getUserByNicknameApi, getAvatarApi } from '../api/user'
 
 function DefaultAvatar(props) {
     //Props
-    const { nickname, size } = props
+    const { nickname, size, className } = props
     const [avatarName, setavatarName] = useState('')
     const [avatarUrl, setavatarUrl] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
@@ -46,7 +46,8 @@ function DefaultAvatar(props) {
     return (
         <Avatar
             src={avatarUrl}
-            style={{ width: size, height: size, background: "#FFF" }}>
+            style={{ width: size, height: size, background: "#FFF" }}
+            className={className}>
         </Avatar>
     )
 }

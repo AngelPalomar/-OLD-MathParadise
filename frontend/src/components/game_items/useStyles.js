@@ -180,7 +180,7 @@ export const useStyles = makeStyles((theme) => ({
     },
     giveUpBtn: {
         color: '#FFF',
-        background: theme.palette.event.main,
+        background: MATH_GRADIENTS().event_tile,
         paddingInline: theme.spacing(2)
     },
     acceptBtn: {

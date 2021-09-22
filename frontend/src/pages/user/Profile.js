@@ -1,13 +1,13 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import {
-    Typography, Paper, Grid, Box, CircularProgress, Button
+    Typography, Paper, Grid, Box, Button, LinearProgress
 } from '@material-ui/core'
 
 /**Iconos */
 import EditIcon from '@material-ui/icons/Edit';
-import AvTimerIcon from '@material-ui/icons/AvTimer'; //admin
-import PolicyIcon from '@material-ui/icons/Policy'; //mod
+import SettingsIcon from '@material-ui/icons/Settings'; //mod
+import PolicyIcon from '@material-ui/icons/Policy'; //admin
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd'; //tutor
 import SchoolIcon from '@material-ui/icons/School'; //student
 
@@ -15,15 +15,12 @@ import SchoolIcon from '@material-ui/icons/School'; //student
 import Error404 from '../Error404'
 import PublicHeader from "../../components/PublicHeader"
 import DefaultAvatar from "../../components/DefaultAvatar"
-import ArcadeStats from '../../components/game_stats/ArcadeStats'
-import ClassicStats from '../../components/game_stats/ClassicStats'
-import RushStats from '../../components/game_stats/RushStats'
+import GameStats from '../../components/game_stats/GameStats'
 
 /**APIs */
 import { getAccessTokenApi } from "../../api/auth"
 import { getUserByNicknameApi } from "../../api/user"
 import JwtDecode from 'jwt-decode';
-import ProfileForm from '../../components/forms/ProfileForm';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -84,33 +81,24 @@ function Profile(props) {
 
     const [userData, setUserData] = useState(null)
     const [isFound, setIsFound] = useState(true)
-    const [openProfileForm, setOpenProflieForm] = useState(false)
-    const [reloadProfile, setreloadProfile] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         document.title = nickname + ' - Math Paradise'
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
 
-    useEffect(() => {
-        const fetchGetUserByNickname = async () => {
-            const result = await getUserByNicknameApi(nickname)
-
-            if (!result.message) {
-                const { user } = result
+        getUserByNicknameApi(nickname).then(response => {
+            if (!response.message) {
+                const { user } = response
                 setUserData(user)
+                setIsLoading(false)
             } else {
-                if (result.message === "No se ha encontrado a ningun usuario.") {
+                if (response.message === "No se ha encontrado a ningun usuario.") {
                     setIsFound(false)
+                    setIsLoading(false)
                 }
             }
-
-        }
-
-        fetchGetUserByNickname()
-        setreloadProfile(false)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [reloadProfile])
+        })
+    }, [nickname])
 
     //Mostrar rol de usuario
     const renderRole = (key) => {
@@ -118,14 +106,14 @@ function Profile(props) {
             case 'admin':
                 return (
                     <span className={classes.alignIconRole}>
-                        <AvTimerIcon />&nbsp;Administrador
+                        <PolicyIcon />&nbsp;Administrador
                     </span>
                 )
 
             case 'moderator':
                 return (
                     <span className={classes.alignIconRole}>
-                        <PolicyIcon />&nbsp;Moderador
+                        <SettingsIcon />&nbsp;Moderador
                     </span>
                 )
 
@@ -148,83 +136,76 @@ function Profile(props) {
         }
     }
 
-    const handleCloseProfileForm = (params) => {
-        setOpenProflieForm(false)
+    if (isLoading) {
+        return <LinearProgress variant='indeterminate' />
     }
 
     if (!isFound && !userData) {
         return (
             <Error404 />
         )
-    } else {
-        return (
-            <Fragment>
-                {!getAccessTokenApi() ? <PublicHeader /> : null}
-                <Grid container spacing={2} className={!getAccessTokenApi() ? classes.root : null}>
-                    <Grid item lg={4} md={3} sm={12} xs={12}>
-                        <Paper className={classes.paperProfile}>
-                            <Box>
-                                {userData ? <DefaultAvatar nickname={userData.nickname} size="120px" fs="8vh" /> : <CircularProgress color="primary" />}
-                            </Box>
-                            <Box className={classes.boxInfo}>
-                                <Typography variant="h5" className={classes.fullnameLabel}>
-                                    {userData ? userData.name + " " + userData.lastname : <CircularProgress color="primary" />}
-                                </Typography>
-                                <Typography variant="subtitle1" className={classes.nicknameLabel}>
-                                    @{userData ? userData.nickname : <CircularProgress color="primary" />}
-                                </Typography>
-                                {
-                                    getAccessTokenApi() && userData ?
-                                        <Typography className={classes.role}>{renderRole(userData.role)}</Typography>
-                                        : null
-                                }
-                                {
-                                    getAccessTokenApi() && userData ?
-                                        <Typography className={classes.role}>{userData.institution}</Typography>
-                                        : null
-                                }
-                                {
-                                    getAccessTokenApi() && userData ?
-                                        JwtDecode(getAccessTokenApi()).nickname === userData.nickname ?
-                                            <Fragment>
-                                                <ProfileForm
-                                                    userData={userData}
-                                                    open={openProfileForm}
-                                                    close={handleCloseProfileForm}
-                                                    setreloadProfile={setreloadProfile} />
-                                                <Box className={classes.editProfileBtn}>
-                                                    <Button
-                                                        onClick={() => { setOpenProflieForm(true) }}
-                                                        variant="contained"
-                                                        className={classes.button}
-                                                        startIcon={<EditIcon />}>
-                                                        Editar Perfil
-                                                    </Button>
-                                                </Box> </Fragment> : null : null
-                                }
-                            </Box>
-                        </Paper>
-                    </Grid>
-                    <Grid item lg={8} md={9} sm={12} xs={12}>
-                        <Paper className={classes.paperStats}>
-                            <Typography variant="h5" className={classes.title}>Puntuaciones</Typography>
-                            <Grid container spacing={1}>
-                                <Grid item lg={12} md={12} sm={12} xs={12}>
-                                    <ClassicStats nickname={nickname} summary={true} />
-                                </Grid>
-                                <Grid item lg={12} md={12} sm={12} xs={12}>
-                                    <ArcadeStats nickname={nickname} summary={true} />
-                                </Grid>
-                                <Grid item lg={12} md={12} sm={12} xs={12}>
-                                    <RushStats nickname={nickname} summary={true} />
-                                </Grid>
-                            </Grid>
-                        </Paper>
-                    </Grid>
-                </Grid>
-            </Fragment>
-        )
     }
+
+    return (
+        <Fragment>
+            {!getAccessTokenApi() ? <PublicHeader /> : null}
+            <Grid container spacing={2} className={!getAccessTokenApi() ? classes.root : null}>
+                <Grid item lg={4} md={3} sm={12} xs={12}>
+                    <Paper className={classes.paperProfile}>
+                        <Box>
+                            <DefaultAvatar nickname={userData.nickname} size="120px" fs="8vh" />
+                        </Box>
+                        <Box className={classes.boxInfo}>
+                            <Typography variant="h5" className={classes.fullnameLabel}>
+                                {userData.name + " " + userData.lastname}
+                            </Typography>
+                            <Typography variant="subtitle1" className={classes.nicknameLabel}>
+                                @{userData.nickname}
+                            </Typography>
+                            {
+                                getAccessTokenApi() ?
+                                    <Typography className={classes.role}>{renderRole(userData.role)}</Typography>
+                                    : null
+                            }
+                            {
+                                getAccessTokenApi() ?
+                                    <Typography className={classes.role}>{userData.institution}</Typography>
+                                    : null
+                            }
+                            {
+                                getAccessTokenApi() ?
+                                    JwtDecode(getAccessTokenApi()).nickname === userData.nickname ?
+                                        <Box className={classes.editProfileBtn}>
+                                            <Button
+                                                variant="contained"
+                                                className={classes.button}
+                                                startIcon={<EditIcon />}>
+                                                Editar Perfil
+                                            </Button>
+                                        </Box> : null : null
+                            }
+                        </Box>
+                    </Paper>
+                </Grid>
+                <Grid item lg={8} md={9} sm={12} xs={12}>
+                    <Paper className={classes.paperStats}>
+                        <Typography variant="h5" className={classes.title}>Puntuaciones</Typography>
+                        <Grid container spacing={1}>
+                            <Grid item lg={12} md={12} sm={12} xs={12}>
+                                <GameStats gamemode='classic' summary stats={userData.classic} />
+                            </Grid>
+                            <Grid item lg={12} md={12} sm={12} xs={12}>
+                                <GameStats gamemode='arcade' summary stats={userData.arcade} />
+                            </Grid>
+                            <Grid item lg={12} md={12} sm={12} xs={12}>
+                                <GameStats gamemode='rush' summary stats={userData.rush} />
+                            </Grid>
+                        </Grid>
+                    </Paper>
+                </Grid>
+            </Grid>
+        </Fragment>
+    )
 }
 
 export default Profile

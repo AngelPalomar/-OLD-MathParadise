@@ -1,19 +1,19 @@
-import React, { useState, useEffect, Fragment } from "react"
+import React, { useState, useEffect } from "react"
 import jwtDecode from 'jwt-decode'
 import { makeStyles } from "@material-ui/core/styles"
 import {
     Typography,
-    Grid
+    Grid,
+    LinearProgress
 } from "@material-ui/core"
 
 /**APIs */
 import { getAccessTokenApi } from '../../api/auth'
+import { getUserByIdApi } from '../../api/user'
 
 /**Componentes */
-import Avatar from "../../components/UserCard"
-import ClassicStats from "../../components/game_stats/ClassicStats"
-import ArcadeStats from "../../components/game_stats/ArcadeStats"
-import RushStats from "../../components/game_stats/RushStats"
+import UserCard from "../../components/UserCard"
+import GameStats from "../../components/game_stats/GameStats"
 
 const useStyles = makeStyles((theme) => ({
     subtitle: {
@@ -27,17 +27,29 @@ const useStyles = makeStyles((theme) => ({
 
 function Dashboard() {
     const classes = useStyles()
-    const [userData] = useState(jwtDecode(getAccessTokenApi()))
+    const [userData, setUserData] = useState({})
+    const [isLoading, setisLoading] = useState(true)
+    const id = jwtDecode(getAccessTokenApi()).id
 
     useEffect(() => {
         document.title = 'Menú principal - Math Paradise'
-    }, [])
+
+        //Trae datos del usuario
+        getUserByIdApi(id).then(response => {
+            setUserData(response.user)
+            setisLoading(false)
+        })
+    }, [id])
+
+    if (isLoading) {
+        return <LinearProgress variant='indeterminate' />
+    }
 
     return (
-        <Fragment>
+        <div>
             <Grid container spacing={1}>
                 <Grid item xs={12} sm={6} md={5} lg={5}>
-                    <Avatar name={userData.name} lastname={userData.lastname} nickname={userData.nickname} />
+                    <UserCard name={userData.name} lastname={userData.lastname} nickname={userData.nickname} />
                 </Grid>
             </Grid>
 
@@ -45,16 +57,16 @@ function Dashboard() {
 
             <Grid container spacing={1} className={classes.stats}>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
-                    <ClassicStats nickname={userData.nickname} />
+                    <GameStats gamemode='classic' stats={userData.classic} />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
-                    <ArcadeStats nickname={userData.nickname} />
+                    <GameStats gamemode='arcade' stats={userData.arcade} />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
-                    <RushStats nickname={userData.nickname} />
+                    <GameStats gamemode='rush' stats={userData.rush} />
                 </Grid>
             </Grid>
-        </Fragment>
+        </div>
     )
 }
 

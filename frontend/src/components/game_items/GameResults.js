@@ -13,11 +13,14 @@ import Avatar from '../../components/DefaultAvatar'
 /**Sprites */
 import olive from '../../assets/images/sprites/olive.svg'
 
+/**API */
+import { createHistoryApi } from '../../api/history'
+
 const Transition = UpTransition
 
 function GameResults(props) {
     const classes = useStyles()
-    const { open, info, player1, player2, gamemode, isNewRecord } = props
+    const { open, info, player1, player2, gamemode, isNewRecord, history } = props
 
     //Función para mostrar si es victoria o derrota
     function IsVictoryOrFailLabel() {
@@ -78,6 +81,13 @@ function GameResults(props) {
                 return null
             }
         }
+    }
+
+    //Función para guardar la partida en el registro
+    const saveGame = () => {
+        createHistoryApi(history).then()
+        Howler.unload()
+        window.location.href = '/home/play'
     }
 
     return (
@@ -186,10 +196,7 @@ function GameResults(props) {
                 <DialogActions>
                     <Button
                         className={classes.acceptBtn}
-                        onClick={() => {
-                            Howler.unload()
-                            window.location.href = '/home/play'
-                        }}>
+                        onClick={saveGame}>
                         Aceptar
                     </Button>
                 </DialogActions>

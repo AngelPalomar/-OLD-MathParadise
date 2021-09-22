@@ -6,6 +6,7 @@ import {
     Slide, Hidden
 } from "@material-ui/core"
 import { useStyles } from "./RushStyles"
+import theme from '../../../styles/MathThemes'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ReplayIcon from '@material-ui/icons/Replay'
 import PlayArrowIcon from '@material-ui/icons/PlayArrow'
@@ -47,6 +48,7 @@ function Rush(props) {
     //Datos usuario
     const [userData] = useState(jwtDecode(getAccessTokenApi()))
     const [prevStats, setPrevStats] = useState(null)
+    const [history, setHistory] = useState({})
     const [isNewRecordPoints, setisNewRecordPoints] = useState(false)
     const [isNewRecordLevel, setisNewRecordLevel] = useState(false)
     const [isNewRecordMultiplier, setisNewRecordMultiplier] = useState(false)
@@ -173,12 +175,33 @@ function Rush(props) {
             getUserApi(getAccessTokenApi(), userData.id).then(response => {
                 setPrevStats(response.user.rush)
             })
+
+            let gameHistory = {
+                nickname: userData.nickname,
+                enemy_nickname: '',
+                gamemode: 'rush',
+                area: 'Aritmética',
+                difficulty: 'normal',
+                points: points,
+                enemy_points: 0,
+                result: 'none',
+                excercises: excerciseCount,
+                correct_excercises: 0,
+                wrong_excercises: 0,
+                multiplier: multiplier,
+                level: level,
+                rounds: 0
+            }
+
+            //Guarda el registro de la partida
+            setHistory(gameHistory)
         }
 
         return () => {
             clearInterval(t)
         }
-    }, [isActiveTimer, seconds, userData.id, prevStats, excerciseCount, level, multiplier, points,])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isActiveTimer, seconds, userData.id, prevStats, excerciseCount, level, multiplier, points])
 
     //Comparar estadísticas cuando acabe el juego
     useEffect(() => {
@@ -466,7 +489,8 @@ function Rush(props) {
                 isNewRecordPoints={isNewRecordPoints}
                 isNewRecordExcercises={isNewRecordExcercises}
                 isNewRecordLevel={isNewRecordLevel}
-                isNewRecordMultiplier={isNewRecordMultiplier} />
+                isNewRecordMultiplier={isNewRecordMultiplier}
+                history={history} />
 
             <Backdrop className={classes.backdrop} open={pauseOpen}>
                 <Paper className={classes.paperPause}>
@@ -563,7 +587,7 @@ function Rush(props) {
                                 <Box mt={4}>
                                     <Button variant="contained" onClick={pause} className={classes.buttonPause} startIcon={<PauseIcon />}>
                                         Pausa
-                                </Button>
+                                    </Button>
                                 </Box>
 
                                 <Box mt={3} className={classes.comboBox}>
@@ -623,7 +647,7 @@ function Rush(props) {
                                     </Grid>
                                 </Hidden>
                                 <Box>
-                                    <Typography variant="h6" color={seconds <= 9 ? 'secondary' : 'inherit'} >
+                                    <Typography variant="h6" style={{ color: seconds <= 9 ? theme.palette.error.main : theme.palette.text.primary }} >
                                         Tiempo: 0{seconds === 60 ? minutes : '0'}:{seconds === 60 ? '00' : seconds === 0 ? '00' : seconds < 10 ? '0' + seconds : seconds}
                                         <Grow in={zoomPoints} timeout={800}>
                                             <span className={classes.segsPlus}> + 5 segundos</span>

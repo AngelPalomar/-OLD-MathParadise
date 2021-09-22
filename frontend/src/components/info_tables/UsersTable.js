@@ -60,10 +60,9 @@ function UsersTable() {
             headerName: 'Nickname',
             width: 150,
             renderCell: (params) => (
-                <a href={`/home/profile/@${params.value}`}
-                    target='_blank'>
+                <Link to={`/home/profile/@${params.value}`}>
                     {params.value}
-                </a>
+                </Link>
             )
         },
         { field: 'email', headerName: 'Correo electrónico', width: 150 },

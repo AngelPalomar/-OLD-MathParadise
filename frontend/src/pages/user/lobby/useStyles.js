@@ -57,6 +57,7 @@ export const useStyles = makeStyles((theme) => ({
     playButton: {
         color: '#FFF',
         background: MATH_GRADIENTS().default,
-        fontSize: '5vh'
+        fontSize: 22,
+        width: 120
     }
 }))

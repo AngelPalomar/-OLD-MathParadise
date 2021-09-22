@@ -7,5 +7,8 @@ export const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         marginTop: theme.spacing(4),
         width: '100%'
+    },
+    header: {
+        textAlign: 'center'
     }
 }))

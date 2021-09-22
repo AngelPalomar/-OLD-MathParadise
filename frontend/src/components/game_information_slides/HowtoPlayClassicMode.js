@@ -29,7 +29,7 @@ function HowtoPlayClassicMode(props) {
             </Box>
 
             <DialogTitle
-                style={{ color: theme.palette.primary.main }}
+                style={{ color: theme.palette.classic.main }}
                 className={classes.title}>¿Cómo jugar en el Modo Clásico?</DialogTitle>
 
             <DialogContent>

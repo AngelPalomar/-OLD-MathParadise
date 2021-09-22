@@ -68,10 +68,10 @@ export const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(2),
     },
     playButton: {
-        padding: theme.spacing(2),
         color: "#FFFFFF",
         background: MATH_GRADIENTS().default,
-        textAlign: "center"
+        textAlign: "center",
+        fontSize: 20
     },
     joinButton: {
         padding: theme.spacing(1),

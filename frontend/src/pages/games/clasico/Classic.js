@@ -104,6 +104,7 @@ function Classic(props) {
     //Estdos que guardan las stats del jugador
     const [oldStats, setOldStats] = useState([])
     const [isNewRecord, setIsNewRecord] = useState(false)
+    const [history, setHistory] = useState({})
 
     //Estado que guarda la información del juego
     const [game, setGame] = useState([])
@@ -421,6 +422,23 @@ function Classic(props) {
                 }
             }
 
+            let gameHistory = {
+                nickname: player,
+                enemy_nickname: '',
+                gamemode: 'classic',
+                area: gameLocal.area,
+                difficulty: gameLocal.difficulty,
+                points: 0,
+                enemy_points: 0,
+                result: '',
+                excercises: 0,
+                correct_excercises: 0,
+                wrong_excercises: 0,
+                multiplier: 0,
+                level: 0,
+                rounds: gameLocal.totalRounds
+            }
+
             if (gameLocal.currentPlayer === 1) {
 
                 newStats.classic.points = gameLocal.player1.pts > oldStats.points ? gameLocal.player1.pts : oldStats.points
@@ -434,6 +452,15 @@ function Classic(props) {
                     setIsNewRecord(true)
                 }
 
+                //Historial de partidas
+                gameHistory.enemy_nickname = game.player2
+                gameHistory.points = gameLocal.player1.pts
+                gameHistory.enemy_points = gameLocal.player2.pts
+                gameHistory.result = gameLocal.player1.pts > gameLocal.player2.pts ? 'victory' : gameLocal.player1.pts === gameLocal.player2.pts ? 'draw' : 'defeat'
+                gameHistory.excercises = gameLocal.player1.excer
+                gameHistory.correct_excercises = gameLocal.player1.correct
+                gameHistory.wrong_excercises = gameLocal.player1.wrong
+
             } else if (gameLocal.currentPlayer === 2) {
                 newStats.classic.points = gameLocal.player2.pts > oldStats.points ? gameLocal.player2.pts : oldStats.points
                 newStats.classic.right_excercises = oldStats.right_excercises + gameLocal.player2.correct
@@ -445,6 +472,15 @@ function Classic(props) {
                 if (gameLocal.player2.pts > oldStats.points) {
                     setIsNewRecord(true)
                 }
+
+                //Historial de partidas
+                gameHistory.enemy_nickname = game.player1
+                gameHistory.points = gameLocal.player2.pts
+                gameHistory.enemy_points = gameLocal.player1.pts
+                gameHistory.result = gameLocal.player2.pts > gameLocal.player1.pts ? 'victory' : gameLocal.player2.pts === gameLocal.player1.pts ? 'draw' : 'defeat'
+                gameHistory.excercises = gameLocal.player2.excer
+                gameHistory.correct_excercises = gameLocal.player2.correct
+                gameHistory.wrong_excercises = gameLocal.player2.wrong
             }
 
             //Actualiza las stats del jugador
@@ -452,9 +488,10 @@ function Classic(props) {
                 getAccessTokenApi(),
                 newStats,
                 jwtDecode(getAccessTokenApi()).id
-            ).then(response => {
-                console.log(response.message)
-            })
+            ).then()
+
+            //Guarda el registro de partida
+            setHistory(gameHistory)
 
             //cierra todos los paneles
             setOpenExcPanel(false)
@@ -487,7 +524,7 @@ function Classic(props) {
      */
     useEffect(() => {
         let f
-        if (gameLocal.turn != gameLocal.currentPlayer) {
+        if (gameLocal.turn.toString() !== gameLocal.currentPlayer.toString()) {
             f = setInterval(() => {
                 console.log("Obteniendo datos.")
                 getGameByPinApi(pin).then(response => {
@@ -884,7 +921,8 @@ function Classic(props) {
                 player1={game.player1}
                 player2={game.player2}
                 gamemode="classic"
-                isNewRecord={isNewRecord} />
+                isNewRecord={isNewRecord}
+                history={history} />
             {
                 /**
                  * Si la orientación no es horizontal (landscape),

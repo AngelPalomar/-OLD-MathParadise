@@ -6,7 +6,8 @@ export const useStyles = makeStyles((theme) => ({
     },
     statsPaper: {
         padding: theme.spacing(2),
-        height: '280px'
+        height: 'auto',
+        minHeight: '280px'
     },
     imgGameMode: {
         width: '8vh'

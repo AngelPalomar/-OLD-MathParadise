@@ -29,7 +29,7 @@ function HowtoPlayArcadeMode(props) {
             </Box>
 
             <DialogTitle
-                style={{ color: theme.palette.primary.main }}
+                style={{ color: theme.palette.arcade.main }}
                 className={classes.title}>¿Cómo jugar en el Modo Arcade?</DialogTitle>
 
             <DialogContent>

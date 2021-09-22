@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import jwtDecode from 'jwt-decode';
 import { makeStyles } from "@material-ui/core/styles"
 import { AppBar, Toolbar, IconButton, Typography, Menu, MenuItem, Button } from "@material-ui/core";
@@ -79,13 +80,13 @@ function Header(props) {
                     {title === '/admin' ? 'Panel de administración' : 'Inicio'}
                 </Typography>
 
-                <a href={"/home/profile/@" + jwtDecode(getAccessTokenApi()).nickname} className={classes.link}>
+                <Link to={"/home/profile/@" + jwtDecode(getAccessTokenApi()).nickname} className={classes.link}>
                     <Button>
                         <UserAvatar size="35px" fs="100%" nickname={jwtDecode(getAccessTokenApi()).nickname} />
                         &nbsp;
                         {jwtDecode(getAccessTokenApi()).nickname}
                     </Button>
-                </a>
+                </Link>
 
                 <IconButton onClick={handleMenu}>
                     <MoreVertIcon />

@@ -5,7 +5,11 @@ import {
     Button, Dialog, DialogActions, DialogContent, Box, Slide, Typography
 } from "@material-ui/core"
 
+/**IMAGES */
 import rushLogo from '../../../assets/images/icons/rush_icon_1.svg'
+
+/**API */
+import { createHistoryApi } from '../../../api/history'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />
@@ -13,7 +17,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const useStyles = makeStyles((theme) => ({
     title: {
-        color: '#00487C'
+        color: theme.palette.rush.main
     },
     subtitle: {
         color: '#222222'
@@ -44,14 +48,17 @@ function RushResults(props) {
     const classes = useStyles()
     /**Props */
     let { isOpen, title, level, exCount, points, multiplier, button1,
-        isNewRecordPoints, isNewRecordLevel, isNewRecordExcercises, isNewRecordMultiplier } = props
+        isNewRecordPoints, isNewRecordLevel, isNewRecordExcercises, isNewRecordMultiplier,
+        history } = props
 
     const backToHome = () => {
+        createHistoryApi(history).then()
         Howler.stop()
         window.location.href = '/home/play'
     }
 
     const playAgain = () => {
+        createHistoryApi(history).then()
         Howler.stop()
         window.location.reload();
     }
@@ -95,7 +102,7 @@ function RushResults(props) {
             <DialogActions>
                 <Button onClick={playAgain} color="primary">
                     Volver a jugar
-                    </Button>
+                </Button>
                 <Button onClick={backToHome} color="primary">
                     {button1}
                 </Button>

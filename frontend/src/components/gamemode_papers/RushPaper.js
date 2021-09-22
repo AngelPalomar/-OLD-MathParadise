@@ -10,10 +10,10 @@ import CompetenciesRushMode from '../game_information_slides/CompetenciesRushMod
 /**Iconos */
 import BookmarkIcon from '@material-ui/icons/Bookmark'
 import HelpIcon from '@material-ui/icons/Help'
+import PlayArrowIcon from '@material-ui/icons/PlayArrow'
 
 /**Imagenes */
 import rushIconWhite from '../../assets/images/icons/rush_icon_white.svg'
-import playIconWhite from '../../assets/images/icons/play2_icon_white.svg'
 
 function RushPaper() {
     const classes = useStyles()
@@ -43,7 +43,7 @@ function RushPaper() {
                 </Grid>
                 <br />
                 <Typography>
-                    Resuelve cuantos ejercicios aritméticos puedas a contrareloj por cada nivel.
+                    Resuelve cuantos ejercicios aritméticos puedas a contrarreloj por cada nivel.
                     ¿Serás capaz de romper tu record?
                 </Typography>
                 <br />
@@ -82,13 +82,8 @@ function RushPaper() {
                             <Typography>Presione JUGAR para empezar la partida</Typography>
                             <Box className={classes.box}>
                                 <Link to="/rush" className={classes.link}>
-                                    <Button className={classes.playButton} size="large" variant="contained" fullWidth>
-                                        <Grid item lg={1} md={1} sm={2} xs={2}>
-                                            <img src={playIconWhite} alt="classic.svg"></img>
-                                        </Grid>
-                                        <Grid item lg={11} md={11} sm={10} xs={10}>
-                                            <Typography variant="h5">Jugar</Typography>
-                                        </Grid>
+                                    <Button startIcon={<PlayArrowIcon />} className={classes.playButton} size="large" variant="contained" fullWidth>
+                                        Jugar
                                     </Button>
                                 </Link>
                             </Box>

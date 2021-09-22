@@ -28,9 +28,9 @@ function History() {
             }
         })
         return () => {
-            setGameHistory(null)
+            setGameHistory([])
         }
-    }, [])
+    }, [nickname])
 
     if (isLoading) {
         return <LinearProgress variant='indeterminate' />
@@ -38,8 +38,13 @@ function History() {
 
     return (
         <div>
-            <Typography variant='h4' gutterBottom>Historial de partidas</Typography>
-            <Typography>Presionar para ver detalles</Typography>
+            <div className={classes.header}>
+                <Typography variant='h4' gutterBottom color='primary'>Historial de partidas</Typography>
+                <Typography>
+                    Desglose de todas tus partidas jugadas, presiona para ver más
+                    detalles.
+                </Typography>
+            </div>
             <div className={classes.list}>
                 {
                     gameHistory.length === 0 ?

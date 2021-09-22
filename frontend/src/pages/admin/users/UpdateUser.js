@@ -8,9 +8,7 @@ import { useStyles } from '../useStyles'
 
 /**Components */
 import DefaultSnackbar from '../../../components/snackbars/DefaultSnackbar'
-import ClassicStats from '../../../components/game_stats/ClassicStats'
-import ArcadeStats from '../../../components/game_stats/ArcadeStats'
-import RushStats from '../../../components/game_stats/RushStats'
+import GameStats from '../../../components/game_stats/GameStats'
 
 /**Icons */
 import AddIcon from '@material-ui/icons/Add'
@@ -26,6 +24,7 @@ import {
     minLenghtValidation,
     nicknameValidation
 } from '../../../utils/FormValidation'
+
 
 function UpdateUser(props) {
     const classes = useStyles()
@@ -89,7 +88,10 @@ function UpdateUser(props) {
                 school_grade: user.school_grade,
                 institution: user.institution,
                 role: user.role,
-                active: user.active
+                active: user.active,
+                classic: user.classic,
+                arcade: user.arcade,
+                rush: user.rush
             })
 
             setIdUser(user._id)
@@ -341,13 +343,13 @@ function UpdateUser(props) {
             </Paper >
             <Grid container spacing={1} style={{ marginBlock: 10 }}>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
-                    <ClassicStats nickname={inputs.nickname} />
+                    <GameStats gamemode='classic' stats={inputs.classic} />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
-                    <ArcadeStats nickname={inputs.nickname} />
+                    <GameStats gamemode='arcade' stats={inputs.arcade} />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
-                    <RushStats nickname={inputs.nickname} />
+                    <GameStats gamemode='rush' stats={inputs.rush} />
                 </Grid>
             </Grid>
         </Fragment>

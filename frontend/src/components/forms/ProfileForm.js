@@ -54,12 +54,6 @@ function ProfileForm(props) {
     //Snackbar
     const [messageNotification, setMessageNotification] = useState('')
     const [openNotification, setOpenNotification] = useState(false)
-    const handleClose = (reason) => {
-        if (reason === 'clickaway') {
-            return
-        }
-        setOpenNotification(false)
-    }
 
     useEffect(() => {
         //si existe un avatar
@@ -115,8 +109,7 @@ function ProfileForm(props) {
     }
 
     //Editar usuario
-    const submitForm = (e) => {
-        e.preventDefault()
+    const updateProfile = () => {
         const { name, lastname, nickname, email } = inputsValidation
         let userUpdate = inputs
 
@@ -131,12 +124,8 @@ function ProfileForm(props) {
         if (!email) {
             setMessageNotification("Ingrese un correo válido.")
             setOpenNotification(true)
-
             return
         }
-
-        //Inicia la carga
-        setIsLoading(true)
 
         //si cambió la foto de perfil, lo actualiza
         if (typeof inputs.avatar === "object") {
@@ -150,9 +139,6 @@ function ProfileForm(props) {
                         setMessageNotification(result.message)
                         setOpenNotification(true)
                     } else {
-                        //Recarga la pagina para visualizar el nuevo foto de perfil
-                        window.location.reload()
-
                         //Si se modificó el correo o el nickname, cierra sesión
                         if (userUpdate.email !== jwtDecode(getAccessTokenApi()).email ||
                             userUpdate.nickname !== jwtDecode(getAccessTokenApi()).nickname) {
@@ -161,6 +147,9 @@ function ProfileForm(props) {
                         }
                     }
                 })
+
+                //cierra el formulario
+                close()
             })
         } else {
             //Actualiza los datos del usuario SIN el avatar
@@ -176,8 +165,6 @@ function ProfileForm(props) {
                         userUpdate.nickname !== jwtDecode(getAccessTokenApi()).nickname) {
                         //cierra sesión
                         logout()
-                        //Recarga la pagina para redirigir al login
-                        window.location.reload()
                     }
 
                     //Recarga la nueva info y cierra el modal
@@ -193,11 +180,12 @@ function ProfileForm(props) {
 
     return (
         <Fragment>
-            <DefaultSnackbar message={messageNotification} open={openNotification} handleClose={handleClose} />
+            <DefaultSnackbar message={messageNotification} open={openNotification} handleClose={() => setOpenNotification(false)} />
             <Dialog
                 open={open}
                 onClose={close}
-                className={classes.root}>
+                className={classes.root}
+                keepMounted={false}>
 
                 <DialogTitle>
                     Editar perfil
@@ -212,7 +200,7 @@ function ProfileForm(props) {
                     <UploadAvatar avatar={avatar} setAvatar={setAvatar} />
                 </div>
 
-                <form onChange={changeForm} onSubmit={submitForm}>
+                <form onChange={changeForm}>
                     <DialogContent>
                         <Grid container spacing={2}>
                             <Grid item lg={4} md={4} sm={12} xs={12}>
@@ -313,7 +301,14 @@ function ProfileForm(props) {
                                     <Button onClick={close} startIcon={<ClearIcon />} className={classes.cancelButton}>
                                         Cancelar
                                     </Button>
-                                    <Button type="submit" color='primary' variant='contained' startIcon={<SaveIcon />}>
+                                    <Button onClick={() => {
+                                        updateProfile()
+                                        //Inicia la carga
+                                        setIsLoading(true)
+                                    }}
+                                        color='primary'
+                                        variant='contained'
+                                        startIcon={<SaveIcon />}>
                                         Guardar
                                     </Button>
                                 </Fragment>

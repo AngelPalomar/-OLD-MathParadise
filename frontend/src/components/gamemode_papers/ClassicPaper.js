@@ -4,7 +4,7 @@ import jwtDecode from 'jwt-decode'
 import { useStyles } from './useStyles'
 import {
     Typography, Box, Grid, Paper, Button, InputLabel, FormControl,
-    MenuItem, Select, TextField, CircularProgress, Backdrop
+    MenuItem, Select, TextField, CircularProgress, Backdrop, LinearProgress
 } from "@material-ui/core"
 
 /**API */
@@ -15,10 +15,10 @@ import { getGameByPinApi, joinGameApi } from '../../api/game'
 /**Iconos */
 //import BookmarkIcon from '@material-ui/icons/Bookmark'
 import HelpIcon from '@material-ui/icons/Help'
+import PlayArrowIcon from '@material-ui/icons/PlayArrow'
 
 /**Imagenes */
 import classicIconWhite from '../../assets/images/icons/classic_icon_white.svg'
-import playIconWhite from '../../assets/images/icons/play2_icon_white.svg'
 
 /**Components */
 import DefaultSnackbar from '../snackbars/DefaultSnackbar'
@@ -33,7 +33,7 @@ function ClassicPaper() {
         gamemode: "classic",
         difficulty: "normal",
         area: "Álgebra",
-        rounds: 3,
+        rounds: 1,
         board: "default"
     })
     const [pin, setPin] = useState("")
@@ -43,20 +43,17 @@ function ClassicPaper() {
     const [openBackdrop, setOpenBackdrop] = useState(false)
     const [blockJoinbutton, setblockJoinbutton] = useState(false)
     const [openHowTo, setOpenHowTo] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
 
     //Datos de partida buscada
     const [gameJoined, setGameJoined] = useState([])
-
-    //Funcion para cerrar snackbar
-    const handleClose = () => {
-        setOpenSnackbar(false)
-    }
 
     //Función para traer las materias
     useEffect(() => {
         getAreasApi().then(response => {
             if (response.status === 1) {
                 setAreas(response.areas)
+                setIsLoading(false)
             }
         })
     }, [])
@@ -135,13 +132,16 @@ function ClassicPaper() {
         <Fragment>
             <HowtoPlayClassicMode isOpen={openHowTo} handleOnClose={() => setOpenHowTo(false)} />
             <Backdrop className={classes.backdrop} open={openBackdrop} >
-                <Typography variant="h4" style={{ textAlign: 'center' }}>Esperando a que se inicie la partida</Typography>
+                <Typography variant="h4" style={{ textAlign: 'center' }}>
+                    Esperando a que se inicie la partida
+                </Typography>
+                <Typography variant='h5' gutterBottom>Anfitrión: {gameJoined.host}</Typography>
                 <CircularProgress className={classes.circularJoin} />
             </Backdrop>
             <DefaultSnackbar
                 open={openSnackbar}
                 message={message}
-                handleClose={handleClose}
+                handleClose={() => setOpenSnackbar(false)}
             />
             <Paper className={classes.classicPaper} color="primary" elevation={2}>
                 <Grid container spacing={2}>
@@ -162,28 +162,30 @@ function ClassicPaper() {
                     <Grid container spacing={2}>
                         <Grid item lg={7} md={6} sm={12} xs={12}>
                             <Paper className={classes.paperConfig} elevation={0}>
-
                                 <Typography variant="h6">Configuración de la partida</Typography>
                                 <Grid container spacing={2} className={classes.grid}>
                                     <Grid item lg={6} md={6} sm={12} xs={12}>
-                                        <FormControl variant="outlined" fullWidth>
-                                            <InputLabel id="materia">Materia</InputLabel>
-                                            <Select
-                                                name="area"
-                                                labelId="demo-simple-select-outlined-label"
-                                                id="demo-simple-select-outlined"
-                                                value={inputs.area}
-                                                onChange={handleInputs}
-                                                label="Materia"
-                                                className={classes.select}>
+                                        {
+                                            isLoading ? <LinearProgress variant='indeterminate' /> :
+                                                <FormControl variant="outlined" fullWidth>
+                                                    <InputLabel id="materia">Materia</InputLabel>
+                                                    <Select
+                                                        name="area"
+                                                        labelId="demo-simple-select-outlined-label"
+                                                        id="demo-simple-select-outlined"
+                                                        value={inputs.area}
+                                                        onChange={handleInputs}
+                                                        label="Materia"
+                                                        className={classes.select}>
 
-                                                {areas.map((values, index) => (
-                                                    values.active ?
-                                                        <MenuItem key={index} value={values.name}>{values.name}</MenuItem> : null
-                                                ))}
+                                                        {areas.map((values, index) => (
+                                                            values.active ?
+                                                                <MenuItem key={index} value={values.name}>{values.name}</MenuItem> : null
+                                                        ))}
 
-                                            </Select>
-                                        </FormControl>
+                                                    </Select>
+                                                </FormControl>
+                                        }
                                     </Grid>
                                     <Grid item lg={6} md={6} sm={12} xs={12}>
                                         <FormControl variant="outlined" fullWidth color="primary">
@@ -215,6 +217,7 @@ function ClassicPaper() {
                                                 label="Vueltas al tablero"
                                                 className={classes.select}>
 
+                                                <MenuItem value={1}>1 vuelta</MenuItem>
                                                 <MenuItem value={3}>3 vueltas</MenuItem>
                                                 <MenuItem value={5}>5 vueltas</MenuItem>
                                                 <MenuItem value={7}>7 vueltas</MenuItem>
@@ -263,13 +266,8 @@ function ClassicPaper() {
                                         pathname: '/lobby',
                                         gameProps: inputs
                                     }} className={classes.link}>
-                                        <Button className={classes.playButton} size="large" variant="contained" fullWidth>
-                                            <Grid item lg={1} md={1} sm={2} xs={2}>
-                                                <img src={playIconWhite} alt="classic.svg"></img>
-                                            </Grid>
-                                            <Grid item lg={11} md={11} sm={10} xs={10}>
-                                                <Typography variant="h5">Jugar</Typography>
-                                            </Grid>
+                                        <Button startIcon={<PlayArrowIcon />} className={classes.playButton} size="large" variant="contained" fullWidth>
+                                            Jugar
                                         </Button>
                                     </Link>
                                 </Box>

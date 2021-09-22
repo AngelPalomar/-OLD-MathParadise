@@ -1,6 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import { useStyles } from './useStyles'
-import { withStyles } from "@material-ui/core/styles"
 import theme from "../../styles/MathThemes"
 import {
     Dialog, DialogActions, Button, Typography, Radio, RadioGroup, FormControlLabel,
@@ -29,16 +28,6 @@ function ExcercisePanel(props) {
 
     const classes = useStyles()
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-    //Color de los radio btn
-    const MathRadio = withStyles({
-        root: {
-            color: theme.palette.disabled.dark,
-            '&$checked': {
-                color: theme.palette.primary.main,
-            },
-        },
-        checked: {},
-    })((props) => <Radio color="default" {...props} />);
 
     //Estados del cronometro
     const [seconds, setseconds] = useState(
@@ -238,10 +227,10 @@ function ExcercisePanel(props) {
                             </div>
                             <Typography className={classes.instrucLabel}>Seleccione la respuesta:</Typography>
                             <RadioGroup className={classes.optionsPanel} value={userAnswer} onChange={handleUserAnswerValue}>
-                                <FormControlLabel value={excercise.option_a} control={<MathRadio disabled={isAnswered ? true : false} />} label={<InlineMath math={`${excercise.option_a}`} />} />
-                                <FormControlLabel value={excercise.option_b} control={<MathRadio disabled={isAnswered ? true : false} />} label={<InlineMath math={`${excercise.option_b}`} />} />
-                                <FormControlLabel value={excercise.option_c} control={<MathRadio disabled={isAnswered ? true : false} />} label={<InlineMath math={`${excercise.option_c}`} />} />
-                                <FormControlLabel value={excercise.option_d} control={<MathRadio disabled={isAnswered ? true : false} />} label={<InlineMath math={`${excercise.option_d}`} />} />
+                                <FormControlLabel value={excercise.option_a} control={<Radio color='primary' disabled={isAnswered ? true : false} />} label={<InlineMath math={`${excercise.option_a}`} />} />
+                                <FormControlLabel value={excercise.option_b} control={<Radio color='primary' disabled={isAnswered ? true : false} />} label={<InlineMath math={`${excercise.option_b}`} />} />
+                                <FormControlLabel value={excercise.option_c} control={<Radio color='primary' disabled={isAnswered ? true : false} />} label={<InlineMath math={`${excercise.option_c}`} />} />
+                                <FormControlLabel value={excercise.option_d} control={<Radio color='primary' disabled={isAnswered ? true : false} />} label={<InlineMath math={`${excercise.option_d}`} />} />
                             </RadioGroup>
                             {
                                 //Si no ha contestado
@@ -266,7 +255,6 @@ function ExcercisePanel(props) {
                                 <Typography>Tiempo - {clock}</Typography>
                                 <LinearProgress
                                     variant="determinate"
-                                    color={!isChall ? "primary" : "secondary"}
                                     value={((minutes * 60) + seconds) / (((staticMinutes * 60) + staticSeconds) / 100)} />
                             </div>
 

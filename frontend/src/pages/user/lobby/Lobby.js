@@ -231,7 +231,7 @@ function LobbyNew(props) {
                             <Typography>Esperando jugador 2...</Typography> :
                             <Button
                                 onClick={startGame}
-                                startIcon={<PlayArrowIcon style={{ fontSize: 40 }} />}
+                                startIcon={<PlayArrowIcon />}
                                 className={classes.playButton}>
                                 Jugar
                             </Button>

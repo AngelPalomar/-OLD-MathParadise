@@ -59,6 +59,7 @@ function Arcade(props) {
     const [board, setBoard] = useState([])
     const [oldStats, setOldStats] = useState([])
     const [isNewRecord, setIsNewRecord] = useState(false)
+    const [history, setHistory] = useState({})
     const [gameLocal, setGameLocal] = useState({
         player1: {
             pts: 0,
@@ -386,7 +387,7 @@ function Arcade(props) {
     //Efecto que trae los datos cada 3 segundos
     useEffect(() => {
         let f
-        if (gameLocal.turn != gameLocal.currentPlayer) {
+        if (gameLocal.turn.toString() !== gameLocal.currentPlayer.toString()) {
             f = setInterval(() => {
                 console.log("Obteniendo datos.")
                 getGameByPinApi(pin).then(response => {
@@ -442,6 +443,23 @@ function Arcade(props) {
                 }
             }
 
+            let gameHistory = {
+                nickname: player,
+                enemy_nickname: '',
+                gamemode: 'arcade',
+                area: gameLocal.area,
+                difficulty: gameLocal.difficulty,
+                points: 0,
+                enemy_points: 0,
+                result: '',
+                excercises: 0,
+                correct_excercises: 0,
+                wrong_excercises: 0,
+                multiplier: 0,
+                level: 0,
+                rounds: gameLocal.totalRounds
+            }
+
             if (gameLocal.currentPlayer === 1) {
 
                 newStats.arcade.points = gameLocal.player1.pts > oldStats.points ? gameLocal.player1.pts : oldStats.points
@@ -455,6 +473,15 @@ function Arcade(props) {
                     setIsNewRecord(true)
                 }
 
+                //Historial de partidas
+                gameHistory.enemy_nickname = game.player2
+                gameHistory.points = gameLocal.player1.pts
+                gameHistory.enemy_points = gameLocal.player2.pts
+                gameHistory.result = gameLocal.player1.pts > gameLocal.player2.pts ? 'victory' : gameLocal.player1.pts === gameLocal.player2.pts ? 'draw' : 'defeat'
+                gameHistory.excercises = gameLocal.player1.excer
+                gameHistory.correct_excercises = gameLocal.player1.correct
+                gameHistory.wrong_excercises = gameLocal.player1.wrong
+
             } else if (gameLocal.currentPlayer === 2) {
                 newStats.arcade.points = gameLocal.player2.pts > oldStats.points ? gameLocal.player2.pts : oldStats.points
                 newStats.arcade.right_excercises = oldStats.right_excercises + gameLocal.player2.correct
@@ -466,6 +493,15 @@ function Arcade(props) {
                 if (gameLocal.player2.pts > oldStats.points) {
                     setIsNewRecord(true)
                 }
+
+                //Historial de partidas
+                gameHistory.enemy_nickname = game.player1
+                gameHistory.points = gameLocal.player2.pts
+                gameHistory.enemy_points = gameLocal.player1.pts
+                gameHistory.result = gameLocal.player2.pts > gameLocal.player1.pts ? 'victory' : gameLocal.player2.pts === gameLocal.player1.pts ? 'draw' : 'defeat'
+                gameHistory.excercises = gameLocal.player2.excer
+                gameHistory.correct_excercises = gameLocal.player2.correct
+                gameHistory.wrong_excercises = gameLocal.player2.wrong
             }
 
             //Actualiza las stats del jugador
@@ -473,9 +509,10 @@ function Arcade(props) {
                 getAccessTokenApi(),
                 newStats,
                 jwtDecode(getAccessTokenApi()).id
-            ).then(response => {
-                console.log(response.message)
-            })
+            ).then()
+
+            //Guarda el registro de partida
+            setHistory(gameHistory)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [gameLocal.player1.rounds, gameLocal.player2.rounds])
@@ -525,7 +562,8 @@ function Arcade(props) {
                 player1={game.player1}
                 player2={game.player2}
                 gamemode="arcade"
-                isNewRecord={isNewRecord} />
+                isNewRecord={isNewRecord}
+                history={history} />
             {
                 /**
                  * Si la orientación no es horizontal (landscape),

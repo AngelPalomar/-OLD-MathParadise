@@ -5,6 +5,7 @@ function CreateHistory(req, res) {
     const history = new History();
 
     history.nickname = body.nickname;
+    history.enemy_nickname = body.enemy_nickname;
     history.game_date = new Date();
     history.gamemode = body.gamemode;
     history.area = body.area;
@@ -15,6 +16,9 @@ function CreateHistory(req, res) {
     history.excercises = body.excercises;
     history.correct_excercises = body.correct_excercises;
     history.wrong_excercises = body.wrong_excercises;
+    history.multiplier = body.multiplier;
+    history.level = body.level;
+    history.rounds = body.rounds;
 
     history.save((err, result) => {
         if (err) {

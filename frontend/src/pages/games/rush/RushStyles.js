@@ -85,13 +85,13 @@ export const useStyles = makeStyles((theme) => ({
         color: "#F4F10F"
     },
     excercise: {
-        color: "#00487C"
+        color: theme.palette.rush.main
     },
     pointPlus: {
         color: '#6DFE5A'
     },
     segsPlus: {
-        color: '#00B76F'
+        color: theme.palette.success.main
     },
     comboPlus: {
         color: '#F8D65B',

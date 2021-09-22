@@ -43,7 +43,7 @@ import AdminSubtopicUpdate from '../pages/admin/subtopics/UpdateSubtopic'
 import Dashboard from '../pages/user/Dashboard'
 import PlayMenu from '../pages/user/PlayMenu'
 import Groups from '../pages/user/Groups'
-import Leaderboard from '../pages/user/Leaderboard'
+import Leaderboard from '../pages/user/leaderboard/Leaderboard'
 import History from '../pages/user/history/History'
 import Profile from '../pages/user/Profile'
 

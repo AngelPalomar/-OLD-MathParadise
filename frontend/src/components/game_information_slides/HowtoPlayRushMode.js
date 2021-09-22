@@ -29,7 +29,7 @@ function HowtoPlayRushMode(props) {
             </Box>
 
             <DialogTitle
-                style={{ color: theme.palette.primary.main }}
+                style={{ color: theme.palette.rush.main }}
                 className={classes.title}>¿Cómo jugar en el Modo Rush?</DialogTitle>
 
             <DialogContent>
