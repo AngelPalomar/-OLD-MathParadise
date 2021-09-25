@@ -112,6 +112,7 @@ function createUser(req, res) {
     user.sign_up_date = new Date()
     user.role = role
     user.active = true
+    user.avatar = 'default.svg'
     user.classic.points = 0
     user.classic.excercices = 0
     user.classic.right_excercises = 0
