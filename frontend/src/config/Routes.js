@@ -45,6 +45,7 @@ import PlayMenu from '../pages/user/PlayMenu'
 import Groups from '../pages/user/Groups'
 import Leaderboard from '../pages/user/leaderboard/Leaderboard'
 import History from '../pages/user/history/History'
+import Settings from '../pages/user/setting/Settings'
 import Profile from '../pages/user/Profile'
 
 /**Lobys */
@@ -224,6 +225,11 @@ const routes = [
             {
                 path: '/home/history',
                 component: History,
+                exact: true,
+            },
+            {
+                path: '/home/settings',
+                component: Settings,
                 exact: true,
             },
             {

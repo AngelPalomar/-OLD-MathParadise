@@ -12,6 +12,7 @@ import UserAvatar from '../DefaultAvatar'
 import MenuIcon from '@material-ui/icons/Menu'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import AccountBoxIcon from '@material-ui/icons/AccountBox'
+import SettingsIcon from '@material-ui/icons/Settings'
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew'
 
 /**APIS */
@@ -105,15 +106,21 @@ function Header(props) {
                     open={open}
                     onClose={handleClose}>
 
-                    <a href={"/home/profile/@" + jwtDecode(getAccessTokenApi()).nickname} className={classes.link}>
-                        <MenuItem onClick={handleClose} className={clsx(classes.alignIcon, classes.basicLabel)}>
+                    <Link to={"/home/profile/@" + jwtDecode(getAccessTokenApi()).nickname} className={classes.link}>
+                        <MenuItem onClick={handleClose} className={clsx(classes.alignIcon)}>
                             <AccountBoxIcon /> &nbsp; Mi perfil
                         </MenuItem>
-                    </a>
+                    </Link>
+
+                    <Link to={"/home/settings"} className={classes.link}>
+                        <MenuItem onClick={handleClose} className={clsx(classes.alignIcon)}>
+                            <SettingsIcon /> &nbsp; Configuración
+                        </MenuItem>
+                    </Link>
 
                     <MenuItem
                         onClick={() => { logout(); window.location.href = '/'; }}>
-                        <div className={clsx(classes.alignIcon, classes.logoutLabel)}>
+                        <div className={clsx(classes.alignIcon)}>
                             <PowerSettingsNewIcon /> &nbsp; Salir
                         </div>
                     </MenuItem>

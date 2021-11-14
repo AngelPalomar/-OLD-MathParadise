@@ -21,6 +21,7 @@ import GameStats from '../../components/game_stats/GameStats'
 import { getAccessTokenApi } from "../../api/auth"
 import { getUserByNicknameApi } from "../../api/user"
 import JwtDecode from 'jwt-decode';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -176,12 +177,14 @@ function Profile(props) {
                                 getAccessTokenApi() ?
                                     JwtDecode(getAccessTokenApi()).nickname === userData.nickname ?
                                         <Box className={classes.editProfileBtn}>
-                                            <Button
-                                                variant="contained"
-                                                className={classes.button}
-                                                startIcon={<EditIcon />}>
-                                                Editar Perfil
-                                            </Button>
+                                            <Link to='/home/settings'>
+                                                <Button
+                                                    variant="contained"
+                                                    className={classes.button}
+                                                    startIcon={<EditIcon />}>
+                                                    Editar Perfil
+                                                </Button>
+                                            </Link>
                                         </Box> : null : null
                             }
                         </Box>

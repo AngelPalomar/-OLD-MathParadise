@@ -1,8 +1,13 @@
 import { makeStyles } from "@material-ui/core/styles"
 
 export const useStyles = makeStyles((theme) => ({
-    root: {
-        padding: theme.spacing(2)
+    container: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignContent: 'center',
+        alignItems: 'center',
+        marginBottom: theme.spacing(4)
     },
     cancelButton: {
         background: theme.palette.error.main,
@@ -24,5 +29,22 @@ export const useStyles = makeStyles((theme) => ({
         borderStyle: 'dashed',
         borderColor: theme.palette.disabled.dark,
         borderRadius: '100px'
+    },
+    button: {
+        marginRight: theme.spacing(2)
+    },
+    inputFile: {
+        display: 'none'
+    },
+    selectImageLabel: {
+        marginInline: theme.spacing(2),
+        backgroundColor: theme.palette.primary.main,
+        '&:hover': {
+            backgroundColor: theme.palette.primary.dark,
+        },
+        cursor: 'pointer',
+        padding: theme.spacing(1),
+        color: 'white',
+        borderRadius: 4
     }
 }))
