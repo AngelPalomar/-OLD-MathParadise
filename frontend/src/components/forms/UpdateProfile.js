@@ -2,36 +2,38 @@ import React, { useState, useEffect, Fragment } from 'react'
 import jwtDecode from 'jwt-decode'
 import {
     Grid, TextField, Button, FormControl, InputLabel, Select, MenuItem,
-    Typography, Avatar, CircularProgress, Box, LinearProgress
+    Avatar, CircularProgress, Box, LinearProgress, Typography
 } from "@material-ui/core"
 import { useStyles } from './useStyles'
 
 /**Icons */
 import ClearIcon from '@material-ui/icons/Clear'
 import SaveIcon from '@material-ui/icons/Save'
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
 
 /**Components */
 import DefaultSnackbar from '../snackbars/DefaultSnackbar'
 import DefaultAvatar from '../DefaultAvatar'
 
 /**Utils */
-import { minLenghtValidation, emailValidation, nicknameValidation } from '../../utils/FormValidation'
+import { minLenghtValidation } from '../../utils/FormValidation'
 import { grades } from '../../utils/SelectArrays'
 
 /**APIs */
 import { getInstitutionsApi } from '../../api/institution'
 import { getUserByIdApi, updateUserApi, uploadAvatarApi } from '../../api/user'
-import { getAccessTokenApi, logout } from '../../api/auth'
-import { basePath, apiVersion } from '../../api/config'
+import { getAccessTokenApi } from '../../api/auth'
 
-function ProfileForm(props) {
+function UpdateProfile(props) {
     const classes = useStyles()
     const [institutionsList, setInstitutionsList] = useState([])
     const id = jwtDecode(getAccessTokenApi()).id;
 
     const [inputs, setInputs] = useState({})
-    const [avatar, setAvatar] = useState(null)
-    const [isLoading, setIsLoading] = useState(false)
+    const [oldAvatar, setOldAvatar] = useState('');
+    const [newAvatar, setNewAvatar] = useState(new Blob())
+    const [changedAvatar, setChangedAvatar] = useState(false)
+    const [isUpdating, setIsUpdating] = useState(false)
     const [isLoadingData, setIsLoadingData] = useState(true)
 
     //Snackbar
@@ -48,9 +50,9 @@ function ProfileForm(props) {
                 nickname: user.nickname,
                 email: user.email,
                 institution: user.institution,
-                school_grade: user.school_grade,
-                avatar: user.avatar
+                school_grade: user.school_grade
             })
+            setOldAvatar(user.nickname);
 
             //Para la carga
             setIsLoadingData(false)
@@ -77,6 +79,76 @@ function ProfileForm(props) {
         }
     }
 
+    /**Subir imagen */
+    const onChangeImage = (e) => {
+        let fileName = "";
+        let extension = "";
+        fileName = e.target.files[0].name;
+        extension = fileName.split('.').pop();
+
+        if (extension === 'jpg' || extension === 'png') {
+            setNewAvatar(e.target.files[0]);
+            setChangedAvatar(true);
+        } else {
+            setMessageNotification('Solo se aceptan imágenes con el formato .png o .jpg');
+            setOpenNotification(true);
+        }
+    }
+
+    //Actualizar perfil
+    const updateProfile = () => {
+        //Validaciones
+        if (!minLenghtValidation(inputs.name, 1)) {
+            setMessageNotification('Ingrese un nombre');
+            setOpenNotification(true);
+            return;
+        }
+
+        if (!minLenghtValidation(inputs.lastname, 1)) {
+            setMessageNotification('Ingrese un apellido.');
+            setOpenNotification(true);
+            return;
+        }
+
+        //Inicia carga
+        setIsUpdating(true);
+
+        //Si subio imagen
+        if (changedAvatar) {
+            uploadAvatarApi(newAvatar, id).then(response => {
+                if (response.status === 1) {
+                    updateUserApi(getAccessTokenApi(), inputs, id).then(response => {
+                        if (response.status === 1) {
+                            setMessageNotification(response.message);
+                            setOpenNotification(true);
+                            setIsUpdating(false);
+                        } else {
+                            setMessageNotification(response.message);
+                            setOpenNotification(true);
+                            setIsUpdating(false);
+                        }
+                    })
+                } else {
+                    setMessageNotification('Error al subir la imagen, intente de nuevo.');
+                    setOpenNotification(true);
+                    setIsUpdating(false);
+                }
+            })
+        } else {
+            updateUserApi(getAccessTokenApi(), inputs, id).then(response => {
+                if (response.status === 1) {
+                    setMessageNotification(response.message);
+                    setOpenNotification(true);
+                    setIsUpdating(false);
+                } else {
+                    setMessageNotification(response.message);
+                    setOpenNotification(true);
+                    setIsUpdating(false);
+                }
+            })
+        }
+    }
+
     if (isLoadingData) {
         return <LinearProgress variant='indeterminate' color='primary' />
     }
@@ -85,15 +157,31 @@ function ProfileForm(props) {
         <Fragment>
             <DefaultSnackbar message={messageNotification} open={openNotification} handleClose={() => setOpenNotification(false)} />
             <Box>
+                <Typography variant='h6' gutterBottom>Editar perfil</Typography>
                 <Box className={classes.container}>
-                    <DefaultAvatar nickname={inputs.nickname} size={100} />
-                    <input type='file' id='select-avatar' className={classes.inputFile} />
-                    <label htmlFor='select-avatar' className={classes.selectImageLabel}>
-                        <Typography>Cambiar avatar</Typography>
-                    </label>
-                    <Avatar style={{ width: 100, height: 100 }} />
-                </Box>
+                    <DefaultAvatar nickname={oldAvatar} size={100} />
+                    <input
+                        type='file'
+                        id='select-avatar'
+                        className={classes.inputFile}
+                        multiple={false}
+                        accept="image/*"
+                        onChange={onChangeImage} />
+                    <Button
+                        variant='contained'
+                        color='primary'
+                        className={classes.selectAvatarBtn}
+                        endIcon={<ArrowForwardIcon />}
+                        onClick={() => { document.getElementById('select-avatar').click() }}>
+                        Cambiar avatar
+                    </Button>
+                    <div onClick={() => { document.getElementById('select-avatar').click() }}>
+                        <Avatar
+                            style={{ width: 100, height: 100 }}
+                            src={URL.createObjectURL(newAvatar)} />
+                    </div>
 
+                </Box>
                 <form onChange={changeForm}>
                     <Grid container spacing={2}>
                         <Grid item lg={4} md={4} sm={12} xs={12}>
@@ -117,19 +205,19 @@ function ProfileForm(props) {
                         <Grid item lg={4} md={4} sm={12} xs={12}>
                             <TextField
                                 type="text"
-                                name="nickname"
                                 label="*Alias"
                                 variant="outlined"
                                 fullWidth
+                                disabled
                                 value={inputs.nickname} />
                         </Grid>
                         <Grid item lg={12} md={12} sm={12} xs={12}>
                             <TextField
                                 type="email"
-                                name="email"
                                 label="*Correo electrónico"
                                 variant="outlined"
                                 fullWidth
+                                disabled
                                 value={inputs.email} />
                         </Grid>
                         <Grid item lg={6} md={6} sm={12} xs={12}>
@@ -172,21 +260,19 @@ function ProfileForm(props) {
                                 </Select>
                             </FormControl>
                         </Grid>
-                        <Grid item lg={12} md={12} sm={12} xs={12}>
-                            <Typography className={classes.label}>*Si modifica el correo electrónico o el alias, se cerarrá la sesión.</Typography>
-                        </Grid>
                     </Grid>
 
                     <Box marginTop={2}>
                         {
-                            isLoading ?
+                            isUpdating ?
                                 <CircularProgress color='primary' variant='indeterminate' /> :
                                 <Fragment>
                                     <Button
                                         className={classes.button}
                                         color='primary'
                                         variant='contained'
-                                        startIcon={<SaveIcon />}>
+                                        startIcon={<SaveIcon />}
+                                        onClick={updateProfile}>
                                         Guardar
                                     </Button>
                                     <Button
@@ -202,4 +288,4 @@ function ProfileForm(props) {
         </Fragment>
     )
 }
-export default ProfileForm
+export default UpdateProfile

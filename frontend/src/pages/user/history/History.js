@@ -48,7 +48,7 @@ function History() {
             <div className={classes.list}>
                 {
                     gameHistory.length === 0 ?
-                        <Typography>No hay partidas registradas.</Typography> :
+                        <Typography className={classes.noPlaysText}>No hay partidas registradas.</Typography> :
                         <Fragment>
                             {
                                 gameHistory.map((value, index) => (

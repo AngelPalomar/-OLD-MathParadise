@@ -1,4 +1,5 @@
 import React, { useEffect, Fragment } from 'react'
+import { Link } from 'react-router-dom';
 import { Box, Grid, Typography, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core'
 
@@ -101,12 +102,12 @@ function Home() {
                         <Typography variant="h4" className={classes.titles}>¡Empieza a jugar!</Typography>
 
                         <Box className={classes.forms}>
-                            <a href="/login" className={classes.link}>
+                            <Link to={"/login"} className={classes.link}>
                                 <Button className={classes.button} variant="contained">Iniciar sesión</Button>
-                            </a>
-                            <a href="/sign-up" className={classes.link}>
+                            </Link>
+                            <Link to={"/sign-up"} className={classes.link}>
                                 <Button className={classes.button} variant="contained">Crear una cuenta</Button>
-                            </a>
+                            </Link>
                         </Box>
                     </Box>
                 </Grid>

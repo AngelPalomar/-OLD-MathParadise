@@ -1,17 +1,23 @@
 import React from 'react'
-import { Typography } from '@material-ui/core'
+import { Divider, Typography } from '@material-ui/core'
+import { useStyles } from './useStyles'
 
 /**Components */
-import ProfileForm from '../../../components/forms/ProfileForm'
+import UpdateProfile from '../../../components/forms/UpdateProfile'
+import UpdatePassword from '../../../components/forms/UpdatePassword'
 
 function Settings() {
+    const classes = useStyles();
+
     return (
         <div>
             <Typography variant='h4' gutterBottom>
                 Configuración general
             </Typography>
-            <Typography variant='h6' gutterBottom>Editar perfil</Typography>
-            <ProfileForm />
+            <UpdateProfile />
+            <Divider className={classes.divider} />
+            <UpdatePassword />
+            <Divider className={classes.divider} />
         </div>
     )
 }

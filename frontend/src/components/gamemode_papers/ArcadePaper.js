@@ -259,16 +259,20 @@ function ArcadePaper() {
                         <Grid item lg={5} md={6} sm={12} xs={12}>
                             <Paper className={classes.paperConfig} elevation={0}>
                                 <Typography>Presione JUGAR para crear la partida</Typography>
-                                <Box className={classes.box}>
-                                    <Link to={{
-                                        pathname: '/lobby',
-                                        gameProps: inputs
-                                    }} className={classes.link}>
-                                        <Button startIcon={<PlayArrowIcon />} className={classes.playButton} size="large" variant="contained" fullWidth>
-                                            Jugar
-                                        </Button>
-                                    </Link>
-                                </Box>
+                                {
+                                    isLoading ?
+                                        <LinearProgress variant='indeterminated' color='primary' /> :
+                                        <Box className={classes.box}>
+                                            <Link to={{
+                                                pathname: '/lobby',
+                                                gameProps: inputs
+                                            }} className={classes.link}>
+                                                <Button startIcon={<PlayArrowIcon />} className={classes.playButton} size="large" variant="contained" fullWidth>
+                                                    Jugar
+                                                </Button>
+                                            </Link>
+                                        </Box>
+                                }
                             </Paper>
                             <Paper className={classes.paperConfig} elevation={0}>
                                 <Typography className={classes.title}>Unirse a partida</Typography>

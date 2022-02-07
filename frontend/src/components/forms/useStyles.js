@@ -36,15 +36,7 @@ export const useStyles = makeStyles((theme) => ({
     inputFile: {
         display: 'none'
     },
-    selectImageLabel: {
-        marginInline: theme.spacing(2),
-        backgroundColor: theme.palette.primary.main,
-        '&:hover': {
-            backgroundColor: theme.palette.primary.dark,
-        },
-        cursor: 'pointer',
-        padding: theme.spacing(1),
-        color: 'white',
-        borderRadius: 4
+    selectAvatarBtn: {
+        marginInline: theme.spacing(2)
     }
 }))

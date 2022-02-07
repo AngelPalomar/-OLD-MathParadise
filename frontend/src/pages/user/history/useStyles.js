@@ -10,5 +10,8 @@ export const useStyles = makeStyles((theme) => ({
     },
     header: {
         textAlign: 'center'
+    },
+    noPlaysText: {
+        fontWeight: 'bold'
     }
 }))

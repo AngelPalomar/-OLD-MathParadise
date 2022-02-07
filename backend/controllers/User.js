@@ -200,53 +200,52 @@ function updatePassword(req, res) {
     const { password, repeatPassword, oldPassword } = req.body
 
     if (!password || !repeatPassword) {
-        res.status(500).send({ status: 0, message: "Las contraseñas son requeridas" })
+        res.status(200).send({ status: 0, message: "Las contraseñas son requeridas" })
         return
     }
 
     if (password !== repeatPassword) {
-        res.status(500).send({ status: 0, message: "Las contraseñas deben ser iguales" })
+        res.status(200).send({ status: 0, message: "Las contraseñas deben ser iguales" })
         return
     }
 
-    User.findByIdAndUpdate({ _id: params.id }, (err, userData) => {
+    //Autoriza cambio de contraseña
+    User.findById(params.id, (err, user) => {
         if (err) {
-            res.status(404).send({ status: 0, message: "Error del servidor" })
+            res.status(200).send({ status: 0, message: "Error del servidor." });
+        } else if (!user) {
+            res.status(200).send({ status: 0, message: "Usuario no encontrado." });
         } else {
-            if (!userData) {
-                res.status(404).send({ status: 0, message: "Usuario no encontrado" })
-            } else {
-                bcrypt.compare(oldPassword, userData.password, (err, check) => {
-                    if (err) {
-                        res.status(500).send({ status: 0, message: "Error del servidor" })
-                    } else if (!check) {
-                        res.status(400).send({ status: 0, message: "La contraseña es incorrecta" })
+            //Compara la vieja contraseña
+            bcrypt.compare(oldPassword, user.password, (err, check) => {
+                if (err) {
+                    res.status(200).send({ status: 0, message: "Error del servidor." });
+                } else {
+                    if (!check) {
+                        res.status(200).send({ status: 0, message: "Contraseña incorrecta." })
                     } else {
-                        //Una vez que se haya ingresado la contraseña, las actualiza
+                        //Encripta la nueva contraseña
                         bcrypt.hash(password, null, null, (err, hash) => {
                             if (err) {
-                                res.status(500).send({ status: 0, message: "Error al encriptar" })
+                                res.status(200).send({ status: 0, message: "Error al encriptar la contraseña." });
                             } else {
-                                User.findByIdAndUpdate(
-                                    params.id,
-                                    { password: hash },
-                                    (err, result) => {
-                                        if (err) {
-                                            res.status(500).send({ status: 0, message: "Error del servidor" })
+                                //Actualiza el usuario con la contraseña encriptada
+                                User.findByIdAndUpdate(params.id, { password: hash }, (err, result) => {
+                                    if (err) {
+                                        res.status(200).send({ status: 0, message: "Error del servidor." });
+                                    } else {
+                                        if (!result) {
+                                            res.status(200).send({ status: 0, message: "No se ha encontrado ningun usuario." });
                                         } else {
-                                            if (!result) {
-                                                res.status(404).send({ status: 0, message: "Error al actualizar la contraseña" })
-                                            } else {
-                                                res.status(200).send({ status: 1, message: "Contraseña actualizada correctamente" })
-                                            }
+                                            res.status(200).send({ status: 1, message: "Contraseña actualizada correctamente." });
                                         }
                                     }
-                                )
+                                })
                             }
                         })
                     }
-                })
-            }
+                }
+            })
         }
     })
 }

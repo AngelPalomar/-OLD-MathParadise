@@ -36,3 +36,32 @@ export function nicknameValidation(inputData) {
         }
     }
 }
+
+export function emailValueValidation(email) {
+    const emailValid = /^([a-zA-Z0-9_.])+@(([a-zA-Z0-9])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+    const resultValidation = emailValid.test(email)
+
+    if (resultValidation) {
+        return true
+    } else {
+        return false
+    }
+}
+
+export function nicknameValueValidation(nick) {
+    const nicknameRegex = /^([a-zA-Z0-9_.])+([[a-zA-Z0-9_.])+([a-zA-Z0-9_.])+$/
+
+    const result = nicknameRegex.test(nick);
+
+    if (!result) {
+        return false
+    } else {
+        //Máximo de escritura
+        if (nick.length > 20) {
+            return false
+        } else {
+            return true
+        }
+    }
+}

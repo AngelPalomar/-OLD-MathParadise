@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { Box, Grid, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core'
 
@@ -8,6 +9,7 @@ import { getVersionNumber } from '../utils/Version'
 /**Imagenes */
 import math_logo from '../assets/images/logos/MathParadiseLogo.svg'
 import uteq_logo from '../assets/images/logos/uteq_logo.svg'
+import talentos_logo from '../assets/images/logos/talentos_logo.svg'
 
 const useStyles = makeStyles((theme) => ({
 
@@ -77,6 +79,7 @@ function Footer() {
             <Box className={classes.logosContainer}>
                 <img src={math_logo} alt="math_logo.svg" className={classes.logos} />
                 <img src={uteq_logo} alt="uteq_logo.svg" className={classes.logos} />
+                <img src={talentos_logo} alt="talentos_logo.svg" className={classes.logos} />
             </Box>
             <Grid container>
                 <Grid item lg={2} md={2} sm={6} xs={6}>
@@ -91,9 +94,13 @@ function Footer() {
                         Universidad Tecnológica de Querétaro
                     </a>
                     <br />
-                    <a href="/privacy-policies" className={classes.link}>
+                    <Link to={"/privacy-policies"} className={classes.link}>
                         Políticas de privacidad
-                    </a>
+                    </Link>
+                    <br />
+                    <Link to={'/credits'} className={classes.link}>
+                        Créditos
+                    </Link>
                 </Grid>
                 <Grid item lg={7} md={7} sm={12} xs={12} className={classes.contactContainer}>
                     <Typography variant="h6" className={classes.title}>Contacto</Typography>
