@@ -51,17 +51,13 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
         marginTop: theme.spacing(3),
     },
+    rightLinks: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'end'
+    },
     title: {
         marginBottom: theme.spacing(1)
-    },
-    contactContainer: {
-        [theme.breakpoints.down('sm')]: {
-            textAlign: 'center',
-            marginTop: theme.spacing(2)
-        },
-        [theme.breakpoints.up('md')]: {
-            textAlign: 'right',
-        }
     },
     link: {
         textDecoration: 'none',
@@ -81,8 +77,8 @@ function Footer() {
                 <img src={uteq_logo} alt="uteq_logo.svg" className={classes.logos} />
                 <img src={talentos_logo} alt="talentos_logo.svg" className={classes.logos} />
             </Box>
-            <Grid container>
-                <Grid item lg={2} md={2} sm={6} xs={6}>
+            <Grid container spacing={2} justifyContent='center'>
+                <Grid item lg={3} md={3} sm={6} xs={6}>
                     <Typography variant="h6" className={classes.title}>Social</Typography>
                     <a href="https://www.facebook.com/Math-Paradise-2132810540284835" target="_blank" rel="noopener noreferrer" className={classes.link}>Facebook</a>
                     <br />
@@ -102,7 +98,13 @@ function Footer() {
                         Créditos
                     </Link>
                 </Grid>
-                <Grid item lg={7} md={7} sm={12} xs={12} className={classes.contactContainer}>
+                <Grid item lg={3} md={3} sm={6} xs={6} className={classes.rightLinks}>
+                    <Typography variant="h6" className={classes.title}>Plataforma</Typography>
+                    <Link to={'/help'} className={classes.link}>
+                        Ayuda
+                    </Link>
+                </Grid>
+                <Grid item lg={3} md={3} sm={6} xs={6} className={classes.rightLinks}>
                     <Typography variant="h6" className={classes.title}>Contacto</Typography>
                     <a href="mailto:mathparadise.juega@gmail.com" rel="noopener noreferrer" className={classes.link}>
                         Feedback

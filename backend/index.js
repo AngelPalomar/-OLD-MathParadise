@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const app = require('./app')
-const port = process.env.PORT || 3978
-const { API_VERSION, IP_SERVER, PORT_DB } = require('./config')
+const { API_VERSION, IP_SERVER, PORT_DB, PORT_SERVER } = require('./config')
 
 mongoose.set("useFindAndModify", false)
 
@@ -18,11 +17,11 @@ mongoose.connect(
             throw err
         } else {
             console.log('Conexión exitosa.')
-            app.listen(port, () => {
+            app.listen(PORT_SERVER, () => {
                 console.log('############################################')
                 console.log('########## MATH PARADISE API REST ##########')
                 console.log('############################################')
-                console.log(`http://${IP_SERVER}:${port}/api/${API_VERSION}/`)
+                console.log(`http://${IP_SERVER}:${PORT_SERVER}/api/${API_VERSION}/`)
             })
         }
     }

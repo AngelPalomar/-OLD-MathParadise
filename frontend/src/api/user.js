@@ -331,3 +331,41 @@ export function deleteUserApi(id) {
         return err.message
     })
 }
+
+export function createToken(data) {
+    const url = `${basePath}/${apiVersion}/create-token`
+    const params = {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }
+
+    return fetch(url, params).then(response => {
+        return response.json()
+    }).then(result => {
+        return result
+    }).catch(err => {
+        return err.message
+    })
+}
+
+export function passwordReset(data) {
+    const url = `${basePath}/${apiVersion}/password-reset`
+    const params = {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }
+
+    return fetch(url, params).then(response => {
+        return response.json()
+    }).then(result => {
+        return result
+    }).catch(err => {
+        return err.message
+    })
+}

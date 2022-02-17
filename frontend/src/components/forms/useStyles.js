@@ -38,5 +38,8 @@ export const useStyles = makeStyles((theme) => ({
     },
     selectAvatarBtn: {
         marginInline: theme.spacing(2)
+    },
+    actionElement: {
+        marginBlock: theme.spacing(2)
     }
 }))

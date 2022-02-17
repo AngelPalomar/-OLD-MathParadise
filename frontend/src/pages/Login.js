@@ -13,6 +13,7 @@ import Logo from '../components/Logo'
 import PublicHeader from '../components/PublicHeader'
 import Footer from '../components/Footer'
 import DefaultSnackbar from '../components/snackbars/DefaultSnackbar'
+import ResetPassword from '../components/forms/ResetPassword'
 
 /**APIs */
 import { loginApi } from "../api/user"
@@ -64,6 +65,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Login(props) {
     const classes = useStyles();
+    const [openResetPass, setOpenResetPass] = useState(false)
     const [inputs, setInputs] = useState({
         email: '',
         password: ''
@@ -139,6 +141,7 @@ function Login(props) {
 
     return (
         <Fragment>
+            <ResetPassword open={openResetPass} handleClose={() => setOpenResetPass(false)} />
             <DefaultSnackbar
                 open={alertOpen}
                 handleClose={handleClose}
@@ -168,12 +171,20 @@ function Login(props) {
                                             <TextField name="password" value={inputs.password} type="password" label="Contraseña" variant="outlined" fullWidth />
                                         </Box>
                                     </FormControl>
+                                    <Box>
+                                        <Button
+                                            variant='text'
+                                            color='primary'
+                                            onClick={() => setOpenResetPass(true)}>
+                                            Olvidé mi contraseña
+                                        </Button>
+                                    </Box>
                                     <FormControl fullWidth>
                                         <Box className={classes.box}>
                                             {
                                                 !isLoading ?
                                                     <Button type="submit" variant="contained" className={classes.button} startIcon={<ExitToAppIcon />}>
-                                                        <Typography variant="h6">Iniciar sesión</Typography>
+                                                        <Typography variant="h6">Ingresar</Typography>
                                                     </Button> :
                                                     <CircularProgress />
                                             }

@@ -1,9 +1,13 @@
-const bcrypt = require("bcrypt-nodejs")
-const jwt = require("../services/jwt")
-const User = require("../models/User")
+const bcrypt = require("bcrypt-nodejs");
+const jwt = require("../services/jwt");
+const User = require("../models/User");
+const Token = require("../models/Token");
+const sendEmail = require("../helpers/SendEmail");
+const randomToken = require('random-token').create('abcdefghijklmnopqrstuvwxzyABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@-._*+');
+
 //File system
 const fs = require('fs')
-const path = require('path')
+const path = require('path');
 
 function signUp(req, res) {
     const user = new User()
@@ -250,6 +254,97 @@ function updatePassword(req, res) {
     })
 }
 
+function createToken(req, res) {
+    const { email, notify } = req.body;
+    let newToken = new Token();
+
+    //Busca usuario
+    User.findOne({ email: email }, (err, user) => {
+        if (err) {
+            res.status(200).send({ message: "Error del servidor.", status: 0 });
+        } else {
+            if (!user) {
+                res.status(200).send({ message: "Usuario no encontrado.", status: 0 });
+            } else {
+                //Crea token temporal
+                newToken.userId = user._id;
+                newToken.token = randomToken(16);
+
+                //Guarda token
+                newToken.save((err, tokenStored) => {
+                    if (err) {
+                        res.status(200).send({ message: "Error del servidor.", status: 0 });
+                    } else {
+                        if (!tokenStored) {
+                            res.status(200).send({ message: "Error al generar un nuevo token de recuperación.", status: 0 });
+                        } else {
+                            if (notify) {
+                                sendEmail(
+                                    email,
+                                    'Creación de token',
+                                    `Se te ha creado un token a tu cuenta: ${tokenStored.token}`
+                                )
+                            }
+
+                            res.status(200).send({
+                                message: "Token creado correctamente.",
+                                token: tokenStored.token,
+                                status: 1,
+                                userId: user._id
+                            });
+                        }
+                    }
+                })
+            }
+        }
+    })
+}
+
+function passwordReset(req, res) {
+    const { email, userId, token } = req.body
+    const newPassword = randomToken(16);
+
+    if (!userId || userId.toString().trim() === "" || !email || email.toString().trim() === "") {
+        res.status(200).send({ message: "Todos los campos son requeridos.", status: 0 });
+    }
+
+    //Busca el token
+    Token.findOneAndUpdate({ token: token, used: false }, { used: true }, (err, token) => {
+        if (err) {
+            res.status(200).send({ message: "Error del servidor", status: 0 });
+        } else {
+            if (!token) {
+                res.status(200).send({ message: "Este token ya fue usado o no existe.", status: 0 });
+            } else {
+                //Encripta la contraseña generada
+                bcrypt.hash(newPassword, null, null, (err, hash) => {
+                    if (err) {
+                        res.status(200).send({ message: "Error del servidor.", status: 0 });
+                    } else {
+                        //Busca usuario y modifica contraseña encriptada
+                        User.findByIdAndUpdate(userId, { password: hash }, (err, user) => {
+                            if (err) {
+                                res.status(200).send({ message: "Error del servidor.", status: 0 });
+                            } else {
+                                if (!user) {
+                                    res.status(200).send({ message: "Usuario no encontrado.", status: 0 });
+                                } else {
+                                    sendEmail(
+                                        email,
+                                        'Recuperación de contraseña',
+                                        `Tu nueva contraseña es: ${newPassword}\nTe recomendamos cambiar la contraseña una vez hayas ingresado`
+                                    )
+                                    res.status(200).send({ message: "Contraseña cambiada", status: 1 });
+                                }
+                            }
+                        })
+                    }
+                })
+            }
+        }
+    })
+}
+
 function getUser(req, res) {
     const params = req.params
 
@@ -334,6 +429,22 @@ function updateUser(req, res) {
                 res.status(404).send({ status: 0, message: "Error al modificar el usuario." })
             } else {
                 res.status(200).send({ status: 1, message: "Los datos se han actualizado correctamente." })
+            }
+        }
+    })
+}
+
+function deleteUser(req, res) {
+    const params = req.params
+
+    User.findByIdAndDelete({ _id: params.id }, (err, result) => {
+        if (err) {
+            res.status(500).send({ status: 0, message: "Error del servidor" })
+        } else {
+            if (!result) {
+                res.status(404).send({ status: 0, message: "Error al eliminar" })
+            } else {
+                res.status(200).send({ status: 1, message: "Usuario eliminado correctamente" })
             }
         }
     })
@@ -480,27 +591,13 @@ function getArcadeLeaderboard(req, res) {
         })
 }
 
-function deleteUser(req, res) {
-    const params = req.params
-
-    User.findByIdAndDelete({ _id: params.id }, (err, result) => {
-        if (err) {
-            res.status(500).send({ status: 0, message: "Error del servidor" })
-        } else {
-            if (!result) {
-                res.status(404).send({ status: 0, message: "Error al eliminar" })
-            } else {
-                res.status(200).send({ status: 1, message: "Usuario eliminado correctamente" })
-            }
-        }
-    })
-}
-
 module.exports = {
     signUp,
     login,
     createUser,
     updatePassword,
+    createToken,
+    passwordReset,
     updateFullUser,
     getUser,
     getUserByNickname,

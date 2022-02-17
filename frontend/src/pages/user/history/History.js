@@ -8,7 +8,7 @@ import { getAccessTokenApi } from '../../../api/auth'
 import { getHistoryByNicknameApi } from '../../../api/history'
 
 /**Components */
-import GameHistoryCard from '../../../components/game_history_card/GameHistoryCard'
+import GameHistoryAccordion from '../../../components/game_history_card/GameHistoryAccordion'
 
 function History() {
     const classes = useStyles()
@@ -37,7 +37,7 @@ function History() {
     }
 
     return (
-        <div>
+        <div className={classes.root}>
             <div className={classes.header}>
                 <Typography variant='h4' gutterBottom color='primary'>Historial de partidas</Typography>
                 <Typography>
@@ -52,7 +52,7 @@ function History() {
                         <Fragment>
                             {
                                 gameHistory.map((value, index) => (
-                                    <GameHistoryCard key={index} historyData={value} />
+                                    <GameHistoryAccordion key={index} historyData={value} />
                                 ))
                             }
                         </Fragment>

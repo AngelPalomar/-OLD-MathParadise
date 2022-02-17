@@ -66,6 +66,7 @@ import Login from '../pages/Login'
 import SignUp from '../pages/SignUp'
 import Error from '../pages/Error404'
 import PrivacyPolicies from '../pages/PrivacyPolicies'
+import Help from '../pages/help/Help'
 
 const routes = [
     /**Página principal */
@@ -316,6 +317,17 @@ const routes = [
     {
         path: '/privacy-policies',
         component: PrivacyPolicies,
+        exact: true,
+        routes: [
+            {
+                component: Error
+            }
+        ]
+    },
+    /**Ruta de ayuda */
+    {
+        path: '/help',
+        component: Help,
         exact: true,
         routes: [
             {

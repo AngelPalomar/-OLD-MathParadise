@@ -11,9 +11,6 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(2),
         textAlign: 'justify'
     },
-    p: {
-        marginTop: theme.spacing(2)
-    },
     footer: {
         position: 'relative'
     }
@@ -26,14 +23,14 @@ function PrivacyPolicies() {
         <Fragment>
             <PublicHeader />
             <div className={classes.root}>
-                <Typography variant="h5">Políticas de privacidad</Typography>
-                <Typography className={classes.p}>
+                <Typography variant="h4" color='primary' gutterBottom>Políticas de privacidad</Typography>
+                <Typography>
                     Math Paradise tiene el compromiso de resguardar fuertemente de su privacidad, todo como
                     objetivo proveer un ambiente seguro para nuestros usuarios como usted.
                 </Typography>
                 <br />
-                <Typography variant="h6">¿Qué información recabamos?</Typography>
-                <Typography className={classes.p}>
+                <Typography variant="h6" gutterBottom>¿Qué información recabamos?</Typography>
+                <Typography>
                     Math Paradise recauda a través de la aplicación los datos personales como el nombre completo
                     del usuario, un alias o nombre de juego (nickname, nombre de usuario, nombre de juego),
                     así como la dirección de correo electrónico para proporcionarle al usuario un medio de acceso
@@ -47,8 +44,8 @@ function PrivacyPolicies() {
                     dentro de su ámbito educativo.
                 </Typography>
                 <br />
-                <Typography variant="h6">Principios</Typography>
-                <Typography className={classes.p}>
+                <Typography variant="h6" gutterBottom>Principios</Typography>
+                <Typography>
                     Math Paradise se compromete a no vender a terceros que no sean instituciones educativas o
                     centros de investigación la información personal de ningún usuario; nuestro objetivo es
                     proveer de una herramienta segura a los facilitadores de la educación y, sobre todo a los

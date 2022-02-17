@@ -7,7 +7,7 @@ import { useStyles } from './useStyles'
 import theme from '../../styles/MathThemes'
 
 /**COmponents */
-import DefaultAvatar from '../../components/DefaultAvatar'
+import DefaultAvatar from '../DefaultAvatar'
 
 /**Images */
 import classicImage from '../../assets/images/icons/classic_icon_1.svg'
@@ -17,7 +17,7 @@ import rushImage from '../../assets/images/icons/rush_icon_1.svg'
 /**Utils */
 import { es_DateName } from '../../utils/DateFormat'
 
-function GameHistoryCard(props) {
+function GameHistoryAccordion(props) {
     const { historyData } = props
     const classes = useStyles()
 
@@ -120,4 +120,4 @@ function GameHistoryCard(props) {
     )
 }
 
-export default GameHistoryCard
+export default GameHistoryAccordion
