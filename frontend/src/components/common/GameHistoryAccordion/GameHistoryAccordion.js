@@ -4,18 +4,18 @@ import {
     Divider
 } from '@material-ui/core'
 import { useStyles } from './useStyles'
-import theme from '../../styles/MathThemes'
+import theme from '../../../styles/MathThemes'
 
 /**COmponents */
-import DefaultAvatar from '../DefaultAvatar'
+import DefaultAvatar from '../../DefaultAvatar'
 
 /**Images */
-import classicImage from '../../assets/images/icons/classic_icon_1.svg'
-import arcadeImage from '../../assets/images/icons/arcade_icon_1.svg'
-import rushImage from '../../assets/images/icons/rush_icon_1.svg'
+import classicImage from '../../../assets/images/icons/classic_icon_1.svg'
+import arcadeImage from '../../../assets/images/icons/arcade_icon_1.svg'
+import rushImage from '../../../assets/images/icons/rush_icon_1.svg'
 
 /**Utils */
-import { es_DateName } from '../../utils/DateFormat'
+import { es_DateName } from '../../../utils/DateFormat'
 
 function GameHistoryAccordion(props) {
     const { historyData } = props
@@ -74,12 +74,12 @@ function GameHistoryAccordion(props) {
                             <div className={classes.playersContainer}>
                                 <DefaultAvatar nickname={historyData.nickname} className={classes.avatar} />
                                 <div className={classes.nicknameContainer}>
-                                    <Typography variant='subtitle1'>{historyData.nickname}</Typography>
+                                    <Typography className={classes.nickname}>{historyData.nickname}</Typography>
                                     <Typography className={classes.points}>{historyData.points}</Typography>
                                 </div>
                                 <Typography className={classes.vsLabel}>vs</Typography>
                                 <div className={classes.enemyNicknameContainer}>
-                                    <Typography variant='subtitle1'>{historyData.enemy_nickname}</Typography>
+                                    <Typography className={classes.nickname}>{historyData.enemy_nickname}</Typography>
                                     <Typography className={classes.points}>{historyData.enemy_points}</Typography>
                                 </div>
                                 <DefaultAvatar nickname={historyData.enemy_nickname} className={classes.avatar} />

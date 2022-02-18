@@ -261,7 +261,7 @@ function ArcadePaper() {
                                 <Typography>Presione JUGAR para crear la partida</Typography>
                                 {
                                     isLoading ?
-                                        <LinearProgress variant='indeterminated' color='primary' /> :
+                                        <LinearProgress variant='indeterminate' color='primary' /> :
                                         <Box className={classes.box}>
                                             <Link to={{
                                                 pathname: '/lobby',

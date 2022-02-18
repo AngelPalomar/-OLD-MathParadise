@@ -58,6 +58,13 @@ export const useStyles = makeStyles((theme) => ({
         color: '#FFF',
         background: MATH_GRADIENTS().default,
         fontSize: 22,
-        width: 120
+        width: 150
+    },
+    cancelBtn: {
+        color: '#FFF',
+        background: MATH_GRADIENTS().error,
+        fontSize: 15,
+        width: 150,
+        marginTop: theme.spacing(2)
     }
 }))

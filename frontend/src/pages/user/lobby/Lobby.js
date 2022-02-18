@@ -1,8 +1,9 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import {
     Typography, Paper, Divider,
-    CircularProgress, Button, Grid
+    CircularProgress, Button, Grid, Box
 } from '@material-ui/core'
+import { Prompt, Redirect } from 'react-router-dom'
 import { useStyles } from './useStyles'
 import clsx from 'clsx'
 import { lobbyTheme } from '../../../utils/Music'
@@ -12,7 +13,7 @@ import { joinSound } from '../../../utils/Sounds'
 import DefaultAvatar from '../../../components/DefaultAvatar'
 
 /**APIs */
-import { createGameApi, getGameByPinApi, updateGameApi } from '../../../api/game'
+import { createGameApi, deleteGameApi, getGameByPinApi, updateGameApi } from '../../../api/game'
 import { getAccessTokenApi } from '../../../api/auth'
 import { getDefaultBoardApi } from '../../../api/boards'
 
@@ -43,6 +44,8 @@ function LobbyNew(props) {
         area: area,
         rounds: rounds
     }
+    const [isCancelled, setIsCancelled] = useState(false)
+
     //Si el modo de juego es classic, el tablero es de 30 pos, si no, es arcade y es 22 
     let board = new Array(gameData.gamemode === "classic" ? 30 : 22)
 
@@ -51,6 +54,7 @@ function LobbyNew(props) {
         //Carga y reproduce la música
         lobbyTheme.load()
         joinSound.load()
+        lobbyTheme.stop()
         lobbyTheme.play()
 
         //Crea la prtida
@@ -163,6 +167,28 @@ function LobbyNew(props) {
         })
     }
 
+    //Función para borrar la partida si se cancela
+    const deleteGame = () => {
+        deleteGameApi(game.pin).then(response => {
+            if (response.status === 1) {
+                //Para la musica
+                lobbyTheme.stop()
+                lobbyTheme.unload()
+                joinSound.unload()
+
+                //Cancela la partida
+                setIsCancelled(true)
+            }
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+    //Si se cancela la partida
+    if (isCancelled) {
+        return <Redirect to={"/home/play"} />
+    }
+
     return (
         <div className={
             clsx(classes.root,
@@ -170,6 +196,15 @@ function LobbyNew(props) {
                     gamemode === "arcade" ? classes.arcadeBack : null
             )
         }>
+            <Prompt
+                message={(location, action) => {
+                    if (action === "POP") {
+                        deleteGame()
+                    }
+
+                    return location.pathname.startsWith("/home") ? true : '¿Deseas salir?\nLa partida se eliminará.'
+                }}
+                when={deleteGame} />
             <div className={classes.content}>
                 <Paper className={classes.paper}>
                     <img
@@ -218,7 +253,7 @@ function LobbyNew(props) {
                                             <Typography className={classes.playerLabel}>Esperando al jugador 2...</Typography>
                                         </Fragment> :
                                         <Fragment>
-                                            <DefaultAvatar nickname={!game.player2 ? host : game.player2} size="60px" fs="28px" color={1} />
+                                            <DefaultAvatar nickname={!game.player2 ? host : game.player2} size="60px" fs="28px" />
                                             <Typography className={classes.playerLabel}>{game.player2}</Typography>
                                         </Fragment>
                                 }
@@ -228,10 +263,15 @@ function LobbyNew(props) {
 
                     {
                         game.player2 === "" ?
-                            <Typography>Esperando jugador 2...</Typography> :
+                            <Box>
+                                <Typography>Esperando jugador 2...</Typography>
+                                <Button onClick={deleteGame} color='primary' className={classes.cancelBtn}>
+                                    Cancelar partida
+                                </Button>
+                            </Box> :
                             <Button
                                 onClick={startGame}
-                                startIcon={<PlayArrowIcon />}
+                                startIcon={<PlayArrowIcon style={{ fontSize: 28 }} />}
                                 className={classes.playButton}>
                                 Jugar
                             </Button>

@@ -1,12 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import jwtDecode from 'jwt-decode';
-import { makeStyles } from "@material-ui/core/styles"
 import { AppBar, Toolbar, IconButton, Typography, Menu, MenuItem, Button } from "@material-ui/core";
 import clsx from 'clsx'
-
+import useStyles from './useStyles';
 /**Componentes */
-import UserAvatar from '../DefaultAvatar'
+import UserAvatar from '../../DefaultAvatar'
+//import GoogleSearch from '../forms/GoogleSearch';
 
 /**Iconos */
 import MenuIcon from '@material-ui/icons/Menu'
@@ -14,52 +14,17 @@ import MoreVertIcon from '@material-ui/icons/MoreVert'
 import AccountBoxIcon from '@material-ui/icons/AccountBox'
 import SettingsIcon from '@material-ui/icons/Settings'
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew'
+//import SearchIcon from '@material-ui/icons/Search';
 
 /**APIS */
-import { getAccessTokenApi } from "../../api/auth"
-import { logout } from "../../api/auth";
-
-const drawerWidth = 240
-const useStyles = makeStyles((theme) => ({
-    menuButton: {
-        marginRight: theme.spacing(2),
-        [theme.breakpoints.up('sm')]: {
-            display: 'none'
-        },
-    },
-    title: {
-        flexGrow: 2,
-    },
-    link: {
-        textDecoration: 'none',
-        color: theme.palette.text.primary,
-        '&:hover': {
-            textDecoration: 'none',
-            color: theme.palette.text.primary,
-        }
-    },
-    appBar: {
-        [theme.breakpoints.up('sm')]: {
-            width: `calc(100% - ${drawerWidth}px)`,
-            marginLeft: drawerWidth,
-        },
-    },
-    alignIcon: {
-        display: 'flex',
-        alignItems: 'center'
-    },
-    logoutLabel: {
-        color: theme.palette.error.main
-    },
-    basicLabel: {
-        color: theme.palette.primary.main
-    }
-}))
+import { getAccessTokenApi } from "../../../api/auth"
+import { logout } from "../../../api/auth";
 
 function Header(props) {
     const { title } = props
     const classes = useStyles()
     const [anchorEl, setAnchorEl] = React.useState(null)
+    //const [openSearch, setOpenSearch] = React.useState(false)
     const open = Boolean(anchorEl)
 
     const handleMenu = (event) => {
@@ -72,6 +37,7 @@ function Header(props) {
 
     return (
         <AppBar className={classes.appBar} color="inherit">
+            {/* <GoogleSearch open={openSearch} handleClose={() => setOpenSearch(false)} /> */}
             <Toolbar>
                 <IconButton edge="start" className={classes.menuButton} color="inherit"
                     aria-label="menu" onClick={() => props.OpenAction()}>
@@ -117,6 +83,10 @@ function Header(props) {
                             <SettingsIcon /> &nbsp; Configuración
                         </MenuItem>
                     </Link>
+
+                    {/* <MenuItem onClick={() => setOpenSearch(true)} className={clsx(classes.alignIcon)}>
+                        <SearchIcon /> &nbsp; Buscar
+                    </MenuItem> */}
 
                     <MenuItem
                         onClick={() => { logout(); window.location.href = '/'; }}>

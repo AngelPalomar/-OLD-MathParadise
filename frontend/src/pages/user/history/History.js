@@ -8,7 +8,7 @@ import { getAccessTokenApi } from '../../../api/auth'
 import { getHistoryByNicknameApi } from '../../../api/history'
 
 /**Components */
-import GameHistoryAccordion from '../../../components/game_history_card/GameHistoryAccordion'
+import GameHistoryAccordion from '../../../components/common/GameHistoryAccordion'
 
 function History() {
     const classes = useStyles()

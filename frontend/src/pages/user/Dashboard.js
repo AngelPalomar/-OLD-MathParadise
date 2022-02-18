@@ -13,7 +13,7 @@ import { getUserByIdApi } from '../../api/user'
 
 /**Componentes */
 import UserCard from "../../components/UserCard"
-import GameStats from "../../components/game_stats/GameStats"
+import GameStats from "../../components/common/GameStats/GameStats"
 
 const useStyles = makeStyles((theme) => ({
     subtitle: {

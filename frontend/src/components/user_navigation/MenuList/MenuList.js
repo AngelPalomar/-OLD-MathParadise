@@ -1,10 +1,11 @@
 import React from 'react'
 import { Link } from "react-router-dom";
 import jwtDecode from 'jwt-decode';
-import { makeStyles, List, ListItem, ListItemIcon, ListItemText, Divider } from "@material-ui/core"
+import { List, ListItem, ListItemIcon, ListItemText, Divider } from "@material-ui/core"
+import useStyles from './useStyles';
 
 /**APIS */
-import { getAccessTokenApi } from "../../api/auth"
+import { getAccessTokenApi } from "../../../api/auth"
 
 /**Iconos */
 import DashboardIcon from '@material-ui/icons/Dashboard'
@@ -16,22 +17,6 @@ import EmojiEventsIcon from '@material-ui/icons/EmojiEvents'
 //import SettingsIcon from '@material-ui/icons/Settings'
 import AvTimerIcon from '@material-ui/icons/AvTimer'
 import ViewStreamIcon from '@material-ui/icons/ViewStream'
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        width: '100%',
-        maxWidth: 360,
-        backgroundColor: theme.palette.background.paper,
-    },
-    link: {
-        textDecoration: 'none',
-        color: theme.palette.text.primary,
-        '&:hover': {
-            textDecoration: 'none',
-            color: theme.palette.text.primary
-        }
-    }
-}));
 
 function MenuList(props) {
     const classes = useStyles()

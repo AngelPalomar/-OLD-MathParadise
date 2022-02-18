@@ -8,7 +8,7 @@ import { useStyles } from '../useStyles'
 
 /**Components */
 import DefaultSnackbar from '../../../components/snackbars/DefaultSnackbar'
-import GameStats from '../../../components/game_stats/GameStats'
+import GameStats from '../../../components/common/GameHistoryAccordion'
 
 /**Icons */
 import AddIcon from '@material-ui/icons/Add'

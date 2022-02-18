@@ -9,9 +9,9 @@ import {
 import { useStyles } from './useStyles'
 
 /**Images */
-import ClassicSrc from '../../assets/images/icons/classic_icon_1.svg'
-import ArcadeSrc from '../../assets/images/icons/arcade_icon_1.svg'
-import RushSrc from '../../assets/images/icons/rush_icon_1.svg'
+import ClassicSrc from '../../../assets/images/icons/classic_icon_1.svg'
+import ArcadeSrc from '../../../assets/images/icons/arcade_icon_1.svg'
+import RushSrc from '../../../assets/images/icons/rush_icon_1.svg'
 
 function GameStats(props) {
     const { stats, gamemode, summary } = props

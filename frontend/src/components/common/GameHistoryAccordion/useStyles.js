@@ -37,18 +37,22 @@ export const useStyles = makeStyles((theme) => ({
     },
     nicknameContainer: {
         textAlign: 'start',
-        width: '120px',
+        width: '100%',
         whiteSpace: 'nowrap',
         textOverflow: 'ellipsis',
         overflow: 'hidden',
         marginInline: theme.spacing(2)
     },
     points: {
-        color: theme.palette.success.main
+        color: theme.palette.success.main,
+        fontSize: 15
+    },
+    nickname: {
+        fontSize: 16
     },
     enemyNicknameContainer: {
         textAlign: 'end',
-        width: '100px',
+        width: '100%',
         whiteSpace: 'nowrap',
         textOverflow: 'ellipsis',
         overflow: 'hidden',
@@ -58,7 +62,8 @@ export const useStyles = makeStyles((theme) => ({
         marginInline: theme.spacing(1)
     },
     vsLabel: {
-        color: theme.palette.error.main
+        color: theme.palette.error.main,
+        fontSize: 28
     },
     divider: {
         marginBlock: theme.spacing(2)

@@ -1,30 +1,12 @@
 import React from "react";
 import { Link } from 'react-router-dom'
-import { makeStyles, Drawer } from "@material-ui/core";
-import MenuList from "./MenuList"
-import Logo from "../Logo"
-
-const drawerWidth = 240;
-const useStyle = makeStyles((theme) => ({
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-    },
-    toolbar: theme.mixins.toolbar,
-    drawerPaper: {
-        width: drawerWidth,
-    },
-    logo: {
-        textAlign: "center",
-        marginTop: theme.spacing(1.3),
-    },
-    logoSize: {
-        width: '75%'
-    }
-}));
+import { Drawer } from "@material-ui/core";
+import MenuList from "../MenuList"
+import Logo from "../../Logo"
+import useStyles from "./useStyles";
 
 function NavMenu(props) {
-    const classes = useStyle();
+    const classes = useStyles();
 
     return (
         <Drawer

@@ -75,3 +75,21 @@ export function updateGameApi(data, pin) {
         return err.message
     })
 }
+
+export function deleteGameApi(pin) {
+    const url = `${basePath}/${apiVersion}/delete-game?pin=${pin}`
+    const params = {
+        method: 'DELETE',
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }
+
+    return fetch(url, params).then(response => {
+        return response.json()
+    }).then(result => {
+        return result
+    }, (err) => {
+        return err.message
+    })
+}

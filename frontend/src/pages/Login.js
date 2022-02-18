@@ -7,6 +7,7 @@ import {
 } from '@material-ui/core'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import { MATH_GRADIENTS } from '../styles/MathColors'
+import useAuth from '../hooks/useAuth'
 
 /**Componentes */
 import Logo from '../components/Logo'
@@ -18,7 +19,6 @@ import ResetPassword from '../components/forms/ResetPassword'
 /**APIs */
 import { loginApi } from "../api/user"
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../utils/Constants";
-import { getAccessTokenApi } from '../api/auth'
 
 /**Origen de imágenes */
 import logoSource from '../assets/images/logos/MathParadiseLogo.svg'
@@ -80,6 +80,9 @@ function Login(props) {
     const [alertMessage, setAlertMessage] = useState('')
     const [alertOpen, setAlertOpen] = React.useState(false)
 
+    //Si el usuario está logueado
+    const { user } = useAuth()
+
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
             return;
@@ -135,7 +138,7 @@ function Login(props) {
     }
 
     /**Si el usuario está logueado */
-    if (getAccessTokenApi()) {
+    if (user) {
         return <Redirect to="/home" />
     }
 

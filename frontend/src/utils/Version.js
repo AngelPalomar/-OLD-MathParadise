@@ -1,3 +1,3 @@
 export function getVersionNumber() {
-    return "Beta 0.6.0"
+    return "Beta 0.7.0"
 }

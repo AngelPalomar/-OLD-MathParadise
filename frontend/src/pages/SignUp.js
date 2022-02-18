@@ -6,19 +6,22 @@ import {
     FormControl, FormControlLabel, Radio, RadioGroup, Snackbar, IconButton,
     InputLabel, Select, MenuItem, Checkbox, CircularProgress
 } from '@material-ui/core'
+import useAuth from '../hooks/useAuth'
+
+//Icons
 import CloseIcon from '@material-ui/icons/Close'
 import CreateIcon from '@material-ui/icons/Create'
 
+//Components
 import PublicHeader from '../components/PublicHeader'
 import Footer from '../components/Footer'
-import { emailValidation, minLenghtValidation, nicknameValidation } from '../utils/FormValidation'
 
-/**Utils */
+//utils
+import { emailValidation, minLenghtValidation, nicknameValidation } from '../utils/FormValidation'
 import { grades } from '../utils/SelectArrays'
 
 /**APIs */
 import { signUpApi } from '../api/user'
-import { getAccessTokenApi } from '../api/auth'
 import { getInstitutionsApi } from '../api/institution'
 import { MATH_GRADIENTS } from '../styles/MathColors'
 
@@ -107,6 +110,9 @@ function SignUp() {
         repeatPassword: false,
         role: false
     })
+
+    //Si el usuario está logueado
+    const { user } = useAuth()
 
     useEffect(() => {
         document.title = 'Registrarse - Math Paradise'
@@ -197,7 +203,7 @@ function SignUp() {
     }
 
     /**Si el usuario está logueado */
-    if (getAccessTokenApi()) {
+    if (user) {
         return <Redirect to="/home" />
     }
 

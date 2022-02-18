@@ -72,12 +72,12 @@ function PublicHeader() {
                     open={open}
                     onClose={handleClose}>
 
-                    <a href="/login" className={classes.link}>
+                    <Link to={"/login"} className={classes.link}>
                         <MenuItem>Iniciar sesión</MenuItem>
-                    </a>
-                    <a href="/sign-up" className={classes.link}>
+                    </Link>
+                    <Link to={"/sign-up"} className={classes.link}>
                         <MenuItem>Registrarse</MenuItem>
-                    </a>
+                    </Link>
 
                 </Menu>
 

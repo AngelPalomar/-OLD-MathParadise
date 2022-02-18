@@ -11,7 +11,7 @@ function Settings() {
 
     return (
         <div>
-            <Typography variant='h4' gutterBottom>
+            <Typography variant='h4' gutterBottom color='primary'>
                 Configuración general
             </Typography>
             <UpdateProfile />

@@ -128,9 +128,29 @@ function updateGame(req, res) {
     })
 }
 
+function deleteGame(req, res) {
+    const query = req.query;
+
+    Game.findOneAndDelete({ pin: query.pin }, (err, game) => {
+        if (err) {
+            res.status(500).send({ status: 0, message: "Error del servidor." })
+        } else {
+            if (!game) {
+                res.status(404).send({ status: 0, message: "No se encontró la partida." })
+            } else {
+                res.status(200).send({
+                    status: 1,
+                    message: "Partida eliminada."
+                })
+            }
+        }
+    })
+}
+
 module.exports = {
     createGame,
     getGameByPin,
     joinGame,
-    updateGame
+    updateGame,
+    deleteGame
 }

@@ -1,5 +1,4 @@
-import React, { useEffect, Fragment } from 'react'
-import { Howler } from 'howler'
+import React, { Fragment } from 'react'
 import { makeStyles, Hidden } from "@material-ui/core"
 import { Route, Switch, Redirect } from 'react-router-dom'
 
@@ -28,11 +27,6 @@ function LayoutUser(props) {
     const [open, setOpen] = React.useState(false)
     const { routes, match: { path } } = props
     const classes = useStyles()
-
-    //Descargar sonidos
-    useEffect(() => {
-        Howler.stop()
-    }, [])
 
     /**Menu lateral */
     const OpenAction = () => {

@@ -15,7 +15,7 @@ import SchoolIcon from '@material-ui/icons/School'; //student
 import Error404 from '../Error404'
 import PublicHeader from "../../components/PublicHeader"
 import DefaultAvatar from "../../components/DefaultAvatar"
-import GameStats from '../../components/game_stats/GameStats'
+import GameStats from '../../components/common/GameStats'
 
 /**APIs */
 import { getAccessTokenApi } from "../../api/auth"
