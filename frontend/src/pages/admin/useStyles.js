@@ -1,6 +1,27 @@
 import { makeStyles } from "@material-ui/core/styles"
+import { MATH_GRADIENTS } from '../../styles/MathColors'
 
 export const useStyles = makeStyles((theme) => ({
+    //Menu
+    link: {
+        textDecoration: 'none',
+        color: theme.palette.text.primary,
+        '&:hover': {
+            textDecoration: 'none',
+            color: theme.palette.text.primary
+        }
+    },
+    button: {
+        marginBottom: theme.spacing(1),
+        width: '100%',
+        background: MATH_GRADIENTS().default,
+        color: '#FFF'
+    },
+    divider: {
+        marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(2)
+    },
+
     paper: {
         padding: theme.spacing(2)
     },
@@ -83,13 +104,5 @@ export const useStyles = makeStyles((theme) => ({
     },
     form: {
         marginTop: theme.spacing(2)
-    },
-    link: {
-        textDecoration: 'none',
-        color: theme.palette.text.primary,
-        '&:hover': {
-            textDecoration: 'none',
-            color: theme.palette.text.primary,
-        }
-    },
+    }
 }))

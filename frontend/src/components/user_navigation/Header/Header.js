@@ -5,7 +5,7 @@ import { AppBar, Toolbar, IconButton, Typography, Menu, MenuItem, Button } from 
 import clsx from 'clsx'
 import useStyles from './useStyles';
 /**Componentes */
-import UserAvatar from '../../DefaultAvatar'
+import UserAvatar from '../../common/DefaultAvatar'
 //import GoogleSearch from '../forms/GoogleSearch';
 
 /**Iconos */

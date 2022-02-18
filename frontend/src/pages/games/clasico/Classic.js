@@ -10,7 +10,7 @@ import { MATH_GRADIENTS } from '../../../styles/MathColors'
 import clsx from 'clsx'
 
 /**Componentes */
-import DefaultAvatar from '../../../components/DefaultAvatar'
+import DefaultAvatar from '../../../components/common/DefaultAvatar'
 import Tile from '../../../components/game_items/Tile'
 import GameInfo from '../../../components/game_items/GameInfo'
 import GameMenu from '../../../components/game_items/GameMenu'

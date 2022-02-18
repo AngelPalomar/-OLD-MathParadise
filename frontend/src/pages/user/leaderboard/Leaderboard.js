@@ -5,7 +5,7 @@ import { Paper, Typography, Grid, Box } from '@material-ui/core'
 import { useStyles } from './useStyles'
 
 /**Componentes */
-import DefaultAvatar from '../../../components/DefaultAvatar'
+import DefaultAvatar from '../../../components/common/DefaultAvatar'
 
 /**APIs */
 import { getRushLeaderboardApi, getClassicLeaderboardApi, getArcadeLeaderboardApi } from '../../../api/user'

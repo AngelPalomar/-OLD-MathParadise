@@ -7,7 +7,7 @@ import {
 import { useStyles } from './useStyles';
 
 /**COmponents */
-import DefaultSnackbar from '../snackbars/DefaultSnackbar';
+import DefaultSnackbar from '../common/DefaultSnackbar'
 
 /**Icons */
 import ClearIcon from '@material-ui/icons/Clear'

@@ -15,7 +15,7 @@ import { getTopicsApi } from '../../../api/topics'
 import { getSubtopicByIdApi, updateSubtopicApi } from '../../../api/subtopics'
 
 /**Components */
-import DefaultSnackbar from '../../../components/snackbars/DefaultSnackbar'
+import DefaultSnackbar from '../../../components/common/DefaultSnackbar'
 
 /**Icons */
 import AddIcon from '@material-ui/icons/Add'

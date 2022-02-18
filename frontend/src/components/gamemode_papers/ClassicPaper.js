@@ -21,7 +21,7 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow'
 import classicIconWhite from '../../assets/images/icons/classic_icon_white.svg'
 
 /**Components */
-import DefaultSnackbar from '../snackbars/DefaultSnackbar'
+import DefaultSnackbar from '../common/DefaultSnackbar'
 import HowtoPlayClassicMode from '../game_information_slides/HowtoPlayClassicMode'
 
 function ClassicPaper() {

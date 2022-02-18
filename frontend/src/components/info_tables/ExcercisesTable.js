@@ -9,7 +9,7 @@ import { InlineMath } from 'react-katex'
 import 'katex/dist/katex.min.css'
 
 /**Componentes */
-import Notification from '../Notification'
+import Notification from '../common/Notification'
 
 /**Iconos */
 import DeleteIcon from '@material-ui/icons/Delete'

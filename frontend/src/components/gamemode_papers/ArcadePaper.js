@@ -20,7 +20,7 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow'
 import arcadeIconWhite from '../../assets/images/icons/arcade_icon_white.svg'
 
 /**Components */
-import DefaultSnackbar from '../snackbars/DefaultSnackbar'
+import DefaultSnackbar from '../common/DefaultSnackbar'
 import HowtoPlayArcadeMode from '../game_information_slides/HowtoPlayArcadeMode'
 
 function ArcadePaper() {

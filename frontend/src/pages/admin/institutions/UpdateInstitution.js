@@ -7,7 +7,7 @@ import {
 } from "@material-ui/core"
 
 /**COmponents */
-import DefaultSnackbar from '../../../components/snackbars/DefaultSnackbar'
+import DefaultSnackbar from '../../../components/common/DefaultSnackbar'
 
 /**APIs */
 import { getInstitutionByIdApi, updateInstitutionApi } from '../../../api/institution'

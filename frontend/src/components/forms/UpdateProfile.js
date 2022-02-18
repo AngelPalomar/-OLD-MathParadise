@@ -12,8 +12,8 @@ import SaveIcon from '@material-ui/icons/Save'
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
 
 /**Components */
-import DefaultSnackbar from '../snackbars/DefaultSnackbar'
-import DefaultAvatar from '../DefaultAvatar'
+import DefaultSnackbar from '../common/DefaultSnackbar'
+import DefaultAvatar from '../common/DefaultAvatar'
 
 /**Utils */
 import { minLenghtValidation } from '../../utils/FormValidation'

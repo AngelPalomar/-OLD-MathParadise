@@ -12,7 +12,7 @@ import { getAccessTokenApi } from '../../api/auth'
 import { getUserByIdApi } from '../../api/user'
 
 /**Componentes */
-import UserCard from "../../components/UserCard"
+import UserCard from "../../components/common/UserCard"
 import GameStats from "../../components/common/GameStats/GameStats"
 
 const useStyles = makeStyles((theme) => ({

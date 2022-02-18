@@ -1,7 +1,8 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import {
     Typography, Paper, Divider,
-    CircularProgress, Button, Grid, Box
+    CircularProgress, Button, Grid, Box,
+    Dialog
 } from '@material-ui/core'
 import { Prompt, Redirect } from 'react-router-dom'
 import { useStyles } from './useStyles'
@@ -10,12 +11,15 @@ import { lobbyTheme } from '../../../utils/Music'
 import { joinSound } from '../../../utils/Sounds'
 
 /**Componentes */
-import DefaultAvatar from '../../../components/DefaultAvatar'
+import DefaultAvatar from '../../../components/common/DefaultAvatar'
+import Notification from '../../../components/common/Notification'
 
 /**APIs */
 import { createGameApi, deleteGameApi, getGameByPinApi, updateGameApi } from '../../../api/game'
-import { getAccessTokenApi } from '../../../api/auth'
 import { getDefaultBoardApi } from '../../../api/boards'
+
+//Utils
+import useAuth from '../../../hooks/useAuth'
 
 /**Imágenes */
 import classicIcon from '../../../assets/images/icons/classic_icon_1.svg'
@@ -26,7 +30,9 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow'
 
 function LobbyNew(props) {
     const classes = useStyles()
-    if (!getAccessTokenApi()) {
+    const { user } = useAuth()
+
+    if (!user) {
         window.location.href = "/login"
     }
 
@@ -44,6 +50,7 @@ function LobbyNew(props) {
         area: area,
         rounds: rounds
     }
+    const [openNotifi, setOpenNotifi] = useState(false)
     const [isCancelled, setIsCancelled] = useState(false)
 
     //Si el modo de juego es classic, el tablero es de 30 pos, si no, es arcade y es 22 
@@ -196,25 +203,33 @@ function LobbyNew(props) {
                     gamemode === "arcade" ? classes.arcadeBack : null
             )
         }>
+            <Notification
+                open={openNotifi}
+                onClose={() => setOpenNotifi(false)}
+                onAccept={deleteGame}
+                title='¿Deseas salir?'>
+                <Typography>La partida se cancelará</Typography>
+            </Notification>
             <Prompt
                 message={(location, action) => {
                     if (action === "POP") {
-                        deleteGame()
+                        setOpenNotifi(true)
                     }
 
                     return location.pathname.startsWith("/home") ? true : '¿Deseas salir?\nLa partida se eliminará.'
-                }}
-                when={deleteGame} />
-            <div className={classes.content}>
+                }} />
+            <Dialog
+                className={classes.content}
+                maxWidth='md'
+                fullWidth
+                open={true}>
                 <Paper className={classes.paper}>
                     <img
                         src={
                             gamemode === "classic" ? classicIcon :
                                 gamemode === "arcade" ? arcadeIcon : null
                         }
-                        style={{
-                            width: '60px'
-                        }}
+                        className={classes.gamemodeIcon}
                         alt="icon_game.svg"
                     />
                     <Typography variant="h4">Iniciando partida</Typography>
@@ -265,7 +280,7 @@ function LobbyNew(props) {
                         game.player2 === "" ?
                             <Box>
                                 <Typography>Esperando jugador 2...</Typography>
-                                <Button onClick={deleteGame} color='primary' className={classes.cancelBtn}>
+                                <Button onClick={() => setOpenNotifi(true)} color='primary' className={classes.cancelBtn}>
                                     Cancelar partida
                                 </Button>
                             </Box> :
@@ -277,7 +292,7 @@ function LobbyNew(props) {
                             </Button>
                     }
                 </Paper>
-            </div>
+            </Dialog>
         </div >
     )
 }

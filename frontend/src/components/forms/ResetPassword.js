@@ -6,7 +6,7 @@ import {
 import { useStyles } from './useStyles';
 
 //Components
-import DefaultSnackbar from '../snackbars/DefaultSnackbar'
+import DefaultSnackbar from '../common/DefaultSnackbar'
 
 //APIs
 import { createToken, passwordReset } from '../../api/user'

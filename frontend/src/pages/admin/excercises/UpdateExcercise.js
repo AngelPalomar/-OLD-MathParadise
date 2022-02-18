@@ -18,7 +18,7 @@ import { getTSubtopicsApi } from '../../../api/subtopics'
 import { getExcerciseByIdApi, updateExcercise } from '../../../api/excercises'
 
 /**Components */
-import DefaultSnackbar from '../../../components/snackbars/DefaultSnackbar'
+import DefaultSnackbar from '../../../components/common/DefaultSnackbar'
 
 /**Icons */
 import AddIcon from '@material-ui/icons/Add'

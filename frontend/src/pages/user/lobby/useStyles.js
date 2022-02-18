@@ -15,14 +15,14 @@ export const useStyles = makeStyles((theme) => ({
         height: "100vh"
     },
     content: {
-        margin: 'auto',
-        padding: '50px 0',
-        width: '65vw',
-        height: '100%',
         textAlign: 'center'
     },
     paper: {
         padding: theme.spacing(2)
+    },
+    gamemodeIcon: {
+        width: '50px',
+        marginBottom: theme.spacing(2)
     },
     divider: {
         marginTop: theme.spacing(2),

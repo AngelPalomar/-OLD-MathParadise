@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Avatar, CircularProgress } from "@material-ui/core"
+import PropTypes from 'prop-types'
 
 /**APIs */
-import { getUserByNicknameApi, getAvatarApi } from '../api/user'
+import { getUserByNicknameApi, getAvatarApi } from '../../../api/user'
 
 function DefaultAvatar(props) {
     //Props
@@ -50,6 +51,12 @@ function DefaultAvatar(props) {
             className={className}>
         </Avatar>
     )
+}
+
+DefaultAvatar.propTypes = {
+    size: PropTypes.string,
+    className: PropTypes.string,
+    nickname: PropTypes.string
 }
 
 export default DefaultAvatar

@@ -7,7 +7,7 @@ import {
 import { useStyles } from '../useStyles'
 
 /**Components */
-import DefaultSnackbar from '../../../components/snackbars/DefaultSnackbar'
+import DefaultSnackbar from '../../../components/common/DefaultSnackbar'
 import GameStats from '../../../components/common/GameHistoryAccordion'
 
 /**Icons */

@@ -7,7 +7,7 @@ import {
 import { DataGrid, GridToolbar } from '@material-ui/data-grid'
 
 /**Componentes */
-import Notification from '../Notification'
+import Notification from '../common/Notification'
 
 /**Iconos */
 import DeleteIcon from '@material-ui/icons/Delete'

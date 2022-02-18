@@ -10,7 +10,7 @@ import clsx from 'clsx'
 
 /**Componentes */
 import Slot from '../../../components/game_items/Slot'
-import DefaultAvatar from '../../../components/DefaultAvatar'
+import DefaultAvatar from '../../../components/common/DefaultAvatar'
 import GameMenu from '../../../components/game_items/GameMenu'
 import ExcercisePanel from '../../../components/game_items/ExcercisePanel'
 import GameResults from '../../../components/game_items/GameResults'

@@ -9,7 +9,7 @@ import {
 import { updateAreaApi, getAreaByIdApi } from '../../../api/areas'
 
 /**Components */
-import DefaultSnackbar from '../../../components/snackbars/DefaultSnackbar'
+import DefaultSnackbar from '../../../components/common/DefaultSnackbar'
 
 /**Utils */
 import { minLenghtValidation } from '../../../utils/FormValidation'

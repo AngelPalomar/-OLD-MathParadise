@@ -8,7 +8,7 @@ import { UpTransition } from '../../styles/Transitions'
 import theme from "../../styles/MathThemes"
 
 /**Components */
-import Avatar from '../../components/DefaultAvatar'
+import Avatar from '../../components/common/DefaultAvatar'
 
 /**Sprites */
 import olive from '../../assets/images/sprites/olive.svg'

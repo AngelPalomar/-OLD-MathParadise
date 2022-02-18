@@ -1,40 +1,15 @@
 import React, { Fragment } from 'react'
 import { Link } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles"
 import {
     Button, Grid, Typography, Box
 } from "@material-ui/core"
+import { useStyles } from '../useStyles';
 
 /**Compod */
 import TopicsTable from '../../../components/info_tables/TopicsTable'
 
 /**Icons */
 import AddIcon from '@material-ui/icons/Add'
-
-const useStyles = makeStyles((theme) => ({
-    title: {
-        color: '#616161',
-        marginBottom: theme.spacing(3)
-    },
-    link: {
-        textDecoration: 'none',
-        color: theme.palette.text.primary,
-        '&:hover': {
-            textDecoration: 'none',
-            color: theme.palette.text.primary
-        }
-    },
-    button: {
-        marginBottom: theme.spacing(1),
-        width: '100%',
-        background: "linear-gradient(45deg, #2A55FF, #15FFD4)",
-        color: '#FFF'
-    },
-    divider: {
-        marginTop: theme.spacing(1),
-        marginBottom: theme.spacing(2)
-    }
-}))
 
 function MenuTopics() {
     const classes = useStyles()
@@ -47,7 +22,7 @@ function MenuTopics() {
         <Fragment>
             <Grid container spacing={2}>
                 <Grid item lg={12}>
-                    <Typography variant="h4" className={classes.title}>
+                    <Typography variant="h4" color='primary' gutterBottom>
                         Gestión de Temas
                     </Typography>
                     <Grid container spacing={2}>
@@ -59,7 +34,7 @@ function MenuTopics() {
                                     className={classes.button}
                                 >
                                     Crear Tema
-                                    </Button>
+                                </Button>
                             </Link>
                         </Grid>
                     </Grid>

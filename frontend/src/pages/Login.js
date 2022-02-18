@@ -13,7 +13,7 @@ import useAuth from '../hooks/useAuth'
 import Logo from '../components/Logo'
 import PublicHeader from '../components/PublicHeader'
 import Footer from '../components/Footer'
-import DefaultSnackbar from '../components/snackbars/DefaultSnackbar'
+import DefaultSnackbar from '../components/common/DefaultSnackbar'
 import ResetPassword from '../components/forms/ResetPassword'
 
 /**APIs */

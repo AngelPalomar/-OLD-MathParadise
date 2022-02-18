@@ -1,18 +1,8 @@
 import React from "react"
-import { makeStyles } from "@material-ui/core/styles"
+import useStyles from "./useStyles";
 import { Typography, Paper, Grid, Box } from "@material-ui/core"
 
-import DefaultAvatar from "./DefaultAvatar";
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        padding: theme.spacing(2)
-    },
-    username: {
-        color: theme.palette.text.secondary
-    },
-
-}))
+import DefaultAvatar from "../DefaultAvatar";
 
 function UserCard(props) {
     const classes = useStyles()

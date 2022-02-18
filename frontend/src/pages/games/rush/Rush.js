@@ -18,7 +18,7 @@ import { getUserApi, updateUserApi } from "../../../api/user"
 
 /**Componentes */
 import RushDialogSlide from './RushDialogSlide'
-import CircularMultiplier from '../../../components/CircularMultiplier'
+import CircularMultiplier from '../../../components/game_items/CircularMultiplier'
 import RushResults from './RushResults'
 
 //Musica y sonidos

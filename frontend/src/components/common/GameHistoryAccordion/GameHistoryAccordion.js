@@ -7,7 +7,7 @@ import { useStyles } from './useStyles'
 import theme from '../../../styles/MathThemes'
 
 /**COmponents */
-import DefaultAvatar from '../../DefaultAvatar'
+import DefaultAvatar from '../DefaultAvatar'
 
 /**Images */
 import classicImage from '../../../assets/images/icons/classic_icon_1.svg'

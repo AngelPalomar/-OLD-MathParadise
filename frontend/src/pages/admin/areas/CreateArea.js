@@ -9,7 +9,7 @@ import {
 import { createAreaApi } from '../../../api/areas'
 
 /**Components */
-import DefaultSnackbar from '../../../components/snackbars/DefaultSnackbar'
+import DefaultSnackbar from '../../../components/common/DefaultSnackbar'
 
 /**Utils */
 import { minLenghtValidation } from '../../../utils/FormValidation'
@@ -78,7 +78,7 @@ function CreateArea() {
             <Paper className={classes.paper}>
                 <Typography variant="h5" className={classes.title}>
                     <AddIcon fontSize="large" /> Añadir area (Materia)
-            </Typography>
+                </Typography>
                 <Divider />
                 <form onChange={changeForm} onSubmit={submitForm} className={classes.formBox}>
                     <Typography>*Todos los campos son requeridos</Typography>
@@ -107,7 +107,7 @@ function CreateArea() {
                         </Link>
                         <Button type="submit" className={classes.okButton}>
                             Guardar
-                    </Button>
+                        </Button>
                     </Box>
                 </form>
             </Paper>
